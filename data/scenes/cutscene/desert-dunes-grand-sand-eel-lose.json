@@ -1,0 +1,27 @@
+{
+    "id": "desert-dunes-grand-sand-eel-lose",
+    "data": [
+        {
+            "text": "True to its word, the Grand Sand Eel stops just short of taking your life. Instead, it bends its neck over your battered form and hums a strange, melodic tune.",
+            "action": {
+                "heal": {
+                    "class": "magical",
+                    "type": "healing",
+                    "expression": "0.2 * t",
+                    "ignoreDefense": true
+                },
+                "clearStatus": true,
+                "time": {
+                    "add": "00:01:00"
+                }
+            }
+        },
+        {
+            "text": "You feel a little better. The wiggling monarch(?) retracts back into its cave, bidding you return and try again later, if you desire.",
+            "exit": {
+                "type": "explore",
+                "id": "desert"
+            }
+        }
+    ]
+}

@@ -1,0 +1,168 @@
+{
+    "id": "sand-eel",
+    "name": "Sand Eel",
+    "entryDescription": "A writhing, snake-like creature pops out of the ground in a shower of sand and hisses at you!",
+    "inspectDescription": "A smooth-skinned, snake-like burrowing creature that lives in deep deserts. Territorial and somewhat of an ambush predator. Is broadly immobile after emerging from the ground to attack, but can wiggle around to become very difficult to hit. Uses heat magic.",
+    "bestiaryDescription": "Sand eels can produce microwave-like radiation from their bodies, allowing them to heat up water within their foes. Or, presumably, cook a TV dinner, but you're a little too cautious to try that with one.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "burn": {
+                "value": 0,
+                "base": 0.3
+            },
+            "irradiated": {
+                "value": 0,
+                "base": 0.45
+            }
+        },
+        "element": {
+            "earth": {
+                "value": 0,
+                "base": -0.15
+            },
+            "fire": {
+                "value": 0,
+                "base": 0.5
+            },
+            "radiation": {
+                "value": 0,
+                "base": 0.45
+            },
+            "slashing": {
+                "value": 0,
+                "base": -0.25
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 40,
+            "max": 0,
+            "base": 40,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 3,
+            "max": 9,
+            "base": 9,
+            "regen": 1,
+            "baseRegen": 1
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 6
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 11
+        },
+        "pDef": {
+            "value": 0,
+            "base": 8
+        },
+        "mDef": {
+            "value": 0,
+            "base": 11
+        },
+        "acc": {
+            "value": 0,
+            "base": 10
+        },
+        "spd": {
+            "value": 0,
+            "base": 4
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 1,
+            "max": 4,
+            "chance": 0.50
+        },
+        {
+            "id": "golden-gummy-bear",
+            "number": 1,
+            "chance": 0.3
+        },
+        {
+            "id": "skill-book-wiggling",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "blaster",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 20
+            },
+            {
+                "id": "ignite",
+                "weight": 80
+            },
+            {
+                "id": "irradiate",
+                "weight": 20
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "wiggle",
+                "weight": 50
+            },
+            {
+                "id": "defend",
+                "weight": 30
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "sand-spit",
+                "weight": 30
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "burrow-pop",
+                "weight": 10
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

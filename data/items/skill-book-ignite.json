@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-ignite",
+    "name": "Skill Book: Ignite",
+    "description": "A dusty book bound in a patchwork cover made of stitched-together socks. A crude flame is drawn on the front. Read to learn how to use Ignite.",
+    "useDescription": "After memorizing the spell's gestures and incantations, flames sprout briefly on an object when you snap your fingers. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "02:00:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "ignite"
+            }
+        ]
+    }
+}

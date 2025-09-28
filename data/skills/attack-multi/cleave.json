@@ -1,0 +1,17 @@
+{
+    "id": "cleave",
+    "name": "Cleave",
+    "description": "${game.battle.attacker} cleaves two foes at once.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 2,
+        "targetsAll": false,
+        "mp": 2,
+        "pow": 10,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "physical",
+        "type": "weapon"
+    }
+}

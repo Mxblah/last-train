@@ -1,0 +1,76 @@
+{
+    "id": "desert-boutique-dress-up",
+    "data": [
+        {
+            "text": "With some degree of hesitation, you accept the shirt from the hulking creature. It steps back, bouncing in place (and shaking the floor) with something resembling giddiness. \"Clothes; clothes!\""
+        },
+        {
+            "text": "Guessing what it wants, you carefully put on the shirt, then spread your arms like \"ta-da.\""
+        },
+        {
+            "text": "The creature is incredibly excited. It quickly gathers another several outfits and hands them to you, one after another, as if for some extended game of dress-up.",
+            "choice": {
+                "text": "Continue to cooperate? This might take a while.",
+                "responses": {
+                    "yes": {},
+                    "no": {
+                        "flag": {
+                            "desert.boutique.battled": true,
+                            "desert.boutique.cooperated": false,
+                            "desert.boutique.finished": true
+                        },
+                        "exit": {
+                            "type": "battle",
+                            "id": "desert-boutique-clothes-troll"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "The creature has an incredible amount of enthusiasm; you sort of lose track of time. It takes you over an hour of exhausting modeling before it finally settles down for a nap on a nest of outfits in the back room.",
+            "action": {
+                "time": {
+                    "noSunDamage": true,
+                    "add": "01:09:00"
+                }
+            }
+        },
+        {
+            "text": "You suppose you can keep some of these clothes? In any case, it's certainly time to leave.",
+            "action": {
+                "flag": {
+                    "desert.boutique.finished": true
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "shirt-orange-tee",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "sock-clothes-troll",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "glasses-rose",
+                        "number": 1,
+                        "chance": 0.5
+                    },
+                    {
+                        "action": "add",
+                        "id": "hat-floppy-straw-ribbon",
+                        "number": 1,
+                        "chance": 0.3
+                    }
+                ],
+                "exit": {
+                    "type": "explore",
+                    "id": "desert"
+                }
+            }
+        }
+    ]
+}

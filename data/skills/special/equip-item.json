@@ -1,0 +1,9 @@
+{
+    "id": "equip-item",
+    "name": "Equip",
+    "description": "${game.battle.attacker} changes their equipment.",
+    "skillType": "special",
+    "data": {
+        "specialType": "equip"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "id": "pass-turn",
+    "name": "Skip Turn",
+    "description": "${game.battle.attacker} does nothing...",
+    "skillType": "idle",
+    "data": {}
+}

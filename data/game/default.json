@@ -1,0 +1,25 @@
+{
+    "meta": {
+        "init": false
+    },
+    "scene": {
+        "type": "cutscene",
+        "id": "intro"
+    },
+    "train": {
+        "stopped": true,
+        "playerOnBoard": false,
+        "lastStation": "start",
+        "lastStationName": "Nameless Station",
+        "willDepartAt": "2028-10-01T06:02:00",
+        "lastDepartedAt": null,
+        "stationDecisionPoint": null,
+        "nextStation": null,
+        "nextStationName": null,
+        "willArriveAt": null,
+        "lastArrivedAt": "2028-10-01T06:00:00",
+        "availableStations": null
+    },
+    "explore": {},
+    "flags": {}
+}

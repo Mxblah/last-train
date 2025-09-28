@@ -1,0 +1,24 @@
+{
+    "id": "divinity",
+    "name": "Divine Protection",
+    "color": "Cyan",
+    "badge": "♾️",
+    "applyDesc": "${game.battle.defender} blazes with divine radiance.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is protected by divinity.",
+    "description": "Divine protection prevents death. A character cannot die until this status is removed.",
+    "data": {
+        "class": "magical",
+        "type": "healing",
+        "turnStart": {
+            "stacks": -1
+        },
+        "onDeath": {
+            "heal": {
+                "expression": "i * t / 100",
+                "ignoreAttack": true,
+                "ignoreAffinity": true
+            },
+            "stacks": -1
+        }
+    }
+}

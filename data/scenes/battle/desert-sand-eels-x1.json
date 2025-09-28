@@ -1,0 +1,24 @@
+{
+    "id": "desert-sand-eels-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "sand-eel"
+                }
+            ]
+        },
+        "special": {
+            "weather": {
+                "id": "weather-dusty",
+                "globalChance": 0.3,
+                "chance": 1,
+                "stack": 10,
+                "intensity": 2,
+                "pow": 0,
+                "class": "physical"
+            }
+        }
+    }
+}

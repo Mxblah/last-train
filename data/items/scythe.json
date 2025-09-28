@@ -1,0 +1,38 @@
+{
+    "id": "scythe",
+    "name": "Damaged Scythe",
+    "description": "A full-size grim reaper-style scythe. The blade is made of a dull golden metal and seems damaged, though it's still plenty sharp. The mysterious talking cat gave it to you.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "physical",
+            "type": "slashing",
+            "typePercent": 0.8
+        }
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "void": 0.1
+            }
+        },
+        "resistances": {
+            "element": {
+                "void": 0.1
+            }
+        },
+        "attrib": {
+            "bp": {
+                "max": {
+                    "buff": 3
+                }
+            }
+        },
+        "stats": {
+            "pAtk": {
+                "buff": "10"
+            }
+        }
+    }
+}

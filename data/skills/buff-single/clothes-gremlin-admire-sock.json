@@ -1,0 +1,24 @@
+{
+    "id": "clothes-gremlin-admire-sock",
+    "name": "Admire Sock",
+    "description": "${game.battle.attacker} looks lovingly at a tattered sock.",
+    "skillType": "buff-single",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "fired-up",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 1
+            }
+        ]
+    }
+}

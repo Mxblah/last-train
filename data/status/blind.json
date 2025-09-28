@@ -1,0 +1,21 @@
+{
+    "id": "blind",
+    "name": "Blind",
+    "color": "Black",
+    "badge": "👁️",
+    "applyDesc": "${game.battle.defender} is blinded!",
+    "turnDesc": "${game.battle.currentTurn.characterName} can't see...",
+    "description": "Blindness dramatically reduces accuracy.",
+    "data": {
+        "passive": {
+            "stats": {
+                "acc": {
+                    "mult": "-0.5 * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

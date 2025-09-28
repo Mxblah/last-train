@@ -1,0 +1,30 @@
+{
+    "id": "offhand-lead-plate",
+    "name": "Lead-Plate Shield",
+    "description": "An unbelievably heavy plate of seemingly solid lead, with an attached handle for carrying and a coating on the back so you don't have to touch it directly. For some reason, seems to be designed for use as a shield. Protects against radiation.",
+    "itemType": "held",
+    "equipData": {
+        "slot": "offhand"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "radiation": 0.5
+            },
+            "status": {
+                "irradiated": 0.5
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 4
+            },
+            "mDef": {
+                "buff": 2
+            },
+            "spd": {
+                "debuff": 5
+            }
+        }
+    }
+}

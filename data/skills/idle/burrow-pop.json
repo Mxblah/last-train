@@ -1,0 +1,7 @@
+{
+    "id": "burrow-pop",
+    "name": "Pop Up",
+    "description": "${game.battle.attacker} pops in and out of their burrow.",
+    "skillType": "idle",
+    "data": {}
+}

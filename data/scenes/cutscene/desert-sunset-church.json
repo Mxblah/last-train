@@ -1,0 +1,23 @@
+{
+    "id": "desert-sunset-church",
+    "data": [
+        {
+            "text": "Despite its burning danger, the sunset is still beautiful. You take a moment to watch the swollen red globe that has slain the world sink below the distant border mountains. It's okay to linger a little, as long as most of your body is in shadow."
+        },
+        {
+            "text": "A glimmer of color draws your eye to a stained-glass window in an old church, still intact despite everything. Something about the arrangement of light and color at that moment resonates within you, though you can't explain exactly what or why."
+        },
+        {
+            "text": "There's nothing useful left in the church when you go to check, but you feel calmer regardless.",
+            "action": {
+                "attrib": {
+                    "mp": {
+                        "base": {
+                            "buff": 2
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

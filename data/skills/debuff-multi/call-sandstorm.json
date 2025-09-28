@@ -1,0 +1,31 @@
+{
+    "id": "call-sandstorm",
+    "name": "Call Sandstorm",
+    "description": "${game.battle.attacker} summons a sandstorm.",
+    "skillType": "debuff-multi",
+    "data": {
+        "target": 10,
+        "targetsAll": true,
+        "mp": 6,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "physical",
+        "type": "earth",
+        "status": [
+            {
+                "id": "weather-dusty",
+                "chance": 0.9,
+                "stack": 5,
+                "intensity": 4
+            },
+            {
+                "id": "blind",
+                "chance": 0.3,
+                "stack": 1,
+                "intensity": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "id": "glasses-rose",
+    "name": "Rose-Tinted Glasses",
+    "description": "Makes you see the world in nostalgia-vision. Disastrously unfashionable; like, to an implausible degree. You feel like setting the world on fire when you wear these.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "upperFace"
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "fire": 0.2
+            }
+        }
+    }
+}

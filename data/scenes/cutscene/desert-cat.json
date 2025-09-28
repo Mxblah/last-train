@@ -1,0 +1,175 @@
+{
+    "id": "desert-cat",
+    "data": [
+        {
+            "text": "You come across a sandy yellow-orange housecat sitting contentedly atop a stack of boxes stacked beneath an awning. How has it survived this long? Between the sun and the monsters, you wouldn't expect any domestic animals to still be alive."
+        },
+        {
+            "text": "Languidly, the cat stands, stretches, and regards you. Its eyes don't have any color; they're pure white, as if it's blind. Unexpectedly, it licks its chops and begins to speak in a soft, deep voice."
+        },
+        {
+            "text": "\"So there are those who still seek to salvage this mess,\" the cat says dourly. \"Wee little humans trying to take on the role of their guardians. You won't make it to ASCENSION,\" it declares. \"You lack the conviction, like all the others before you. How could you even dare to hope when hope itself lies slain and moldering beneath the oppressor's boots?\"",
+            "choice": {
+                "text": "How can you dare to hope?",
+                "responses": {
+                    "faith": {
+                        "text": [
+                            "Despite everything, you're still alive. You've made it this far, and you can make it farther. If - no: WHEN - you get to ASCENSION, you can fix this. Everything.",
+                            "The cat flattens its ears at your words."
+                        ]
+                    },
+                    "amnesia": {
+                        "text": [
+                            "Honestly, you don't know how bad everything is due to your amnesia. You only know your goal and how to get there. Maybe you'd have less hope if you knew what happened to the world.",
+                            "The cat flicks its tail at your words."
+                        ]
+                    },
+                    "hopeless": {
+                        "text": [
+                            "You don't dare to hope. But what else is there to do? Just lie down and die? Run up to one of those clicking horrors and end it? You'll keep going as long as you can, even if it's hopeless.",
+                            "The cat slowly blinks at your words."
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"It doesn't matter,\" the cat says rudely. \"I don't care.\" A sigh. You didn't even know cats *could* sigh. Well, they usually don't speak, either, so...",
+            "action": {
+                "time": {
+                    "add": "00:01:00"
+                }
+            }
+        },
+        {
+            "text": "\"Bound by my immortal covenant, I must yet offer you aid on your journey.\" The cat does not seem pleased about this. \"What will you have of me? There's precious little left around here to work with, so don't expect a miracle.\"",
+            "choice": {
+                "text": "Ask the cat for...",
+                "responses": {
+                    "a weapon": {
+                        "text": [
+                            "\"That's fair,\" it says, noting what you're currently carrying. \"Let's see what I've got here...\"",
+                            "\"This once belonged to one of my priests,\" it decides, fishing out a full-sized scythe from a drawer. \"A little damaged, but it still works well enough. Plus, maybe you could fix it.\""
+                        ],
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "scythe",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "a barrier": {
+                        "text": [
+                            "\"Easy enough. One of my old priests must have left one somewhere...\""
+                        ],
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "simple-medallion",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "a skill": {
+                        "text": [
+                            "\"I hope you like combat, because the top book on the pile here was written by a sword-obsessed weirdo a few hundred years back. It's a useful technique, though.\""
+                        ],
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "skill-book-cleave",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "strength": {
+                        "text": [
+                            "\"If you insist. The giant worm across town won't be pleased, so keep it quiet.\""
+                        ],
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "orb-pearlescent",
+                                "number": 5
+                            }
+                        ]
+                    },
+                    "nothing": {
+                        "text": [
+                            "\"Don't want to inconvenience me, or just hoping for a secret extra reward?\" The cat narrows its eyes at you.",
+                            "\"Whatever. Your wish; my command. Enjoy your heaping helping of nothing at all.\""
+                        ],
+                        "flag": {
+                            "global.cat.skippedDesert": true
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"Alright, now that that's out of the way, let's wrap up before more of those gremlins show up. Or worse.\"",
+            "action": {
+                "time": {
+                    "add": "00:01:00"
+                }
+            }
+        },
+        {
+            "text": "You stop the cat before it can jump away. It's the first non-monstrous creature you've seen around, and it seems to know what's going on. You can't let it get away before you ask it *something!*"
+        },
+        {
+            "text": "The cat flicks its tail in annoyance, but stays put. \"One question; that's all. What do you want to know?\"",
+            "choice": {
+                "text": "Ask about...",
+                "responses": {
+                    "you": {
+                        "text": [
+                            "\"You want to know who *you* are? Well aren't you self-important. I have no idea, honestly; why would I?\"",
+                            "You protest a little, but it's clear the cat has more to say.",
+                            "\"Yeah, yeah. I may not know who you *specifically* are, but I know you must be a priest. Marked by one of the planet's old guardians before they all disappeared. A few people like you have been showing up lately, preserved by some bizarre magic. I can only assume some of the guardians hid some of their priests away as a final act of defiance, and now you're being awakened to finish their work.\"",
+                            "\"So, good luck with that. You may not be the first to take that train, but all that means is everyone who went before you is dead.\""
+                        ]
+                    },
+                    "the cat": {
+                        "text": [
+                            "\"Me? I'm just your average everyday housecat. Meow.\"",
+                            "You inform the cat it is anything but normal.",
+                            "\"... I'm an echo, I suppose. A last fading remnant of one of the guardians of old, before they all disappeared. I'm bound to protect this planet and aid any priests who cross my path, but... have you seen this place? Good luck to me, huh?\"",
+                            "You ask the cat if it has a name.",
+                            "\"I don't; no. I was never supposed to exist, and once I did, no one was around to name me.\" A pause; it rubs an ear with its paw. \"If you need to call me something, the guardian I was broken off from was named Intaqui. His name will do.\""
+                        ],
+                        "flag": {
+                            "global.cat.knowsName": true
+                        }
+                    },
+                    "the sun": {
+                        "text": [
+                            "\"Nasty work that monster has performed, hm?\" The cat closes its eyes as it continues. \"It's not alive, exactly, and it's certainly not conscious like you would think of the term. But, briefly, it *hates* this planet and everything on it.\"",
+                            "\"It took billions of years, but it finally got us. Subterfuge to start with - crystal hearts and the like - but it got bolder as the guardians grew complacent and their master grew old. Eventually, the sun progressed to poison, and then direct action.\"",
+                            "\"We're in the last stages now. Soon, it will pull this scorched husk of a planet into itself and finally finish this pointless war.\" The cat snorts, opening its eyes again. \"Hardly even a war at this point. Habit.\""
+                        ]
+                    },
+                    "the train": {
+                        "text": [
+                            "\"Why a train, huh? Why not just teleport you to ASCENSION, or at least give you a car or something, right?\"",
+                            "The cat shrugs, which is quite a feat given its position and bone structure. \"You'd have to ask whatever mad dying guardian thought it up. Maybe something about the structure of tracks and a schedule prevents the thing from losing its damn mind. Or growing one.\"",
+                            "\"Anyway, it'll keep you safe enough while on board. In fact, if you just sit in there and never get off at any stations, you probably will get to ASCENSION no problem.\" The cat looks up, locking eyes with you for a moment. \"The problem will be in trying to face the monsters that guard it.\""
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "After answering your question, the cat hops off the boxes and begins to saunter away. \"Take care, former priest and current seeker of ASCENSION. If you survive, I'm sure we'll meet again.\"",
+            "action": {
+                "flag": {
+                    "global.cat.metOnce": true
+                },
+                "time": {
+                    "add": "00:02:00"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "id": "grand-sand-eel-duel",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "sand-eel-grand"
+                }
+            ]
+        },
+        "special": {
+            "nonFatal": true
+        },
+        "flags": {
+            "desert.dunes.beatGrandSandEel": true
+        },
+        "exit": {
+            "type": "cutscene",
+            "id": "desert-dunes-grand-sand-eel-win"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "desert"
+        },
+        "loseExit": {
+            "type": "cutscene",
+            "id": "desert-dunes-grand-sand-eel-lose"
+        }
+    }
+}

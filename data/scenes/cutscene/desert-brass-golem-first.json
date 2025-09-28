@@ -1,0 +1,22 @@
+{
+    "id": "desert-brass-golem-first",
+    "data": [
+        {
+            "text": "You come across a small square with a dried-up fountain as its centerpiece. Perched on the cracked edge of the basin is a weathered brass statue of a little humanoid soldier wielding a spear. The detail is impressive."
+        },
+        {
+            "text": "As you get closer, you start to make out what exactly that detail is: a chain of magical-looking symbols up and down the statue's - golem's - torso. The construct creaks as you approach, its joints clicking as it attempts to bow or salute or do something. Unfortunately, its body is too corroded to move more than a little."
+        },
+        {
+            "text": "Maybe you could fix it, if you had some supplies to clean it up. That is, as long as you're reading its pitiful motions correctly, and it's not just going to attack you once it can move. Always a risk."
+        },
+        {
+            "text": "There's probably some oil or something around the commercial district downtown, right? Maybe a nice cleaning cloth or some grease? You don't know much about golem maintenance, but you figure it can't be that hard.",
+            "action": {
+                "flag": {
+                    "desert.golem.met": true
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "id": "smoked-glass-rod",
+    "name": "Smoked Glass Rod",
+    "description": "A smooth rod of smoked glass, about ten inches long with a narrower section by one end to hold it by. Imbued with memories of campfires long past, probably. Useless for physical attacks, but enhances magical damage.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "magical",
+            "type": "fire",
+            "typePercent": 0.5
+        }
+    },
+    "effects": {
+        "stats": {
+            "mAtk": {
+                "buff": "5"
+            }
+        }
+    }
+}

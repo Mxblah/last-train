@@ -1,0 +1,27 @@
+{
+    "id": "dazzled",
+    "name": "Dazzled",
+    "color": "Magenta",
+    "badge": "🎆",
+    "applyDesc": "${game.battle.defender} can't see clearly.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is dazzled.",
+    "description": "Being dazzled reduces accuracy and somewhat reduces attack.",
+    "data": {
+        "passive": {
+            "stats": {
+                "pAtk": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "mAtk": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "acc": {
+                    "mult": "-0.10 * s * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

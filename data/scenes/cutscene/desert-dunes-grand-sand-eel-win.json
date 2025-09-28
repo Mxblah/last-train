@@ -1,0 +1,54 @@
+{
+    "id": "desert-dunes-grand-sand-eel-win",
+    "data": [
+        {
+            "text": "The Grand Sand Eel admits defeat. With a soft, melodic hum, it washes away its own wounds, followed by yours. You feel that it greatly enjoyed your duel.",
+            "action": {
+                "heal": {
+                    "class": "magical",
+                    "type": "healing",
+                    "expression": "0.2 * t",
+                    "ignoreDefense": true
+                },
+                "clearStatus": true,
+                "time": {
+                    "add": "00:01:00"
+                }
+            }
+        },
+        {
+            "text": "You feel better. The wiggling monarch(?) retracts back into its cave, then re-emerges pushing a few items in front of it. Your prizes, it seems.",
+            "action": {
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-gold",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "orb-pearlescent",
+                        "number": 5
+                    },
+                    {
+                        "action": "add",
+                        "id": "golden-gummy-bear",
+                        "number": 3
+                    },
+                    {
+                        "action": "add",
+                        "id": "skill-book-flame-fan",
+                        "number": 1
+                    }
+                ]
+            }
+        },
+        {
+            "text": "You politely bid the Grand Sand Eel farewell, then turn your sights back to the train. You still have to reach ASCENSION, and that means getting out of this desert first.",
+            "exit": {
+                "type": "explore",
+                "id": "desert"
+            }
+        }
+    ]
+}

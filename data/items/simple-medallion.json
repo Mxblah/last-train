@@ -1,0 +1,28 @@
+{
+    "id": "simple-medallion",
+    "name": "Simple Golden Medallion",
+    "description": "A palm-sized circular medallion made of a soft pinkish gold. Etched with a simple, powerful symbol of an equilateral triangle inscribed within a circle. The mysterious talking cat gave it to you. Makes you feel a little more stable when wearing it.",
+    "itemType": "barrier",
+    "equipData": {
+        "slot": "barrier",
+        "barrierData": {}
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "force": 0.15,
+                "mental": 0.15
+            }
+        },
+        "attrib": {
+            "bp": {
+                "max": {
+                    "buff": 15
+                },
+                "regen": {
+                    "buff": 1
+                }
+            }
+        }
+    }
+}

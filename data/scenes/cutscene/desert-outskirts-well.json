@@ -1,0 +1,112 @@
+{
+    "id": "desert-outskirts-well",
+    "data": [
+        {
+            "text": "You come across a strange well in a secluded square between a few sparse buildings."
+        },
+        {
+            "text": "What catches your attention is hard to quantify for a moment, until you realize it's the soft current of cold air emanating from the depths."
+        },
+        {
+            "text": "Peering down, you can barely make out rows of razor-sharp spikes made of a black, reflective stone. These \"teeth\" line the well's throat and would surely catch on or tear apart anything that happened to fall down. Something strikes you as obscurely evil about the material.",
+            "choice": {
+                "text": "You feel like you should leave.",
+                "responses": {
+                    "leave": {
+                        "exit": {}
+                    },
+                    "stay": {}
+                }
+            }
+        },
+        {
+            "text": "It almost feels like you can hear something coming from the well. Deep, hissing whispers of some faint malice.",
+            "action": {
+                "damage": {
+                    "class": "magical",
+                    "type": "mental",
+                    "expression": "0.02 * t",
+                    "ignoreDefense": true,
+                    "ignoreBarrier": true
+                }
+            },
+            "choice": {
+                "text": "You really feel like you should leave.",
+                "responses": {
+                    "leave": {
+                        "exit": {}
+                    },
+                    "stay": {}
+                }
+            }
+        },
+        {
+            "text": "\"${player.name}...\" the well seems to whisper. \"Come to me...\"",
+            "action": {
+                "damage": {
+                    "class": "magical",
+                    "type": "mental",
+                    "expression": "0.04 * t",
+                    "ignoreDefense": true,
+                    "ignoreBarrier": true
+                }
+            }
+        },
+        {
+            "text": "Your breathing deepens. You clamber onto the edge of the well, gripping onto the remnants of the roof and gazing into the darkness below. Something is definitely calling your name. You should... you should......",
+            "choice": {
+                "text": "You REALLY feel like you should leave.",
+                "responses": {
+                    "leave": {
+                        "exit": {
+                            "type": "cutscene",
+                            "id": "desert-outskirts-well-vitality"
+                        }
+                    },
+                    "jump": {}
+                }
+            }
+        },
+        {
+            "text": "After hesitating several excruciating seconds at the lip of the well, you silently give in and drop into the abyss. The sharp, tooth-like spikes perform their butchery duties.",
+            "action": {
+                "damage": {
+                    "class": "physical",
+                    "type": "void",
+                    "expression": "0.95 * t",
+                    "ignoreDefense": true
+                }
+            }
+        },
+        {
+            "text": "Somehow, you aren't dead. You fall into an inky-black, viscous liquid. Blood trails from your limbs and runs into the liquid surrounding you. Then, with an almost audible click, it reverses. Cold, oily liquid flows towards and inside you, forcing its way into your ragged wounds and forcing out what ordinary blood still remains. The pain is beyond anything you've ever felt before, and you pass out.",
+            "action": {
+                "attrib": {
+                    "hp": {
+                        "base": {
+                            "mult": 1.25
+                        },
+                        "value": {
+                            "buff": "0.5 * t"
+                        }
+                    }
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-obsidian",
+                        "number": 1
+                    }
+                ]
+            }
+        },
+        {
+            "text": "You wake up some time later, above ground again and brimming with some unwholesome vitality. You feel different, somehow. The well is nowhere to be seen, nor are any wounds you may or may not have sustained while falling down it.",
+            "action": {
+                "time": {
+                    "add": "00:35:00"
+                }
+            }
+        }
+    ]
+}

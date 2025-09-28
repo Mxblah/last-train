@@ -1,0 +1,17 @@
+{
+    "id": "training-dummy",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "dummy"
+                }
+            ]
+        },
+        "special": {
+            "noSunDamage": true,
+            "guaranteedFlee": true
+        }
+    }
+}

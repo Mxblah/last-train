@@ -1,0 +1,15 @@
+{
+    "id": "gameover-leftbehind",
+    "data": [
+        {
+            "text": "An echoing, melancholic horn is the last warning you get before the train pulls away from the station, leaving you behind."
+        },
+        {
+            "text": "You have no hope of reaching ASCENSION now. Your journey is over; you have failed. All that remains is to see whether the sun or the monsters will kill you first.",
+            "exit": {
+                "type": "end",
+                "id": "bad"
+            }
+        }
+    ]
+}

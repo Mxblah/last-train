@@ -1,0 +1,38 @@
+{
+    "id": "desert-brass-golem-subsequent",
+    "data": [
+        {
+            "text": "You return to the square with the frozen golem. It creaks as it struggles to face you.",
+            "choice": {
+                "text": "Fix the golem? [01:30:00]",
+                "responses": {
+                    "fix it": {
+                        "flag": {
+                            "desert.golem.fixed": true
+                        },
+                        "time": {
+                            "add": "01:30:00"
+                        }
+                    },
+                    "leave": {
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "You spend an hour and a half working on the golem in the square. Occasionally you have to hide from gremlins or various other monsters, but for the most part it's pretty peaceful."
+        },
+        {
+            "text": "At the end of it, the golem is still creaky and weathered-looking, but it can move around just fine. It bows gracefully to you, then assumes a defensive posture in front of you with its spear out. It seems it will protect you.",
+            "action": {
+                "party": [
+                    {
+                        "action": "add",
+                        "id": "golem-little-brass"
+                    }
+                ]
+            }
+        }
+    ]
+}

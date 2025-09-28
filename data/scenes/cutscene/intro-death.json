@@ -1,0 +1,15 @@
+{
+    "id": "intro-death",
+    "data": [
+        {
+            "text": "You sit upright on the bench and hold your breath to better listen for the clicking. It's unsettlingly sharp, each click piercing like a gunshot across the sand. Directionality is hard to pick out at first, but it quickly becomes clear there are clicks from multiple directions - and they're very quickly approaching."
+        },
+        {
+            "text": "Before you can decide to run for the train - or really do much besides just stand up - the things are upon you. Clouds of onrushing blackness, dull reflections of moonlight on what could be blades or claws, and a dark, deep orange-red glow.",
+            "exit": {
+                "type": "battle",
+                "id": "intro-hunting-horrors"
+            }
+        }
+    ]
+}

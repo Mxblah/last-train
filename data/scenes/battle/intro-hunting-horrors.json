@@ -1,0 +1,27 @@
+{
+    "id": "intro-hunting-horrors",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "hunting-horror"
+                },
+                {
+                    "id": "hunting-horror"
+                }
+            ]
+        },
+        "special": {
+            "forceFirstTurn": "player"
+        },
+        "exit": {
+            "type": "cutscene",
+            "id": "intro-impossible-victory"
+        },
+        "fleeExit": {
+            "type": "cutscene",
+            "id": "intro-impossible-flee"
+        }
+    }
+}

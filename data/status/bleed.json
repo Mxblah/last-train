@@ -1,0 +1,33 @@
+{
+    "id": "bleed",
+    "name": "Bleeding",
+    "color": "DarkRed",
+    "badge": "🩸",
+    "applyDesc": "${game.battle.defender} is bleeding heavily!",
+    "turnDesc": "${game.battle.currentTurn.characterName} is bleeding heavily.",
+    "description": "Heavy bleeding saps focus, reduces accuracy, and deals damage.",
+    "data": {
+        "class": "physical",
+        "type": "bleed",
+        "turnStart": {
+            "damage": "i"
+        },
+        "passive": {
+            "attrib": {
+                "mp": {
+                    "regen": {
+                        "mult": 0.5
+                    }
+                }
+            },
+            "stats": {
+                "acc": {
+                    "mult": "-0.05 * s + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

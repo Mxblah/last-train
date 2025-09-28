@@ -1,0 +1,68 @@
+{
+    "id": "desert-boutique-first-enter",
+    "data": [
+        {
+            "text": "You're back at the boutique where you ran from that green-haired creature. You could go back in, if you wanted.",
+            "choice": {
+                "text": "Enter the boutique?",
+                "responses": {
+                    "enter": {},
+                    "leave": {
+                        "exit": {
+                            "type": "explore",
+                            "id": "desert"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "You pull the door open and step inside. Sounds of stomping and grumbling suddenly halt as a bell above the door - not there previously - chimes gently."
+        },
+        {
+            "text": "Before you can decide whether to run off again, the back room door is thrown open and the large, shaggy-haired creature shambles out. It's wearing a different outfit than last time, though its clothes still seem just as random."
+        },
+        {
+            "text": "Just as before, the creature stomps towards you, shouting \"Clothes! Clothes!\" in a heavily-distorted voice. It seems to be intent on thrusting a t-shirt at you.",
+            "choice": {
+                "text": "How do you respond?",
+                "responses": {
+                    "cooperate": {
+                        "flag": {
+                            "desert.boutique.cooperated": true
+                        },
+                        "exit": {
+                            "type": "cutscene",
+                            "id": "desert-boutique-dress-up"
+                        }
+                    },
+                    "reject": {
+                        "flag": {
+                            "desert.boutique.battled": true,
+                            "desert.boutique.finished": true
+                        },
+                        "exit": {
+                            "type": "battle",
+                            "id": "desert-boutique-clothes-troll"
+                        }
+                    },
+                    "run": {
+                        "flag": {
+                            "desert.boutique.fled": true
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "You turn and sprint for the door. The thing roars behind you, shouting \"CLOTHES!\" again in a bestial voice."
+        },
+        {
+            "text": "But it doesn't seem to follow you out of the boutique. You slow down after crossing the street, catching your breath and hearing it crash around in there. After a minute or two, it quiets down.",
+            "exit": {
+                "type": "explore",
+                "id": "desert"
+            }
+        }
+    ]
+}

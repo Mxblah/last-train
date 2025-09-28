@@ -1,0 +1,28 @@
+{
+    "id": "intro-impossible-flee",
+    "data": [
+        {
+            "text": "Somehow, you manage to find an opening between the clicking horrors and make a break for the train. It only takes a few seconds to cross the platform and thump up the steps, but it feels like an eternity as you continuously expect a piercing pain between your shoulders."
+        },
+        {
+            "text": "But you make it. You scramble aboard the hulking train and slam the door behind you, gasping and trembling against the cool metal. The car is dimly lit by the moon and faint light strips on the ceiling. Moments after you enter, a shadow flashes across one of the windows and you hear clanging on the roof. Something heavy slams against the door you just closed, again and again, while the clicking noise intensifies into a rapid stream of hideous clattering.",
+            "action": {
+                "train": {
+                    "playerOnBoard": true
+                }
+            }
+        },
+        {
+            "text": "With a lurch, the train begins moving. Speed picks up quickly, and it's not long before the clanging stops the the clicking noise fades into the distant desert behind. It seems you're safe, for now.",
+            "action": {
+                "time": {
+                    "add": "00:02:00"
+                }
+            },
+            "exit": {
+                "type": "cutscene",
+                "id": "train-intro"
+            }
+        }
+    ]
+}

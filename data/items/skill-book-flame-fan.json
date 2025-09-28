@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-flame-fan",
+    "name": "Skill Book: Flame Fan",
+    "description": "A tidy, elegant book with a cover decorated with gold inlays. The Grand Sand Eel took very good care of it. Read to learn how to use Flame Fan.",
+    "useDescription": "After memorizing the spell's gestures and incantations, flames rush from your hands in a wide arc. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "02:30:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-multi",
+                "id": "flame-fan"
+            }
+        ]
+    }
+}

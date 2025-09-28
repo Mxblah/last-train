@@ -1,0 +1,36 @@
+{
+    "id": "clothes-gremlin-sing",
+    "name": "Sing",
+    "description": "${game.battle.attacker} sings a crude, insulting song about ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 5,
+        "pow": 15,
+        "acc": 0.8,
+        "crit": 0.3,
+        "hits": 1,
+        "class": "magical",
+        "type": "sonic",
+        "status": [
+            {
+                "id": "demoralized",
+                "chance": 0.6,
+                "stack": 2,
+                "intensity": 1
+            },
+            {
+                "id": "anger",
+                "chance": 0.4,
+                "stack": 2,
+                "intensity": 1
+            },
+            {
+                "id": "bleed",
+                "chance": 0.1,
+                "stack": 1,
+                "intensity": 0.2
+            }
+        ]
+    }
+}

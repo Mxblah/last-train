@@ -1,0 +1,10 @@
+{
+    "meta": {
+        "init": false
+    },
+    "autosave": true,
+    "clearBattleDataOnExit": true,
+    "difficulty": 2,
+    "maxSkillsInCategory": 5,
+    "turnDelayMs": 100
+}

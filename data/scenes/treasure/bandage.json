@@ -1,0 +1,17 @@
+{
+    "id": "bandage",
+    "data": [
+        {
+            "text": "You find a sealed pack of bandages, seemingly fresh out of a first aid kit.",
+            "action": {
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "bandage",
+                        "number": 1
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "id": "desert-boutique-clothes-troll",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "clothes-troll",
+                    "loot": [
+                        {
+                            "id": "shirt-orange-tee",
+                            "number": 1,
+                            "chance": 1
+                        },
+                        {
+                            "id": "sock-clothes-troll",
+                            "number": 1,
+                            "chance": 1
+                        },
+                        {
+                            "id": "glasses-rose",
+                            "number": 1,
+                            "chance": 0.75
+                        },
+                        {
+                            "id": "hat-floppy-straw-ribbon",
+                            "number": 1,
+                            "chance": 0.60
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {
+            "noSunDamage": true
+        },
+        "flags": {
+            "desert.boutique.finished": true
+        },
+        "exit": {
+            "type": "explore",
+            "id": "desert"
+        },
+        "fleeFlags": {
+            "desert.boutique.fled": true,
+            "desert.boutique.finished": false
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "desert"
+        }
+    }
+}

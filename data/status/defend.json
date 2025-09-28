@@ -1,0 +1,27 @@
+{
+    "id": "defend",
+    "name": "Guarding",
+    "color": "DarkCyan",
+    "badge": "🛡️",
+    "applyDesc": "${game.battle.defender} brings up their guard.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is guarding.",
+    "description": "Focusing on guarding against attacks vastly improves defense and slightly improves speed.",
+    "data": {
+        "turnStart": {
+            "stacks": -1
+        },
+        "passive": {
+            "stats": {
+                "pDef": {
+                    "mult": "2.0 * i"
+                },
+                "mDef": {
+                    "mult": "2.0 * i"
+                },
+                "spd": {
+                    "mult": "1.10 * i"
+                }
+            }
+        }
+    }
+}

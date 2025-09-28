@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-clothes-gremlin-sing",
+    "name": "Clothes Gremlin's Sheet Music",
+    "description": "A tattered collection of rude lyrics and poorly-designed melodies. Read to learn how to sing like a clothes gremlin.",
+    "useDescription": "Your singing voice goes from poor to downright painful as you absorb the book's tips and tricks. Try not to forget how to sing normally, too!",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "02:22:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "clothes-gremlin-sing"
+            }
+        ]
+    }
+}

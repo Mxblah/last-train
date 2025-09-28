@@ -1,0 +1,7 @@
+{
+    "id": "loafing-around",
+    "name": "Loaf Around",
+    "description": "${game.battle.attacker} is loafing around...",
+    "skillType": "idle",
+    "data": {}
+}

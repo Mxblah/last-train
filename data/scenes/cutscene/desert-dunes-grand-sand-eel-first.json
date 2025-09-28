@@ -1,0 +1,40 @@
+{
+    "id": "desert-dunes-grand-sand-eel-first",
+    "data": [
+        {
+            "text": "The dull-grey mountains' foothills are close at hand now. If you're going to find anything of note in the accessible reaches of the mountains, now's the time."
+        },
+        {
+            "text": "A peculiarly round cave mouth catches your attention; you take a few steps closer to get a better look at... at... what IS that?"
+        },
+        {
+            "text": "It reminds you of an accordion the way it extends out of the cave, its skin unfolding into a pale, noodly neck that's long enough to vanish back into the gloom. It's a sand eel, but so much larger than the ordinary specimens of the normal dunes."
+        },
+        {
+            "text": "Vaguely, thoughts that aren't your own filter into your mind as the eel regards you. A contest of strength, with nothing held back. It won't kill you, it promises; it only wishes for entertainment here at the foot of these lonely mountains. And if you win... well, it imagines you won't be disappointed.",
+            "action": {
+                "flag": {
+                    "desert.dunes.metGrandSandEel": true
+                },
+                "time": {
+                    "add": "00:02:00"
+                }
+            },
+            "choice": {
+                "text": "Duel the Grand Sand Eel?",
+                "responses": {
+                    "duel": {
+                        "exit": {
+                            "type": "battle",
+                            "id": "grand-sand-eel-duel"
+                        }
+                    },
+                    "leave": {}
+                }
+            }
+        },
+        {
+            "text": "You do your best to politely decline the eel's offer, without really knowing how to communicate with it via this odd telepathy thing it's got going on. It seems to understand and bids you farewell. You may return later, if you change your mind."
+        }
+    ]
+}

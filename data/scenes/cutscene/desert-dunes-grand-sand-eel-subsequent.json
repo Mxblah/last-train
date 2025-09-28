@@ -1,0 +1,28 @@
+{
+    "id": "desert-dunes-grand-sand-eel-subsequent",
+    "data": [
+        {
+            "text": "You find yourself at the Grand Sand Eel's cave again. It slithers out at your approach, its vague telepathy seeping into your mind. \"Are you here to try again?\" it seems to ask.",
+            "action": {
+                "time": {
+                    "add": "00:01:00"
+                }
+            },
+            "choice": {
+                "text": "Duel the Grand Sand Eel?",
+                "responses": {
+                    "duel": {
+                        "exit": {
+                            "type": "battle",
+                            "id": "grand-sand-eel-duel"
+                        }
+                    },
+                    "leave": {}
+                }
+            }
+        },
+        {
+            "text": "You do your best to politely decline the eel's offer, without really knowing how to communicate with it via this odd telepathy thing it's got going on. It seems to understand and bids you farewell. You may return later, if you change your mind."
+        }
+    ]
+}

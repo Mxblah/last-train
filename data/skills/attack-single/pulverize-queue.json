@@ -1,0 +1,23 @@
+{
+    "id": "pulverize-queue",
+    "name": "Pulverize ⏱️",
+    "description": "${game.battle.attacker} prepares a devastating flurry of blows.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 7,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 0,
+        "class": "physical",
+        "type": "standard",
+        "queue": [
+            {
+                "class": "attack-single",
+                "id": "pulverize"
+            }
+        ]
+    }
+}

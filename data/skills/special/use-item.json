@@ -1,0 +1,9 @@
+{
+    "id": "use-item",
+    "name": "Item",
+    "description": "${game.battle.attacker} uses an item.",
+    "skillType": "special",
+    "data": {
+        "specialType": "item"
+    }
+}

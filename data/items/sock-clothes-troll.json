@@ -1,0 +1,21 @@
+{
+    "id": "sock-clothes-troll",
+    "name": "Clothes Troll Socks",
+    "description": "A pair of socks decorated with fuzzy green fur on the outside. Reminds you of the clothes troll from the desert boutique. You're pretty sure the fur isn't *from* that creature. Probably.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "socks"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "fire": 0.2
+            }
+        },
+        "stats": {
+            "spd": {
+                "buff": 1
+            }
+        }
+    }
+}

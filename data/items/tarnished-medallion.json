@@ -1,0 +1,19 @@
+{
+    "id": "tarnished-medallion",
+    "name": "Tarnished Medallion",
+    "description": "A palm-sized circular medallion made of tarnished silver. Intricately etched with complex glyphs, though some are nearly erased by time. Makes you feel slightly safer when you wear it.",
+    "itemType": "barrier",
+    "equipData": {
+        "slot": "barrier",
+        "barrierData": {}
+    },
+    "effects": {
+        "attrib": {
+            "bp": {
+                "max": {
+                    "buff": 3
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "id": "scratch",
+    "name": "Scratch",
+    "description": "${game.battle.attacker} scratches ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 2,
+        "pow": 9,
+        "acc": 1.10,
+        "crit": 0.05,
+        "hits": 2,
+        "class": "physical",
+        "type": "slashing"
+    }
+}

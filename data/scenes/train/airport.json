@@ -1,0 +1,13 @@
+{
+    "id": "airport",
+    "name": "Airport",
+    "data": {
+        "dwellTime": "12:11:00",
+        "decisionTime": "05:29:00",
+        "availableStations": {
+            "todo": {
+                "travelTime": "12:00:00"
+            }
+        }
+    }
+}

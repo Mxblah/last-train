@@ -1,0 +1,15 @@
+{
+    "id": "peck",
+    "name": "Peck",
+    "description": "${game.battle.attacker} pecks at ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "pow": 7,
+        "acc": 1.10,
+        "crit": 0.05,
+        "hits": 2,
+        "class": "physical",
+        "type": "piercing"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "id": "fear",
+    "name": "Afraid",
+    "color": "Magenta",
+    "badge": "😨",
+    "applyDesc": "${game.battle.defender} is terrified...",
+    "turnDesc": "${game.battle.currentTurn.characterName} is trembling in fear...",
+    "description": "Fear interferes with focus and reduces attack, while slightly increasing speed.",
+    "data": {
+        "passive": {
+            "attrib": {
+                "mp": {
+                    "regen": {
+                        "mult": 0.25
+                    }
+                }
+            },
+            "stats": {
+                "pAtk": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "spd": {
+                    "mult": "0.1 * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

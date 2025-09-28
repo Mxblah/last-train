@@ -1,0 +1,142 @@
+{
+    "id": "clothes-gremlin",
+    "name": "Clothes Gremlin",
+    "entryDescription": "A knee-high goblinoid creature, hairy and wrinkled, screeches something about clothes and rushes at you!",
+    "inspectDescription": "A hairy, wrinkled goblinoid creature as tall as your knee. Obsesses over human clothes, even though it can't wear them properly. Crude and brutish. Can sing, but only does so to insult its adversaries.",
+    "bestiaryDescription": "Likes to fire itself up by looking at stolen clothes, then unleash a powerful musical attack. Somewhat cowardly, and may flee on occasion.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {},
+        "element": {}
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 24,
+            "max": 24,
+            "base": 24,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 0,
+            "max": 6,
+            "base": 6,
+            "regen": 2,
+            "baseRegen": 2
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 8
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 12
+        },
+        "pDef": {
+            "value": 0,
+            "base": 12
+        },
+        "mDef": {
+            "value": 0,
+            "base": 6
+        },
+        "acc": {
+            "value": 0,
+            "base": 9
+        },
+        "spd": {
+            "value": 0,
+            "base": 10
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 1,
+            "max": 4,
+            "chance": 0.45
+        },
+        {
+            "id": "skill-book-clothes-gremlin-sing",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "bandage",
+            "number": 1,
+            "chance": 0.2
+        }
+    ],
+    "ai": "lazy-burst",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 75
+            },
+            {
+                "id": "clothes-gremlin-sing",
+                "weight": 150
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "clothes-gremlin-admire-sock",
+                "weight": 75
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "loafing-around",
+                "weight": 20
+            },
+            {
+                "id": "clothes-gremlin-leer",
+                "weight": 40
+            }
+        ],
+        "special": [
+            {
+                "id": "steal-clothes-queue",
+                "weight": 500
+            },
+            {
+                "id": "flee",
+                "weight": 15
+            }
+        ]
+    }
+}

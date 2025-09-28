@@ -1,0 +1,136 @@
+{
+    "id": "golem-little-brass",
+    "name": "Little Brass Golem",
+    "entryDescription": "The small brass golem steps in front of you protectively.",
+    "inspectDescription": "A creaky humanoid construct of gleaming brass. Its contours are expertly geometric in style and it carries a pointed brass spear welded to one chunky hand. It seems to want to protect you.",
+    "bestiaryDescription": "Strong physically, and has minor magical resistances to make up for its weaker magical defense. Cannot cast spells. Will throw itself into danger to save you. You can't repair this little guy, so once it breaks, it's gone.",
+    "faction": "ally",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "bleed": {
+                "value": 0,
+                "base": 1
+            },
+            "fear": {
+                "value": 0,
+                "base": 1
+            }
+        },
+        "element": {
+            "magical": {
+                "value": 0,
+                "base": 0.1
+            },
+            "piercing": {
+                "value": 0,
+                "base": 0.4
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.15
+            },
+            "healing": {
+                "value": 0,
+                "base": 1
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 80,
+            "max": 80,
+            "base": 80,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 8,
+            "max": 8,
+            "base": 8,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 0,
+            "max": 5,
+            "base": 5,
+            "regen": 1,
+            "baseRegen": 1
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 16
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 0
+        },
+        "pDef": {
+            "value": 0,
+            "base": 24
+        },
+        "mDef": {
+            "value": 0,
+            "base": 16
+        },
+        "acc": {
+            "value": 0,
+            "base": 16
+        },
+        "spd": {
+            "value": 0,
+            "base": 9
+        }
+    },
+    "ai": "buff-defensive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 100
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "defend",
+                "weight": 50
+            },
+            {
+                "id": "protect",
+                "weight": 200
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+
+        ],
+        "special": [
+
+        ]
+    }
+}

@@ -1,0 +1,402 @@
+{
+    "id": "desert",
+    "name": "Desert Village",
+    "badge": "🏜️",
+    "data": {
+        "station": {
+            "location": "outskirts",
+            "leaveTrainDescription": "You step off the train into the sparse outskirts of a rural desert village. The platform is covered in a thin layer of gritty sand that crunches when you walk; the visible paths and roads aren't much better. The only sounds are the slow desert wind and the distant chirping and buzzing of many massed insects."
+        },
+        "locations": [
+            {
+                "id": "outskirts",
+                "name": "Outskirts",
+                "sunStrengthMultiplier": 0.9,
+                "field": {
+                    "depth": 5,
+                    "travelBaseCost": "00:05:00",
+                    "deeperDescription": "Head towards the village",
+                    "shallowerDescription": "Head towards the station",
+                    "exploreHereDescription": "Explore the nearby buildings",
+                    "flavor": {
+                        "general": [
+                            "Your footsteps crunch on dry, cracked pathways covered in sand.",
+                            "You find nothing but sand, ruined structures, and desolation.",
+                            "A nearby house bears a ragged hole in one wall. It's a wonder it hasn't fallen already.",
+                            "A lizard or something skitters out from behind a barrel and disappears under a porch.",
+                            "The endless drone of massed insects in the dunes beats against your ears."
+                        ],
+                        "sunset": [
+                            "The setting sun steals through a dusty stained-glass window, casting a colorful glow nearby. Pretty, but deadly."
+                        ],
+                        "night": [
+                            "The desert is cooler at night, but only marginally. It's still too hot.",
+                            "Moonlight reflects off something shiny ahead. You think it's a coin for a moment, but it turns out to just be a shard from a broken window."
+                        ],
+                        "0": [
+                            "The train station once had a canopy, but it's fallen and half-buried by now."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "battle",
+                            "id": "desert-clothes-gremlins-x1",
+                            "chance": 1,
+                            "minDepthAvailable": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-sunset-church",
+                            "chance": 0.5,
+                            "requiredPhase": "sunset",
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-outskirts-well",
+                            "chance": 0.225,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "treasure",
+                            "id": "coin",
+                            "chance": 0.05,
+                            "minMultiplier": 3,
+                            "maxMultiplier": 5
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-clothes-gremlins-x2",
+                            "chance": 0.075,
+                            "minDepthAvailable": 2
+                        }
+                    ]
+                },
+                "connections": {
+                    "midtown": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:00",
+                        "description": "Buildings begin to cluster a little thicker as you get closer to the center of town."
+                    },
+                    "dunes": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 3,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:04:00",
+                        "description": "You leave behind the town outskirts and venture across the railway tracks into the dunes beyond."
+                    }
+                }
+            },
+            {
+                "id": "midtown",
+                "name": "Midtown",
+                "sunStrengthMultiplier": 0.7,
+                "field": {
+                    "depth": 5,
+                    "travelBaseCost": "00:04:00",
+                    "deeperDescription": "Head towards downtown",
+                    "shallowerDescription": "Head towards the outskirts",
+                    "exploreHereDescription": "Explore the nearby buildings",
+                    "flavor": {
+                        "general": [
+                            "You find nothing but sand, ruined structures, and desolation.",
+                            "Occasional piles of torn clothes dot the sandy streets.",
+                            "A nearby hanging sign twists in the slight breeze. One of its cables has snapped.",
+                            "Commercial storefronts are boarded up here. This town didn't die a fast death.",
+                            "Sand and dust form shifting piles in the corners between buildings."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-boutique-first-encounter",
+                            "chance": 1,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 3,
+                            "when": {
+                                "desert.boutique.entered": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-boutique",
+                            "chance": 1,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 3,
+                            "whenMode": "and",
+                            "when": {
+                                "desert.boutique.entered": true,
+                                "desert.boutique.fled": true,
+                                "desert.boutique.finished": false
+                            }
+                        },
+                        {
+                            "type": "treasure",
+                            "id": "offhand-lead-plate",
+                            "chance": 0.25,
+                            "minMultiplier": 1,
+                            "maxMultiplier": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-brass-golem-first",
+                            "chance": 0.65,
+                            "minDepthAvailable": 5,
+                            "maxDepthAvailable": 5,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-brass-golem-cant",
+                            "chance": 1,
+                            "minDepthAvailable": 5,
+                            "maxDepthAvailable": 5,
+                            "whenMode": "and",
+                            "when": {
+                                "desert.golem.met": true,
+                                "desert.golem.fixed": false,
+                                "desert.golem.canFix": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-brass-golem-subsequent",
+                            "chance": 1,
+                            "minDepthAvailable": 5,
+                            "maxDepthAvailable": 5,
+                            "whenMode": "and",
+                            "when": {
+                                "desert.golem.met": true,
+                                "desert.golem.fixed": false,
+                                "desert.golem.canFix": true
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-clothes-gremlins-x2",
+                            "chance": 0.075
+                        }
+                    ]
+                },
+                "connections": {
+                    "outskirts": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:02:00",
+                        "description": "Buildings begin to thin out as you leave the center of town."
+                    },
+                    "downtown": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You enter the town's main plaza."
+                    }
+                }
+            },
+            {
+                "id": "downtown",
+                "name": "Downtown",
+                "sunStrengthMultiplier": 0.7,
+                "field": {
+                    "depth": 3,
+                    "travelBaseCost": "00:02:00",
+                    "deeperDescription": "Head for the center of the plaza.",
+                    "shallowerDescription": "Head for the plaza edges.",
+                    "exploreHereDescription": "Explore the nearby area.",
+                    "flavor": {
+                        "general": [
+                            "Sand and dust form shifting piles in the corners between buildings.",
+                            "Occasional piles of torn clothes dot the sandy ground.",
+                            "There's a cleared trail in the sand here, but it vanishes after a few feet.",
+                            "Decrepit stalls and stands gather dust and sand. Most seem about to fall apart."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-cat",
+                            "chance": 1,
+                            "minDepthAvailable": 3,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "treasure",
+                            "id": "orb-pearlescent",
+                            "chance": 0.1,
+                            "minMultiplier": 1,
+                            "maxMultiplier": 1,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "treasure",
+                            "id": "bandage",
+                            "chance": 0.2,
+                            "minMultiplier": 1,
+                            "maxMultiplier": 3,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "treasure",
+                            "id": "coin",
+                            "chance": 0.075,
+                            "minMultiplier": 4,
+                            "maxMultiplier": 7
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-golem-oil-vending",
+                            "chance": 0.4,
+                            "whenMode": "and",
+                            "when": {
+                                "desert.golem.fixed": false,
+                                "desert.golem.canFix": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-clothes-gremlins-x2",
+                            "chance": 0.09
+                        }
+                    ]
+                },
+                "connections": {
+                    "midtown": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:01:00",
+                        "description": "You return to the commercial district."
+                    }
+                }
+            },
+            {
+                "id": "dunes",
+                "name": "Dunes",
+                "sunStrengthMultiplier": 1,
+                "field": {
+                    "depth": 10,
+                    "travelBaseCost": "00:05:00",
+                    "deeperDescription": "Head towards the mountains",
+                    "shallowerDescription": "Head towards the village",
+                    "exploreHereDescription": "Explore the nearby dunes",
+                    "flavor": {
+                        "general": [
+                            "You struggle over another sandy dune. There's yet another just beyond it.",
+                            "Sand keeps filling your shoes. It's unusually smooth, but that just makes it harder to get out.",
+                            "Some massive bird circles ominously overhead.",
+                            "A gust of wind carries tiny sand particles aloft. You're getting covered in dust.",
+                            "The air wavers with heat. It's miserably hot out here, no matter the time of day."
+                        ],
+                        "0": [
+                            "You can see the train from here. The front of the locomotive is caked in dust and sand. You hope it won't break down."
+                        ],
+                        "1": [
+                            "You can still make out the train over some of the closer dunes. Heat haze shimmers above its metal surfaces."
+                        ],
+                        "9": [
+                            "The distant mountains aren't so distant anymore."
+                        ],
+                        "10": [
+                            "You can't go any further into the desert without climbing the sheer, rocky border mountains."
+                        ],
+                        "night": [
+                            "If you look from the right angle, you can balance the moon between two dunes from here. It looks so huge like that."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-dunes-mountains-close",
+                            "chance": 1,
+                            "minDepthAvailable": 7,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-dunes-grand-sand-eel-first",
+                            "chance": 1,
+                            "minDepthAvailable": 10,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-dunes-grand-sand-eel-subsequent",
+                            "chance": 1,
+                            "minDepthAvailable": 10,
+                            "when": {
+                                "desert.dunes.metGrandSandEel": true,
+                                "desert.dunes.beatGrandSandEel": false
+                            }
+                        },
+                        {
+                            "type": "treasure",
+                            "id": "orb-pearlescent",
+                            "chance": 0.20,
+                            "minDepthAvailable": 3,
+                            "minMultiplier": 1,
+                            "maxMultiplier": 1,
+                            "maxTimes": 5
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-sand-eels-x2-smoked-rod",
+                            "chance": 0.60,
+                            "minDepthAvailable": 2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-sand-eel-x2-vulture-x1",
+                            "chance": 0.35,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 8,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-sand-eels-x2",
+                            "chance": 0.20,
+                            "minDepthAvailable": 2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-sand-eel-vulture-x2",
+                            "chance": 0.25,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 8,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-sand-eels-x1",
+                            "chance": 0.075,
+                            "minDepthAvailable": 4
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hunting-horror-x1",
+                            "chance": 0.03,
+                            "minDepthAvailable": 8
+                        }
+                    ]
+                },
+                "connections": {
+                    "outskirts": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:04:00",
+                        "description": "You cross the railway tracks and return to the town outskirts near the train station."
+                    }
+                }
+            }
+        ]
+    }
+}

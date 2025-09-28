@@ -1,0 +1,25 @@
+{
+    "id": "wiggle",
+    "name": "Wiggle",
+    "description": null,
+    "skillType": "buff-single",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "mp": 4,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "wiggle",
+                "chance": 1,
+                "stack": 1,
+                "intensity": 2
+            }
+        ]
+    }
+}

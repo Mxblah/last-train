@@ -1,0 +1,35 @@
+{
+    "id": "desert-boutique-first-encounter",
+    "data": [
+        {
+            "text": "A sand-caked, run-down boutique store catches your attention as you proceed down the street. Not because it looks particularly out of place, but because of the noises coming from inside it. Shuffling, stamping, and the guttural grumblings of something very much like speech. Could this be a survivor?"
+        },
+        {
+            "text": "It's very dark inside, so you can't quite make anything out even pressed up against the door.",
+            "choice": {
+                "text": "Enter the boutique?",
+                "responses": {
+                    "enter": {
+                        "flag": {
+                            "desert.boutique.entered": true
+                        },
+                        "exit": {
+                            "type": "cutscene",
+                            "id": "desert-boutique-first-enter"
+                        }
+                    },
+                    "call out": {},
+                    "leave": {
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "You rap on the door and give a few shouts for good measure, then listen for a response."
+        },
+        {
+            "text": "You don't hear anything from inside the store, but you do hear a few excited-sounding cackles on a nearby street from another set of those horrid little clothes gremlins. You hurry away from the boutique to avoid getting caught in another fight, but you could come back once they clear out, if you wanted."
+        }
+    ]
+}

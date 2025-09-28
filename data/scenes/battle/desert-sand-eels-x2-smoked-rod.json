@@ -1,0 +1,34 @@
+{
+    "id": "desert-sand-eels-x2",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "sand-eel",
+                    "loot": [
+                        {
+                            "id": "smoked-glass-rod",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                },
+                {
+                    "id": "sand-eel"
+                }
+            ]
+        },
+        "special": {
+            "weather": {
+                "id": "weather-dusty",
+                "globalChance": 0.75,
+                "chance": 1,
+                "stack": 4,
+                "intensity": 1,
+                "pow": 0,
+                "class": "physical"
+            }
+        }
+    }
+}

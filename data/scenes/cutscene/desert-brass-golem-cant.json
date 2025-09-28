@@ -1,0 +1,23 @@
+{
+    "id": "desert-brass-golem-cant",
+    "data": [
+        {
+            "text": "You return to the square with the frozen golem. It creaks as it struggles to face you.",
+            "choice": {
+                "text": "Fix the golem? [01:30:00]",
+                "responses": {
+                    "fix it": {
+                        "text": [
+                            "You don't have the right tools to fix the golem. You try polishing it a little with your shirt, but it's not really working.",
+                            "Maybe you can find the tools you need downtown somewhere."
+                        ],
+                        "time": {
+                            "add": "00:01:00"
+                        }
+                    },
+                    "leave": {}
+                }
+            }
+        }
+    ]
+}

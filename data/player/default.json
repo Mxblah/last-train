@@ -1,0 +1,135 @@
+{
+    "meta": {
+        "init": false
+    },
+    "id": "player",
+    "name": "Rachel",
+    "entryDescription": "... You(?) approach? Is this a doppelganger?",
+    "inspectDescription": "It's you! You know what you look like already.",
+    "bestiaryDescription": "... You haven't put yourself into the bestiary.",
+    "faction": "ally",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {},
+        "element": {}
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "encyclopedia": {
+        "bestiary": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 100,
+            "max": 100,
+            "base": 100,
+            "regen": 0,
+            "baseRegen": 0,
+            "sleepMultiplier": 4
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 20,
+            "max": 20,
+            "base": 20,
+            "regen": 1,
+            "baseRegen": 1
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 5
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 5
+        },
+        "pDef": {
+            "value": 0,
+            "base": 10
+        },
+        "mDef": {
+            "value": 0,
+            "base": 10
+        },
+        "acc": {
+            "value": 0,
+            "base": 10
+        },
+        "spd": {
+            "value": 0,
+            "base": 10
+        }
+    },
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack"
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "defend"
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "pass-turn"
+            }
+        ],
+        "special": [
+            {
+                "id": "inspect"
+            },
+            {
+                "id": "flee"
+            },
+            {
+                "id": "use-item"
+            },
+            {
+                "id": "equip-item"
+            }
+        ]
+    },
+    "spareSkills": {
+        "attack-single": [],
+        "attack-multi": [],
+        "buff-single": [],
+        "buff-multi": [],
+        "debuff-single": [],
+        "debuff-multi": [],
+        "heal-single": [],
+        "heal-multi": [],
+        "idle": [],
+        "special": []
+    }
+}

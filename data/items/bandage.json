@@ -1,0 +1,25 @@
+{
+    "id": "bandage",
+    "name": "Bandage",
+    "description": "An ordinary cloth bandage. Used to stop bleeding and recover health.",
+    "useDescription": "You apply the bandage. You feel a little better.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "physical",
+        "type": "healing"
+    },
+    "effects": {
+        "heal": {
+            "expression": "0.2 * t",
+            "pow": 10,
+            "atk": 1
+        },
+        "status": {
+            "remove": [
+                "bleed"
+            ]
+        }
+    }
+}

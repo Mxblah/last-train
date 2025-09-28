@@ -1,0 +1,24 @@
+{
+    "id": "body-slam",
+    "name": "Body Slam",
+    "description": "${game.battle.attacker} slams into ${game.battle.defender} with all their weight.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 4,
+        "pow": 30,
+        "acc": 0.9,
+        "crit": 0,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.75,
+                "stack": 3,
+                "intensity": 2
+            }
+        ]
+    }
+}

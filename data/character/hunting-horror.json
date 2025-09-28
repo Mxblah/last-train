@@ -1,0 +1,116 @@
+{
+    "id": "hunting-horror",
+    "name": "Hunting Horror",
+    "entryDescription": "A clicking horror of blades and shadow draws near...",
+    "inspectDescription": "A mass of blades and shadow, with a deep red glow emanating from somewhere within the mass. Monstrosities like this one spread utter terror with their gaze and can eviscerate you in an instant with their blades. You need to run.",
+    "bestiaryDescription": "Despite the suggestion of its dark, shadowy appearance, this creature is an emissary and executioner commanded by the swollen, traitorous sun. Its actual body burns with solar radiance somewhere within its misty shade-cloak. There's no fighting this horror without the power of a demigod; just run.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "fear": {
+                "value": 1,
+                "base": 1
+            }
+        },
+        "element": {
+            "solar": {
+                "value": 1,
+                "base": 1
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 1000000,
+            "max": 1000000,
+            "base": 1000000,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 10000,
+            "max": 10000,
+            "base": 10000,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 1000,
+            "max": 1000,
+            "base": 1000,
+            "regen": 500,
+            "baseRegen": 500
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 2000
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 1750
+        },
+        "pDef": {
+            "value": 0,
+            "base": 1500
+        },
+        "mDef": {
+            "value": 0,
+            "base": 1750
+        },
+        "acc": {
+            "value": 0,
+            "base": 300
+        },
+        "spd": {
+            "value": 0,
+            "base": 200
+        }
+    },
+    "ai": "extremely-aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "hunting-horror-skewer",
+                "weight": 100
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "hunting-horror-gaze",
+                "weight": 50
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+
+        ],
+        "special": [
+
+        ]
+    }
+}

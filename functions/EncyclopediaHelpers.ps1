@@ -1,0 +1,93 @@
+function Show-BestiaryBook {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State
+    )
+
+    while($true) {
+        # Get what creature to read about
+        $creatures = $State.player.encyclopedia.bestiary
+
+        if ($creatures.Count -le 0) {
+            # Escape hatch
+            Write-Host "You haven't encountered any monsters to put in the bestiary yet!"
+            $choice = $null
+        } else {
+            # Print / read choice
+            Write-Host "Available creatures: [ $(($creatures.Values | Sort-Object) -join ' | ') ]"
+            $choice = $State | Read-PlayerInput -Prompt 'Which creature will you read about? (or <enter> to stop reading)' -Choices ($creatures.Values | Sort-Object) -AllowNullChoice
+        }
+
+        if ([string]::IsNullOrWhiteSpace($choice)) {
+            Write-Host 'You stopped reading the Bestiary.'
+            return
+        }
+
+        # Get inspect data about the creature
+        $id = ($creatures.GetEnumerator() | Where-Object -Property Value -EQ $choice).Key
+        $creatureData = Get-Content "$PSScriptRoot/../data/character/$id.json" | ConvertFrom-Json -AsHashtable
+        $State | Invoke-SpecialInspect -Attacker $State.player -Target $creatureData -Skill @{id = 'bestiary'}
+
+        # Time mgmt
+        $State | Add-GlobalTime -Time '00:00:30'
+    }
+}
+
+function Show-StatusBook {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State
+    )
+
+    while($true) {
+        # Get available statuses
+        $statuses = (Get-ChildItem "$PSScriptRoot/../data/status" -Filter '*.json').BaseName | Sort-Object
+
+        # Print / read choice
+        Write-Host "Available statuses: [ $($statuses -join ' | ') ]"
+        $choice = $State | Read-PlayerInput -Prompt 'Which status will you read about? (or <enter> to stop reading)' -Choices $statuses -AllowNullChoice
+
+        if ([string]::IsNullOrWhiteSpace($choice)) {
+            Write-Host 'You stopped reading the Status Glossary.'
+            return
+        }
+
+        # Return data about the status
+        $statusData = Get-Content "$PSScriptRoot/../data/status/$choice.json" | ConvertFrom-Json -AsHashtable
+        Write-Host -ForegroundColor $statusData.color "$($statusData.badge) $($statusData.name): " -NoNewline
+        Write-Host ($State | Enrich-Text $statusData.description)
+
+        # Time mgmt
+        $State | Add-GlobalTime -Time '00:00:30'
+    }
+}
+
+function Show-TutorialBook {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State
+    )
+
+    while($true) {
+        # Get available tutorials
+        $tutorials = (Get-ChildItem "$PSScriptRoot/../data/scenes/tutorial" -Filter '*.json').BaseName | Sort-Object
+
+        # Print / read choice
+        Write-Host "Available tutorials: [ $($tutorials -join ' | ') ]"
+        $choice = $State | Read-PlayerInput -Prompt 'Which tutorial will you read? (or <enter> to stop reading)' -Choices $tutorials -AllowNullChoice
+
+        if ([string]::IsNullOrWhiteSpace($choice)) {
+            Write-Host 'You stopped reading about Tutorials.'
+            return
+        }
+
+        # Time mgmt
+        $State | Add-GlobalTime -Time '00:00:30'
+
+        # Play the tutorial, as it's just a cutscene in disguise
+        $State | Exit-Scene -Type 'tutorial' -Id $choice
+    }
+}

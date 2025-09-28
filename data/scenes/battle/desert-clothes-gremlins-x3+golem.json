@@ -1,0 +1,34 @@
+{
+    "id": "desert-clothes-gremlins-x2",
+    "data": {
+        "characters": {
+            "ally": [
+                {
+                    "id": "golem-little-brass"
+                }
+            ],
+            "enemy": [
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                }
+            ]
+        },
+        "special": {
+            "weather": {
+                "id": "weather-dusty",
+                "globalChance": 0.4,
+                "chance": 1,
+                "stack": 10,
+                "intensity": 2,
+                "pow": 0,
+                "class": "physical"
+            }
+        }
+    }
+}

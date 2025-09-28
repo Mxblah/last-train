@@ -1,0 +1,9 @@
+{
+    "id": "flee",
+    "name": "Flee",
+    "description": "${game.battle.attacker} attempts to escape!",
+    "skillType": "special",
+    "data": {
+        "specialType": "flee"
+    }
+}

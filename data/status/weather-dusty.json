@@ -1,0 +1,21 @@
+{
+    "id": "weather-dusty",
+    "name": "Dust storm",
+    "color": "DarkYellow",
+    "badge": "🌫️",
+    "applyDesc": "A dust storm is kicking up and making it hard for ${game.battle.defender} to see...",
+    "turnDesc": "The dust storm surrounds ${game.battle.currentTurn.characterName}...",
+    "description": "Dust storms make it difficult to see, reducing accuracy for all participants.",
+    "data": {
+        "passive": {
+            "stats": {
+                "acc": {
+                    "mult": "-0.05 * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

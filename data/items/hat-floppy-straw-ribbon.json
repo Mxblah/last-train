@@ -1,0 +1,21 @@
+{
+    "id": "hat-floppy-straw-ribbon",
+    "name": "Floppy Straw Hat (with Ribbon)",
+    "description": "A nearly-impractically large and floppy straw hat, with a ribbon made of a strange golden fabric. Protects you against the sun better than you would expect, but it can block your sight at the worst times.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "hat"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "solar": 0.2
+            }
+        },
+        "stats": {
+            "acc": {
+                "buff": -1
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "id": "offhand-lead-plate",
+    "data": [
+        {
+            "text": "You find a plate of greyish metal lying on the ground. It's unbelievably heavy, but it's got a handle and a coating on the back as if to suggest you're supposed to wield it like a shield. Is this... made of lead? Why??",
+            "action": {
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "offhand-lead-plate",
+                        "number": 1
+                    }
+                ]
+            }
+        }
+    ]
+}

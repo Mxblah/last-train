@@ -1,0 +1,29 @@
+{
+    "id": "burn",
+    "name": "On Fire!",
+    "color": "Red",
+    "badge": "🔥",
+    "applyDesc": "${game.battle.defender} is on fire!",
+    "turnDesc": "${game.battle.currentTurn.characterName} burns.",
+    "description": "Burning reduces defenses and deals damage.",
+    "data": {
+        "class": "physical",
+        "type": "fire",
+        "turnStart": {
+            "damage": "i"
+        },
+        "passive": {
+            "stats": {
+                "pDef": {
+                    "mult": "-0.05 * s + 1.0"
+                },
+                "mDef": {
+                    "mult": "-0.05 * s + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

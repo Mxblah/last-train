@@ -1,0 +1,37 @@
+{
+    "id": "desert-sand-eel-x2-vulture-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "sand-eel"
+                },
+                {
+                    "id": "sand-eel"
+                },
+                {
+                    "id": "sand-vulture",
+                    "loot": [
+                        {
+                            "id": "silver-feather",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {
+            "weather": {
+                "id": "weather-dusty",
+                "globalChance": 0.3,
+                "chance": 1,
+                "stack": 10,
+                "intensity": 2,
+                "pow": 0,
+                "class": "physical"
+            }
+        }
+    }
+}

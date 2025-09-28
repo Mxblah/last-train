@@ -1,0 +1,16 @@
+{
+    "id": "inspect",
+    "name": "Inspect",
+    "description": "${game.battle.attacker} looks closely at ${game.battle.defender}",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "pow": 0,
+        "acc": 2,
+        "crit": -1,
+        "hits": 1,
+        "class": "magical",
+        "type": "visual",
+        "specialType": "inspect"
+    }
+}

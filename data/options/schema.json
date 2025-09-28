@@ -1,0 +1,38 @@
+{
+    "autosave": {
+        "type": "bool",
+        "hint": "Saves the game automatically on a regular basis. Does not overwrite manual saves even if enabled."
+    },
+    "clearBattleDataOnExit": {
+        "type": "bool",
+        "hint": "Reduces save data size by clearing stale battle data after a battle is completed."
+    },
+    "difficulty": {
+        "type": "int",
+        "hint": "Higher numbers are harder overall.",
+        "validators": {
+            "enum": [
+                1,
+                2,
+                3
+            ]
+        }
+    },
+    "maxSkillsInCategory": {
+        "type": "int",
+        "hint": "Number of skills the player is able to hold in each category at once. Numbers smaller than 4 are not recommended.",
+        "validators": {
+            "greaterThan": 0
+        }
+    },
+    "turnDelayMs": {
+        "type": "int",
+        "hint": "Milliseconds to delay when performing an enemy battle turn.",
+        "validators": {
+            "greaterThan": -1
+        }
+    },
+    "meta": {
+        "title": "📝 Game Options"
+    }
+}

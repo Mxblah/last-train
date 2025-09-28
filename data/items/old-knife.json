@@ -1,0 +1,21 @@
+{
+    "id": "old-knife",
+    "name": "Old Knife",
+    "description": "An ordinary, worn, chipped old knife. The blade is still somewhat sharp, but it's seen better days.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "physical",
+            "type": "piercing",
+            "typePercent": 0.5
+        }
+    },
+    "effects": {
+        "stats": {
+            "pAtk": {
+                "buff": "5"
+            }
+        }
+    }
+}

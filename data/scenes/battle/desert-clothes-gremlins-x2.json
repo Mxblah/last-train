@@ -1,0 +1,27 @@
+{
+    "id": "desert-clothes-gremlins-x2",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                }
+            ]
+        },
+        "special": {
+            "weather": {
+                "id": "weather-dusty",
+                "globalChance": 0.2,
+                "chance": 1,
+                "stack": 10,
+                "intensity": 2,
+                "pow": 0,
+                "class": "physical"
+            }
+        }
+    }
+}

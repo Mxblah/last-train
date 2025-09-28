@@ -1,0 +1,30 @@
+{
+    "id": "desert-outskirts-well-vitality",
+    "data": [
+        {
+            "text": "You tear yourself away from the brooding, evil well. A force approaching that of a physical wind pushes against you; draws you back towards the dark entrance, but you persevere."
+        },
+        {
+            "text": "By the time you make it back to more wholesome ruined streets, you're sweating and trembling. The pull finally dissipates entirely. You shouldn't go back."
+        },
+        {
+            "text": "Still, you feel lighter, somehow.",
+            "action": {
+                "attrib": {
+                    "hp": {
+                        "base": {
+                            "mult": 1.05
+                        },
+                        "value": {
+                            "buff": "0.85 * t"
+                        }
+                    }
+                }
+            },
+            "exit": {
+                "type": "explore",
+                "id": "desert"
+            }
+        }
+    ]
+}

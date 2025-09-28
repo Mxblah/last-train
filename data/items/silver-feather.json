@@ -1,0 +1,26 @@
+{
+    "id": "silver-feather",
+    "name": "Silver Feather",
+    "description": "An ephemeral and delicate feather, wrought of impossibly fine silver. Use to prevent your death.",
+    "useDescription": "The feather burns away in a brief surge of white flame. A divine warmth encircles you.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "magical",
+        "type": "divine",
+        "pow": 10
+    },
+    "effects": {
+        "status": {
+            "add": [
+                {
+                    "id": "aureole",
+                    "chance": 1,
+                    "stack": 9,
+                    "intensity": 30
+                }
+            ]
+        }
+    }
+}

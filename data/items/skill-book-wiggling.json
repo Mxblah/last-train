@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-wiggling",
+    "name": "\"Wiggling and You: A Practical Guide\"",
+    "description": "A surprisingly hefty book describing how to wiggle around in combat like a sand eel. The author assures you that your evasion will be unparalleled.",
+    "useDescription": "There must be some magic in that book; nothing else can explain how easily you're able to flail around after absorbing its tips. You... you still have bones in there, right?",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "01:13:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "buff-single",
+                "id": "wiggle-player"
+            }
+        ]
+    }
+}

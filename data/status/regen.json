@@ -1,0 +1,21 @@
+{
+    "id": "regen",
+    "name": "Regenerating",
+    "color": "Green",
+    "badge": "💖",
+    "applyDesc": "${game.battle.defender} slowly begins to heal.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is regenerating.",
+    "description": "Regeneration restore health over time.",
+    "data": {
+        "class": "physical",
+        "type": "healing",
+        "turnStart": {
+            "heal": "i * t / 100",
+            "stacks": -1
+        },
+        "onDeath": {
+            "heal": "i * t / 100",
+            "stacks": -99
+        }
+    }
+}

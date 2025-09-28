@@ -1,0 +1,24 @@
+{
+    "id": "aureole",
+    "name": "Aureole",
+    "color": "White",
+    "badge": "🪽",
+    "applyDesc": "A divine light wreaths ${game.battle.defender}.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is wreathed in divine light.",
+    "description": "Aureole prevents death, once, reviving the character if they would die.",
+    "data": {
+        "class": "magical",
+        "type": "healing",
+        "turnStart": {
+            "stacks": -1
+        },
+        "onDeath": {
+            "heal": {
+                "expression": "i * t / 100",
+                "ignoreAttack": true,
+                "ignoreAffinity": true
+            },
+            "stacks": -99
+        }
+    }
+}

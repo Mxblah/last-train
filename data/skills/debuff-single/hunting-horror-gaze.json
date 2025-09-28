@@ -1,0 +1,29 @@
+{
+    "id": "hunting-horror-gaze",
+    "name": "Gaze",
+    "description": "A grim red light flashes out of the cloud surrounding ${game.battle.attacker}...",
+    "skillType": "debuff-single",
+    "data": {
+        "target": 1,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "magical",
+        "type": "visual",
+        "status": [
+            {
+                "id": "fear",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 2
+            },
+            {
+                "id": "paralysis",
+                "chance": 0.5,
+                "stack": 1,
+                "intensity": 1
+            }
+        ]
+    }
+}

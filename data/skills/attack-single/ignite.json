@@ -1,0 +1,24 @@
+{
+    "id": "ignite",
+    "name": "Ignite",
+    "description": "${game.battle.attacker} sears ${game.battle.defender} with a brief burst of flame.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 3,
+        "pow": 20,
+        "acc": 1,
+        "crit": 0.05,
+        "hits": 1,
+        "class": "magical",
+        "type": "fire",
+        "status": [
+            {
+                "id": "burn",
+                "chance": 0.45,
+                "stack": 3,
+                "intensity": 0.25
+            }
+        ]
+    }
+}

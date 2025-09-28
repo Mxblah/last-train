@@ -1,0 +1,23 @@
+{
+    "id": "pulverize",
+    "name": "Pulverize",
+    "description": "${game.battle.attacker} beats ${game.battle.defender} into the ground.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "pow": 15,
+        "acc": 0.85,
+        "crit": 0.05,
+        "hits": 3,
+        "class": "physical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.9,
+                "stack": 3,
+                "intensity": 2
+            }
+        ]
+    }
+}

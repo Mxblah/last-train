@@ -1,0 +1,38 @@
+{
+    "id": "desert-golem-oil-vending",
+    "data": [
+        {
+            "text": "A strange vending machine is visible down a short, narrow alley between buildings. Despite everything, it's still on and receiving power from somewhere. It doesn't seem to accept ordinary currency, but has a slot for those oddly marked coins you've seen around here and there."
+        },
+        {
+            "text": "It seems to sell high quality oil, cleaning cloths, and small mechanical tools. Exactly what you might need to fix a small brass golem, for instance.",
+            "choice": {
+                "text": "Purchase golem repair supplies for 10 coins?",
+                "responses": {
+                    "buy": {
+                        "when": {
+                            "item": {
+                                "id": "coin",
+                                "min": 10
+                            }
+                        },
+                        "flag": {
+                            "desert.golem.canFix": true
+                        },
+                        "item": [
+                            {
+                                "action": "remove",
+                                "id": "coin",
+                                "number": 10
+                            }
+                        ],
+                        "text": [
+                            "The machine clatters as it dispenses the items. You should probably return to that golem now."
+                        ]
+                    },
+                    "leave": {}
+                }
+            }
+        }
+    ]
+}

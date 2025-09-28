@@ -1,0 +1,23 @@
+{
+    "id": "hunting-horror-skewer",
+    "name": "Impale",
+    "description": "${game.battle.attacker} skewers ${game.battle.defender} with a chitinous black lance.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "pow": 170,
+        "acc": 1,
+        "crit": 0.15,
+        "hits": 1,
+        "class": "physical",
+        "type": "piercing",
+        "status": [
+            {
+                "id": "bleed",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 0.2
+            }
+        ]
+    }
+}

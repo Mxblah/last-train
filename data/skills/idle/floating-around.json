@@ -1,0 +1,7 @@
+{
+    "id": "floating-around",
+    "name": "Float Around",
+    "description": "${game.battle.attacker} is floating around...",
+    "skillType": "idle",
+    "data": {}
+}

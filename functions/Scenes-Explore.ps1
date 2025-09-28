@@ -1,0 +1,389 @@
+function Start-ExploreScene {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene
+    )
+
+    # Vars
+    $explore = $State.game.explore."$($Scene.id)"
+
+    # player has definitely left the train
+    $State.game.train.playerOnBoard = $false
+
+    # We have to initialize if we're missing the scene data, likely because this is our first time here
+    if (-not $explore) {
+        $State | Initialize-ExploreScene -Scene $Scene
+        $explore = $State.game.explore."$($Scene.id)" # re-set the var if it was just created
+    }
+
+    # If the player is just getting off the train, handle that
+    if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq -1) {
+        Write-Host ($State | Enrich-Text $Scene.data.station.leaveTrainDescription)
+        $explore.depth = 0
+        # Shouldn't strictly be necessary, but just in case something weird happened, reset it.
+        $State.game.explore.currentSunStrengthMultiplier = ($Scene.data.locations |
+            Where-Object -Property id -EQ $Scene.data.station.location).sunStrengthMultiplier
+        Write-Debug "sun strength is $($State.game.explore.currentSunStrengthMultiplier) in $($Scene.id):$($Scene.data.station.location)"
+    }
+
+    # Main exploration loop
+    while ($true) {
+        $State | Show-ExploreMenu -Scene $Scene
+
+        # Regenerate once after every exploration action, not just based on time (assume you regen slower outside of combat, I guess)
+        $State | Invoke-AttribRegen -Character $State.player -All
+    }
+}
+
+function Initialize-ExploreScene {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene
+    )
+
+    Write-Verbose "Initializing new explore scene $($Scene.id)"
+    # Initial skeleton structure of the scene's state data
+    $State.game.explore."$($Scene.id)" = @{
+        location = $Scene.data.station.location
+        depth = -1
+        locationData = @{}
+    }
+    # Store this guy separately because it's needed in battle scenes too
+    $State.game.explore.currentSunStrengthMultiplier = ($Scene.data.locations |
+        Where-Object -Property id -EQ $Scene.data.station.location).sunStrengthMultiplier
+    Write-Debug "sun strength is $($State.game.explore.currentSunStrengthMultiplier) in $($Scene.id):$($Scene.data.station.location)"
+
+    # Add the locations
+    foreach ($location in $Scene.data.locations) {
+        Write-Debug "adding location $($location.id) to scene $($Scene.id)"
+        $State.game.explore."$($Scene.id)".locationData."$($location.id)" = @{
+            encountersCompleted = @{}
+        }
+    }
+}
+
+function Show-ExploreMenu {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene
+    )
+
+    # Vars
+    $explore = $State.game.explore."$($Scene.id)"
+    $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
+
+    # Show headers
+    $State | Write-GlobalTime # Always write the time header
+    if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq 0) {
+        # We're standing right in front of the train, so write its state
+        $State | Write-TrainState -Explore
+    }
+    # Always write the normal exploration header
+    $State | Write-ExplorationState -Scene $Scene
+
+    # Get and write available actions
+    $availableActions = New-Object -TypeName System.Collections.ArrayList(,@('Browse', 'Item', 'Equip'))
+    Write-Host "| $($availableActions[0..2] -join ' | ') |"
+
+    if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq 0) {
+        $availableActions.Add('Board Train [00:00:30]') | Out-Null
+    }
+    if ($explore.depth -gt 0) {
+        $availableActions.Add("⏪ $($locationData.field.shallowerDescription) (`"shallower`") [$($locationData.field.travelBaseCost)]") | Out-Null
+    }
+    if ($explore.depth -lt $locationData.field.depth) {
+        $availableActions.Add("⏩ $($locationData.field.deeperDescription) (`"deeper`") [$($locationData.field.travelBaseCost)]") | Out-Null
+    }
+    # This one is always available as long as the player is in the field, but it's just added later for ordering
+    $availableActions.Add("⏸️ $($locationData.field.exploreHereDescription) (`"here`") [$($locationData.field.travelBaseCost)]") | Out-Null
+
+    # Will always have at least one of these actions available, so no conditional needed
+    $actionListLengthBeforeConnections = $availableActions.Count
+    foreach ($actionString in $availableActions[3..($actionListLengthBeforeConnections - 1)]) {
+        # These can get pretty long, so give them each their own line
+        Write-Host "| $actionString |"
+    }
+    # Write-Host "| $($availableActions[3..($actionListLengthBeforeConnections - 1)] -join ' | ') |"
+
+    foreach ($connection in $locationData.connections.GetEnumerator()) {
+        if ($explore.depth -ge $connection.Value.minDepthAvailable -and $explore.depth -le $connection.Value.maxDepthAvailable) {
+            # we're within this connection's depth range, so add it
+            Write-Debug "adding valid connection $($connection.Key)"
+            $availableActions.Add("Enter $(($Scene.data.locations | Where-Object -Property id -EQ $connection.Key).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
+        } else {
+            Write-Debug "$($connection.Key) not valid from depth of $($explore.depth)"
+        }
+    }
+    # We might not have any connections, so conditional-ify this
+    if ($availableActions.Count -ne $actionListLengthBeforeConnections) {
+        Write-Host "| $($availableActions[$actionListLengthBeforeConnections..($availableActions.Count - 1)]) |"
+    } else {
+        Write-Debug 'no connections available; not printing third line'
+    }
+
+    # Get choice
+    $choice = $State | Read-PlayerInput -Choices $availableActions
+
+    # Perform action
+    switch ($choice) {
+        'browse' {
+            $State | Show-Inventory
+            $State | Add-GlobalTime -Time '00:01:00'
+        }
+        'item' {
+            $State | Show-BattleCharacterInfo -Character $State.player # to show HP, etc. for informed item use
+            Write-Host ''
+            $State | Invoke-SpecialItem -Attacker $State.player
+            $State | Add-GlobalTime -Time '00:01:00'
+        }
+        'equip' {
+            $State | Show-BattleCharacterInfo -Character $State.player -Inspect # to show stats for informed equipping
+            Write-Host ''
+            $State | Invoke-SpecialEquip -Attacker $State.player
+            $State | Add-GlobalTime -Time '00:01:00'
+        }
+
+        { $_ -like 'board train `[*`]' } {
+            Write-Host 'You climb aboard the train.'
+            $explore.depth = -1
+            $State | Add-GlobalTime -Time '00:00:30'
+            $State | Exit-Scene -Type 'train' -Id $Scene.id
+        }
+
+        # These three handle the time cost in the helper function
+        { $_ -like '*(`"deeper`") `[*`]' } {
+            $State | Invoke-ExploreMovement -Scene $Scene -AddDepth 1
+        }
+        { $_ -like '*(`"shallower`") `[*`]' } {
+            $State | Invoke-ExploreMovement -Scene $Scene -AddDepth -1
+        }
+        { $_ -like '*(`"here`") `[*`]' } {
+            $State | Invoke-ExploreMovement -Scene $Scene -AddDepth 0
+        }
+
+        { $_ -like '*(`"go:*`") `[*`]' } {
+            # Handle connections
+            $newLocationId = (($choice | Select-String -Pattern '\("go:(?<id>.*)"\)').Matches.Groups | Where-Object -Property Name -EQ 'id').Value
+            $State | Invoke-ExploreConnection -Scene $Scene -NewLocation $newLocationId
+            # also handles the time cost in the helper function
+        }
+
+        default { Write-Warning "Invalid explore action '$choice' found in scene ID '$($Scene.id)'" }
+    }
+}
+
+function Write-ExplorationState {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene
+    )
+
+    # Vars
+    $explore = $State.game.explore."$($Scene.id)"
+    $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
+
+    # Write overall and time line
+    Write-Host "$($Scene.badge) $($Scene.name) | " -NoNewline
+    switch ($State.game.train.willDepartAt - $State.time.currentTime) {
+        { $_ -gt ([timespan]'01:00:00') } { $color = 'Green'; break }
+        { $_ -gt ([timespan]'00:30:00') } { $color = 'Yellow'; break }
+        default { $color = 'Red'; break }
+    }
+    Write-Host -ForegroundColor $color "Departure: Day $($State.game.train.willDepartAt.Day), $($State.game.train.willDepartAt.TimeOfDay)"
+
+    # Write current sublocation and depth
+    Write-Host "Exploring: $($locationData.name) | Depth: $($explore.depth)/$($locationData.field.depth)"
+
+    # Write character short-status
+    $State | Show-BattleCharacterInfo -Character $State.player -Short
+}
+
+function Invoke-ExploreConnection {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene,
+
+        [Parameter(Mandatory = $true)]
+        [string]$NewLocation
+    )
+
+    # Vars
+    $explore = $State.game.explore."$($Scene.id)"
+    $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
+    $connectionData = $locationData.connections.$NewLocation
+
+    # Handle time first and print the travel line
+    $State | Add-GlobalTime -Time $connectionData.travelCost
+    Write-Host ($State | Enrich-Text $connectionData.description)
+
+    # Move to the new location and reset depth
+    Write-Debug "resetting explore location to $NewLocation at depth $($connectionData.arrivalDepth)"
+    $explore.location = $NewLocation
+    $explore.depth = $connectionData.arrivalDepth
+
+    # update sun strength
+    $State.game.explore.currentSunStrengthMultiplier = ($Scene.data.locations."$($explore.location)").sunStrengthMultiplier
+    Write-Debug "sun strength is $($State.game.explore.currentSunStrengthMultiplier) in $($Scene.id):$($Scene.data.station.location)"
+
+    # Roll for an encounter
+    $State | Get-ExploreEncounter -Scene $Scene
+}
+
+function Invoke-ExploreMovement {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'Add')]
+        [int]$AddDepth,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'Set')]
+        [int]$SetDepth
+    )
+
+    # Vars
+    $explore = $State.game.explore."$($Scene.id)"
+    $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
+
+    # Handle time first
+    $State | Add-GlobalTime -Time $locationData.field.travelBaseCost
+
+    # Move to the new location, if applicable
+    if ($SetDepth) {
+        Write-Debug "setting depth in $($explore.location) to $SetDepth"
+        $explore.depth = $SetDepth
+    } elseif ($AddDepth -ne 0) {
+        Write-Debug "adding $AddDepth to current depth $($explore.depth) in $($explore.location)"
+        $explore.depth += $AddDepth
+    } else {
+        Write-Debug "depth of $($explore.depth) is unchanged in $($explore.location)"
+    }
+
+    # Roll for an encounter
+    $State | Get-ExploreEncounter -Scene $Scene
+}
+
+function Get-ExploreEncounter {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene
+    )
+
+    # Vars
+    $explore = $State.game.explore."$($Scene.id)"
+    $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
+    $encountersCompleted = $explore.locationData."$($explore.location)".encountersCompleted
+
+    # Clone an encounter list to roll on
+    $availableEncounters = $locationData.field.encounters.Clone()
+
+    # Skip the ones we don't meet prereqs for, then roll for each valid encounter in turn
+    foreach ($encounter in $availableEncounters) {
+        if (
+            ($null -ne $encounter.minDepthAvailable -and $explore.depth -lt $encounter.minDepthAvailable) -or
+            ($null -ne $encounter.maxDepthAvailable -and $explore.depth -gt $encounter.maxDepthAvailable) -or
+            ($null -ne $encounter.requiredPhase -and $State.time.phase -ne $encounter.requiredPhase) -or
+            ($null -ne $encounter.maxTimes -and $encountersCompleted."$($encounter.id)" -ge $encounter.maxTimes) -or
+            ($null -ne $encounter.when -and -not ($State | Test-EncounterFlagConditions -When $encounter.when -WhenMode $encounter.whenMode))
+        ) {
+            Write-Debug "$($encounter.id) does not meet prereqs and will be skipped"
+
+            # Remove it from the scene permanently(-ish; until re-imported) if a permanent prereq is not met
+            # This way, future calls to this function won't have to deal with it until re-imported later
+            if ($encountersCompleted."$($encounter.id)" -gt 0 -and
+                $encounter.maxTimes -gt 0 -and
+                $encountersCompleted."$($encounter.id)" -ge $encounter.maxTimes) {
+                Write-Debug "$($encounter.id) does not meet permanent prereqs and will be removed from the scene"
+                $locationData.field.encounters.Remove($encounter)
+            }
+        } else {
+            # Valid encounter, so roll to see if it happens
+            if ($encounter.chance -ge (Get-RandomPercent)) {
+                Write-Debug "$($encounter.id) triggered (with chance $($encounter.chance))"
+                $State | Invoke-ExploreEncounter -Scene $Scene -Encounter $encounter
+                return
+            } else {
+                Write-Debug "$($encounter.id) was not triggered (had chance $($encounter.chance))"
+            }
+        }
+    }
+
+    # If we made it all the way down here, we didn't trigger any encounters. So just print a random flavor text we meet prereqs for
+    $flavorTextOptions = foreach ($category in $locationData.field.flavor.GetEnumerator()) {
+        if ($category.Key -in @('general', "$($explore.depth)", $State.time.phase)) {
+            Write-Debug "$($category.Key) meets requirements"
+            $category.Value
+        }
+    }
+
+    # Print it
+    Write-Host ($State | Enrich-Text ($flavorTextOptions | Get-Random))
+}
+
+function Invoke-ExploreEncounter {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Scene,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Encounter
+    )
+
+    # Mark the encounter as complete for repeat purposes
+    $encountersCompleted = $State.game.explore."$($Scene.id)".locationData."$($State.game.explore."$($Scene.id)".location)".encountersCompleted
+    if ([string]::IsNullOrEmpty($encountersCompleted."$($Encounter.id)")) {
+        Write-Debug "setting encounters completed to 1 for $($Encounter.id) in $($Scene.id)/$($State.game.explore."$($Scene.id)".location)"
+        $encountersCompleted."$($Encounter.id)" = 1
+    } else {
+        Write-Debug "adding 1 to encounters completed (currently '$($encountersCompleted."$($Encounter.id)")') for $($Encounter.id) in $($Scene.id)/$($State.game.explore."$($Scene.id)".location)"
+        $encountersCompleted."$($Encounter.id)" += 1
+    }
+
+    # Perform the scene transition
+    switch ($Encounter.type) {
+        { $_ -match 'battle|cutscene|train|explore' } {
+            $State | Exit-Scene -Type $Encounter.type -Id $Encounter.id
+        }
+        'treasure' {
+            # "treasure" is basically a cutscene with extra steps, so we need to pass along an extra bit of data for the cutscene handler to know what to do
+            $treasureMultiplier = Get-Random -Minimum $Encounter.minMultiplier -Maximum ($Encounter.maxMultiplier + 1)
+            Write-Debug "calculated treasure multiplier of $treasureMultiplier for $($Encounter.id) with min $($Encounter.minMultiplier) / max $($Encounter.maxMultiplier)"
+            $State.game.scene.treasureMultiplier = $treasureMultiplier
+
+            $State | Exit-Scene -Type $Encounter.type -Id $Encounter.id
+        }
+        default { Write-Warning "Invalid encounter type '$_' found in explore scene ID $($Scene.id)" }
+    }
+}

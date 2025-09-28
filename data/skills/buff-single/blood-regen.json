@@ -1,0 +1,25 @@
+{
+    "id": "blood-regen",
+    "name": "Blood-Regenerate",
+    "description": "${game.battle.attacker} shivers as their monstrous blood stirs to life.",
+    "skillType": "buff-single",
+    "data": {
+        "target": 1,
+        "mp": 5,
+        "selfTargetOnly": true,
+        "pow": 1,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "physical",
+        "type": "healing",
+        "status": [
+            {
+                "id": "regen",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 5
+            }
+        ]
+    }
+}

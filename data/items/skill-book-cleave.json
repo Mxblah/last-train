@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-cleave",
+    "name": "Skill Book: Cleave",
+    "description": "A simply-bound book with a set of clear, no-nonsense instructions in combat techniques. Read to learn how to use Cleave.",
+    "useDescription": "After memorizing the technique's gestures and stances, you feel able to strike in a more flowing manner. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "01:41:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-multi",
+                "id": "cleave"
+            }
+        ]
+    }
+}

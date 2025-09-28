@@ -1,0 +1,27 @@
+{
+    "id": "dizzy",
+    "name": "Dizzy",
+    "color": "Yellow",
+    "badge": "💫",
+    "applyDesc": "${game.battle.defender} is seeing stars.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is dizzy.",
+    "description": "Dizziness reduces accuracy and defense.",
+    "data": {
+        "passive": {
+            "stats": {
+                "pDef": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "mDef": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "acc": {
+                    "mult": "-0.05 * s * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

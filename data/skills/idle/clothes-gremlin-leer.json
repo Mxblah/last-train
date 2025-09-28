@@ -1,0 +1,7 @@
+{
+    "id": "clothes-gremlin-leer",
+    "name": "Covet Clothing",
+    "description": "${game.battle.attacker} leers at your outfit covetously...",
+    "skillType": "idle",
+    "data": {}
+}

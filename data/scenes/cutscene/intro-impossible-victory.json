@@ -1,0 +1,18 @@
+{
+    "id": "intro-death",
+    "data": [
+        {
+            "text": "You catch your breath and try to still your shaking hands. Nearby, the bodies of those nameless things melt away, rapidly disappearing into the sand as rivers of pitch-dark liquid. You did it."
+        },
+        {
+            "text": "... But with such power, you hardly even need to ASCEND. To be able to defy the pursuing horrors before even stepping onto the train means you already possess a strength to rival demigods."
+        },
+        {
+            "text": "Unfortunately, you probably cheated to do this, so it hardly means anything. Maybe try boarding the train next time.",
+            "exit": {
+                "type": "end",
+                "id": "cheater"
+            }
+        }
+    ]
+}

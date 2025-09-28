@@ -1,0 +1,58 @@
+{
+    "id": "intro",
+    "data": [
+        {
+            "text": "🎞️🎮 Cutscene controls: When provided with a prompt ( > : ), <enter> to continue. When provided with a choice (options followed by a prompt), type the desired response (or a part of it) followed by <enter>."
+        },
+        {
+            "text": "You wake up on a wrought iron bench somewhere in the middle of a desert. The moon is bright overhead, though it's close to the horizon; dawn can't be far off. Your body feels feverishly, painfully hot for a few seconds before the chill night air cools you down. There's a large train idling nearby, the destination signs all displaying \"ASCENSION.\" Aside from the rails, the bench, and a bit of concrete platform, there's no structure in sight for miles around.",
+            "action": {
+                "damage": {
+                    "class": "magical",
+                    "type": "mental",
+                    "expression": "25",
+                    "ignoreDefense": true,
+                    "ignoreBarrier": true
+                }
+            }
+        },
+        {
+            "text": "You don't know who you are, where you are, or how you got here. But despite your general amnesia, a few select memories creep back into your mind. You know the following things:\n- Your name is ${player.name}.\n- The world will end in seven days.\n- The sun is a deadly enemy.\n- You must ASCEND."
+        },
+        {
+            "text": "As you begin to stir on the bench, clutching your head against a sudden headache, a chill of vague but intense fear crawls across your skin. You are in terrible danger here, though you don't know from what.",
+            "choice": {
+                "text": "A faint, distant clicking sound echoes across the dunes.",
+                "responses": {
+                    "board the train": {},
+                    "stay and listen": {
+                        "exit": {
+                            "type": "cutscene",
+                            "id": "intro-death"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "You scramble aboard the hulking train and slam the door behind you. The car is dimly lit by the moon and faint light strips on the ceiling. Moments after you enter, a shadow flashes across one of the windows and you hear clanging on the roof. Something heavy slams against the door you just closed, again and again, while the clicking noise intensifies into a rapid stream of hideous clattering.",
+            "action": {
+                "train": {
+                    "playerOnBoard": true
+                }
+            }
+        },
+        {
+            "text": "With a lurch, the train begins moving. Speed picks up quickly, and it's not long before the clanging stops the the clicking noise fades into the distant desert behind. It seems you're safe, for now.",
+            "action": {
+                "time": {
+                    "add": "00:02:00"
+                }
+            },
+            "exit": {
+                "type": "cutscene",
+                "id": "train-intro"
+            }
+        }
+    ]
+}

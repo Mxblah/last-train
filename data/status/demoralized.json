@@ -1,0 +1,34 @@
+{
+    "id": "demoralized",
+    "name": "Demoralized",
+    "color": "DarkBlue",
+    "badge": "💧",
+    "applyDesc": "${game.battle.defender} is a bit sad...",
+    "turnDesc": "${game.battle.currentTurn.characterName} has lost some motivation.",
+    "description": "Becoming demoralized reduces speed and attack, raises defense, and somewhat interferes with focus.",
+    "data": {
+        "passive": {
+            "attrib": {
+                "mp": {
+                    "regen": {
+                        "mult": 0.9
+                    }
+                }
+            },
+            "stats": {
+                "pAtk": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "pDef": {
+                    "mult": "0.05 * s * i + 1.0"
+                },
+                "spd": {
+                    "mult": "-0.05 * s * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

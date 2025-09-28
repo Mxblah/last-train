@@ -1,0 +1,24 @@
+{
+    "id": "steal-clothes-queue",
+    "name": "Steal ⏱️",
+    "description": "${game.battle.attacker} cackles and wiggles their fingers larcenously.",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "mp": 6,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "queue",
+        "queue": [
+            {
+                "class": "special",
+                "id": "steal-clothes"
+            }
+        ]
+    }
+}

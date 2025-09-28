@@ -1,0 +1,30 @@
+{
+    "id": "sand-spit",
+    "name": "Spit Sand",
+    "description": "${game.battle.attacker} spits sand at ${game.battle.defender}.",
+    "skillType": "debuff-single",
+    "data": {
+        "target": 1,
+        "mp": 1,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "physical",
+        "type": "earth",
+        "status": [
+            {
+                "id": "dazzled",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 1
+            },
+            {
+                "id": "blind",
+                "chance": 0.3,
+                "stack": 1,
+                "intensity": 1
+            }
+        ]
+    }
+}

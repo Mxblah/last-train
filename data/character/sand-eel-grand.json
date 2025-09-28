@@ -1,0 +1,158 @@
+{
+    "id": "sand-eel",
+    "name": "Grand Sand Eel",
+    "entryDescription": "The Grand Sand Eel bobs its neck in a pseudo-bow, then begins the duel.",
+    "inspectDescription": "The monarch(?) of all lesser sand eels. Seems to have some sort of telepathy ability. Uses heat and radiation magic, and is capable of everything the lesser sand eels can do - but better.",
+    "bestiaryDescription": "Okay, you're *certain* this guy could cook a TV dinner using its microwaves. Also, this one seems to be honorable and capable of healing magic as well, though it didn't use any during your duel - only afterwards.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "burn": {
+                "value": 0,
+                "base": 0.3
+            },
+            "irradiated": {
+                "value": 0,
+                "base": 0.45
+            }
+        },
+        "element": {
+            "earth": {
+                "value": 0,
+                "base": -0.15
+            },
+            "fire": {
+                "value": 0,
+                "base": 0.5
+            },
+            "radiation": {
+                "value": 0,
+                "base": 0.45
+            },
+            "slashing": {
+                "value": 0,
+                "base": -0.25
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 200,
+            "max": 200,
+            "base": 200,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 10,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 4,
+            "max": 16,
+            "base": 16,
+            "regen": 2,
+            "baseRegen": 2
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 8
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 14
+        },
+        "pDef": {
+            "value": 0,
+            "base": 8
+        },
+        "mDef": {
+            "value": 0,
+            "base": 12
+        },
+        "acc": {
+            "value": 0,
+            "base": 12
+        },
+        "spd": {
+            "value": 0,
+            "base": 5
+        }
+    },
+    "loot": [],
+    "ai": "blaster",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 20
+            },
+            {
+                "id": "ignite",
+                "weight": 100
+            },
+            {
+                "id": "irradiate",
+                "weight": 35
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "flame-fan",
+                "weight": 30
+            },
+            {
+                "id": "microwave",
+                "weight": 50
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "wiggle",
+                "weight": 55
+            },
+            {
+                "id": "defend",
+                "weight": 30
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "sand-spit",
+                "weight": 45
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "burrow-pop",
+                "weight": 10
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

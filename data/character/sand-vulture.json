@@ -1,0 +1,148 @@
+{
+    "id": "sand-vulture",
+    "name": "Sand Vulture",
+    "entryDescription": "A large bird with pale yellow feathers swoops down towards you.",
+    "inspectDescription": "A fast, hard-to-hit flying predator that often works with sand eels. Attacks with its sharp claws and beak. Some specimens can kick up short-lived sandstorms.",
+    "bestiaryDescription": "Sand vultures should be scavengers like their less-mutated kin, but as with most creatures, the sun's consuming light changed that. They're now much more aggressive than any ordinary vulture would ever be.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "weather-dusty": {
+                "value": 0,
+                "base": 1
+            }
+        },
+        "element": {
+            "earth": {
+                "value": 0,
+                "base": 0.15
+            },
+            "lightning": {
+                "value": 0,
+                "base": -0.2
+            },
+            "sonic": {
+                "value": 0,
+                "base": -0.2
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 32,
+            "max": 0,
+            "base": 32,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 3,
+            "max": 6,
+            "base": 6,
+            "regen": 1,
+            "baseRegen": 1
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 11
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 3
+        },
+        "pDef": {
+            "value": 0,
+            "base": 8
+        },
+        "mDef": {
+            "value": 0,
+            "base": 9
+        },
+        "acc": {
+            "value": 0,
+            "base": 13
+        },
+        "spd": {
+            "value": 0,
+            "base": 19
+        }
+    },
+    "loot": [
+        {
+            "id": "silver-feather",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 20
+            },
+            {
+                "id": "peck",
+                "weight": 70
+            },
+            {
+                "id": "scratch",
+                "weight": 50
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "fly-dodge",
+                "weight": 50
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "sand-spit",
+                "weight": 40
+            }
+        ],
+        "debuff-multi": [
+            {
+                "id": "call-sandstorm",
+                "weight": 90
+            }
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "floating-around",
+                "weight": 15
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

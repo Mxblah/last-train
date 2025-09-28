@@ -1,0 +1,21 @@
+{
+    "id": "wiggle",
+    "name": "Wiggling",
+    "color": "DarkCyan",
+    "badge": "🔀",
+    "applyDesc": "${game.battle.defender} starts to wiggle around!",
+    "turnDesc": "${game.battle.currentTurn.characterName} is wiggling.",
+    "description": "Wiggling around like a wacky waving arm-flailing inflatable tube man makes you really hard to hit!",
+    "data": {
+        "turnStart": {
+            "stacks": -1
+        },
+        "passive": {
+            "stats": {
+                "spd": {
+                    "mult": "2 * i"
+                }
+            }
+        }
+    }
+}

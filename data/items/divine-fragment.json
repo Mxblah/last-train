@@ -1,0 +1,26 @@
+{
+    "id": "divine-fragment",
+    "name": "Fragment of Divinity",
+    "description": "A miniscule wisp of divine authority. Use to become immortal until the fragment burns away.",
+    "useDescription": "The wisp dissolves into your body and imbues you with eternity. You are elevated beyond mortality, until it's gone.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "magical",
+        "type": "divine",
+        "pow": 10
+    },
+    "effects": {
+        "status": {
+            "add": [
+                {
+                    "id": "divinity",
+                    "chance": 1,
+                    "stack": 9,
+                    "intensity": 50
+                }
+            ]
+        }
+    }
+}

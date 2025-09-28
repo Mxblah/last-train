@@ -1,0 +1,31 @@
+{
+    "id": "microwave",
+    "name": "Microwave",
+    "description": "${game.battle.attacker} hums loudly and sweeps the area with radiation.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 3,
+        "targetsAll": true,
+        "mp": 7,
+        "pow": 15,
+        "acc": 1,
+        "crit": 0.05,
+        "hits": 1,
+        "class": "magical",
+        "type": "radiation",
+        "status": [
+            {
+                "id": "burn",
+                "chance": 0.45,
+                "stack": 3,
+                "intensity": 0.25
+            },
+            {
+                "id": "irradiated",
+                "chance": 0.75,
+                "stack": 3,
+                "intensity": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "id": "desert-clothes-gremlins-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "clothes-gremlin",
+                    "loot": [
+                        {
+                            "id": "skill-book-ignite",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {}
+    }
+}

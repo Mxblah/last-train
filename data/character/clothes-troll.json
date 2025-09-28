@@ -1,0 +1,152 @@
+{
+    "id": "clothes-troll",
+    "name": "Clothes Troll",
+    "entryDescription": "An eight-foot creature of shaggy green fur roars \"CLOTHES!\" and attacks!",
+    "inspectDescription": "A large humanoid creature covered in shaggy green hair and obsessed with clothing. Likes to play dress-up with any hapless creature that crosses its path, and will react violently if rejected. Its hair is highly flammable, but it also seems to be highly tolerant of heat.",
+    "bestiaryDescription": "Like its cousins the clothes gremlins, the clothes troll will fire itself up by looking at stolen clothing before unleashing devastating attacks. Unlike its cousins, it can't sing and instead relies on brute physical force.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": -0.5
+            },
+            "burn": {
+                "value": 0,
+                "base": -0.5
+            }
+        },
+        "element": {
+            "fire": {
+                "value": 0,
+                "base": 0.2
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 180,
+            "max": 180,
+            "base": 180,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 4,
+            "base": 4,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 0,
+            "max": 10,
+            "base": 10,
+            "regen": 0,
+            "baseRegen": 2
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 20
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 0
+        },
+        "pDef": {
+            "value": 0,
+            "base": 16
+        },
+        "mDef": {
+            "value": 0,
+            "base": 8
+        },
+        "acc": {
+            "value": 0,
+            "base": 8
+        },
+        "spd": {
+            "value": 0,
+            "base": 9
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 2,
+            "max": 8,
+            "chance": 1
+        },
+        {
+            "id": "bandage",
+            "min": 1,
+            "max": 2,
+            "chance": 0.75
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 70
+            },
+            {
+                "id": "body-slam",
+                "weight": 100
+            },
+            {
+                "id": "pulverize-queue",
+                "weight": 600
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "clothes-gremlin-admire-sock",
+                "weight": 80
+            },
+            {
+                "id": "blood-regen",
+                "weight": 30
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "loafing-around",
+                "weight": 20
+            }
+        ],
+        "special": [
+            {
+                "id": "steal-clothes-queue",
+                "weight": 60
+            }
+        ]
+    }
+}

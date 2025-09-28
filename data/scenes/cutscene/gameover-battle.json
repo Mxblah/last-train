@@ -1,0 +1,12 @@
+{
+    "id": "gameover-battle",
+    "data": [
+        {
+            "text": "You have perished to one of the many horrors that bar the way to ASCENSION. A disappointing, if not unexpected, end to your journey.",
+            "exit": {
+                "type": "end",
+                "id": "bad"
+            }
+        }
+    ]
+}

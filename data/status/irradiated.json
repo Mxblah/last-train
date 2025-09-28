@@ -1,0 +1,33 @@
+{
+    "id": "irradiated",
+    "name": "Irradiated",
+    "color": "Yellow",
+    "badge": "☢️",
+    "applyDesc": "${game.battle.defender} is irradiated.",
+    "turnDesc": "${game.battle.currentTurn.characterName} glows with radioactivity.",
+    "description": "Radiation exposure lowers maximum HP and disables regen, and reduces speed.",
+    "data": {
+        "class": "magical",
+        "type": "radiation",
+        "passive": {
+            "attrib": {
+                "hp": {
+                    "regen": {
+                        "mult": 0
+                    },
+                    "max": {
+                        "mult": "-0.05 * s * i + 1.0"
+                    }
+                }
+            },
+            "stats": {
+                "spd": {
+                    "mult": "-0.05 * s * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

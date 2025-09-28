@@ -1,0 +1,21 @@
+{
+    "id": "fly-dodge",
+    "name": "Flying",
+    "color": "White",
+    "badge": "🦅",
+    "applyDesc": "${game.battle.defender} flies quickly to avoid attacks.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is flying around.",
+    "description": "Flying around rapidly and unpredictably makes you really hard to hit!",
+    "data": {
+        "turnStart": {
+            "stacks": -1
+        },
+        "passive": {
+            "stats": {
+                "spd": {
+                    "mult": "2 * i"
+                }
+            }
+        }
+    }
+}

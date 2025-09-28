@@ -1,0 +1,13 @@
+{
+    "id": "desert",
+    "name": "Desert Village",
+    "data": {
+        "dwellTime": "11:32:00",
+        "decisionTime": "06:18:00",
+        "availableStations": {
+            "todo": {
+                "travelTime": "12:00:00"
+            }
+        }
+    }
+}

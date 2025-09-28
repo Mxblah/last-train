@@ -1,0 +1,20 @@
+{
+    "id": "golden-gummy-bear",
+    "name": "Golden Gummy Bear",
+    "description": "A larger-than-usual gummy bear coated in metallic gold. Tingles on your tongue.",
+    "useDescription": "You eat the golden gummy bear. It tastes like a metallic lemon and makes your whole mouth tingle.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "magical",
+        "type": "healing"
+    },
+    "effects": {
+        "heal": {
+            "expression": "0.1 * t",
+            "pow": 10,
+            "atk": 1
+        }
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "id": "train-intro",
+    "data": [
+        {
+            "text": "After catching your breath, you decide to explore the train."
+        },
+        {
+            "text": "Walking through the coaches reveals nothing obviously out of the ordinary. Seats, luggage racks, bathrooms, tables, and so on. The only odd parts are that everything is completely deserted, the windows have heavy metal shutters hanging above them, and that the train is running at all. It's the end of the world; who's operating it?"
+        },
+        {
+            "text": "In one of the cars towards the engine, you do find a collection of old, tarnished items lying haphazardly on a small tray. There's no hint of their former owner or why they might have been left here, but you could take the worn knife, silver medallion, and plastic packet of oddly metallic candies if you wanted.",
+            "choice": {
+                "text": "Take the items?",
+                "responses": {
+                    "yes": {
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "old-knife",
+                                "number": 1
+                            },
+                            {
+                                "action": "add",
+                                "id": "tarnished-medallion",
+                                "number": 1
+                            },
+                            {
+                                "action": "add",
+                                "id": "golden-gummy-bear",
+                                "number": 3
+                            }
+                        ]
+                    },
+                    "no": {}
+                }
+            }
+        },
+        {
+            "text": "Finally making your way to the locked door leading to the locomotive, you find a strange control panel bleeding blue light into the car. It describes your trajectory on a map you don't recognize - heading east, apparently. There is a fork in the tracks a fair distance ahead of the train icon on the screen, and it appears you can operate the switch from here."
+        },
+        {
+            "text": "The northern branch is listed as DESERT, and seems to stop at a rural town in the listed desert. The southern branch is listed as AIRPORT, and - wouldn't you believe it - seems to stop at exactly such a facility."
+        },
+        {
+            "text": "Either one seems almost a full day's travel away; you'll be spending most of the day on this train regardless of your choice. Although that's probably a good thing, as the shutters you noticed earlier begin to latch firmly closed against the first light of dawn - blocking out the deadly sun. You should be safe here until you arrive.",
+            "action": {
+                "time": {
+                    "add": "00:08:00"
+                }
+            },
+            "exit": {
+                "type": "train",
+                "id": "start"
+            }
+        }
+    ]
+}

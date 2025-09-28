@@ -1,0 +1,103 @@
+{
+    "id": "advanced-input",
+    "data": [
+        {
+            "text": "Typing in what you want to do works fine, but it can get a little confusing or slow when you have a lot of similar actions to choose from. Here are some tips for typing less and acting more."
+        },
+        {
+            "text": "1. Case sensitivity.\nThis game is generally case-insensitive. You don't have to distinguish between upper and lower case letters when typing in choices. For instance, try typing 'y' instead of 'Y' below:",
+            "choice": {
+                "text": "Will you continue?",
+                "responses": {
+                    "Y": {},
+                    "N": {
+                        "text": [
+                            "Is this tutorial boring you already? The tips get more interesting from about (3) onwards; promise."
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "2. Partial matching.\nIf you weren't aware, you don't have to type the entire action in order to select it; you just have to type enough to distinguish your choice from every other choice. For instance, try just typing 's' instead of the full choice below:",
+            "choice": {
+                "text": "What is a very long word?",
+                "responses": {
+                    "Supercalifragilisticexpialidocious": {
+                        "text": [
+                            "I technically have no way to verify you didn't just type the entire word, but I'll assume you didn't. Good job!"
+                        ]
+                    },
+                    "No": {
+                        "text": [
+                            "... Were you paying attention?"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "(Also, note that you aren't limited to partial-matching just the first part of the choice - you could have typed 'u', 'p', 'e', 'r', or any other fragment of 'Supercalifragilisticexpialidocious' that doesn't also appear in 'No' in order to select it.)"
+        },
+        {
+            "text": "3. Exact matching.\nIf you have two choices where one includes the other, you won't be able to select them by normal matching as you'll always match both. That's where quotes come in. You can surround your choice in quotes - like \"this\" - to specify you want an exact match. Try it below by typing \"hat\" to select it.",
+            "choice": {
+                "text": "Two words that contain each other:",
+                "responses": {
+                    "hat": {
+                        "text": [
+                            "This time I can be sure you did it right, since you need to use quotes to select it - no way around that!"
+                        ]
+                    },
+                    "thatch": {
+                        "text": [
+                            "No. Why do you even want thatch? What use do you have for it?"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "4. Front-matching.\nIf you have two choices that only end the same way, you don't have to do the full two-quote exact match from before. Instead, you can just start your response with a quote - like \"this - and then use the normal lenient matching. Try it below to select \"Sand Eel\"; you can get away with something as short as just [\"s]!",
+            "choice": {
+                "text": "What is your least favorite type of eel?",
+                "responses": {
+                    "Sand Eel": {
+                        "text": [
+                            "Isn't it nice to not have to type the whole choice?"
+                        ]
+                    },
+                    "Grand Sand Eel": {
+                        "text": [
+                            "No; the other one! The Grand Sand Eel is super cool!"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "5. Back-matching.\nSimilarly to front-matching, you don't have to do a full two-quote exact match if you have two choices that only start the same way. Instead, just *end* your response with a quote - like this\". Try it below to select \"Hunting\"; you can get away with something as short as just [g\"]!",
+            "choice": {
+                "text": "Which is less likely to kill you?",
+                "responses": {
+                    "Hunting": {
+                        "text": [
+                            "Although you should still be careful!"
+                        ]
+                    },
+                    "Hunting Horror": {
+                        "text": [
+                            "No! These guys will kill you in seconds!"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "6. Quote case insensitivity.\nWhen I said the game was case-insensitive, I meant it. Single quotes (') and double quotes (\") both work for exact, front, and back matching (although you can't mix them like \"this' or 'this\" - doing so will treat it like a front-match). This lets you type even faster, since you don't need to hold Shift to capitalize your quotes."
+        },
+        {
+            "text": "Note that all these techniques also apply to selecting actions and targets in battle, items and equipment in the inventory, and directions in exploration. Anywhere you type text, you can use these tips. Hope you learned something!"
+        }
+    ]
+}
