@@ -87,6 +87,16 @@
                         "arrivalDepth": 0,
                         "travelCost": "00:04:00",
                         "description": "You leave behind the town outskirts and venture across the railway tracks into the dunes beyond."
+                    },
+                    "bunker": {
+                        "minDepthAvailable": 3,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 8,
+                        "travelCost": "00:02:00",
+                        "description": "You heave open the hidden trapdoor that leads into the bunker.",
+                        "when": {
+                            "desert.bunker.openedOutskirtsExit": true
+                        }
                     }
                 }
             },
@@ -204,7 +214,7 @@
                 "name": "Downtown",
                 "sunStrengthMultiplier": 0.7,
                 "field": {
-                    "depth": 3,
+                    "depth": 4,
                     "travelBaseCost": "00:02:00",
                     "deeperDescription": "Head for the center of the plaza.",
                     "shallowerDescription": "Head for the plaza edges.",
@@ -222,7 +232,7 @@
                             "type": "cutscene",
                             "id": "desert-cat",
                             "chance": 1,
-                            "minDepthAvailable": 3,
+                            "minDepthAvailable": 4,
                             "maxTimes": 1
                         },
                         {
@@ -250,10 +260,20 @@
                         },
                         {
                             "type": "cutscene",
+                            "id": "desert-downtown-bunker-discovery",
+                            "chance": 0.25,
+                            "minDepthAvailable": 2,
+                            "maxDepthAvailable": 3,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
                             "id": "desert-golem-oil-vending",
                             "chance": 0.4,
+                            "maxDepthAvailable": 3,
                             "whenMode": "and",
                             "when": {
+                                "desert.golem.met": true,
                                 "desert.golem.fixed": false,
                                 "desert.golem.canFix": false
                             }
@@ -272,6 +292,16 @@
                         "arrivalDepth": 5,
                         "travelCost": "00:01:00",
                         "description": "You return to the commercial district."
+                    },
+                    "deepBunker": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 3,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:04:00",
+                        "description": "You squeeze into the hidden elevator that leads to the deep bunker.",
+                        "when": {
+                            "desert.bunker.openedDowntownExit": true
+                        }
                     }
                 }
             },
@@ -344,6 +374,14 @@
                             "maxTimes": 5
                         },
                         {
+                            "type": "cutscene",
+                            "id": "desert-dunes-bunker-discovery",
+                            "chance": 0.25,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 4,
+                            "maxTimes": 1
+                        },
+                        {
                             "type": "battle",
                             "id": "desert-sand-eels-x2-smoked-rod",
                             "chance": 0.60,
@@ -394,6 +432,150 @@
                         "arrivalDepth": 0,
                         "travelCost": "00:04:00",
                         "description": "You cross the railway tracks and return to the town outskirts near the train station."
+                    },
+                    "bunker": {
+                        "minDepthAvailable": 3,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:00",
+                        "description": "You heave open the hidden trapdoor that leads into the bunker.",
+                        "when": {
+                            "desert.bunker.openedDunesExit": true
+                        }
+                    }
+                }
+            },
+            {
+                "id": "bunker",
+                "name": "Bunker",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 8,
+                    "travelBaseCost": "00:03:00",
+                    "deeperDescription": "Head towards the village.",
+                    "shallowerDescription": "Head towards the dunes.",
+                    "exploreHereDescription": "Explore the nearby rooms.",
+                    "flavor": {
+                        "general": [
+                            "Your footsteps echo in the dull, still air.",
+                            "You peer into the darkness, trying to make out any features in the dim illumination of occasional status lights.",
+                            "Metal creaks somewhere above you. The bunker settles.",
+                            "Sand has piled into a small drift in the corner. Even here, the desert has managed to infiltrate.",
+                            "The cool air is a welcome change from the desert above, but something about it feels wrong on your skin.",
+                            "Pipes, tubes, and broken vats. You wonder what this bunker was for.",
+                            "Machinery languishes in decay. Everything in here has been broken or deactivated.",
+                            "Huge, torn marks score the wall here. Did that come from the claw of some enormous creature?"
+                        ],
+                        "0": [
+                            "A ladder leads up a vertical shaft here."
+                        ],
+                        "5": [
+                            "A flight of steep stairs leads into further depths here.",
+                            "A faded sign warns you about something, but the text is too far gone to read. The picture displays a stick figure seemingly falling apart."
+                        ],
+                        "8": [
+                            "A ladder leads up a vertical shaft here."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-open-dunes-exit",
+                            "chance": 1,
+                            "maxDepthAvailable": 0,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedDunesExit": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-open-outskirts-exit",
+                            "chance": 1,
+                            "minDepthAvailable": 8,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedOutskirtsExit": false
+                            }
+                        }
+                    ]
+                },
+                "connections": {
+                    "dunes": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:02:30",
+                        "description": "You climb the ladder and push open the trapdoor, emerging into the desert dunes."
+                    },
+                    "deepBunker": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:03:30",
+                        "description": "You descend the seemingly endless stairs into the bunker's depths."
+                    },
+                    "outskirts": {
+                        "minDepthAvailable": 8,
+                        "maxDepthAvailable": 8,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:02:30",
+                        "description": "You climb the ladder and push open the trapdoor, emerging into the village outskirts."
+                    }
+                }
+            },
+            {
+                "id": "deepBunker",
+                "name": "Deep Bunker",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 5,
+                    "travelBaseCost": "00:04:00",
+                    "deeperDescription": "Head further into the depths.",
+                    "shallowerDescription": "Head back towards the main bunker.",
+                    "exploreHereDescription": "Explore the nearby rooms.",
+                    "flavor": {
+                        "general": [
+                            "Your footsteps echo in the dull, still air.",
+                            "You peer into the darkness, trying to make out any features in the dim illumination of occasional status lights.",
+                            "Metal creaks somewhere above you. The bunker settles.",
+                            "Still-active machinery hums in the walls.",
+                            "A ventilation fan is imbalanced and clatters occasionally against its casing."
+                        ],
+                        "0": [
+                            "A flight of steep stairs leads back into the upper bunker here."
+                        ],
+                        "5": [
+                            "A pair of smooth metal doors mark the elevator to the surface here."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-open-downtown-exit",
+                            "chance": 1,
+                            "minDepthAvailable": 5,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedDowntownExit": false
+                            }
+                        }
+                    ]
+                },
+                "connections": {
+                    "bunker": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:06:00",
+                        "description": "You climb up the seemingly endless stairs into the main bunker."
+                    },
+                    "downtown": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 2,
+                        "travelCost": "00:04:00",
+                        "description": "You call the elevator and ascend to the surface, emerging into the village plaza."
                     }
                 }
             }

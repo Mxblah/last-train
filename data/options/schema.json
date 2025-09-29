@@ -5,7 +5,7 @@
     },
     "clearBattleDataOnExit": {
         "type": "bool",
-        "hint": "Reduces save data size by clearing stale battle data after a battle is completed."
+        "hint": "Reduces save data size by clearing stale battle data after a battle is completed. WARNING: disabled by default currently, as it can cause game-breaking bugs."
     },
     "difficulty": {
         "type": "int",

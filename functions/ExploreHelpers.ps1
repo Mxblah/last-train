@@ -1,10 +1,10 @@
-function Test-EncounterFlagConditions {
+function Test-WhenConditions {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline)]
         [object]$State,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [hashtable]$When,
 
         [Parameter()]
@@ -12,7 +12,7 @@ function Test-EncounterFlagConditions {
     )
 
     # No conditions: return true
-    if ($When.Count -eq 0) {
+    if ($null -eq $When -or $When.Count -eq 0) {
         Write-Debug 'no conditions passed in when block; returning true'
         return $true
     }

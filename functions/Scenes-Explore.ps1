@@ -118,10 +118,19 @@ function Show-ExploreMenu {
     # Write-Host "| $($availableActions[3..($actionListLengthBeforeConnections - 1)] -join ' | ') |"
 
     foreach ($connection in $locationData.connections.GetEnumerator()) {
-        if ($explore.depth -ge $connection.Value.minDepthAvailable -and $explore.depth -le $connection.Value.maxDepthAvailable) {
-            # we're within this connection's depth range, so add it
+        if (
+            $explore.depth -ge $connection.Value.minDepthAvailable -and
+            $explore.depth -le $connection.Value.maxDepthAvailable
+        ) {
+            # Validate the when condition, if it has one
+            if (-not ($State | Test-WhenConditions -When $connection.Value.when -WhenMode $connection.Value.whenMode)) {
+                Write-Debug "connection $($connection.Key) does not meet its 'when' prerequisites; skipping"
+                continue
+            }
+
+            # we're within this connection's depth range and its 'when' is valid (or does not exist), so add it
             Write-Debug "adding valid connection $($connection.Key)"
-            $availableActions.Add("Enter $(($Scene.data.locations | Where-Object -Property id -EQ $connection.Key).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
+            $availableActions.Add("🔀 Enter $(($Scene.data.locations | Where-Object -Property id -EQ $connection.Key).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
         } else {
             Write-Debug "$($connection.Key) not valid from depth of $($explore.depth)"
         }
@@ -312,7 +321,7 @@ function Get-ExploreEncounter {
             ($null -ne $encounter.maxDepthAvailable -and $explore.depth -gt $encounter.maxDepthAvailable) -or
             ($null -ne $encounter.requiredPhase -and $State.time.phase -ne $encounter.requiredPhase) -or
             ($null -ne $encounter.maxTimes -and $encountersCompleted."$($encounter.id)" -ge $encounter.maxTimes) -or
-            ($null -ne $encounter.when -and -not ($State | Test-EncounterFlagConditions -When $encounter.when -WhenMode $encounter.whenMode))
+            ($null -ne $encounter.when -and -not ($State | Test-WhenConditions -When $encounter.when -WhenMode $encounter.whenMode))
         ) {
             Write-Debug "$($encounter.id) does not meet prereqs and will be skipped"
 

@@ -426,6 +426,7 @@ function Show-SkillsMenu {
             }
         }
 
+        $State | Add-GlobalTime -Time '00:02:30'
         if ($OnlyOne) {
             return
         } else {

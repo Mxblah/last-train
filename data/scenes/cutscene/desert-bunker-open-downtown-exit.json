@@ -1,0 +1,22 @@
+{
+    "id": "desert-bunker-open-downtown-exit",
+    "data": [
+        {
+            "text": "You come across a pair of smooth metal doors and faintly glowing buttons: an elevator. A time-faded sign barely legible in the dim light reads \"SURFACE: Emergency\"."
+        },
+        {
+            "text": "Ascending via the elevator confirms it leads into a partially-destroyed building near the village plaza. You have to dislodge a few boards to free up the entrance, but it doesn't take too long.",
+            "action": {
+                "flag": {
+                    "desert.bunker.openedDowntownExit": true
+                },
+                "time": {
+                    "add": "00:06:00"
+                }
+            }
+        },
+        {
+            "text": "It's good to know where this entrance is. You should be able to get back here from above now."
+        }
+    ]
+}

@@ -33,7 +33,7 @@ function Start-CutsceneScene {
                 $choiceName = $choiceRaw.Key
                 $choiceInfo = $choiceRaw.Value
                 if ($choiceInfo.when) {
-                    $shouldList = $State | Test-EncounterFlagConditions -When $choiceInfo.when -WhenMode $choiceInfo.whenMode
+                    $shouldList = $State | Test-WhenConditions -When $choiceInfo.when -WhenMode $choiceInfo.whenMode
                 } else {
                     # Always list choices without whens
                     $shouldList = $true

@@ -1,0 +1,31 @@
+{
+    "id": "desert-dunes-bunker-discovery",
+    "data": [
+        {
+            "text": "A momentary gust of wind reveals something of an unusual color partially buried beneath one of the nearby dunes."
+        },
+        {
+            "text": "You hasten over to investigate before the sand can cover it again, discovering a heavy metal trapdoor scoured by age and dust. Where could this possibly lead?",
+            "choice": {
+                "text": "Open the trapdoor?",
+                "responses": {
+                    "open": {},
+                    "leave": {
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "With a few minutes of work, you manage to clear enough sand to heave the thing open. It opens into a shaft made of a heavy black metal, descending deep into darkness. A painted ladder clings to one side, though the paint has chipped away with age. Cool, dry air rises from the depths. What have you uncovered?",
+            "action": {
+                "flag": {
+                    "desert.bunker.openedDunesExit": true
+                },
+                "time": {
+                    "add": "00:03:00"
+                }
+            }
+        }
+    ]
+}
