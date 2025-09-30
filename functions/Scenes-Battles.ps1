@@ -26,7 +26,7 @@ function Start-BattleScene {
             victor = $null
             currentTurn = @{}
             # Get a list of all the active characters, then sort by speed
-            characters = @($battleCharacters) | Sort-Object { $_.attrib.spd.value } -Descending
+            characters = @($battleCharacters) | Sort-Object { $_.stats.spd.value } -Descending
         }
 
         # Handle multiple characters named the same thing
