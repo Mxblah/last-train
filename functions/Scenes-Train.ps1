@@ -173,19 +173,7 @@ function Show-TrainMenu {
         }
 
         'save' {
-            $response = Read-Host -Prompt 'Save to which slot? (number, or <enter> for auto, or anything else to cancel)'
-            try { $slot = [int]$response } catch {
-                # not an int
-                Write-Host 'Save cancelled.'
-                break
-            }
-            if ([string]::IsNullOrWhiteSpace($slot) -or $slot -le 0) {
-                # auto (current) slot
-                $State | Save-Game
-            } else {
-                # new slot
-                $State | Save-Game -Slot $slot
-            }
+            $State | Invoke-ManualSave
             # Saving does not take any time. That would be mean.
         }
         'explore' {

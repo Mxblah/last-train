@@ -68,7 +68,7 @@ function Add-GlobalTime {
             $State | Apply-StatusEffects -Character $State.player -Phase 'turnEnd'
             if ($State.player.status.Count -le 0) {
                 Write-Debug "Out of statuses on turn $turn - stopping!"
-                Write-Host 'Your statuses have cleared.'
+                Write-Host -ForegroundColor DarkCyan '🧼 Your statuses have cleared.'
                 break
             }
         }
@@ -77,8 +77,9 @@ function Add-GlobalTime {
         if ($State.player.status.Count -gt 0 -and $turns -ge 10) {
             Write-Debug "clearing all player statuses due to having spent at least $turns turns out of battle on them"
             $State | Clear-AllStatusEffects -Character $State.player
-            Write-Host 'Your statuses have cleared.'
+            Write-Host -ForegroundColor DarkCyan '🧼 Your statuses have cleared.'
         }
+        Write-Host ''
     }
 
     # Handle train and solar damage

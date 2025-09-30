@@ -94,8 +94,8 @@ function Show-ExploreMenu {
     $State | Write-ExplorationState -Scene $Scene
 
     # Get and write available actions
-    $availableActions = New-Object -TypeName System.Collections.ArrayList(,@('Browse', 'Item', 'Equip'))
-    Write-Host "| $($availableActions[0..2] -join ' | ') |"
+    $availableActions = New-Object -TypeName System.Collections.ArrayList(,@('Browse', 'Item', 'Equip', 'Save'))
+    Write-Host "| $($availableActions[0..3] -join ' | ') |"
 
     if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq 0) {
         $availableActions.Add('Board Train [00:00:30]') | Out-Null
@@ -111,7 +111,7 @@ function Show-ExploreMenu {
 
     # Will always have at least one of these actions available, so no conditional needed
     $actionListLengthBeforeConnections = $availableActions.Count
-    foreach ($actionString in $availableActions[3..($actionListLengthBeforeConnections - 1)]) {
+    foreach ($actionString in $availableActions[4..($actionListLengthBeforeConnections - 1)]) {
         # These can get pretty long, so give them each their own line
         Write-Host "| $actionString |"
     }
@@ -162,6 +162,9 @@ function Show-ExploreMenu {
             Write-Host ''
             $State | Invoke-SpecialEquip -Attacker $State.player
             $State | Add-GlobalTime -Time '00:01:00'
+        }
+        'save' {
+            $State | Invoke-ManualSave
         }
 
         { $_ -like 'board train `[*`]' } {
