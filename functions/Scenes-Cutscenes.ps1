@@ -129,15 +129,6 @@ function Invoke-CutsceneAction {
                 }
             }
             'item' {
-                # Multiply treasure scenes if provided
-                if ($null -ne $State.game.scene.treasureMultiplier) {
-                    $itemMultiplier = $State.game.scene.treasureMultiplier
-                    Write-Debug "found treasure multiplier of $($State.game.scene.treasureMultiplier) - multiplying all items by it and then nulling it out"
-                    $State.game.scene.treasureMultiplier = $null
-                } else {
-                    $itemMultiplier = 1
-                }
-
                 # Add / remove the items
                 foreach ($item in $act) {
                     # Check if chance succeeds, if provided
@@ -153,11 +144,11 @@ function Invoke-CutsceneAction {
 
                     switch ($item.action) {
                         'remove' {
-                            $State | Remove-GameItem -Id $item.id -Number ($item.number * $itemMultiplier)
+                            $State | Remove-GameItem -Id $item.id -Number $item.number
                         }
 
                         default {
-                            $State | Add-GameItem -Id $item.id -Number ($item.number * $itemMultiplier)
+                            $State | Add-GameItem -Id $item.id -Number $item.number
                         }
                     }
                 }

@@ -59,7 +59,6 @@ function Start-Scene {
     switch ($type) {
         'battle' { $State | Start-BattleScene -Scene $scene }
         'cutscene' { $State | Start-CutsceneScene -Scene $scene }
-        'treasure' { $State | Start-CutsceneScene -Scene $scene }
         'tutorial' { $State | Start-CutsceneScene -Scene $scene }
         'explore' { $State | Start-ExploreScene -Scene $scene }
         'train' { $State | Start-TrainScene -Scene $scene }

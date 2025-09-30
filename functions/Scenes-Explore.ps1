@@ -385,13 +385,35 @@ function Invoke-ExploreEncounter {
         { $_ -match 'battle|cutscene|train|explore' } {
             $State | Exit-Scene -Type $Encounter.type -Id $Encounter.id
         }
-        'treasure' {
-            # "treasure" is basically a cutscene with extra steps, so we need to pass along an extra bit of data for the cutscene handler to know what to do
-            $treasureMultiplier = Get-Random -Minimum $Encounter.minMultiplier -Maximum ($Encounter.maxMultiplier + 1)
-            Write-Debug "calculated treasure multiplier of $treasureMultiplier for $($Encounter.id) with min $($Encounter.minMultiplier) / max $($Encounter.maxMultiplier)"
-            $State.game.scene.treasureMultiplier = $treasureMultiplier
+        'item' {
+            # Found an item; print the text provided (if any) and add the item. Anything more complex than this should be a cutscene.
+            if ($Encounter.text) { Write-Host ($State | Enrich-Text $Encounter.text) } else {
+                Write-Host 'You find an item in your exploration.' # kind of a weak default, but all of these should have some sort of text
+            }
 
-            $State | Exit-Scene -Type $Encounter.type -Id $Encounter.id
+            # Randomly get the number if provided with bounds, otherwise use the direct number. Otherwise, 1.
+            $number = if ($Encounter.number) {
+                Write-Debug "Adding exactly $($Encounter.number)x $($Encounter.id)"
+                $Encounter.number
+            } elseif ($Encounter.minAmount -and $Encounter.maxAmount) {
+                Write-Debug "Randomly generating number of $($Encounter.id) to add between $($Encounter.minAmount) and $($Encounter.maxAmount)"
+                Get-Random -Minimum $Encounter.minAmount -Maximum ($Encounter.maxAmount + 1)
+            } else {
+                1
+            }
+
+            # Remove if specified, otherwise add.
+            if ($Encounter.mode -eq 'remove') {
+                Write-Debug "Removing ${number}x $($Encounter.id)"
+                $State | Remove-GameItem -Id $Encounter.id -Number $number -StolenBy $Encounter.removeActor
+            } else {
+                Write-Debug "Adding ${number}x $($Encounter.id)"
+                $State | Add-GameItem -Id $Encounter.id -Number $number
+            }
+
+            # Require an <enter> to keep going, then save.
+            Read-Host -Prompt '> '
+            $State | Invoke-AutoSave
         }
         default { Write-Warning "Invalid encounter type '$_' found in explore scene ID $($Scene.id)" }
     }
