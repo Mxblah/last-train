@@ -1,0 +1,29 @@
+{
+    "id": "restrained",
+    "name": "Restrained",
+    "color": "DarkYellow",
+    "badge": "🔒",
+    "applyDesc": "${game.battle.defender} is held in place.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is restrained.",
+    "description": "Being restrained dramatically reduces speed and prevents escape.",
+    "data": {
+        "passive": {
+            "stats": {
+                "spd": {
+                    "mult": "-0.5 * i + 1.0"
+                }
+            },
+            "status": [
+                {
+                    "id": "cannot-flee",
+                    "chance": 1,
+                    "stack": "s",
+                    "intensity": "i"
+                }
+            ]
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

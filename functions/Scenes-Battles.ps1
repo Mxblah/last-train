@@ -41,7 +41,7 @@ function Start-BattleScene {
 
         Write-Verbose 'Handling special battle properties'
         if ($Scene.data.special.forceFirstTurn) {
-            Write-Debug 'forcing player to take first turn'
+            Write-Debug "forcing $($Scene.data.special.forceFirstTurn) to take first turn"
             # Ensure the designated id (usually "player") goes first by rearranging the array
             $State.game.battle.characters = @( @($State.game.battle.characters |
                 Where-Object -Property id -EQ $Scene.data.special.forceFirstTurn) +
@@ -71,6 +71,10 @@ function Start-BattleScene {
         if ($Scene.data.special.guaranteedFlee) {
             Write-Debug 'adding 100% flee chance'
             $State.game.battle.cumulativeFleeBonus = 1
+        }
+        if ($Scene.data.special.cannotFlee) {
+            Write-Debug 'disabling flee option'
+            $State.game.battle.cannotFlee = $true
         }
 
         # Reset all character BPs

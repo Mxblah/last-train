@@ -371,7 +371,11 @@ function Add-Status {
         [hashtable]$Target,
 
         [Parameter(Mandatory = $true)]
-        [hashtable]$Skill
+        [hashtable]$Skill,
+
+        # Explicitly set the atk value, instead of calculating from the attacker
+        [Parameter()]
+        [double]$AttackOverride
     )
     # Update state
     $State.game.battle.attacker = $Attacker.name
@@ -390,11 +394,15 @@ function Add-Status {
         }
 
         # It did, so get the pow and stuff to apply to the intensity
-        # Physical/magical determination
-        $typeLetter = switch ($Skill.data.class) {
-            'physical' { 'p' }
-            'magical' { 'm' }
-            default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
+        if (-not $AttackOverride) {
+            # Physical/magical determination
+            $typeLetter = switch ($Skill.data.class) {
+                'physical' { 'p' }
+                'magical' { 'm' }
+                default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
+            }
+        } else {
+            Write-Debug "will use attack override of '$AttackOverride' instead of $($Attacker.name)'s atk"
         }
 
         # Write the status data to the target
@@ -405,7 +413,7 @@ function Add-Status {
             stack = $status.stack
             intensity = $status.intensity
             pow = $Skill.data.pow
-            atk = $Attacker.stats."${typeLetter}Atk".value
+            atk = $AttackOverride -gt 0 ? $AttackOverride : $Attacker.stats."${typeLetter}Atk".value
             class = $statusInfo.data.class
             type = $statusInfo.data.type
         }
@@ -440,6 +448,7 @@ function Apply-StatusEffects {
     $statusInfo = @{}
     $alreadyWritten = New-Object -TypeName System.Collections.ArrayList
     $statusGuidsToRemove = New-Object -TypeName System.Collections.ArrayList
+    $statusMapsToAdd = New-Object -TypeName System.Collections.ArrayList
 
     # Loop through all statuses, applying as we go (thus automatically applying in order from oldest to newest)
     foreach ($statusBlock in $Character.status.GetEnumerator()) {
@@ -567,6 +576,35 @@ function Apply-StatusEffects {
                             }
                         }
                     }
+                    'status' {
+                        Write-Debug "applying subordinate statuses for $statusId ($($status.guid))"
+                        # Check to see if chance, stack, or intensity needs to be parsed, and do so if needed
+                        foreach ($subStatus in $data) {
+                            Write-Debug "parsing expressions for $($subStatus.id)"
+                            foreach ($subProperty in @('chance', 'stack', 'intensity')) {
+                                if ($subStatus.$subProperty -is [int] -or $subStatus.$subProperty -is [double]) {
+                                    Write-Debug "$subProperty is not an expression"
+                                } else {
+                                    $subStatus.$subProperty = Parse-BattleExpression -Expression $subStatus.$subProperty -Status $status
+                                    Write-Debug "parsed $subProperty into $($subStatus.$subProperty)"
+                                }
+                            }
+                        }
+
+                        # We definitely can't add it now, as that would modify during iteration, so do it later
+                        $statusMapsToAdd.Add(@{
+                            id = $statusId
+                            name = $statusInfo.$statusId.name
+                            atkOverride = $status.atk
+                            data = @{
+                                class = $status.class
+                                type = $status.type
+                                pow = $status.pow
+                                status = $data
+                            }
+                        }) | Out-Null
+                        Write-Debug "will apply [$($data.id -join ', ')] post-loop"
+                    }
                     default { Write-Warning "Unexpected status action $case found in status $statusId ($($status.guid))" }
                 }
 
@@ -619,6 +657,14 @@ function Apply-StatusEffects {
     } else {
         # Usually this only happens during 'onDeath', to avoid modifying the collection when a character dies to ongoing damage
         Write-Verbose "explicitly instructed to not remove statuses during phase '$Phase', so skipping that part"
+    }
+
+    # Add statuses if we have any to add
+    if ($statusMapsToAdd.Count -gt 0) {
+        Write-Debug "will add subordinate statuses from the following statuses: [$($statusMapsToAdd.id -join ', ')]"
+        foreach ($statusMapToAdd in $statusMapsToAdd) {
+            $State | Add-Status -Attacker @{ name = $statusMapToAdd.name } -Target $Character -Skill $statusMapToAdd -AttackOverride $statusMapToAdd.atkOverride
+        }
     }
 
     # Update values now that we're done with everything

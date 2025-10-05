@@ -133,9 +133,9 @@ function Apply-SunDamage {
     $message = switch ($State.player.attrib.hp.value / $State.player.attrib.hp.max) {
         { $_ -gt 0.8 } { 'The sunlight burns your skin...'; break }
         { $_ -gt 0.6 } { 'You feel a feverish heat as the sun beats down...'; break }
-        { $_ -gt 0.4 } { "Your flesh cracks and withers under the sun's relentless rays..."; break }
+        { $_ -gt 0.4 } { "Your body withers under the sun's relentless rays..."; break }
         { $_ -gt 0.2 } { "You feel the sun's fatal, mutative light welling up inside you..."; break }
-        default { "The sunlight's glow overwhelms your mind. You are going to die." }
+        default { "The sunlight's glow blazes within your mind. You are going to die." }
     }
     Write-Host -ForegroundColor Red "☀️ $message"
 

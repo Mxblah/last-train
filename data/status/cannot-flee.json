@@ -1,0 +1,14 @@
+{
+    "id": "cannot-flee",
+    "name": "No Escape",
+    "color": "DarkGray",
+    "badge": "🚫",
+    "applyDesc": "${game.battle.defender} can no longer flee.",
+    "turnDesc": "${game.battle.currentTurn.characterName} cannot escape.",
+    "description": "No Escape prevents fleeing. Is usually applied from a different status that disables movement.",
+    "data": {
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}
