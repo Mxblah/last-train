@@ -1,0 +1,15 @@
+{
+    "id": "attack-magic",
+    "name": "(M) Attack",
+    "description": "${game.battle.attacker} attacks ${game.battle.defender} with magic.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "pow": 10,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "magical",
+        "type": "weapon"
+    }
+}

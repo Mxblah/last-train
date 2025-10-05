@@ -1,0 +1,25 @@
+{
+    "id": "failed-blessing",
+    "name": "(F) Bless",
+    "description": "${game.battle.attacker} is drenched in sickly, infected sunlight.",
+    "skillType": "buff-single",
+    "data": {
+        "target": 1,
+        "mp": 5,
+        "selfTargetOnly": true,
+        "pow": 10,
+        "acc": 1,
+        "crit": 0.15,
+        "hits": 1,
+        "class": "magical",
+        "type": "divine",
+        "status": [
+            {
+                "id": "aureole",
+                "chance": 1,
+                "stack": 7,
+                "intensity": 10
+            }
+        ]
+    }
+}

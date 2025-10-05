@@ -1,0 +1,27 @@
+{
+    "id": "desert-bunker-failed-hallowed",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "failed-hallowed"
+                }
+            ]
+        },
+        "special": {
+            "noSunDamage": true
+        },
+        "flags": {
+            "desert.bunker.hallowedLabClear": true
+        },
+        "exit": {
+            "type": "explore",
+            "id": "desert"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "desert"
+        }
+    }
+}

@@ -170,6 +170,7 @@ function Show-ExploreMenu {
         { $_ -like 'board train `[*`]' } {
             Write-Host 'You climb aboard the train.'
             $explore.depth = -1
+            $State.game.train.playerOnBoard = $true # Make sure they can get on board even if < 30s left
             $State | Add-GlobalTime -Time '00:00:30'
             $State | Exit-Scene -Type 'train' -Id $Scene.id
         }

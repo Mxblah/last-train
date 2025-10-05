@@ -543,7 +543,7 @@
                             "You peer into the darkness, trying to make out any features in the dim illumination of occasional status lights.",
                             "Metal creaks somewhere above you. The bunker settles.",
                             "Still-active machinery hums in the walls.",
-                            "A ventilation fan is imbalanced and clatters occasionally against its casing."
+                            "A ventilation fan is imbalanced and clatters occasionally against its casing. Despite its efforts, the air is stale."
                         ],
                         "0": [
                             "A flight of steep stairs leads back into the upper bunker here."
@@ -553,6 +553,16 @@
                         ]
                     },
                     "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-hallowed-lab-entry",
+                            "chance": 1,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 3,
+                            "when": {
+                                "desert.bunker.hallowedLabClear": false
+                            }
+                        },
                         {
                             "type": "cutscene",
                             "id": "desert-bunker-open-downtown-exit",

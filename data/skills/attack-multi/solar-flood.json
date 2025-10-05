@@ -1,0 +1,37 @@
+{
+    "id": "solar-flood",
+    "name": "Solar Flood",
+    "description": "Brilliant sunlight surges out of ${game.battle.attacker}.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 9,
+        "targetsAll": true,
+        "mp": 8,
+        "pow": 12,
+        "acc": 1,
+        "crit": 0.10,
+        "hits": 2,
+        "class": "magical",
+        "type": "solar",
+        "status": [
+            {
+                "id": "blind",
+                "chance": 0.4,
+                "stack": 2,
+                "intensity": 1
+            },
+            {
+                "id": "dazzled",
+                "chance": 0.7,
+                "stack": 3,
+                "intensity": 1
+            },
+            {
+                "id": "sunburn",
+                "chance": 0.55,
+                "stack": 3,
+                "intensity": 0.1
+            }
+        ]
+    }
+}

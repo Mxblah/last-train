@@ -1,0 +1,81 @@
+{
+    "id": "desert-bunker-hallowed-lab-entry",
+    "data": [
+        {
+            "text": "A heavy security door looms out of the darkness. \"Core Lab\" is written on the faded sign above it, but someone has spray-painted \"KEEP OUT\" in red paint across the door itself. There's a keycard reader on one side.",
+            "choice": {
+                "text": "Enter the Core Lab?",
+                "responses": {
+                    "open": {
+                        "when": {
+                            "desert.bunker.deepLabOpen": false,
+                            "item": {
+                                "id": "desert-bunker-keycard",
+                                "min": 1
+                            }
+                        },
+                        "item": {
+                            "id": "desert-bunker-keycard",
+                            "remove": 1
+                        },
+                        "flag": {
+                            "desert.bunker.deepLabOpen": true
+                        },
+                        "time": {
+                            "add": "00:01:00"
+                        },
+                        "text": [
+                            "You swipe the keycard, which quickly withers and shrivels. In seconds, it crumbles to inert dust.",
+                            "The door shudders, clanks, and slowly grinds open before clattering to an inelegant stop. A thick metal rod falls out of some mechanism above the doorway, followed by two damaged gears. It seems it won't be moving again any time soon."
+                        ]
+                    },
+                    "enter": {
+                        "when": {
+                            "desert.bunker.deepLabOpen": true
+                        }
+                    },
+                    "leave": {
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "You enter the deep lab. The place is absolutely trashed, far beyond any other location in the bunker. Every surface is burned or melted, and any loose items or documents have been similarly incinerated. There's a faint but hateful blend of scents. Ash, sulfur, and death."
+        },
+        {
+            "text": "Beyond the entrance room, warrens of round, pipe-like corridors wind deep into the desert bedrock while occasionally passing through taller, cylindrical rooms filled with more destroyed machinery. It's a maze made even worse without light beyond limited status lights from what few machines still cling to life in their burned, melted state. Still, you manage to find your way to an open room near the rear of the scorched tunnels.",
+            "action": {
+                "time": {
+                    "add": "00:03:40"
+                }
+            }
+        },
+        {
+            "text": "Golden, shining sunlight streams from the room. It's not light from the true sun - not strong enough to burn or mutate you from this distance - but you can tell it's not just mechanical light of a different color. Peeking around the corner, you can make out a glowing person standing still near the room's center. Seconds pass, but all they're doing is staring up at nowhere in particular."
+        },
+        {
+            "text": "Sunlight flows strongly from every inch of the stationary person's skin. They softly, gently waver in place, their hair floating around them as if underwater. Radiant beauty frames them, despite a hollow gauntness that indicates a long sequestration in this lab. Despite your knowledge of the sun's terrible fury, you can sense nothing but peace and love from this person.",
+            "choice": {
+                "text": "Approach the shining person?",
+                "responses": {
+                    "approach": {
+                        "text": [
+                            "The person stays perfectly still as you approach, still staring up at a nondescript portion of the ceiling. You feel a febrile yearning as you get closer. Can the sun really be that bad if it can produce such loving beauty?",
+                            "The person is facing you now. You don't know when they moved. Their eyes are solid, mercurial silver; tears of the same metallic substance form tracks down their cheeks."
+                        ],
+                        "exit": {
+                            "type": "battle",
+                            "id": "desert-bunker-failed-hallowed"
+                        }
+                    },
+                    "leave": {
+                        "text": [
+                            "You shake yourself out of it and slip away from the sunlit person. No way are you risking whatever's going on in there happening to you."
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}
