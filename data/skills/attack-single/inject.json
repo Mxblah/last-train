@@ -1,0 +1,30 @@
+{
+    "id": "inject",
+    "name": "Inject",
+    "description": "${game.battle.attacker} injects ${game.battle.defender} with poisoned needles.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 6,
+        "pow": 3,
+        "acc": 0.9,
+        "crit": 0,
+        "hits": 5,
+        "class": "physical",
+        "type": "poison",
+        "status": [
+            {
+                "id": "acidburn",
+                "chance": 0.25,
+                "stack": 2,
+                "intensity": 0.25
+            },
+            {
+                "id": "poison",
+                "chance": 0.60,
+                "stack": 2,
+                "intensity": 0.75
+            }
+        ]
+    }
+}

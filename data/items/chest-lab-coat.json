@@ -1,0 +1,41 @@
+{
+    "id": "chest-lab-coat",
+    "name": "Lab Coat",
+    "description": "A standard-issue chemist's white lab coat, designed to protect against chemical spills. Boosts defense and makes you feel smarter while wearing it. Though you do kind of look like a nerd.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "chest"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "acid": 0.2
+            },
+            "status": {
+                "acidburn": 0.4,
+                "poison": 0.15
+            }
+        },
+        "attrib": {
+            "mp": {
+                "max": {
+                    "buff": 6
+                },
+                "regen": {
+                    "buff": 1
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 2
+            },
+            "mDef": {
+                "buff": 1
+            },
+            "mAtk": {
+                "buff": 1
+            }
+        }
+    }
+}

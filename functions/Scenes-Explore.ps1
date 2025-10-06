@@ -158,7 +158,6 @@ function Show-ExploreMenu {
             $State | Add-GlobalTime -Time '00:01:00'
         }
         'equip' {
-            $State | Show-BattleCharacterInfo -Character $State.player -Inspect # to show stats for informed equipping
             Write-Host ''
             $State | Invoke-SpecialEquip -Attacker $State.player
             $State | Add-GlobalTime -Time '00:01:00'

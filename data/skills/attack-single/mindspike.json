@@ -5,7 +5,7 @@
     "skillType": "attack-single",
     "data": {
         "target": 1,
-        "mp": 4,
+        "mp": 5,
         "pow": 18,
         "acc": 1,
         "crit": 0.1,

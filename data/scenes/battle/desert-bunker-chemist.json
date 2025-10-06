@@ -1,0 +1,23 @@
+{
+    "id": "desert-bunker-chemist",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "acid-muck"
+                },
+                {
+                    "id": "chemist-ghoul",
+                    "loot": [
+                        {
+                            "id": "needle-brace",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

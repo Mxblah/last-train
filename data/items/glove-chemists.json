@@ -1,0 +1,33 @@
+{
+    "id": "glove-chemists",
+    "name": "Chemist's Gloves",
+    "description": "Waterproof, acid-resistant gloves of flexible rubber. Once used by a chemist. Repels acid and increases potency of acid attacks.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "hands"
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "acid": 0.2
+            }
+        },
+        "resistances": {
+            "element": {
+                "acid": 0.2
+            },
+            "status": {
+                "acidburn": 0.4,
+                "poison": 0.2
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 1
+            }
+        }
+    }
+}

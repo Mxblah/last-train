@@ -1,0 +1,175 @@
+{
+    "id": "chemist-ghoul",
+    "name": "Mad Chemist",
+    "entryDescription": "A frenzied, decrepit human wearing the remnants of a tattered lab coat lurches towards you!",
+    "inspectDescription": "The half-dead remains of a former scientist. The mind has long-since broken, leaving only a hollow shell eager to perform nonsensical experiments and tortures. Uses poison and acid attacks.",
+    "bestiaryDescription": "A pitiful end to what was surely a great mind in life. Now, the flesh that remains is little better than an animal. Fast and dangerous, but fragile due to malnourishment and long imprisonment in the dark.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "acidburn": {
+                "value": 0,
+                "base": 0.5
+            },
+            "poison": {
+                "value": 0,
+                "base": 0.65
+            }
+        },
+        "element": {
+            "physical": {
+                "value": 0,
+                "base": -0.25
+            },
+            "acid": {
+                "value": 0,
+                "base": 0.5
+            },
+            "poison": {
+                "value": 0,
+                "base": 0.65
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 36,
+            "max": 0,
+            "base": 36,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 4,
+            "base": 4,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 8,
+            "max": 18,
+            "base": 18,
+            "regen": 1,
+            "baseRegen": 1
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 14
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 11
+        },
+        "pDef": {
+            "value": 0,
+            "base": 8
+        },
+        "mDef": {
+            "value": 0,
+            "base": 11
+        },
+        "acc": {
+            "value": 0,
+            "base": 11
+        },
+        "spd": {
+            "value": 0,
+            "base": 14
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 2,
+            "max": 6,
+            "chance": 0.65
+        },
+        {
+            "id": "liquid-balm",
+            "min": 1,
+            "max": 2,
+            "chance": 0.5
+        },
+        {
+            "id": "bandage",
+            "number": 1,
+            "chance": 0.1
+        },
+        {
+            "id": "skill-book-inject-multi",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "skill-book-inject",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack-muck",
+                "weight": 40
+            },
+            {
+                "id": "inject",
+                "weight": 65
+            },
+            {
+                "id": "scratch",
+                "weight": 25
+            },
+            {
+                "id": "acid-stream",
+                "weight": 30
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "inject-multi",
+                "weight": 65
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "wiggle",
+                "weight": 30
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "aimless-wriggle",
+                "weight": 20
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

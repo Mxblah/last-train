@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-mindspike",
+    "name": "Skill Book: Mindspike",
+    "description": "A gilded tome with prose couched in outdated, flowery metaphor. Describes psychic techniques. Read to learn how to use Mindspike.",
+    "useDescription": "After memorizing the spell's gestures and incantations, you can project a lance of psychic power with thought alone. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "03:00:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "mindspike"
+            }
+        ]
+    }
+}

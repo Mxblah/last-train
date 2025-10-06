@@ -80,11 +80,11 @@ function Convert-AllChildArraysToArrayLists {
         [Parameter(Mandatory = $true)]
         [object]$Data,
 
-        # For when "-Verbose -Debug" isn't verbose enough
+        # For when "-Verbose -Debug" isn't verbose enough. (It's just too noisy on the giant maps and lists used in this game)
         [Parameter()]
         [switch]$SuperDebug
     )
-    Write-Verbose "`nUpdating all child arrays of collection with ID '$($Data.id)' / type '$($Data.GetType().Name)' to arraylists"
+    if ($SuperDebug) { Write-Verbose "`nUpdating all child arrays of collection with ID '$($Data.id)' / type '$($Data.GetType().Name)' to arraylists" }
 
     # Handle arrays *or* maps by changing how we enumerate
     switch ($Data.GetType()) {
@@ -160,7 +160,7 @@ function Convert-AllChildArraysToArrayLists {
 
     # Do the final conversions now that we're done iterating
     if ($conversionList.Count -gt 0) {
-        Write-Verbose "doing final conversion of $($conversionList.Count) items"
+        if ($SuperDebug) { Write-Verbose "doing final conversion of $($conversionList.Count) items" }
         foreach ($item in $conversionList) {
             if ($item.key) {
                 if ($SuperDebug) { Write-Debug "doing actual conversion of hashtable-parented item with key $($item.key)" }

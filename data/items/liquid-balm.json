@@ -1,0 +1,22 @@
+{
+    "id": "liquid-balm",
+    "name": "Balm",
+    "description": "A capsule of a soothing concoction. Used to neutralize acid, extinguish flames, and cure poisons.",
+    "useDescription": "You apply the balm. You feel a little better.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "physical",
+        "type": "healing"
+    },
+    "effects": {
+        "status": {
+            "remove": [
+                "acidburn",
+                "burn",
+                "poison"
+            ]
+        }
+    }
+}

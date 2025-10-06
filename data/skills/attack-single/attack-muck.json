@@ -1,0 +1,29 @@
+{
+    "id": "attack-muck",
+    "name": "Attack",
+    "description": "${game.battle.attacker} attacks ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "pow": 10,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "physical",
+        "type": "acid",
+        "status": [
+            {
+                "id": "acidburn",
+                "chance": 0.25,
+                "stack": 2,
+                "intensity": 0.4
+            },
+            {
+                "id": "poison",
+                "chance": 0.6,
+                "stack": 3,
+                "intensity": 0.2
+            }
+        ]
+    }
+}

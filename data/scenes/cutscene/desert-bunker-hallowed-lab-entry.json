@@ -16,7 +16,8 @@
                         },
                         "item": {
                             "id": "desert-bunker-keycard",
-                            "remove": 1
+                            "action": "remove",
+                            "number": 1
                         },
                         "flag": {
                             "desert.bunker.deepLabOpen": true
@@ -44,7 +45,7 @@
             "text": "You enter the deep lab. The place is absolutely trashed, far beyond any other location in the bunker. Every surface is burned or melted, and any loose items or documents have been similarly incinerated. There's a faint but hateful blend of scents. Ash, sulfur, and death."
         },
         {
-            "text": "Beyond the entrance room, warrens of round, pipe-like corridors wind deep into the desert bedrock while occasionally passing through taller, cylindrical rooms filled with more destroyed machinery. It's a maze made even worse without light beyond limited status lights from what few machines still cling to life in their burned, melted state. Still, you manage to find your way to an open room near the rear of the scorched tunnels.",
+            "text": "Beyond the entrance room, warrens of round, pipe-like corridors wind deep into the desert bedrock while occasionally passing through taller, cylindrical rooms filled with more destroyed machinery. It's a maze made even worse without illumination beyond limited status lights from what few machines still cling to life in their burned, melted state. Still, you manage to find your way to an open room near the rear of the scorched tunnels.",
             "action": {
                 "time": {
                     "add": "00:03:40"

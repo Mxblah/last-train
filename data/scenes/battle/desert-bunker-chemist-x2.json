@@ -1,0 +1,16 @@
+{
+    "id": "desert-bunker-chemist-x2",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "chemist-ghoul"
+                },
+                {
+                    "id": "chemist-ghoul"
+                }
+            ]
+        }
+    }
+}

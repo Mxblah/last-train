@@ -49,16 +49,17 @@ function Start-BattleScene {
                 Where-Object -Property id -NE $Scene.data.special.forceFirstTurn) )
         }
         if ($Scene.data.special.weather) {
-            Write-Verbose "applying weather effect $($Scene.data.special.weather.id) to all participants"
+            Write-Verbose "applying weather effect $($Scene.data.special.weather.id) to all participants - if applicable, atkOverride is $($Scene.data.special.weather.atkOverride)"
             if ($Scene.data.special.weather.globalChance -gt (Get-RandomPercent)) {
+                $atkOverrideSplat = $null -ne $Scene.data.special.weather.atkOverride ? @{ AttackOverride = $Scene.data.special.weather.atkOverride } : @{}
                 foreach ($character in $State.game.battle.characters) {
-                    $State | Add-Status -Attacker @{stats = @{pAtk = 0; mAtk = 0}} -Target $character -Skill @{
+                    $State | Add-Status -Attacker @{name = $Scene.data.special.weather.id} -Target $character -Skill @{
                         data = @{
                             status = $Scene.data.special.weather
                             pow = $Scene.data.special.weather.pow
                             class = $Scene.data.special.weather.class
                         }
-                    }
+                    } @atkOverrideSplat
                 }
             } else {
                 Write-Verbose "... but it failed (had chance $($Scene.data.special.weather.globalChance))"
@@ -96,6 +97,18 @@ function Start-BattleScene {
     } else {
         # Assume a battle is already active and we've loaded in, so we need to quickly fix the arraylist collection types before starting
         Convert-AllChildArraysToArrayLists -Data $State.game.battle.characters
+
+        # After that, we need to re-import the player and allies, since loading here breaks the reference between main state and battle state
+        Write-Debug 'resuming battle: re-importing player'
+        # This convoluted method with IndexOf and some other stuff is to ensure we get the reference, not just a copy of the object
+        $State.game.battle.characters[
+            $State.game.battle.characters.IndexOf(($State.game.battle.characters | Where-Object -Property id -EQ 'player'))
+        ] = ($State | Import-BattleCharacter -Character $State.player)
+        # For allies, we can take advantage of a foreach loop instead to avoid needing the IndexOf trick
+        foreach ($ally in $State.game.battle.characters | Where-Object { $_.faction -eq 'ally' -and $_.id -ne 'player' }) {
+            Write-Debug "resuming battle: re-importing $($ally.name)"
+            $ally = $State | Import-BattleCharacter -Character ($State.party | Where-Object -Property name -EQ $ally.name)
+        }
     }
 
     # Perform the battle

@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-acid-stream",
+    "name": "Skill Book: Acid Stream",
+    "description": "A damaged printout of a manual explaining chemical formulae. Read to learn how to use Acid Stream.",
+    "useDescription": "After memorizing the spell's gestures and incantations, acid sprays at a nearby object when you point. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "02:00:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "acid-stream"
+            }
+        ]
+    }
+}

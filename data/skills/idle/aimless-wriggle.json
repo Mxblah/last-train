@@ -1,0 +1,7 @@
+{
+    "id": "aimless-wriggle",
+    "name": "Wriggle Aimlessly",
+    "description": "${game.battle.attacker} wriggles around aimlessly...",
+    "skillType": "idle",
+    "data": {}
+}

@@ -1,0 +1,24 @@
+{
+    "id": "lowerFace-surgical-mask",
+    "name": "Surgical Mask",
+    "description": "A standard surgical mask, like a doctor might wear. Is effective at preventing disease and repelling airborne toxins. Should generally be discarded after use, but this one seems to be reinforced with magically self-cleaning threads.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "lowerFace"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "poison": 0.25
+            },
+            "status": {
+                "poison": 0.5
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            }
+        }
+    }
+}

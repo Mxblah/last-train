@@ -52,6 +52,7 @@ function Start-TrainScene {
         - menu option: craft (improve gear?) (merge with v ?)
         - menu option: shop (buy stuff from vendors you put on the train after unlocking them?)
         - menu option: party (chat with party members?)
+        - menu option: wait (sleep, but in minutes instead of hours, or update sleep)
     #>
 }
 
@@ -141,7 +142,7 @@ function Show-TrainMenu {
             # Handles time adds in the helper function based on skills swapped
         }
         'party' {
-            $partyMembers = @($State.player.name, $State.party.name)
+            $partyMembers = $State.party.Count -gt 0 ? @($State.player.name, $State.party.name) : @($State.player.name)
             Write-Host "$($State.player.name)'s party:"
             Write-Host ($partyMembers -join ' | ')
             $choice = $State | Read-PlayerInput -Prompt 'Inspect which party member?' -Choices $partyMembers -AllowNullChoice

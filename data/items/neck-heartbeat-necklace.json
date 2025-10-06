@@ -1,0 +1,31 @@
+{
+    "id": "neck-heartbeat-necklace",
+    "name": "Heartbeat Necklace",
+    "description": "A finely wrought necklace whose centerpiece is a smoothly stylized red heart formed of cool metal. When worn, you can occasionally feel it pulsing in time with your heartbeat. Boosts vitality.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "neck"
+    },
+    "effects": {
+        "resistances": {
+            "status": {
+                "bleed": 0.2
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 45
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 1
+            }
+        }
+    }
+}

@@ -1,0 +1,151 @@
+{
+    "id": "desert-bunker-operation",
+    "data": [
+        {
+            "text": "You enter a small room, dimly lit by a white hemisphere on the ceiling and spared from the worst of the fire's rampage. A mannequin lies on an operating table here, its lower half tastefully covered by a sky-blue sheet. The chest cavity sports several gaping wounds, complete with fake blood. At least, you hope it's fake."
+        },
+        {
+            "text": "The mannequin has no face, but you feel like it's judging you silently despite that. You could seal the wounds with something, if you wanted. Bandages would be the obvious choice, if you have enough, but other items could fit too...",
+            "choice": {
+                "text": "Seal the wounds with...",
+                "responses": {
+                    "nothing": {
+                        "text": [
+                            "You leave the mannequin alone. Either you don't have anything to use, or you aren't willing to give up what you do have. Despite it clearly being an inanimate object, you feel a little guilty as you leave."
+                        ],
+                        "exit": {}
+                    },
+                    "bandages": {
+                        "when": {
+                            "item": {
+                                "id": "bandage",
+                                "min": 3
+                            }
+                        },
+                        "time": {
+                            "add": "00:06:30"
+                        },
+                        "text": [
+                            "You carefully bind the mannequin's wounds with bandages, wondering slightly at the realistic way the fake blood soaks into the cloth.",
+                            "A few moments later, a hidden hinge on its face pops open to reveal a shining necklace. It seems this is your reward."
+                        ],
+                        "item": [
+                            {
+                                "action": "remove",
+                                "id": "bandage",
+                                "number": 3
+                            },
+                            {
+                                "action": "add",
+                                "id": "neck-heartbeat-necklace",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "orange t-shirt": {
+                        "when": {
+                            "item": {
+                                "id": "shirt-orange-tee",
+                                "min": 1
+                            }
+                        },
+                        "time": {
+                            "add": "00:03:40"
+                        },
+                        "text": [
+                            "The orange t-shirt you got from the clothes troll is almost exactly the right size; all you'd have to do is bind it tightly.",
+                            "With a little hesitation, you do just that, wondering slightly at the realistic way the fake blood soaks into the cloth.",
+                            "A few moments later, a hidden hinge on its face pops open to reveal a neatly folded shirt. It seems this is your reward."
+                        ],
+                        "item": [
+                            {
+                                "action": "remove",
+                                "id": "shirt-orange-tee",
+                                "number": 1
+                            },
+                            {
+                                "action": "add",
+                                "id": "chest-flaming-heart",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "coins": {
+                        "when": {
+                            "item": {
+                                "id": "coin",
+                                "min": 14
+                            }
+                        },
+                        "time": {
+                            "add": "00:08:50"
+                        },
+                        "text": [
+                            "It takes a lot of effort to stuff enough of those weird coins into the wounds to more or less seal them up.",
+                            "It does work eventually, however. The silvery metal seems to repel the fake blood; it beads against the coins rather than spreading as you might expect.",
+                            "A few moments later, a hidden hinge on the mannequin's face pops open to reveal a silver ring. It seems this is your reward."
+                        ],
+                        "item": [
+                            {
+                                "action": "remove",
+                                "id": "coin",
+                                "number": 14
+                            },
+                            {
+                                "action": "add",
+                                "id": "ringMinor-insurance",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "silver feather": {
+                        "when": {
+                            "item": {
+                                "id": "silver-feather",
+                                "min": 1
+                            }
+                        },
+                        "time": {
+                            "add": "00:01:20"
+                        },
+                        "text": [
+                            "You decide against binding the mannequin's wounds, and instead release a delicate, ephemeral silver feather over its chest.",
+                            "It's almost surprising that anything happens. The feather burns away and a divine light glows briefly. The mannequin's wounds are gone.",
+                            "A few moments later, a hidden hinge on its face pops open to reveal a pulsing, twisting, multicolored wisp. It seems this is your reward."
+                        ],
+                        "item": [
+                            {
+                                "action": "remove",
+                                "id": "silver-feather",
+                                "number": 1
+                            },
+                            {
+                                "action": "add",
+                                "id": "divine-fragment",
+                                "number": 1
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "With the operation complete, you feel a sudden surge of warmth, as if the simulated kindness took on a physical form. You feel a little better.",
+            "action": {
+                "attrib": {
+                    "hp": {
+                        "base": {
+                            "buff": 5
+                        },
+                        "value": {
+                            "buff": "0.25 * t"
+                        }
+                    }
+                },
+                "flag": {
+                    "desert.bunker.operationComplete": true
+                }
+            }
+        }
+    ]
+}

@@ -379,7 +379,7 @@
                         {
                             "type": "cutscene",
                             "id": "desert-dunes-bunker-discovery",
-                            "chance": 0.25,
+                            "chance": 0.45,
                             "minDepthAvailable": 3,
                             "maxDepthAvailable": 4,
                             "maxTimes": 1
@@ -387,14 +387,14 @@
                         {
                             "type": "battle",
                             "id": "desert-sand-eels-x2-smoked-rod",
-                            "chance": 0.60,
+                            "chance": 0.50,
                             "minDepthAvailable": 2,
                             "maxTimes": 1
                         },
                         {
                             "type": "battle",
                             "id": "desert-sand-eel-x2-vulture-x1",
-                            "chance": 0.35,
+                            "chance": 0.25,
                             "minDepthAvailable": 3,
                             "maxDepthAvailable": 8,
                             "maxTimes": 1
@@ -402,14 +402,14 @@
                         {
                             "type": "battle",
                             "id": "desert-sand-eels-x2",
-                            "chance": 0.20,
+                            "chance": 0.10,
                             "minDepthAvailable": 2,
                             "maxTimes": 2
                         },
                         {
                             "type": "battle",
                             "id": "desert-sand-eel-vulture-x2",
-                            "chance": 0.25,
+                            "chance": 0.2,
                             "minDepthAvailable": 3,
                             "maxDepthAvailable": 8,
                             "maxTimes": 1
@@ -500,6 +500,71 @@
                             "when": {
                                 "desert.bunker.openedOutskirtsExit": false
                             }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-goop-x1-matk",
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "glove-chemists",
+                            "text": "A pair of rubber gloves were left in a singed desk drawer here. They're still intact, and seem to have fared better than most against the acid nearby.",
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "lowerFace-surgical-mask",
+                            "text": "You find a fresh surgical mask, still in the plastic wrap, wedged implausibly between a damaged pipe and the wall.",
+                            "chance": 0.15,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist",
+                            "chance": 0.12,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-key-chemist",
+                            "chance": 0.2,
+                            "when": {
+                                "desert.bunker.deepLabOpen": false,
+                                "item": {
+                                    "id": "desert-bunker-keycard",
+                                    "max": 0
+                                }
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-goop-x2",
+                            "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist-goop",
+                            "chance": 0.065
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "text": "You find a packet of fresh bandages amidst the bunker's wreckage.",
+                            "chance": 0.15,
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "text": "You find a small capsule of soothing liquid amidst the bunker's wreckage.",
+                            "chance": 0.07,
+                            "minAmount": 1,
+                            "maxAmount": 2
                         }
                     ]
                 },
@@ -572,6 +637,54 @@
                             "when": {
                                 "desert.bunker.openedDowntownExit": false
                             }
+                        },
+                        {
+                            "type": "item",
+                            "id": "chest-lab-coat",
+                            "chance": 0.145,
+                            "number": 1,
+                            "text": "A creaky metal cabinet reveals an intact lab coat hanging from a rack. You feel smarter just looking at it.",
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-operation",
+                            "chance": 0.25,
+                            "when": {
+                                "desert.bunker.operationComplete": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist-x2",
+                            "chance": 0.045
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist-goop",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-goop-x2",
+                            "chance": 0.065
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "text": "You find a packet of fresh bandages amidst the bunker's wreckage.",
+                            "chance": 0.15,
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "text": "You find a small capsule of soothing liquid amidst the bunker's wreckage.",
+                            "chance": 0.05,
+                            "minAmount": 1,
+                            "maxAmount": 2
                         }
                     ]
                 },

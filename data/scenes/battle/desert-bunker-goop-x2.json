@@ -1,0 +1,16 @@
+{
+    "id": "desert-bunker-goop-x2",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "acid-muck"
+                },
+                {
+                    "id": "acid-muck"
+                }
+            ]
+        }
+    }
+}

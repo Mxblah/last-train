@@ -1,0 +1,185 @@
+{
+    "id": "acid-muck",
+    "name": "Acidic Muck",
+    "entryDescription": "A pool of thick, tar-like muck slowly feels towards you.",
+    "inspectDescription": "A non-sentient pile of residual muck and chemical debris, animated by instinct and waste magic. Slow, but difficult to destroy. Uses physical, acid, and poison attacks.",
+    "bestiaryDescription": "Muck pools can be found wherever old experiments have seeped out of their containment. They seem to be sensitive to changes in temperature, as the equilibrium that keeps them mobile is quite fragile.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "acidburn": {
+                "value": 0,
+                "base": 1
+            },
+            "bleed": {
+                "value": 0,
+                "base": 1
+            },
+            "irradiated": {
+                "value": 0,
+                "base": 0.5
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            },
+            "restrained": {
+                "value": 0,
+                "base": 0.65
+            }
+        },
+        "element": {
+            "cold": {
+                "value": 0,
+                "base": -0.5
+            },
+            "fire": {
+                "value": 0,
+                "base": -0.5
+            },
+            "physical": {
+                "value": 0,
+                "base": 0.35
+            },
+            "acid": {
+                "value": 0,
+                "base": 1
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            },
+            "radiation": {
+                "value": 0,
+                "base": 0.45
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 45,
+            "max": 0,
+            "base": 45,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 5,
+            "max": 9,
+            "base": 9,
+            "regen": 1,
+            "baseRegen": 1
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 13
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 7
+        },
+        "pDef": {
+            "value": 0,
+            "base": 22
+        },
+        "mDef": {
+            "value": 0,
+            "base": 9
+        },
+        "acc": {
+            "value": 0,
+            "base": 10
+        },
+        "spd": {
+            "value": 0,
+            "base": 6
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 1,
+            "max": 4,
+            "chance": 0.50
+        },
+        {
+            "id": "liquid-balm",
+            "min": 1,
+            "max": 2,
+            "chance": 0.5
+        },
+        {
+            "id": "skill-book-acid-stream",
+            "number": 1,
+            "chance": 0.1
+        }
+    ],
+    "ai": "lazy",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack-muck",
+                "weight": 40
+            },
+            {
+                "id": "body-slam",
+                "weight": 60
+            },
+            {
+                "id": "acid-stream",
+                "weight": 30
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "inject-multi",
+                "weight": 70
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "defend",
+                "weight": 30
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "aimless-wriggle",
+                "weight": 20
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

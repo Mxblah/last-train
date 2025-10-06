@@ -5,7 +5,14 @@
             "ally": [],
             "enemy": [
                 {
-                    "id": "failed-hallowed"
+                    "id": "failed-hallowed",
+                    "loot": [
+                        {
+                            "id": "skill-book-mindspike",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
                 }
             ]
         },
