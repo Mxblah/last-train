@@ -35,7 +35,12 @@ function Start-ExploreScene {
         $State | Show-ExploreMenu -Scene $Scene
 
         # Regenerate once after every exploration action, not just based on time (assume you regen slower outside of combat, I guess)
-        $State | Invoke-AttribRegen -Character $State.player -All
+        if ($State.game.explore.blockAttribRegen -le 0) {
+            $State | Invoke-AttribRegen -Character $State.player -All
+        } else {
+            Write-Debug "reducing attrib regen blocker (currently $($State.game.explore.blockAttribRegen)) by 1"
+            $State.game.explore.blockAttribRegen -= 1
+        }
     }
 }
 
@@ -164,6 +169,8 @@ function Show-ExploreMenu {
         }
         'save' {
             $State | Invoke-ManualSave
+            # Block attribute regen immediately after a save. Otherwise you could cheese it by regenerating for 0 time penalty by saving repeatedly.
+            $State.game.explore.blockAttribRegen += 1
         }
 
         { $_ -like 'board train `[*`]' } {
@@ -215,9 +222,15 @@ function Write-ExplorationState {
     switch ($State.game.train.willDepartAt - $State.time.currentTime) {
         { $_ -gt ([timespan]'01:00:00') } { $color = 'Green'; break }
         { $_ -gt ([timespan]'00:30:00') } { $color = 'Yellow'; break }
-        default { $color = 'Red'; break }
+        { $_ -gt ([timespan]'00:00:00') } { $color = 'Red'; break }
+        default { $color = 'Magenta' }
     }
-    Write-Host -ForegroundColor $color "Departure: Day $($State.game.train.willDepartAt.Day), $($State.game.train.willDepartAt.TimeOfDay)"
+    if ($color -ne 'Magenta') {
+        Write-Host -ForegroundColor $color "Departure: Day $($State.game.train.willDepartAt.Day), $($State.game.train.willDepartAt.TimeOfDay)"
+    } else {
+        $maximumGraceTime = $State.game.train.willDepartAt + (New-TimeSpan -Minutes $State.options.trainDepartureGracePeriod)
+        Write-Host -ForegroundColor $color "⚠️ Last Call: Day $($maximumGraceTime.Day), $($maximumGraceTime.TimeOfDay) ⚠️"
+    }
 
     # Write current sublocation and depth
     Write-Host "Exploring: $($locationData.name) | Depth: $($explore.depth)/$($locationData.field.depth)"
@@ -313,6 +326,28 @@ function Get-ExploreEncounter {
     $explore = $State.game.explore."$($Scene.id)"
     $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
     $encountersCompleted = $explore.locationData."$($explore.location)".encountersCompleted
+    $dangerLevel = $State.game.explore.dangerLevel
+
+    # Pre-roll if the danger level is > 0
+    if ($dangerLevel -gt 0) {
+        Write-Debug "rolling pre-check for danger level $dangerLevel"
+
+        $random = Get-RandomPercent
+        if ($dangerLevel -ge $random) {
+            Write-Debug "triggered horror encounter with strength variant $random -> ($($random/$dangerLevel))"
+
+            # Use the lesser one if we're < 50%, otherwise the worse one, otherwise the worst one
+            if (($random/$dangerLevel) -lt 0.5) {
+                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x1'
+            } elseif (($random/$dangerLevel) -lt 0.75) {
+                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2'
+            } else {
+                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2-nofirstturn'
+            }
+        } else {
+            Write-Debug "no horror encounter (rolled $random)"
+        }
+    }
 
     # Clone an encounter list to roll on
     $availableEncounters = $locationData.field.encounters.Clone()

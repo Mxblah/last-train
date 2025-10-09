@@ -11,6 +11,11 @@
             "element": {
                 "fire": 0.2
             }
+        },
+        "stats": {
+            "mAtk": {
+                "buff": 2
+            }
         }
     }
 }

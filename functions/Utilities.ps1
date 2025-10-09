@@ -1,3 +1,23 @@
+# Returns a random decimal between 0 and 1
+function Get-RandomPercent {
+    [CmdletBinding()]
+    param(
+        # Set the random seed, for debugging
+        [Parameter(Mandatory = $false)]
+        [int]$Seed = 0
+    )
+
+    $splat = @{
+        Minimum = 0
+        Maximum = 1.0
+    }
+    if ($Seed -ne 0 ) {
+        Write-Debug "Using set seed $Seed"
+        $splat.SetSeed = $Seed
+    }
+    return Get-Random @splat
+}
+
 function Get-WeightedRandom {
     [CmdletBinding()]
     param(

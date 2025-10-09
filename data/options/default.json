@@ -5,6 +5,7 @@
     "autosave": true,
     "clearBattleDataOnExit": false,
     "difficulty": 2,
-    "maxSkillsInCategory": 5,
+    "maxSkillsInCategory": 7,
+    "trainDepartureGracePeriod": 100,
     "turnDelayMs": 100
 }

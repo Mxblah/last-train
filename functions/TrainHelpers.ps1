@@ -17,7 +17,7 @@ function Update-TrainState {
     if ($null -ne $departureTime -and $now -ge $departureTime) {
         if ($stopped) {
             # We're stopped at a station and due to depart, so do that
-            Write-Debug "$now >= departure time of $departureTime - train is departing"
+            Write-Debug "$now >= departure time of $departureTime - train is attempting to depart"
             $State | Invoke-TrainDeparture
         } else {
             # Departure time is stuck or something; clear it
@@ -108,11 +108,22 @@ function Invoke-TrainDeparture {
 
     # Vars
     $train = $State.game.train
+    $now = $State.time.currentTime
+    $departureTime = $State.game.train.willDepartAt
+    $maximumGraceTime = $departureTime + (New-TimeSpan -Minutes $State.options.trainDepartureGracePeriod)
 
-    # If player is not on board, game over and short-circuit the rest of this stuff
+    # If player is not on board, check the time and game over if it's too late
     if (-not $train.playerOnBoard) {
-        $State | Exit-Scene -Type 'cutscene' -Id 'gameover-leftbehind'
+        if ($now -gt $maximumGraceTime) {
+            # We're beyond the grace period, so the train departs without the player. Game over.
+            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-leftbehind'
+        } else {
+            # We're within the grace period, so update the danger level
+            $State | Update-TrainDangerLevel
+            return
+        }
     }
+    # Otherwise, the player is on board, so we're ready to depart. Handle that.
 
     # Load scene data from the station we just left to get available stations and such
     $scene = Get-Content "$PSScriptRoot/../data/scenes/train/$($train.lastStation).json" | ConvertFrom-Json -AsHashtable
@@ -121,9 +132,11 @@ function Invoke-TrainDeparture {
 
     # Update state
     $train.stopped = $false
-    $train.lastDepartedAt = $train.willDepartAt
+    # If we boarded before last call, use the scheduled departure time. Otherwise, use now, which is whenever the player boarded.
+    $train.lastDepartedAt = $State.game.explore.dangerLevel -le 0 ? $train.willDepartAt : $now
     $train.willDepartAt = $null
     $train.stationDecisionPoint = $train.lastDepartedAt.Add([timespan]$scene.data.decisionTime)
+    $State | Update-TrainDangerLevel -Clear
 
     Write-Host -ForegroundColor Cyan "🚂 The train has departed $($scene.name)."
     $State | Invoke-AutoSave
@@ -246,4 +259,69 @@ function Invoke-TrainDecisionPoint {
         Write-Debug "train's arrival time is $($train.willArriveAt) at $($train.nextStation)"
         Write-Host -ForegroundColor Cyan "🛤️ The train's next destination is now locked in..."
     }
+}
+
+function Update-TrainDangerLevel {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        # Zero out the current danger level (used when properly departing to the next station)
+        [Parameter()]
+        [switch]$Clear
+    )
+
+    # Vars
+    $now = $State.time.currentTime
+    $departureTime = $State.game.train.willDepartAt
+    $currentDangerLevel = $State.game.explore.dangerLevel
+
+    # Zero it
+    if ($Clear) {
+        Write-Verbose "clearing current danger level of $($State.game.explore.dangerLevel)"
+        $State.game.explore.dangerLevel = $null
+        return
+    }
+
+    # Not past departure time, so nothing to do
+    if ($now -le $departureTime) {
+        Write-Debug "current time ($now) <= departure time of $departureTime - not updating danger level"
+        return
+    }
+
+    # It's past the departure time, so update the danger level
+    try {
+        $percentageOfGraceTime = ( $now - $departureTime ).TotalMinutes / $State.options.trainDepartureGracePeriod
+    } catch {
+        # probably a divide-by-zero error, although that should be caught earlier, in Invoke-TrainDeparture
+        $percentageOfGraceTime = 1
+    }
+    Write-Debug "have spent $($percentageOfGraceTime * 100)% of grace time so far"
+    switch ($percentageOfGraceTime) {
+        { $_ -le 0.15 } { $newDangerLevel = 0.01; $message = "⚠️ A short blast from the train's horn signals it's time to depart. You will be hunted if you stay any longer."; break }
+        { $_ -le 0.30 } { $newDangerLevel = 0.05; $message = '⚠️ Ominous clicking echoes from an indistinct point in the distance. The horrors are here and searching for you.'; break }
+        { $_ -le 0.45 } { $newDangerLevel = 0.1; $message = "💀 The train sounds its horn again, melancholy and low. It's a small miracle you've survived so long, but you need to leave, immediately."; break }
+        { $_ -le 0.60 } { $newDangerLevel = 0.2; $message = '💀 Clicking sounds carry through the air almost nonstop now. The horrors are very close.'; break }
+        { $_ -le 0.85 } { $newDangerLevel = 0.3; $message = "💀 Nearby shadows ripple with ominous red light. You're almost out of time."; break }
+        { $_ -le 1 } { $newDangerLevel = 0.4; $message = '‼️ The train blasts its horn in an urgent peal. Get back to the station now, before it leaves you behind!'; break }
+        default { $newDangerLevel = 0.5; $message = '🚂 With a hiss of brakes, the train departs. Hunting horrors crawl and writhe nearby. You have failed.' }
+    }
+
+    # Modify by difficulty
+    Write-Debug "selected new danger level $newDangerLevel"
+    $newDangerLevel *= ($State.options.difficulty / 2)
+    Write-Debug "modified by difficulty, is $newDangerLevel"
+
+    # If this isn't a change, we're done
+    if ($newDangerLevel -eq $currentDangerLevel) {
+        Write-Debug 'no change of danger level; exiting'
+        return
+    }
+
+    # There is a change, so set the new level and print a warning
+    $State.game.explore.dangerLevel = $newDangerLevel
+    Write-Host ''
+    Write-Host -ForegroundColor Magenta $message
+    Write-Host ''
 }

@@ -577,8 +577,8 @@
                         "description": "You climb the ladder and push open the trapdoor, emerging into the desert dunes."
                     },
                     "deepBunker": {
-                        "minDepthAvailable": 5,
-                        "maxDepthAvailable": 5,
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
                         "arrivalDepth": 0,
                         "travelCost": "00:03:30",
                         "description": "You descend the seemingly endless stairs into the bunker's depths."

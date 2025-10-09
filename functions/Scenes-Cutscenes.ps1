@@ -245,8 +245,8 @@ function Invoke-CutsceneAction {
             'exit' {
                 $State | Exit-Scene -Type $act.type -Id $act.id
             }
-            'when' {
-                # Do nothing; this is used as a conditional, not as an action
+            { $_ -match 'when|whenMode' } {
+                # Do nothing; these are used in conditionals, not as actions themselves
             }
             default {
                 Write-Warning "Unknown cutscene action type '$_' encountered in cutscene with ID '$($State.game.scene.id)'!"

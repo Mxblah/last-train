@@ -25,6 +25,13 @@
             "greaterThan": 0
         }
     },
+    "trainDepartureGracePeriod": {
+        "type": "int",
+        "hint": "Minutes after planned departure time until the train departs automatically, if the player is not on board.",
+        "validators": {
+            "greaterThan": -1
+        }
+    },
     "turnDelayMs": {
         "type": "int",
         "hint": "Milliseconds to delay when performing an enemy battle turn.",
