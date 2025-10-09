@@ -1,0 +1,16 @@
+{
+    "id": "hunting-horror-x2-nofirstturn",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "hunting-horror"
+                },
+                {
+                    "id": "hunting-horror"
+                }
+            ]
+        }
+    }
+}
