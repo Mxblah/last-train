@@ -15,7 +15,8 @@
             "remove": [
                 "acidburn",
                 "burn",
-                "poison"
+                "poison",
+                "sunburn"
             ]
         }
     }

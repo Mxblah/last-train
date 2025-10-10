@@ -382,7 +382,10 @@
                             "chance": 0.45,
                             "minDepthAvailable": 3,
                             "maxDepthAvailable": 4,
-                            "maxTimes": 1
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedDunesExit": false
+                            }
                         },
                         {
                             "type": "battle",
@@ -598,7 +601,7 @@
                 "sunStrengthMultiplier": 0,
                 "field": {
                     "depth": 5,
-                    "travelBaseCost": "00:04:00",
+                    "travelBaseCost": "00:03:00",
                     "deeperDescription": "Head further into the depths.",
                     "shallowerDescription": "Head back towards the main bunker.",
                     "exploreHereDescription": "Explore the nearby rooms.",

@@ -104,10 +104,12 @@ function Start-BattleScene {
         $State.game.battle.characters[
             $State.game.battle.characters.IndexOf(($State.game.battle.characters | Where-Object -Property id -EQ 'player'))
         ] = ($State | Import-BattleCharacter -Character $State.player)
-        # For allies, we can take advantage of a foreach loop instead to avoid needing the IndexOf trick
+        # For allies, same deal
         foreach ($ally in $State.game.battle.characters | Where-Object { $_.faction -eq 'ally' -and $_.id -ne 'player' }) {
             Write-Debug "resuming battle: re-importing $($ally.name)"
-            $ally = $State | Import-BattleCharacter -Character ($State.party | Where-Object -Property name -EQ $ally.name)
+            $State.game.battle.characters[$State.game.battle.characters.IndexOf($ally)] = $State |
+                Import-BattleCharacter -Character ($State.party |
+                Where-Object -Property name -EQ $ally.name)
         }
     }
 

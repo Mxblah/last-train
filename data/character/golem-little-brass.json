@@ -75,7 +75,7 @@
     "stats": {
         "pAtk": {
             "value": 0,
-            "base": 16
+            "base": 15
         },
         "mAtk": {
             "value": 0,
@@ -83,7 +83,7 @@
         },
         "pDef": {
             "value": 0,
-            "base": 24
+            "base": 22
         },
         "mDef": {
             "value": 0,

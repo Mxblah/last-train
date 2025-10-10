@@ -103,7 +103,10 @@ function Invoke-TrainDeparture {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [object]$State
+        [object]$State,
+
+        [Parameter()]
+        [switch]$EarlyDeparture
     )
 
     # Vars
@@ -132,8 +135,8 @@ function Invoke-TrainDeparture {
 
     # Update state
     $train.stopped = $false
-    # If we boarded before last call, use the scheduled departure time. Otherwise, use now, which is whenever the player boarded.
-    $train.lastDepartedAt = $State.game.explore.dangerLevel -le 0 ? $train.willDepartAt : $now
+    # If we boarded before last call and didn't depart early, use the scheduled departure time. Otherwise, use now, which is whenever the player boarded or chose to depart.
+    $train.lastDepartedAt = $State.game.explore.dangerLevel -gt 0 -or $EarlyDeparture ? $now : $train.willDepartAt
     $train.willDepartAt = $null
     $train.stationDecisionPoint = $train.lastDepartedAt.Add([timespan]$scene.data.decisionTime)
     $State | Update-TrainDangerLevel -Clear

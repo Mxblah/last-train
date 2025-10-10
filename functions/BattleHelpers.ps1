@@ -366,8 +366,8 @@ function Add-Status {
         Write-Debug "Applying status $($status.id) against $($Target.name)"
 
         # Check if it applies at all
-        $statusApplyChance = $status.chance - $Target.resistances.status."$($status.id)".value
-        Write-Debug "checking if status applies: chance is $($status.chance) - $($Target.resistances.status."$($status.id)".value ?? '(none)') = $statusApplyChance"
+        $statusApplyChance = $status.chance * ( 1 - $Target.resistances.status."$($status.id)".value )
+        Write-Debug "checking if status applies: chance is $($status.chance) * 1 - $($Target.resistances.status."$($status.id)".value ?? '(none)') = $statusApplyChance"
         if ($statusApplyChance -lt (Get-RandomPercent)) {
             Write-Debug 'did not apply'
             continue

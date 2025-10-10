@@ -138,7 +138,7 @@
         "attack-multi": [
             {
                 "id": "solar-flood",
-                "weight": 200
+                "weight": 240
             }
         ],
         "buff-single": [

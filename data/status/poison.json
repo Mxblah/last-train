@@ -1,7 +1,7 @@
 {
     "id": "poison",
     "name": "Poisoned",
-    "color": "Green",
+    "color": "DarkGreen",
     "badge": "💉",
     "applyDesc": "${game.battle.defender} is poisoned.",
     "turnDesc": "${game.battle.currentTurn.characterName} is poisoned.",

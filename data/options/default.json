@@ -3,9 +3,9 @@
         "init": false
     },
     "autosave": true,
-    "clearBattleDataOnExit": false,
+    "clearBattleDataOnExit": true,
     "difficulty": 2,
     "maxSkillsInCategory": 7,
-    "trainDepartureGracePeriod": 100,
+    "trainDepartureGracePeriod": 60,
     "turnDelayMs": 100
 }
