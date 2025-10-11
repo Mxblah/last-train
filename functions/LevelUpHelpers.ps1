@@ -297,7 +297,7 @@ function Show-SkillsMenu {
             $SkillId = ($skillLookupTable | Where-Object -Property name -EQ $skillName).id
         } else {
             # id was provided, so add the name for print purposes
-            $SkillName = $skillLookupTable | Where-Object -Property id -EQ $SkillId
+            $SkillName = $State.data.skills.$SkillCategory.$SkillId.name
         }
         if (-not $SkillId) {
             Write-Host "You stopped editing your '$SkillCategory' skills."
