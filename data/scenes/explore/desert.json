@@ -57,7 +57,10 @@
                             "id": "desert-outskirts-pillow",
                             "chance": 0.2,
                             "requiredPhase": "night",
-                            "maxTimes": 1
+                            "maxTimes": 3,
+                            "when": {
+                                "desert.outskirts.gremlinCampCleared": false
+                            }
                         },
                         {
                             "type": "cutscene",
