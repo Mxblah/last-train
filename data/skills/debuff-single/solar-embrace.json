@@ -24,6 +24,12 @@
                 "chance": 0.5,
                 "stack": 3,
                 "intensity": 1
+            },
+            {
+                "id": "paralysis",
+                "chance": 0.15,
+                "stack": 1,
+                "intensity": 1
             }
         ]
     }

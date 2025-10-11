@@ -459,6 +459,12 @@ function Apply-StatusEffects {
             # Print description if this is a turn start status and we haven't already written its description this turn
             if ($Phase -eq 'turnStart') {
                 if (-not ($statusId -in $alreadyWritten)) {
+                    # Almost all statuses use this property for their description, so set it if it's not right (usually happens out of battle when data is cleared)
+                    if ($State.game.battle.currentTurn.characterName -ne $Character.name) {
+                        Write-Debug "override: setting currentTurn name to $($Character.name)"
+                        Set-HashtableValueFromPath -Hashtable $State -Path 'game.battle.currentTurn.characterName' -Value $Character.name
+                    }
+
                     Write-Host ($State | Enrich-Text $statusInfo.$statusId.turnDesc)
                     $alreadyWritten.Add($statusId) | Out-Null
                 } else {

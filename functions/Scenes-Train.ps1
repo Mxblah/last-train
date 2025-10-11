@@ -39,6 +39,7 @@ function Start-TrainScene {
         - menu option: change train destination (available until late in the day, then locked)
         - menu option: sleep (how long) -> can heal at the cost of time
         - menu option: wait/sleep until the train stops
+        - menu option: wait (sleep, but in minutes instead of hours, or update sleep)
         - menu option: exit the train to explore (if at a station)
         - menu option: read (tutorials, descriptions of bestiary monsters you've seen, status effects, )
         - menu option: train (battle w/ the training dummy?)
@@ -52,7 +53,6 @@ function Start-TrainScene {
         - menu option: craft (improve gear?) (merge with v ?)
         - menu option: shop (buy stuff from vendors you put on the train after unlocking them?)
         - menu option: party (chat with party members?)
-        - menu option: wait (sleep, but in minutes instead of hours, or update sleep)
     #>
 }
 
@@ -71,7 +71,7 @@ function Show-TrainMenu {
     # todo: we can combine "Browse" and "Item" if the item list is more useful and sortable (then replace browse with craft/shop?)
     $availableActions = @(
         'Browse', 'Item', 'Equip'
-        'Level Up', 'Read', 'Sleep'
+        'Level Up', 'Read', 'Rest'
         'Skills', 'Party', 'Training'
         'Save'
     )
@@ -137,7 +137,7 @@ function Show-TrainMenu {
             $State | Show-EncyclopediaMenu
             # Handles the time add within the helper function based on what's read
         }
-        'sleep' {
+        'rest' {
             $State | Show-BattleCharacterInfo -Character $State.player # to show HP, etc. for informed sleeping
             Write-Host ''
             $State | Show-TrainSleepMenu
@@ -214,7 +214,7 @@ function Show-TrainSleepMenu {
 
     # Get input
     while ($true) {
-        $response = Read-Host -Prompt 'Sleep how long? (hours, or "T" to sleep until the next station, or <enter> to cancel)'
+        $response = Read-Host -Prompt 'Sleep how long? (hours, or "T" to sleep until the next station, or append "m" for minutes, or <enter> to cancel)'
         try {
             # "T" handler
             if ($response -eq 'T') {
@@ -237,10 +237,24 @@ function Show-TrainSleepMenu {
                 }
             }
 
-            $sleepTime = [int]$response
+            # "m" handler
+            if ($response -like '*m') {
+                $waitTime = [int]($response -replace 'm', '')
+                if ($waitTime -ge 60 -or $waitTime -lt 1) {
+                    throw "invalid wait time $waitTime"
+                }
+
+                # short circuit for waiting, as we don't need to handle HP gain or any of that other stuff if you're not sleeping
+                Write-Host "You wait around for $waitTime minutes."
+                $State | Add-GlobalTime -Time (New-TimeSpan -Minutes $waitTime)
+                return
+            } else {
+                # normal: hours
+                $sleepTime = [int]$response
+            }
             break
         } catch {
-            Write-Host -ForegroundColor Yellow '❌ Invalid input; make a valid choice to continue! (Must be a whole number)'
+            Write-Host -ForegroundColor Yellow '❌ Invalid input; make a valid choice to continue! (Must be a whole number, and must be < 60 if using minutes)'
         }
     }
 
@@ -287,8 +301,8 @@ function Show-TrainSleepMenu {
     # Wake up
     if ($wokeUpEarly) { Write-Host "You couldn't stay asleep that long and woke up early..." }
     switch ($sleepTime) {
-        { $_ -le 2 } { 'You wake up tired and disoriented, but somewhat refreshed.'; break }
-        { $_ -le 4 } { 'You wake up refreshed, but still tired.'; break }
+        { $_ -le 2 } { 'You wake up tired, but somewhat refreshed.'; break }
+        { $_ -le 4 } { 'You wake up refreshed, but still somewhat tired.'; break }
         { $_ -le 10 } { 'You wake up well-rested.'; break }
         default { 'You wake up well-rested and full of energy, but was it really okay to sleep that long...?' }
     }

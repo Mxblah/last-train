@@ -157,6 +157,16 @@
                             "\"Anyway, it'll keep you safe enough while on board. In fact, if you just sit in there and never get off at any stations, you probably will get to ASCENSION no problem.\" The cat looks up, locking eyes with you for a moment. \"The problem will be in trying to face the monsters that guard it.\""
                         ]
                     },
+                    "the sand eels": {
+                        "text": [
+                            "\"You've spoken to their old monarch, then. He's as ancient as this desert, or so he'll have you believe. In reality, I remember when he was no more than his smaller kin you'll find around the dunes.\"",
+                            "\"The little ones are as animalistic as you would expect; it's only when they grow big and old and wise that they truly start to think.\" The cat fixes you with a trademark feline stare. \"Would be difficult to build a civilization if your young stayed infantile for a century, hm?\"",
+                            "\"It is a shame how their species seems doomed to insignificance. I hope you at least entertained his delusions for a few brief moments.\""
+                        ],
+                        "when": {
+                            "desert.dunes.metGrandSandEel": true
+                        }
+                    },
                     "the bunker": {
                         "text": [
                             "\"Found that bunker under the town, I see. Thinking it might have something to do with this whole mess?\"",
