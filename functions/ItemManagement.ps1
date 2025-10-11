@@ -115,6 +115,7 @@ function Add-GameItem {
         # doesn't exist, so create it
         $details = $State.data.items.$Id
 
+        # todo: stop adding the details to the inventory now that they're available in-memory instead
         $State.$Location.$Id = @{
             number = $Number
             equipped = $false
