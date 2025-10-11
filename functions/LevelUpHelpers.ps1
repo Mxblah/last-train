@@ -164,6 +164,9 @@ function Add-SkillIfRoom {
         [string]$Id
     )
 
+    # Vars
+    $skillInfo = $State.data.skills.$Category.$Id
+
     # If not the player, just add it normally
     if ($Character.id -ne 'player') {
         Write-Debug "adding skill $Category/$Id to $($Character.name)"

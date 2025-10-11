@@ -349,18 +349,19 @@ function Show-BattleCharacterInfo {
 
     # Print HP, BP, and MP
     foreach ($attrib in $Character.attrib.GetEnumerator()) {
+        $attribValue = if ($Bestiary -and $Character.id -ne 'player') { $attrib.Value.base } else { $attrib.Value.value }
         $badge = Get-AttribStatBadge -AttribOrStat $attrib.Key
-        $color = Get-PercentageColor -Value $attrib.Value.value -Max $attrib.Value.max
+        $color = Get-PercentageColor -Value $attribValue -Max $attrib.Value.max
 
         # Print it
         if ($Vague -and ($Character.id -ne 'player')) {
             # mult by 5, round, (divide by 5, times 100) (ie times 20) should give us roughly 20% increments
             # (catch divide-by-zero errors)
-            $vaguePercent = try { [System.Math]::Round(($attrib.Value.value / $attrib.Value.max) * 5) * 20 } catch { 0 }
+            $vaguePercent = try { [System.Math]::Round(($attribValue / $attrib.Value.max) * 5) * 20 } catch { 0 }
             Write-Host -ForegroundColor $color "$badge ~$vaguePercent% " -NoNewline
         } else {
             # Either precise, or we're looking at ourselves. And we deserve to know our own stats precisely.
-            Write-Host -ForegroundColor $color "$badge $($attrib.Value.value)/$($attrib.Value.max) " -NoNewline
+            Write-Host -ForegroundColor $color "$badge $($attribValue)/$($attrib.Value.max) " -NoNewline
         }
     }
 

@@ -368,6 +368,10 @@ function Show-SkillsMenu {
         [switch]$OnlyOne
     )
 
+    # todo: improve this to display names instead of IDs, now that it's easier to do
+    # something like this? $skillNames = foreach ($skill in $State.data.skills.$category.GetEnumerator()) { if ($skill.Value.id -in $category.Value.id) { $skill.Value.name } }
+    # or make one big lookup table of id/name correlation at the start, then reference that all the way through?
+
     while ($true) {
         # Display all current skills
         foreach ($category in $Character.skills.GetEnumerator()) {
