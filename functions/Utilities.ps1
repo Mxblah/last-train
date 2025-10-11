@@ -237,9 +237,11 @@ function Set-HashtableValueFromPath {
         [object]$Value
     )
 
-    $lastFragment = $Path.Split('.')[-1]
-    foreach ($pathFragment in ($Path.Split('.'))) {
-        if ($pathFragment -ne $lastFragment) {
+    $fragmentedPath = $Path.Split('.')
+    $lastFragment = $fragmentedPath[-1]
+    foreach ($i in 1..$fragmentedPath.Count) {
+        $pathFragment = $fragmentedPath[$i - 1]
+        if ($i -lt $fragmentedPath.Count) {
             # Not there yet, so continue into the next hashtable down
             if ($null -eq $Hashtable.$pathFragment) {
                 # create if needed
@@ -248,7 +250,7 @@ function Set-HashtableValueFromPath {
             $Hashtable = $Hashtable.$pathFragment
         } else {
             # This is the actual value
-            Write-Debug "found last fragment '$lastFragment'"
+            Write-Debug "found last fragment '$pathFragment' at depth $i"
         }
     }
     Write-Debug "setting value at $Path to $Value"

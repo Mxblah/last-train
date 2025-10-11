@@ -129,7 +129,7 @@ function Invoke-TrainDeparture {
     # Otherwise, the player is on board, so we're ready to depart. Handle that.
 
     # Load scene data from the station we just left to get available stations and such
-    $scene = Get-Content "$PSScriptRoot/../data/scenes/train/$($train.lastStation).json" | ConvertFrom-Json -AsHashtable
+    $scene = $State.data.scenes.train."$($train.lastStation)"
     $train.availableStations = $scene.data.availableStations
     $train.lastStationName = $scene.name
 
@@ -156,7 +156,7 @@ function Invoke-TrainArrival {
     $train = $State.game.train
 
     # load scene data from nextStation
-    $scene = Get-Content "$PSScriptRoot/../data/scenes/train/$($train.nextStation).json" | ConvertFrom-Json -AsHashtable
+    $scene = $State.data.scenes.train."$($train.nextStation)"
     $train.availableStations = $scene.data.availableStations
     $train.nextStationName = $scene.name
 
@@ -206,7 +206,7 @@ function Show-TrainDecisionMenu {
     Write-Host '|' -NoNewline
     $nameIdMap = @{}
     $choices = foreach ($station in $availableStations.GetEnumerator()) {
-        $data = Get-Content -Path "$PSScriptRoot/../data/scenes/train/$($station.Key).json" | ConvertFrom-Json -AsHashtable
+        $data = $State.data.scenes.train."$($station.Key)"
         Write-Host " $($data.name) |" -NoNewline
         $data.name
         $nameIdMap."$($data.name)" = $data.id
@@ -242,7 +242,7 @@ function Invoke-TrainDecisionPoint {
     if ($null -eq $train.nextStation) {
         $train.nextStation = $train.availableStations.Keys | Get-Random
         Write-Debug "station not selected, so chose $($train.nextStation) randomly. Gathering scene data..."
-        $nextStationData = Get-Content -Path "$PSScriptRoot/../data/scenes/train/$($train.nextStation).json" | ConvertFrom-Json -AsHashtable
+        $nextStationData = $State.data.scenes.train."$($train.nextStation)"
         $train.nextStationName = $nextStationData.name
         Write-Host 'The train selected its next station without your input.'
 

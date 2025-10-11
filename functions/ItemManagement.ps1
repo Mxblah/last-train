@@ -113,7 +113,7 @@ function Add-GameItem {
         $details = $State.$Location.$Id.data
     } else {
         # doesn't exist, so create it
-        $details = Get-Content -Path "$PSScriptRoot/../data/items/$Id.json" | ConvertFrom-Json -AsHashtable
+        $details = $State.data.items.$Id
 
         $State.$Location.$Id = @{
             number = $Number
@@ -404,7 +404,7 @@ function Use-GameItem {
             $target = $State.player
         } elseif ($State.game.battle.phase -eq 'active') {
             Write-Debug "$Id can be targeted and in battle; showing battle menu"
-            $target = $State | Show-BattleTargetMenu -Character $State.player -Action (Get-Content -Path "$PSScriptRoot/../data/skills/special/use-item.json" | ConvertFrom-Json -AsHashtable)
+            $target = $State | Show-BattleTargetMenu -Character $State.player -Action $State.data.skills.special.'use-item'
         } else {
             # Not in battle but is not self-target only, so prompt for confirmation
             $response = $State | Read-PlayerInput -Prompt "Use $($data.name) on yourself? (Y/N)" -Choices @('Y', 'N')
@@ -486,14 +486,14 @@ function Use-GameItem {
                 $atLeastOneSkillLearned = $false
                 foreach ($skill in $data.effects.learnSkill) {
                     Write-Debug "Learning skill $($skill.category)/$($skill.id)"
-                    $skillInfo = Get-Content "$PSScriptRoot/../data/skills/$($skill.category)/$($skill.id).json" | ConvertFrom-Json -AsHashtable
+                    $skillInfo = $State.data.skills."$($skill.category)"."$($skill.id)"
 
                     # Make sure the player doesn't already know this skill
                     if ($target.skills."$($skill.category)" | Where-Object -Property id -EQ $skill.id) {
                         Write-Host "You already know how to use $($skillInfo.name)!"
                         continue
                     } else {
-                        # Simply add the ID to the target's skill list. No get-content or anything fancy required (except to get the name)
+                        # Add the ID to the target's skill list (if room)
                         $atLeastOneSkillLearned = $true
                         $State | Add-SkillIfRoom -Character $target -Category $skill.category -Id $skill.id
                     }

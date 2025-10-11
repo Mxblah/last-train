@@ -9,7 +9,7 @@ function Add-PartyMember {
     )
 
     # Get details and add
-    $data = Get-Content "$PSScriptRoot/../data/character/$Id.json" | ConvertFrom-Json -AsHashtable
+    $data = $State.data.character.$Id
     $State.party.Add($data) | Out-Null
 
     # Inform

@@ -175,7 +175,7 @@ function Import-BattleCharacter {
     } elseif ($Character.faction -eq 'ally') {
         $data = $Character # allies import directly; no messing around needed
     } else {
-        $data = Get-Content "$PSScriptRoot/../data/character/$($Character.id).json" | ConvertFrom-Json -AsHashtable
+        $data = $State.data.character."$($Character.id)"
     }
 
     # Add to bestiary if not already there
@@ -379,7 +379,7 @@ function Show-BattleCharacterInfo {
     } else {
         foreach ($statusClass in $Character.status.GetEnumerator()) {
             # Each status gets a color and the number of instances + highest stacks
-            $statusInfo = Get-Content "$PSScriptRoot/../data/status/$($statusClass.Key).json" | ConvertFrom-Json -AsHashtable
+            $statusInfo = $State.data.status."$($statusClass.Key)"
             $name = $statusInfo.name
             $color = $statusInfo.color
             $badge = $statusInfo.badge
@@ -469,7 +469,7 @@ function Show-BattleCharacterInfo {
 
                         if ($subcategory -eq 'Status') {
                             # Get status info from the definition
-                            $info = Get-Content "$PSScriptRoot/../data/status/$name.json" | ConvertFrom-Json -AsHashtable
+                            $info = $State.data.status.$name
                             $printName = $info.name
                             $nameColor = $info.color
                             $badge = $info.badge
@@ -534,7 +534,7 @@ function Get-ActionList {
             $actionList.$($skillClass.Key) = New-Object -TypeName System.Collections.ArrayList(,@( foreach ($skill in $skillClass.Value) {
                 Write-Debug "Adding $($skillClass.Key)/$($skill.id) to action map"
                 try {
-                    Get-Content -Path "$PSScriptRoot/../data/skills/$($skillClass.Key)/$($skill.id).json" | ConvertFrom-Json -AsHashtable
+                    $State.data.skills."$($skillClass.Key)"."$($skill.id)"
                 } catch {
                     Write-Warning "Unable to load data for skill $($skillClass.Key)/$($skill.id) with inner error: $_"
                 }
@@ -695,7 +695,7 @@ function Select-BattleAction {
         if ($QueuedAction) {
             Write-Debug "queued action was passed: overriding action selection to $($QueuedAction.class)/$($QueuedAction.id)"
             # No guarantee the character has the queued action on their list (could have been added by another character, for one, so get it directly)
-            $skill = Get-Content "$PSScriptRoot/../data/skills/$($QueuedAction.class)/$($QueuedAction.id).json" | ConvertFrom-Json -AsHashtable
+            $skill = $State.data.skills."$($QueuedAction.class)"."$($QueuedAction.id)"
             # only try this once
             $QueuedAction = $null
         } else {

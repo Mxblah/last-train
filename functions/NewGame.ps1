@@ -15,7 +15,7 @@ function New-Options {
 
     Write-Host "Initializing default $Category"
 
-    $State.$Category = Get-Content -Raw -Path "$PSScriptRoot/../data/$Category/default.json" | ConvertFrom-Json -AsHashtable
+    $State.$Category = $State.data.$Category.default
     Convert-AllChildArraysToArrayLists -Data $State.$Category # Fix whatever we imported if it has arrays in it
     $State | Set-Options -Category $Category -UseDefaults:$UseDefaults
 }
@@ -33,7 +33,7 @@ function Set-Options {
         [switch]$UseDefaults
     )
 
-    $schema = Get-Content -Raw -Path "$PSScriptRoot/../data/$Category/schema.json" | ConvertFrom-Json -AsHashtable
+    $schema = $State.data.$Category.schema
 
     Write-Host -ForegroundColor Cyan $schema.meta.title
     Write-Host -ForegroundColor DarkGray '("Enter" to keep current value or "!" to skip remaining config)'

@@ -26,8 +26,9 @@ function Show-BestiaryBook {
 
         # Get inspect data about the creature
         $id = ($creatures.GetEnumerator() | Where-Object -Property Value -EQ $choice).Key
-        $creatureData = Get-Content "$PSScriptRoot/../data/character/$id.json" | ConvertFrom-Json -AsHashtable
+        $creatureData = $State.data.character.$id
         $State | Invoke-SpecialInspect -Attacker $State.player -Target $creatureData -Skill @{id = 'bestiary'}
+        Write-Host ''
 
         # Time mgmt
         $State | Add-GlobalTime -Time '00:00:30'
@@ -55,9 +56,10 @@ function Show-StatusBook {
         }
 
         # Return data about the status
-        $statusData = Get-Content "$PSScriptRoot/../data/status/$choice.json" | ConvertFrom-Json -AsHashtable
+        $statusData = $State.data.status.$choice
         Write-Host -ForegroundColor $statusData.color "$($statusData.badge) $($statusData.name): " -NoNewline
         Write-Host ($State | Enrich-Text $statusData.description)
+        Write-Host ''
 
         # Time mgmt
         $State | Add-GlobalTime -Time '00:00:30'
