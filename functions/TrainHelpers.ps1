@@ -142,7 +142,7 @@ function Invoke-TrainDeparture {
     $State | Update-TrainDangerLevel -Clear
 
     Write-Host -ForegroundColor Cyan "🚂 The train has departed $($scene.name)."
-    $State | Invoke-AutoSave
+    $State | Save-Game -Auto
 }
 
 function Invoke-TrainArrival {
@@ -187,7 +187,7 @@ function Invoke-TrainArrival {
     $train.stationDecisionPoint = $train.willDepartAt.Add([timespan]$scene.data.decisionTime)
 
     Write-Host -ForegroundColor Cyan "🚉 The train has arrived at $($scene.name)."
-    $State | Invoke-AutoSave
+    $State | Save-Game -Auto
 }
 
 function Show-TrainDecisionMenu {

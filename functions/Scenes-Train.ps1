@@ -308,7 +308,7 @@ function Show-TrainSleepMenu {
     }
 
     # Autosave
-    $State | Invoke-AutoSave
+    $State | Save-Game -Auto
 }
 
 function Show-EncyclopediaMenu {

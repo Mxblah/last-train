@@ -93,7 +93,7 @@ function Start-BattleScene {
         foreach ($entryDesc in ($State.game.battle.characters | Where-Object -Property id -NE 'player').entryDescription) {
             Write-Host -ForegroundColor Yellow ($State | Enrich-Text $entryDesc )
         }
-        $State | Invoke-AutoSave
+        $State | Save-Game -Auto
     } else {
         # Assume a battle is already active and we've loaded in, so we need to quickly fix the arraylist collection types before starting
         Convert-AllChildArraysToArrayLists -Data $State.game.battle.characters
@@ -151,7 +151,7 @@ function Start-BattleScene {
         }
 
         # End of round. Save if set, then continue
-        $State | Invoke-AutoSave
+        $State | Save-Game -Auto
     }
 
     # Battle is complete, so wrap it up and return to whatever we were doing before the battle happened

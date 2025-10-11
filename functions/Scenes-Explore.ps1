@@ -451,7 +451,7 @@ function Invoke-ExploreEncounter {
 
             # Require an <enter> to keep going, then save.
             Read-Host -Prompt '> '
-            $State | Invoke-AutoSave
+            $State | Save-Game -Auto
         }
         default { Write-Warning "Invalid encounter type '$_' found in explore scene ID $($Scene.id)" }
     }

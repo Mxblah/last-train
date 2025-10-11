@@ -103,7 +103,7 @@ function Exit-Scene {
     $State.game.scene.type = $Type
     $State.game.scene.id = $Id
 
-    $State | Invoke-AutoSave
+    $State | Save-Game -Auto
 
     # Escape hatch to actually end the game
     if ($Type -eq 'end') {
