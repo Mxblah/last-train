@@ -772,15 +772,20 @@ function Update-CharacterValues {
         # modify it
         $newValue = switch ($effect.action) {
             'buff' { $existingValue + $effect.number }
-            'debuff' { [System.Math]::Max(($existingValue - $effect.number), 0) } # ensure positive number
+            'debuff' { $existingValue - $effect.number }
             'mult' { $existingValue * $effect.number }
             default { Write-Warning "unknown action type $($effect.action) found in AE with guid $($effect.guid) (source: $($effect.source))" }
         }
 
         # round up if we're in a path that does that
-        if ($effect.path -notmatch 'resistances|affinities') {
+        if ($effect.path -match 'attrib|base') {
             Write-Debug "rounding up $newValue to ensure a whole number"
             $newValue = [System.Math]::Ceiling($newValue)
+        }
+        # make positive if we need it to be
+        if ($effect.path -notmatch 'affinities|resistances') {
+            Write-Debug "forcing $newValue to be positive"
+            $newValue = [System.Math]::Max($newValue, 0)
         }
 
         # set it

@@ -438,7 +438,7 @@ function Show-BattleCharacterInfo {
                 Write-Host -ForegroundColor $color "$badge ??? " -NoNewline
             } else {
                 # precise or it's us!
-                Write-Host -ForegroundColor $color "$badge $($stat.Value.value) " -NoNewline
+                Write-Host -ForegroundColor $color "$badge $([System.Math]::Ceiling($stat.Value.value)) " -NoNewline
             }
         }
 
