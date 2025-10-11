@@ -1,0 +1,19 @@
+{
+    "id": "weather-acid-rain",
+    "name": "Acid rain",
+    "color": "Green",
+    "badge": "🧪",
+    "applyDesc": "Acid droplets rain down on ${game.battle.defender}...",
+    "turnDesc": "The acid rain falls upon ${game.battle.currentTurn.characterName}...",
+    "description": "Acid rain deals damage to all participants.",
+    "data": {
+        "class": "physical",
+        "type": "acid",
+        "turnStart": {
+            "damage": "i"
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

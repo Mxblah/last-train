@@ -1,0 +1,26 @@
+{
+    "id": "ringMinor-insurance",
+    "name": "Minor Insurance Ring",
+    "description": "A blue-and-silver ring with a healthcare cross symbol emblazoned across the top. Hundreds of words of miniscule text cover the rest of the band, inside and out. You can't read any of it except for a phrase right at the top: \"Terms and Conditions\". Boosts healing ability.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "ringMinor"
+    },
+    "effects": {
+        "resistances": {
+            "status": {
+                "bleed": 0.2
+            },
+            "element": {
+                "healing": -0.25
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 15
+                }
+            }
+        }
+    }
+}

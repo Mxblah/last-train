@@ -1,0 +1,21 @@
+{
+    "id": "desert-outskirts-pillow-get",
+    "data": [
+        {
+            "text": "You pick up the pillow from the carnage and clean it up as best you can. It's exactly as soft as it appeared; your sleep quality will surely improve.",
+            "action": {
+                "attrib": {
+                    "hp": {
+                        "sleepMultiplier": {
+                            "buff": 2
+                        }
+                    }
+                },
+                "exit": {
+                    "type": "explore",
+                    "id": "desert"
+                }
+            }
+        }
+    ]
+}

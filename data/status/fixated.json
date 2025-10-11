@@ -1,0 +1,35 @@
+{
+    "id": "fixated",
+    "name": "Fixated",
+    "color": "DarkMagenta",
+    "badge": "👁️",
+    "applyDesc": "${game.battle.defender} can only focus on ${game.battle.attacker}",
+    "turnDesc": "${game.battle.currentTurn.characterName} is fixated.",
+    "description": "Fixation raises accuracy substantially, but lowers attack and prevents escape.",
+    "data": {
+        "passive": {
+            "stats": {
+                "pAtk": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "mAtk": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "acc": {
+                    "mult": "0.1 * s * i + 1.0"
+                }
+            },
+            "status": [
+                {
+                    "id": "cannot-flee",
+                    "chance": 1,
+                    "stack": "s",
+                    "intensity": "i"
+                }
+            ]
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

@@ -1,23 +1,3 @@
-# Returns a random decimal between 0 and 1
-function Get-RandomPercent {
-    [CmdletBinding()]
-    param(
-        # Set the random seed, for debugging
-        [Parameter(Mandatory = $false)]
-        [int]$Seed = 0
-    )
-
-    $splat = @{
-        Minimum = 0
-        Maximum = 1.0
-    }
-    if ($Seed -ne 0 ) {
-        Write-Debug "Using set seed $Seed"
-        $splat.SetSeed = $Seed
-    }
-    return Get-Random @splat
-}
-
 function Get-IfHit {
     [CmdletBinding()]
     param (
@@ -371,7 +351,11 @@ function Add-Status {
         [hashtable]$Target,
 
         [Parameter(Mandatory = $true)]
-        [hashtable]$Skill
+        [hashtable]$Skill,
+
+        # Explicitly set the atk value, instead of calculating from the attacker
+        [Parameter()]
+        [double]$AttackOverride
     )
     # Update state
     $State.game.battle.attacker = $Attacker.name
@@ -382,19 +366,23 @@ function Add-Status {
         Write-Debug "Applying status $($status.id) against $($Target.name)"
 
         # Check if it applies at all
-        $statusApplyChance = $status.chance - $Target.resistances.status."$($status.id)".value
-        Write-Debug "checking if status applies: chance is $($status.chance) - $($Target.resistances.status."$($status.id)".value ?? '(none)') = $statusApplyChance"
+        $statusApplyChance = $status.chance * ( 1 - $Target.resistances.status."$($status.id)".value )
+        Write-Debug "checking if status applies: chance is $($status.chance) * 1 - $($Target.resistances.status."$($status.id)".value ?? '(none)') = $statusApplyChance"
         if ($statusApplyChance -lt (Get-RandomPercent)) {
             Write-Debug 'did not apply'
             continue
         }
 
         # It did, so get the pow and stuff to apply to the intensity
-        # Physical/magical determination
-        $typeLetter = switch ($Skill.data.class) {
-            'physical' { 'p' }
-            'magical' { 'm' }
-            default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
+        if (-not $AttackOverride) {
+            # Physical/magical determination
+            $typeLetter = switch ($Skill.data.class) {
+                'physical' { 'p' }
+                'magical' { 'm' }
+                default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
+            }
+        } else {
+            Write-Debug "will use attack override of '$AttackOverride' instead of $($Attacker.name)'s atk"
         }
 
         # Write the status data to the target
@@ -405,7 +393,7 @@ function Add-Status {
             stack = $status.stack
             intensity = $status.intensity
             pow = $Skill.data.pow
-            atk = $Attacker.stats."${typeLetter}Atk".value
+            atk = $AttackOverride -gt 0 ? $AttackOverride : $Attacker.stats."${typeLetter}Atk".value
             class = $statusInfo.data.class
             type = $statusInfo.data.type
         }
@@ -440,6 +428,7 @@ function Apply-StatusEffects {
     $statusInfo = @{}
     $alreadyWritten = New-Object -TypeName System.Collections.ArrayList
     $statusGuidsToRemove = New-Object -TypeName System.Collections.ArrayList
+    $statusMapsToAdd = New-Object -TypeName System.Collections.ArrayList
 
     # Loop through all statuses, applying as we go (thus automatically applying in order from oldest to newest)
     foreach ($statusBlock in $Character.status.GetEnumerator()) {
@@ -470,6 +459,12 @@ function Apply-StatusEffects {
             # Print description if this is a turn start status and we haven't already written its description this turn
             if ($Phase -eq 'turnStart') {
                 if (-not ($statusId -in $alreadyWritten)) {
+                    # Almost all statuses use this property for their description, so set it if it's not right (usually happens out of battle when data is cleared)
+                    if ($State.game.battle.currentTurn.characterName -ne $Character.name) {
+                        Write-Debug "override: setting currentTurn name to $($Character.name)"
+                        Set-HashtableValueFromPath -Hashtable $State -Path 'game.battle.currentTurn.characterName' -Value $Character.name
+                    }
+
                     Write-Host ($State | Enrich-Text $statusInfo.$statusId.turnDesc)
                     $alreadyWritten.Add($statusId) | Out-Null
                 } else {
@@ -567,6 +562,35 @@ function Apply-StatusEffects {
                             }
                         }
                     }
+                    'status' {
+                        Write-Debug "applying subordinate statuses for $statusId ($($status.guid))"
+                        # Check to see if chance, stack, or intensity needs to be parsed, and do so if needed
+                        foreach ($subStatus in $data) {
+                            Write-Debug "parsing expressions for $($subStatus.id)"
+                            foreach ($subProperty in @('chance', 'stack', 'intensity')) {
+                                if ($subStatus.$subProperty -is [int] -or $subStatus.$subProperty -is [double]) {
+                                    Write-Debug "$subProperty is not an expression"
+                                } else {
+                                    $subStatus.$subProperty = Parse-BattleExpression -Expression $subStatus.$subProperty -Status $status
+                                    Write-Debug "parsed $subProperty into $($subStatus.$subProperty)"
+                                }
+                            }
+                        }
+
+                        # We definitely can't add it now, as that would modify during iteration, so do it later
+                        $statusMapsToAdd.Add(@{
+                            id = $statusId
+                            name = $statusInfo.$statusId.name
+                            atkOverride = $status.atk
+                            data = @{
+                                class = $status.class
+                                type = $status.type
+                                pow = $status.pow
+                                status = $data
+                            }
+                        }) | Out-Null
+                        Write-Debug "will apply [$($data.id -join ', ')] post-loop"
+                    }
                     default { Write-Warning "Unexpected status action $case found in status $statusId ($($status.guid))" }
                 }
 
@@ -619,6 +643,14 @@ function Apply-StatusEffects {
     } else {
         # Usually this only happens during 'onDeath', to avoid modifying the collection when a character dies to ongoing damage
         Write-Verbose "explicitly instructed to not remove statuses during phase '$Phase', so skipping that part"
+    }
+
+    # Add statuses if we have any to add
+    if ($statusMapsToAdd.Count -gt 0) {
+        Write-Debug "will add subordinate statuses from the following statuses: [$($statusMapsToAdd.id -join ', ')]"
+        foreach ($statusMapToAdd in $statusMapsToAdd) {
+            $State | Add-Status -Attacker @{ name = $statusMapToAdd.name } -Target $Character -Skill $statusMapToAdd -AttackOverride $statusMapToAdd.atkOverride
+        }
     }
 
     # Update values now that we're done with everything
@@ -740,15 +772,20 @@ function Update-CharacterValues {
         # modify it
         $newValue = switch ($effect.action) {
             'buff' { $existingValue + $effect.number }
-            'debuff' { [System.Math]::Max(($existingValue - $effect.number), 0) } # ensure positive number
+            'debuff' { $existingValue - $effect.number }
             'mult' { $existingValue * $effect.number }
             default { Write-Warning "unknown action type $($effect.action) found in AE with guid $($effect.guid) (source: $($effect.source))" }
         }
 
         # round up if we're in a path that does that
-        if ($effect.path -notmatch 'resistances|affinities') {
+        if ($effect.path -match 'attrib|base') {
             Write-Debug "rounding up $newValue to ensure a whole number"
             $newValue = [System.Math]::Ceiling($newValue)
+        }
+        # make positive if we need it to be
+        if ($effect.path -notmatch 'affinities|resistances') {
+            Write-Debug "forcing $newValue to be positive"
+            $newValue = [System.Math]::Max($newValue, 0)
         }
 
         # set it

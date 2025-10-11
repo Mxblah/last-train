@@ -1,10 +1,10 @@
-function Test-EncounterFlagConditions {
+function Test-WhenConditions {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline)]
         [object]$State,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [hashtable]$When,
 
         [Parameter()]
@@ -12,7 +12,7 @@ function Test-EncounterFlagConditions {
     )
 
     # No conditions: return true
-    if ($When.Count -eq 0) {
+    if ($null -eq $When -or $When.Count -eq 0) {
         Write-Debug 'no conditions passed in when block; returning true'
         return $true
     }
@@ -33,13 +33,13 @@ function Test-EncounterFlagConditions {
             $requiredValue = $true
             $numberOfItems = [int]($State.items."$($condition.Value.id)".number)
             Write-Debug "found: $numberOfItems / want: number: $($condition.Value.number), min: $($condition.Value.min), max: $($condition.Value.max)"
-            $actualValue = if ($condition.Value.number) {
+            $actualValue = if ($null -ne $condition.Value.number) {
                 $numberOfItems -eq $condition.Value.number ? $true : $false
-            } elseif ($condition.Value.min -and $condition.Value.max) {
+            } elseif ($null -ne $condition.Value.min -and $null -ne $condition.Value.max) {
                 $numberOfItems -le $condition.Value.max -and $numberOfItems -ge $condition.Value.min ? $true : $false
-            } elseif ($condition.Value.min) {
+            } elseif ($null -ne $condition.Value.min) {
                 $numberOfItems -ge $condition.Value.min ? $true : $false
-            } elseif ($condition.Value.max) {
+            } elseif ($null -ne $condition.Value.max) {
                 $numberOfItems -le $condition.Value.max ? $true : $false
             } else {
                 Write-Warning "Unknown item condition found for item: $($condition.Value.id)"

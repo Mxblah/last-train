@@ -1,0 +1,20 @@
+{
+    "id": "desert-bunker-goop-x1-matk",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "acid-muck",
+                    "loot": [
+                        {
+                            "id": "skill-book-attack-magic",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -16,6 +16,10 @@
             "fear": {
                 "value": 0,
                 "base": 1
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
             }
         },
         "element": {
@@ -26,6 +30,10 @@
             "piercing": {
                 "value": 0,
                 "base": 0.4
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
             },
             "slashing": {
                 "value": 0,
@@ -50,11 +58,11 @@
             "baseRegen": 0
         },
         "bp": {
-            "value": 8,
-            "max": 8,
-            "base": 8,
-            "regen": 0,
-            "baseRegen": 0
+            "value": 12,
+            "max": 12,
+            "base": 12,
+            "regen": 2,
+            "baseRegen": 2
         },
         "mp": {
             "value": 0,
@@ -67,7 +75,7 @@
     "stats": {
         "pAtk": {
             "value": 0,
-            "base": 16
+            "base": 15
         },
         "mAtk": {
             "value": 0,
@@ -75,7 +83,7 @@
         },
         "pDef": {
             "value": 0,
-            "base": 24
+            "base": 22
         },
         "mDef": {
             "value": 0,
@@ -99,7 +107,10 @@
             }
         ],
         "attack-multi": [
-
+            {
+                "id": "cleave",
+                "weight": 40
+            }
         ],
         "buff-single": [
             {

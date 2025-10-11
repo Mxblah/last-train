@@ -1,0 +1,26 @@
+{
+    "id": "acidburn",
+    "name": "Dissolving",
+    "color": "Green",
+    "badge": "🧪",
+    "applyDesc": "Acid drenches ${game.battle.defender}.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is dripping with acid.",
+    "description": "Acid burns cause damage and lower physical defense.",
+    "data": {
+        "class": "physical",
+        "type": "acid",
+        "turnStart": {
+            "damage": "i"
+        },
+        "passive": {
+            "stats": {
+                "pDef": {
+                    "mult": "-0.1 * s + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

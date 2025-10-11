@@ -39,6 +39,7 @@ function Start-TrainScene {
         - menu option: change train destination (available until late in the day, then locked)
         - menu option: sleep (how long) -> can heal at the cost of time
         - menu option: wait/sleep until the train stops
+        - menu option: wait (sleep, but in minutes instead of hours, or update sleep)
         - menu option: exit the train to explore (if at a station)
         - menu option: read (tutorials, descriptions of bestiary monsters you've seen, status effects, )
         - menu option: train (battle w/ the training dummy?)
@@ -70,15 +71,22 @@ function Show-TrainMenu {
     # todo: we can combine "Browse" and "Item" if the item list is more useful and sortable (then replace browse with craft/shop?)
     $availableActions = @(
         'Browse', 'Item', 'Equip'
-        'Level Up', 'Read', 'Sleep'
+        'Level Up', 'Read', 'Rest'
         'Skills', 'Party', 'Training'
         'Save'
     )
     if ($State.game.train.stopped) {
         $availableActions += 'Explore'
     }
-    if ($null -ne $State.game.train.stationDecisionPoint -and $State.time.currentTime -lt $State.game.train.stationDecisionPoint) {
+    if (
+        (-not $State.game.train.stopped) -and
+        ($null -ne $State.game.train.stationDecisionPoint) -and
+        ($State.time.currentTime -lt $State.game.train.stationDecisionPoint)
+    ) {
         $availableActions += 'Change Destination'
+    }
+    if ($State.game.train.stopped) {
+        $availableActions += 'Depart'
     }
 
     # Write the actions
@@ -129,7 +137,7 @@ function Show-TrainMenu {
             $State | Show-EncyclopediaMenu
             # Handles the time add within the helper function based on what's read
         }
-        'sleep' {
+        'rest' {
             $State | Show-BattleCharacterInfo -Character $State.player # to show HP, etc. for informed sleeping
             Write-Host ''
             $State | Show-TrainSleepMenu
@@ -141,7 +149,7 @@ function Show-TrainMenu {
             # Handles time adds in the helper function based on skills swapped
         }
         'party' {
-            $partyMembers = @($State.player.name, $State.party.name)
+            $partyMembers = $State.party.Count -gt 0 ? @($State.player.name, $State.party.name) : @($State.player.name)
             Write-Host "$($State.player.name)'s party:"
             Write-Host ($partyMembers -join ' | ')
             $choice = $State | Read-PlayerInput -Prompt 'Inspect which party member?' -Choices $partyMembers -AllowNullChoice
@@ -173,19 +181,7 @@ function Show-TrainMenu {
         }
 
         'save' {
-            $response = Read-Host -Prompt 'Save to which slot? (number, or <enter> for auto, or anything else to cancel)'
-            try { $slot = [int]$response } catch {
-                # not an int
-                Write-Host 'Save cancelled.'
-                break
-            }
-            if ([string]::IsNullOrWhiteSpace($slot) -or $slot -le 0) {
-                # auto (current) slot
-                $State | Save-Game
-            } else {
-                # new slot
-                $State | Save-Game -Slot $slot
-            }
+            $State | Invoke-ManualSave
             # Saving does not take any time. That would be mean.
         }
         'explore' {
@@ -196,6 +192,15 @@ function Show-TrainMenu {
         'change destination' {
             $State | Show-TrainDecisionMenu
             # Already handles the time add in the helper function
+        }
+        'depart' {
+            $choice = $State | Read-PlayerInput -Prompt "Depart from $($State.game.train.lastStationName) early? (y/n)" -Choices @('yes', 'no') -AllowNullChoice
+            if ($choice -ne 'yes') {
+                Write-Host 'You changed your mind...'
+                $State | Add-GlobalTime -Time '00:00:30'
+            } else {
+                $State | Invoke-TrainDeparture -EarlyDeparture
+            }
         }
     }
 }
@@ -209,7 +214,7 @@ function Show-TrainSleepMenu {
 
     # Get input
     while ($true) {
-        $response = Read-Host -Prompt 'Sleep how long? (hours, or "T" to sleep until the next station, or <enter> to cancel)'
+        $response = Read-Host -Prompt 'Sleep how long? (hours, or "T" to sleep until the next station, or append "m" for minutes, or <enter> to cancel)'
         try {
             # "T" handler
             if ($response -eq 'T') {
@@ -232,10 +237,24 @@ function Show-TrainSleepMenu {
                 }
             }
 
-            $sleepTime = [int]$response
+            # "m" handler
+            if ($response -like '*m') {
+                $waitTime = [int]($response -replace 'm', '')
+                if ($waitTime -ge 60 -or $waitTime -lt 1) {
+                    throw "invalid wait time $waitTime"
+                }
+
+                # short circuit for waiting, as we don't need to handle HP gain or any of that other stuff if you're not sleeping
+                Write-Host "You wait around for $waitTime minutes."
+                $State | Add-GlobalTime -Time (New-TimeSpan -Minutes $waitTime)
+                return
+            } else {
+                # normal: hours
+                $sleepTime = [int]$response
+            }
             break
         } catch {
-            Write-Host -ForegroundColor Yellow '❌ Invalid input; make a valid choice to continue! (Must be a whole number)'
+            Write-Host -ForegroundColor Yellow '❌ Invalid input; make a valid choice to continue! (Must be a whole number, and must be < 60 if using minutes)'
         }
     }
 
@@ -282,8 +301,8 @@ function Show-TrainSleepMenu {
     # Wake up
     if ($wokeUpEarly) { Write-Host "You couldn't stay asleep that long and woke up early..." }
     switch ($sleepTime) {
-        { $_ -le 2 } { 'You wake up tired and disoriented, but somewhat refreshed.'; break }
-        { $_ -le 4 } { 'You wake up refreshed, but still tired.'; break }
+        { $_ -le 2 } { 'You wake up tired, but somewhat refreshed.'; break }
+        { $_ -le 4 } { 'You wake up refreshed, but still somewhat tired.'; break }
         { $_ -le 10 } { 'You wake up well-rested.'; break }
         default { 'You wake up well-rested and full of energy, but was it really okay to sleep that long...?' }
     }
@@ -426,6 +445,7 @@ function Show-SkillsMenu {
             }
         }
 
+        $State | Add-GlobalTime -Time '00:02:30'
         if ($OnlyOne) {
             return
         } else {

@@ -28,11 +28,11 @@ function Show-LevelUpMenu {
 
             # Get color based on % of max
             $color = switch ($base / $max) {
-                { $_ -gt 0.6 } { 'DarkGreen'; break }
-                { $_ -gt 0.45 } { 'Green'; break }
-                { $_ -gt 0.3 } { 'Yellow'; break }
-                { $_ -gt 0.15 } { 'DarkYellow'; break }
-                { $_ -gt 0.0 } { 'Red'; break }
+                { $_ -ge 1 } { 'DarkGreen'; break }
+                { $_ -ge 0.875 } { 'Green'; break }
+                { $_ -ge 0.75 } { 'Yellow'; break }
+                { $_ -ge 0.625 } { 'DarkYellow'; break }
+                { $_ -gt 0.5 } { 'Red'; break }
                 default { 'DarkRed' }
             }
 
@@ -46,7 +46,7 @@ function Show-LevelUpMenu {
         # Ask what the player wants to do
         $response = $State | Read-PlayerInput -Prompt 'Increase which stat? (or <enter> to cancel)' -Choices @('pAtk', 'mAtk', 'pDef', 'mDef', 'acc', 'spd') -AllowNullChoice
         if ([string]::IsNullOrEmpty($response)) {
-            Write-Host 'You changed your mind...'
+            Write-Host 'You stopped increasing your stats.'
             return
         }
 
@@ -95,6 +95,7 @@ function Show-LevelUpMenu {
     }
 }
 
+# Was used in a previous calculation for Get-MaxStatBase; might be needed again sometime
 function Get-StatTotal {
     [CmdletBinding()]
     param(
@@ -112,6 +113,30 @@ function Get-StatTotal {
     return $statTotal
 }
 
+function Get-ExtremeStat {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'Max')]
+        [switch]$Highest,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'Min')]
+        [switch]$Lowest
+    )
+
+    $bases = foreach ($stat in $State.player.stats.GetEnumerator()) { $stat.Value.base }
+    if ($Highest) {
+        return (($bases | Sort-Object | Select-Object -First 1))
+    } elseif ($Lowest) {
+        return (($bases | Sort-Object | Select-Object -Last 1))
+    } else {
+        Write-Warning 'No argument passed to Get-ExtremeStat'
+        return 0
+    }
+}
+
 function Get-MaxStatBase {
     [CmdletBinding()]
     param(
@@ -119,8 +144,8 @@ function Get-MaxStatBase {
         [object]$State
     )
 
-    # Determine max value for a base stat based on the stat total
-    return ([System.Math]::Ceiling(($State | Get-StatTotal) / 3))
+    # Get the lowest stat base and return 2x that
+    return (($State | Get-ExtremeStat -Lowest) * 2)
 }
 
 function Add-SkillIfRoom {

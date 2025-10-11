@@ -1,0 +1,22 @@
+{
+    "id": "desert-bunker-open-dunes-exit",
+    "data": [
+        {
+            "text": "You come across a vertical shaft with a ladder against one side. A time-faded sign barely legible in the dim light reads \"SURFACE: Secondary\"."
+        },
+        {
+            "text": "An experimental climb and a shove against the trapdoor at the top confirms it: you've re-emerged into the desert dunes. The train is just visible over a few mounds of sand.",
+            "action": {
+                "flag": {
+                    "desert.bunker.openedDunesExit": true
+                },
+                "time": {
+                    "add": "00:02:30"
+                }
+            }
+        },
+        {
+            "text": "It's good to know where this entrance is. You should be able to get back here from above now."
+        }
+    ]
+}

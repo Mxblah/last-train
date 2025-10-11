@@ -54,16 +54,27 @@
                         },
                         {
                             "type": "cutscene",
+                            "id": "desert-outskirts-pillow",
+                            "chance": 0.2,
+                            "requiredPhase": "night",
+                            "maxTimes": 3,
+                            "when": {
+                                "desert.outskirts.gremlinCampCleared": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
                             "id": "desert-outskirts-well",
                             "chance": 0.225,
                             "maxTimes": 1
                         },
                         {
-                            "type": "treasure",
+                            "type": "item",
                             "id": "coin",
+                            "text": "You find a handful of strange coins, all marked with a triangle inscribed in a circle on one side and an abstract mountain design on the other.",
                             "chance": 0.05,
-                            "minMultiplier": 3,
-                            "maxMultiplier": 5
+                            "minAmount": 3,
+                            "maxAmount": 5
                         },
                         {
                             "type": "battle",
@@ -87,6 +98,16 @@
                         "arrivalDepth": 0,
                         "travelCost": "00:04:00",
                         "description": "You leave behind the town outskirts and venture across the railway tracks into the dunes beyond."
+                    },
+                    "bunker": {
+                        "minDepthAvailable": 3,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 8,
+                        "travelCost": "00:02:00",
+                        "description": "You heave open the hidden trapdoor that leads into the bunker.",
+                        "when": {
+                            "desert.bunker.openedOutskirtsExit": true
+                        }
                     }
                 }
             },
@@ -134,11 +155,11 @@
                             }
                         },
                         {
-                            "type": "treasure",
+                            "type": "item",
                             "id": "offhand-lead-plate",
+                            "text": "You find a plate of greyish metal lying on the ground. It's unbelievably heavy, but it's got a handle and a coating on the back as if to suggest you're supposed to wield it like a shield. Is this... made of lead? Why??",
                             "chance": 0.25,
-                            "minMultiplier": 1,
-                            "maxMultiplier": 1,
+                            "number": 1,
                             "maxTimes": 1
                         },
                         {
@@ -204,7 +225,7 @@
                 "name": "Downtown",
                 "sunStrengthMultiplier": 0.7,
                 "field": {
-                    "depth": 3,
+                    "depth": 4,
                     "travelBaseCost": "00:02:00",
                     "deeperDescription": "Head for the center of the plaza.",
                     "shallowerDescription": "Head for the plaza edges.",
@@ -222,38 +243,50 @@
                             "type": "cutscene",
                             "id": "desert-cat",
                             "chance": 1,
-                            "minDepthAvailable": 3,
+                            "minDepthAvailable": 4,
                             "maxTimes": 1
                         },
                         {
-                            "type": "treasure",
+                            "type": "item",
                             "id": "orb-pearlescent",
+                            "text": "You find a small orb somewhat resembling a pearl. Your hand thrums with a faint energy as you hold it.",
                             "chance": 0.1,
-                            "minMultiplier": 1,
-                            "maxMultiplier": 1,
+                            "number": 1,
                             "maxTimes": 2
                         },
                         {
-                            "type": "treasure",
+                            "type": "item",
                             "id": "bandage",
+                            "text": "You find a sealed pack of bandages, seemingly fresh out of a first aid kit.",
                             "chance": 0.2,
-                            "minMultiplier": 1,
-                            "maxMultiplier": 3,
+                            "minAmount": 1,
+                            "maxAmount": 3,
                             "maxTimes": 2
                         },
                         {
-                            "type": "treasure",
+                            "type": "item",
                             "id": "coin",
+                            "text": "You find a handful of silver coins in a market stall. They're all inscribed with a triangle in a circle.",
                             "chance": 0.075,
-                            "minMultiplier": 4,
-                            "maxMultiplier": 7
+                            "minAmount": 4,
+                            "maxAmount": 7
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-downtown-bunker-discovery",
+                            "chance": 0.25,
+                            "minDepthAvailable": 2,
+                            "maxDepthAvailable": 3,
+                            "maxTimes": 1
                         },
                         {
                             "type": "cutscene",
                             "id": "desert-golem-oil-vending",
                             "chance": 0.4,
+                            "maxDepthAvailable": 3,
                             "whenMode": "and",
                             "when": {
+                                "desert.golem.met": true,
                                 "desert.golem.fixed": false,
                                 "desert.golem.canFix": false
                             }
@@ -272,6 +305,16 @@
                         "arrivalDepth": 5,
                         "travelCost": "00:01:00",
                         "description": "You return to the commercial district."
+                    },
+                    "deepBunker": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 3,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:04:00",
+                        "description": "You squeeze into the hidden elevator that leads to the deep bunker.",
+                        "when": {
+                            "desert.bunker.openedDowntownExit": true
+                        }
                     }
                 }
             },
@@ -335,25 +378,36 @@
                             }
                         },
                         {
-                            "type": "treasure",
+                            "type": "item",
                             "id": "orb-pearlescent",
                             "chance": 0.20,
+                            "text": "You find a small, smooth orb; glossy, with a pearlescent sheen. You feel a distant vibration when you hold it.",
                             "minDepthAvailable": 3,
-                            "minMultiplier": 1,
-                            "maxMultiplier": 1,
+                            "number": 1,
                             "maxTimes": 5
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-dunes-bunker-discovery",
+                            "chance": 0.45,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 4,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedDunesExit": false
+                            }
                         },
                         {
                             "type": "battle",
                             "id": "desert-sand-eels-x2-smoked-rod",
-                            "chance": 0.60,
+                            "chance": 0.50,
                             "minDepthAvailable": 2,
                             "maxTimes": 1
                         },
                         {
                             "type": "battle",
                             "id": "desert-sand-eel-x2-vulture-x1",
-                            "chance": 0.35,
+                            "chance": 0.25,
                             "minDepthAvailable": 3,
                             "maxDepthAvailable": 8,
                             "maxTimes": 1
@@ -361,14 +415,14 @@
                         {
                             "type": "battle",
                             "id": "desert-sand-eels-x2",
-                            "chance": 0.20,
+                            "chance": 0.10,
                             "minDepthAvailable": 2,
                             "maxTimes": 2
                         },
                         {
                             "type": "battle",
                             "id": "desert-sand-eel-vulture-x2",
-                            "chance": 0.25,
+                            "chance": 0.2,
                             "minDepthAvailable": 3,
                             "maxDepthAvailable": 8,
                             "maxTimes": 1
@@ -394,6 +448,273 @@
                         "arrivalDepth": 0,
                         "travelCost": "00:04:00",
                         "description": "You cross the railway tracks and return to the town outskirts near the train station."
+                    },
+                    "bunker": {
+                        "minDepthAvailable": 3,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:00",
+                        "description": "You heave open the hidden trapdoor that leads into the bunker.",
+                        "when": {
+                            "desert.bunker.openedDunesExit": true
+                        }
+                    }
+                }
+            },
+            {
+                "id": "bunker",
+                "name": "Bunker",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 8,
+                    "travelBaseCost": "00:03:00",
+                    "deeperDescription": "Head towards the village.",
+                    "shallowerDescription": "Head towards the dunes.",
+                    "exploreHereDescription": "Explore the nearby rooms.",
+                    "flavor": {
+                        "general": [
+                            "Your footsteps echo in the dull, still air.",
+                            "You peer into the darkness, trying to make out any features in the dim illumination of occasional status lights.",
+                            "Metal creaks somewhere above you. The bunker settles.",
+                            "Sand has piled into a small drift in the corner. Even here, the desert has managed to infiltrate.",
+                            "The cool air is a welcome change from the desert above, but something about it feels wrong on your skin.",
+                            "Pipes, tubes, and broken vats. You wonder what this bunker was for.",
+                            "Machinery languishes in decay. Everything in here has been broken or deactivated.",
+                            "Huge, torn marks score the wall here. Did that come from the claw of some enormous creature?"
+                        ],
+                        "0": [
+                            "A ladder leads up a vertical shaft here."
+                        ],
+                        "5": [
+                            "A flight of steep stairs leads into further depths here.",
+                            "A faded sign warns you about something, but the text is too far gone to read. The picture displays a stick figure seemingly falling apart."
+                        ],
+                        "8": [
+                            "A ladder leads up a vertical shaft here."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-open-dunes-exit",
+                            "chance": 1,
+                            "maxDepthAvailable": 0,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedDunesExit": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-open-outskirts-exit",
+                            "chance": 1,
+                            "minDepthAvailable": 8,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedOutskirtsExit": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-goop-x1-matk",
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "glove-chemists",
+                            "text": "A pair of rubber gloves were left in a singed desk drawer here. They're still intact, and seem to have fared better than most against the acid nearby.",
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "lowerFace-surgical-mask",
+                            "text": "You find a fresh surgical mask, still in the plastic wrap, wedged implausibly between a damaged pipe and the wall.",
+                            "chance": 0.15,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist",
+                            "chance": 0.12,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-key-chemist",
+                            "chance": 0.2,
+                            "when": {
+                                "desert.bunker.deepLabOpen": false,
+                                "item": {
+                                    "id": "desert-bunker-keycard",
+                                    "max": 0
+                                }
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-goop-x2",
+                            "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist-goop",
+                            "chance": 0.065
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "text": "You find a packet of fresh bandages amidst the bunker's wreckage.",
+                            "chance": 0.15,
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "text": "You find a small capsule of soothing liquid amidst the bunker's wreckage.",
+                            "chance": 0.07,
+                            "minAmount": 1,
+                            "maxAmount": 2
+                        }
+                    ]
+                },
+                "connections": {
+                    "dunes": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:02:30",
+                        "description": "You climb the ladder and push open the trapdoor, emerging into the desert dunes."
+                    },
+                    "deepBunker": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:03:30",
+                        "description": "You descend the seemingly endless stairs into the bunker's depths."
+                    },
+                    "outskirts": {
+                        "minDepthAvailable": 8,
+                        "maxDepthAvailable": 8,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:02:30",
+                        "description": "You climb the ladder and push open the trapdoor, emerging into the village outskirts."
+                    }
+                }
+            },
+            {
+                "id": "deepBunker",
+                "name": "Deep Bunker",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 5,
+                    "travelBaseCost": "00:03:00",
+                    "deeperDescription": "Head further into the depths.",
+                    "shallowerDescription": "Head back towards the main bunker.",
+                    "exploreHereDescription": "Explore the nearby rooms.",
+                    "flavor": {
+                        "general": [
+                            "Your footsteps echo in the dull, still air.",
+                            "You peer into the darkness, trying to make out any features in the dim illumination of occasional status lights.",
+                            "Metal creaks somewhere above you. The bunker settles.",
+                            "Still-active machinery hums in the walls.",
+                            "A ventilation fan is imbalanced and clatters occasionally against its casing. Despite its efforts, the air is stale."
+                        ],
+                        "0": [
+                            "A flight of steep stairs leads back into the upper bunker here."
+                        ],
+                        "5": [
+                            "A pair of smooth metal doors mark the elevator to the surface here."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-hallowed-lab-entry",
+                            "chance": 1,
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 3,
+                            "when": {
+                                "desert.bunker.hallowedLabClear": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-open-downtown-exit",
+                            "chance": 1,
+                            "minDepthAvailable": 5,
+                            "maxTimes": 1,
+                            "when": {
+                                "desert.bunker.openedDowntownExit": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "chest-lab-coat",
+                            "chance": 0.145,
+                            "number": 1,
+                            "text": "A creaky metal cabinet reveals an intact lab coat hanging from a rack. You feel smarter just looking at it.",
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "desert-bunker-operation",
+                            "chance": 0.25,
+                            "when": {
+                                "desert.bunker.operationComplete": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist-x2",
+                            "chance": 0.045
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-chemist-goop",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "desert-bunker-goop-x2",
+                            "chance": 0.065
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "text": "You find a packet of fresh bandages amidst the bunker's wreckage.",
+                            "chance": 0.15,
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "text": "You find a small capsule of soothing liquid amidst the bunker's wreckage.",
+                            "chance": 0.05,
+                            "minAmount": 1,
+                            "maxAmount": 2
+                        }
+                    ]
+                },
+                "connections": {
+                    "bunker": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:06:00",
+                        "description": "You climb up the seemingly endless stairs into the main bunker."
+                    },
+                    "downtown": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 2,
+                        "travelCost": "00:04:00",
+                        "description": "You call the elevator and ascend to the surface, emerging into the village plaza."
                     }
                 }
             }

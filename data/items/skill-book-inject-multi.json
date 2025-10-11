@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-inject-multi",
+    "name": "Skill Book: Multi-Inject",
+    "description": "A significantly folded schematic detailing a complex technique to throw syringes. Read to learn how to use Multi-Inject.",
+    "useDescription": "After memorizing the book's gestures and techniques, you become adept at flinging unreasonable amounts of needles at once. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "02:40:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-multi",
+                "id": "inject-multi"
+            }
+        ]
+    }
+}

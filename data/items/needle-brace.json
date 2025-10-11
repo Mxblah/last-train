@@ -1,0 +1,35 @@
+{
+    "id": "needle-brace",
+    "name": "Needle Brace",
+    "description": "A linked brace of medical syringes, seemingly intended to be wielded between the fingers. Thick, vile liquid pools within the needles, regenerating when expended. You can move more quickly when using this weapon, due to its low weight and a strange, almost steroidal effect. Best not to think about it too much.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "physical",
+            "type": "poison",
+            "typePercent": 0.8
+        }
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "acid": 0.1,
+                "poison": 0.2
+            }
+        },
+        "resistances": {
+            "element": {
+                "poison": 0.05
+            }
+        },
+        "stats": {
+            "pAtk": {
+                "buff": 7
+            },
+            "spd": {
+                "buff": 5
+            }
+        }
+    }
+}

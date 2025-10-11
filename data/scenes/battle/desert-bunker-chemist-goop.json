@@ -1,0 +1,16 @@
+{
+    "id": "desert-bunker-chemist-goop",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "chemist-ghoul"
+                },
+                {
+                    "id": "acid-muck"
+                }
+            ]
+        }
+    }
+}

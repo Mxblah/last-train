@@ -1,0 +1,35 @@
+{
+    "id": "chest-flaming-heart",
+    "name": "Flaming Heart T-Shirt",
+    "description": "A maroon t-shirt with a stylized flaming heart depicted directly above your own, no matter how you arrange the fabric. A slogan beneath the heart reads \"Scorched-Earth Love\". You're not sure what that means, exactly, and you're not sure you'd want to know. Boosts vitality.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "chest"
+    },
+    "effects": {
+        "resistances": {
+            "status": {
+                "bleed": 0.2,
+                "burn": 0.2
+            },
+            "element": {
+                "fire": 0.15
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 35
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 2
+            }
+        }
+    }
+}

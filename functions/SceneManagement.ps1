@@ -16,6 +16,7 @@ function Start-Scene {
 
     # Try to get the scene data and offer a recovery option if unsuccessful
     try {
+        # todo: consider adding a "prefix" or "path" param, in order to allow for better organization than just one giant folder
         Write-Verbose "Loading scene ${type}:$id..."
         $scene = Get-Content -Path "$PSScriptRoot/../data/scenes/$type/$id.json" | ConvertFrom-Json -AsHashtable
         Convert-AllChildArraysToArrayLists -Data $scene # some scenes don't need this treatment, but some do
@@ -59,7 +60,6 @@ function Start-Scene {
     switch ($type) {
         'battle' { $State | Start-BattleScene -Scene $scene }
         'cutscene' { $State | Start-CutsceneScene -Scene $scene }
-        'treasure' { $State | Start-CutsceneScene -Scene $scene }
         'tutorial' { $State | Start-CutsceneScene -Scene $scene }
         'explore' { $State | Start-ExploreScene -Scene $scene }
         'train' { $State | Start-TrainScene -Scene $scene }

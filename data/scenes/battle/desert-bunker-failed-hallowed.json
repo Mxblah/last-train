@@ -1,0 +1,34 @@
+{
+    "id": "desert-bunker-failed-hallowed",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "failed-hallowed",
+                    "loot": [
+                        {
+                            "id": "skill-book-mindspike",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {
+            "noSunDamage": true
+        },
+        "flags": {
+            "desert.bunker.hallowedLabClear": true
+        },
+        "exit": {
+            "type": "explore",
+            "id": "desert"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "desert"
+        }
+    }
+}

@@ -156,6 +156,7 @@ function Remove-GameItem {
                 $State | Unequip-GameItem -Id $Id -StolenBy $StolenBy
             }
 
+            $Number = $State.$Location.$Id.number # can't remove more than we have, so set it here for the print
             $State.$Location.Remove($Id)
         } else {
             $State.$Location.$Id.number -= $Number
@@ -474,6 +475,7 @@ function Use-GameItem {
                                 }
                                 Write-Debug "removing status class $status"
                                 $State.player.status.Remove($status)
+                                Write-Host -ForegroundColor DarkCyan "🧼 Cleared status '$status'"
                             }
                             default { Write-Warning "unknown action '$action' on status '$status' in item $Id ($guid)" }
                         }

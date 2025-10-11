@@ -33,7 +33,7 @@ function Start-CutsceneScene {
                 $choiceName = $choiceRaw.Key
                 $choiceInfo = $choiceRaw.Value
                 if ($choiceInfo.when) {
-                    $shouldList = $State | Test-EncounterFlagConditions -When $choiceInfo.when -WhenMode $choiceInfo.whenMode
+                    $shouldList = $State | Test-WhenConditions -When $choiceInfo.when -WhenMode $choiceInfo.whenMode
                 } else {
                     # Always list choices without whens
                     $shouldList = $true
@@ -129,15 +129,6 @@ function Invoke-CutsceneAction {
                 }
             }
             'item' {
-                # Multiply treasure scenes if provided
-                if ($null -ne $State.game.scene.treasureMultiplier) {
-                    $itemMultiplier = $State.game.scene.treasureMultiplier
-                    Write-Debug "found treasure multiplier of $($State.game.scene.treasureMultiplier) - multiplying all items by it and then nulling it out"
-                    $State.game.scene.treasureMultiplier = $null
-                } else {
-                    $itemMultiplier = 1
-                }
-
                 # Add / remove the items
                 foreach ($item in $act) {
                     # Check if chance succeeds, if provided
@@ -153,11 +144,11 @@ function Invoke-CutsceneAction {
 
                     switch ($item.action) {
                         'remove' {
-                            $State | Remove-GameItem -Id $item.id -Number ($item.number * $itemMultiplier)
+                            $State | Remove-GameItem -Id $item.id -Number $item.number
                         }
 
                         default {
-                            $State | Add-GameItem -Id $item.id -Number ($item.number * $itemMultiplier)
+                            $State | Add-GameItem -Id $item.id -Number $item.number
                         }
                     }
                 }
@@ -254,8 +245,8 @@ function Invoke-CutsceneAction {
             'exit' {
                 $State | Exit-Scene -Type $act.type -Id $act.id
             }
-            'when' {
-                # Do nothing; this is used as a conditional, not as an action
+            { $_ -match 'when|whenMode' } {
+                # Do nothing; these are used in conditionals, not as actions themselves
             }
             default {
                 Write-Warning "Unknown cutscene action type '$_' encountered in cutscene with ID '$($State.game.scene.id)'!"

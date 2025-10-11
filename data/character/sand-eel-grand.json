@@ -104,13 +104,13 @@
             },
             {
                 "id": "irradiate",
-                "weight": 35
+                "weight": 40
             }
         ],
         "attack-multi": [
             {
                 "id": "flame-fan",
-                "weight": 30
+                "weight": 40
             },
             {
                 "id": "microwave",
@@ -120,11 +120,11 @@
         "buff-single": [
             {
                 "id": "wiggle",
-                "weight": 55
+                "weight": 45
             },
             {
                 "id": "defend",
-                "weight": 30
+                "weight": 25
             }
         ],
         "buff-multi": [

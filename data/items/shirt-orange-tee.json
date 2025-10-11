@@ -8,6 +8,9 @@
     },
     "effects": {
         "resistances": {
+            "status": {
+                "burn": 0.1
+            },
             "element": {
                 "fire": 0.2
             }

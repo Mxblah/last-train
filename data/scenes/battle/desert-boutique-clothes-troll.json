@@ -26,6 +26,11 @@
                             "id": "hat-floppy-straw-ribbon",
                             "number": 1,
                             "chance": 0.60
+                        },
+                        {
+                            "id": "soul-fragment-silver",
+                            "number": 1,
+                            "chance": 1
                         }
                     ]
                 }

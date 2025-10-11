@@ -1,0 +1,182 @@
+{
+    "id": "failed-hallowed",
+    "name": "Failed Hallowed",
+    "entryDescription": "A gaunt, stationary person glowing with sunlight does not move, but gets closer nonetheless.",
+    "inspectDescription": "A skeletally thin person wearing only burned scraps of what was once a laboratory uniform. Golden sunlight pours from all exposed skin. Never seems to move, but is somehow capable of being in different places without obvious locomotion between them. Can use varied magic, but the primary threat is the sunlight.",
+    "bestiaryDescription": "An experimentally-created hallowed, without the sun's full blessing. Weakened and maddened by their incomplete state. Uses solar, mental, and acid magic, and exudes a mental fascination that can prevent fleeing.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": 0.65
+            },
+            "blind": {
+                "value": 0,
+                "base": 0.5
+            },
+            "dazzled": {
+                "value": 0,
+                "base": 1
+            },
+            "fear": {
+                "value": 0,
+                "base": 0.65
+            },
+            "paralysis": {
+                "value": 0,
+                "base": 0.7
+            }
+        },
+        "element": {
+            "acid": {
+                "value": 0,
+                "base": 0.3
+            },
+            "healing": {
+                "value": 0,
+                "base": 0.5
+            },
+            "mental": {
+                "value": 0,
+                "base": 0.5
+            },
+            "solar": {
+                "value": 0,
+                "base": 1.5
+            },
+            "void": {
+                "value": 0,
+                "base": -0.5
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 130,
+            "max": 130,
+            "base": 130,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 10,
+            "base": 10,
+            "regen": 1,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 20,
+            "max": 40,
+            "base": 40,
+            "regen": 0,
+            "baseRegen": 4
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 10
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 20
+        },
+        "pDef": {
+            "value": 0,
+            "base": 12
+        },
+        "mDef": {
+            "value": 0,
+            "base": 16
+        },
+        "acc": {
+            "value": 0,
+            "base": 20
+        },
+        "spd": {
+            "value": 0,
+            "base": 11
+        }
+    },
+    "loot": [
+        {
+            "id": "soul-fragment-silver",
+            "number": 1,
+            "chance": 1
+        },
+        {
+            "id": "silver-feather",
+            "min": 1,
+            "max": 3,
+            "chance": 0.75
+        }
+    ],
+    "ai": "blaster",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack-magic",
+                "weight": 40
+            },
+            {
+                "id": "acid-stream",
+                "weight": 70
+            },
+            {
+                "id": "mindspike",
+                "weight": 80
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "solar-flood",
+                "weight": 240
+            }
+        ],
+        "buff-single": [
+
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "solar-embrace",
+                "weight": 80
+            },
+            {
+                "id": "fascinate",
+                "weight": 60
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+            {
+                "id": "failed-blessing",
+                "weight": 40
+            }
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "pass-turn",
+                "weight": 10
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

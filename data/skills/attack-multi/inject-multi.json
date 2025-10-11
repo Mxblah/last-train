@@ -1,0 +1,31 @@
+{
+    "id": "inject-multi",
+    "name": "Multi-Inject",
+    "description": "${game.battle.attacker} sprays poisoned needles at several foes.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 2,
+        "targetsAll": false,
+        "mp": 5,
+        "pow": 4,
+        "acc": 0.9,
+        "crit": 0,
+        "hits": 3,
+        "class": "physical",
+        "type": "poison",
+        "status": [
+            {
+                "id": "acidburn",
+                "chance": 0.3,
+                "stack": 2,
+                "intensity": 0.25
+            },
+            {
+                "id": "poison",
+                "chance": 0.6,
+                "stack": 2,
+                "intensity": 0.75
+            }
+        ]
+    }
+}

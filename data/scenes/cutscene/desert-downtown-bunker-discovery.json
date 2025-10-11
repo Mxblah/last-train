@@ -1,0 +1,31 @@
+{
+    "id": "desert-downtown-bunker-discovery",
+    "data": [
+        {
+            "text": "A glint of metal catches your eye down a nearby alley. Curious, you shuffle a little closer to check it out."
+        },
+        {
+            "text": "It's a portion of a smooth metal door, uncovered behind a facade of broken wood that had formerly been part of a wall. In fact, it almost resembles... an elevator? Yeah, you can barely see the buttons behind a surviving set of boards.",
+            "choice": {
+                "text": "Call the elevator?",
+                "responses": {
+                    "call": {},
+                    "leave": {
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "With a few minutes of work, you manage to clear the rest of the wall away to reveal the elevator. It arrives slowly after you call it, but you're kind of surprised it arrives at all. Cool, dry air wafts from the carriage as its doors open. What have you uncovered?",
+            "action": {
+                "flag": {
+                    "desert.bunker.openedDowntownExit": true
+                },
+                "time": {
+                    "add": "00:07:00"
+                }
+            }
+        }
+    ]
+}

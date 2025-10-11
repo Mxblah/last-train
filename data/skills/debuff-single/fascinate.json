@@ -1,0 +1,30 @@
+{
+    "id": "fascinate",
+    "name": "Fascinate",
+    "description": "${game.battle.attacker} focuses all of ${game.battle.defender}'s attention on them.",
+    "skillType": "debuff-single",
+    "data": {
+        "target": 1,
+        "mp": 2,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "magical",
+        "type": "mental",
+        "status": [
+            {
+                "id": "dazzled",
+                "chance": 0.7,
+                "stack": 3,
+                "intensity": 1
+            },
+            {
+                "id": "fixated",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 2
+            }
+        ]
+    }
+}

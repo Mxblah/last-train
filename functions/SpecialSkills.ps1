@@ -11,6 +11,12 @@ function Invoke-SpecialFlee {
         [hashtable]$Skill
     )
 
+    # short circuit if fleeing is disabled
+    if ($State.game.battle.cannotFlee -or $Attacker.status.'cannot-flee'.Count -ge 1) {
+        Write-Host -ForegroundColor DarkGray "🚫 $($Attacker.name) cannot try to flee..."
+        return
+    }
+
     # Get character speed and the highest speed on the opposing faction to see if the flee is successful
     $ourSpeed = $Attacker.stats.spd.value
     $enemySpeed = ($State.game.battle.characters |

@@ -59,26 +59,31 @@ function Add-GlobalTime {
     Write-Debug "now $($State.time.currentTime) - $($State.time.phase)"
 
     # If we're not in battle, apply and clear status effects
-    if ($State.game.scene.type -ne 'battle' -and $State.player.status.Count -gt 0) {
+    if ($State.game.scene.type -ne 'battle' -and ($State.player.status.Count -gt 0 -or $State.party.status.Count -gt 0)) {
         $turns = [System.Math]::Min(($Time.TotalSeconds / 10), 10) # don't go on forever
-        Write-Debug "applying player statuses for $turns turns due to time advancing"
+        Write-Debug "applying party statuses for $turns turns due to time advancing"
         foreach ($turn in 1..$turns) {
             # In theory, all statuses reduce their stacks on either turnStart or turnEnd, and almost all are < 10 turn durations, so we should clear them with this loop
             $State | Apply-StatusEffects -Character $State.player -Phase 'turnStart'
             $State | Apply-StatusEffects -Character $State.player -Phase 'turnEnd'
-            if ($State.player.status.Count -le 0) {
+            foreach ($ally in $State.party) {
+                $State | Apply-StatusEffects -Character $ally -Phase 'turnStart'
+                $State | Apply-StatusEffects -Character $ally -Phase 'turnEnd'
+            }
+            if ($State.player.status.Count -le 0 -and $State.party.status.Count -le 0) {
                 Write-Debug "Out of statuses on turn $turn - stopping!"
-                Write-Host 'Your statuses have cleared.'
+                Write-Host -ForegroundColor DarkCyan '🧼 Your statuses have cleared.'
                 break
             }
         }
 
-        # If we didn't, clear them anyway
+        # If we didn't, clear them anyway (player only)
         if ($State.player.status.Count -gt 0 -and $turns -ge 10) {
             Write-Debug "clearing all player statuses due to having spent at least $turns turns out of battle on them"
             $State | Clear-AllStatusEffects -Character $State.player
-            Write-Host 'Your statuses have cleared.'
+            Write-Host -ForegroundColor DarkCyan '🧼 Your statuses have cleared.'
         }
+        Write-Host ''
     }
 
     # Handle train and solar damage

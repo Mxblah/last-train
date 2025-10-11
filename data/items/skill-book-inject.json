@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-inject",
+    "name": "Skill Book: Inject",
+    "description": "A significantly folded schematic detailing a complex technique to quickly inject patients. Read to learn how to use Inject.",
+    "useDescription": "After memorizing the book's gestures and techniques, you become adept at flinging unreasonable amounts of needles at a single target. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "02:45:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "inject"
+            }
+        ]
+    }
+}

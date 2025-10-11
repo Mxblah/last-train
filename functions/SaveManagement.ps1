@@ -150,6 +150,32 @@ function Invoke-AutoSave {
 
 <#
 .SYNOPSIS
+Interactive interface for the save system
+#>
+function Invoke-ManualSave {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State
+    )
+
+    $response = Read-Host -Prompt 'Save to which slot? (number, or <enter> for auto, or anything else to cancel)'
+    try { $slot = [int]$response } catch {
+        # not an int
+        Write-Host 'Save cancelled.'
+        break
+    }
+    if ([string]::IsNullOrWhiteSpace($slot) -or $slot -le 0) {
+        # auto (current) slot
+        $State | Save-Game
+    } else {
+        # new slot
+        $State | Save-Game -Slot $slot
+    }
+}
+
+<#
+.SYNOPSIS
 Creates a new save game at the indicated slot, optionally overwriting existing file. Returns game state object.
 #>
 function New-Save {

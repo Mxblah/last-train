@@ -35,7 +35,12 @@ function Start-ExploreScene {
         $State | Show-ExploreMenu -Scene $Scene
 
         # Regenerate once after every exploration action, not just based on time (assume you regen slower outside of combat, I guess)
-        $State | Invoke-AttribRegen -Character $State.player -All
+        if ($State.game.explore.blockAttribRegen -le 0) {
+            $State | Invoke-AttribRegen -Character $State.player -All
+        } else {
+            Write-Debug "reducing attrib regen blocker (currently $($State.game.explore.blockAttribRegen)) by 1"
+            $State.game.explore.blockAttribRegen -= 1
+        }
     }
 }
 
@@ -94,8 +99,8 @@ function Show-ExploreMenu {
     $State | Write-ExplorationState -Scene $Scene
 
     # Get and write available actions
-    $availableActions = New-Object -TypeName System.Collections.ArrayList(,@('Browse', 'Item', 'Equip'))
-    Write-Host "| $($availableActions[0..2] -join ' | ') |"
+    $availableActions = New-Object -TypeName System.Collections.ArrayList(,@('Browse', 'Item', 'Equip', 'Save'))
+    Write-Host "| $($availableActions[0..3] -join ' | ') |"
 
     if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq 0) {
         $availableActions.Add('Board Train [00:00:30]') | Out-Null
@@ -111,17 +116,26 @@ function Show-ExploreMenu {
 
     # Will always have at least one of these actions available, so no conditional needed
     $actionListLengthBeforeConnections = $availableActions.Count
-    foreach ($actionString in $availableActions[3..($actionListLengthBeforeConnections - 1)]) {
+    foreach ($actionString in $availableActions[4..($actionListLengthBeforeConnections - 1)]) {
         # These can get pretty long, so give them each their own line
         Write-Host "| $actionString |"
     }
     # Write-Host "| $($availableActions[3..($actionListLengthBeforeConnections - 1)] -join ' | ') |"
 
     foreach ($connection in $locationData.connections.GetEnumerator()) {
-        if ($explore.depth -ge $connection.Value.minDepthAvailable -and $explore.depth -le $connection.Value.maxDepthAvailable) {
-            # we're within this connection's depth range, so add it
+        if (
+            $explore.depth -ge $connection.Value.minDepthAvailable -and
+            $explore.depth -le $connection.Value.maxDepthAvailable
+        ) {
+            # Validate the when condition, if it has one
+            if (-not ($State | Test-WhenConditions -When $connection.Value.when -WhenMode $connection.Value.whenMode)) {
+                Write-Debug "connection $($connection.Key) does not meet its 'when' prerequisites; skipping"
+                continue
+            }
+
+            # we're within this connection's depth range and its 'when' is valid (or does not exist), so add it
             Write-Debug "adding valid connection $($connection.Key)"
-            $availableActions.Add("Enter $(($Scene.data.locations | Where-Object -Property id -EQ $connection.Key).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
+            $availableActions.Add("🔀 Enter $(($Scene.data.locations | Where-Object -Property id -EQ $connection.Key).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
         } else {
             Write-Debug "$($connection.Key) not valid from depth of $($explore.depth)"
         }
@@ -149,15 +163,20 @@ function Show-ExploreMenu {
             $State | Add-GlobalTime -Time '00:01:00'
         }
         'equip' {
-            $State | Show-BattleCharacterInfo -Character $State.player -Inspect # to show stats for informed equipping
             Write-Host ''
             $State | Invoke-SpecialEquip -Attacker $State.player
             $State | Add-GlobalTime -Time '00:01:00'
+        }
+        'save' {
+            $State | Invoke-ManualSave
+            # Block attribute regen immediately after a save. Otherwise you could cheese it by regenerating for 0 time penalty by saving repeatedly.
+            $State.game.explore.blockAttribRegen += 1
         }
 
         { $_ -like 'board train `[*`]' } {
             Write-Host 'You climb aboard the train.'
             $explore.depth = -1
+            $State.game.train.playerOnBoard = $true # Make sure they can get on board even if < 30s left
             $State | Add-GlobalTime -Time '00:00:30'
             $State | Exit-Scene -Type 'train' -Id $Scene.id
         }
@@ -203,9 +222,15 @@ function Write-ExplorationState {
     switch ($State.game.train.willDepartAt - $State.time.currentTime) {
         { $_ -gt ([timespan]'01:00:00') } { $color = 'Green'; break }
         { $_ -gt ([timespan]'00:30:00') } { $color = 'Yellow'; break }
-        default { $color = 'Red'; break }
+        { $_ -gt ([timespan]'00:00:00') } { $color = 'Red'; break }
+        default { $color = 'Magenta' }
     }
-    Write-Host -ForegroundColor $color "Departure: Day $($State.game.train.willDepartAt.Day), $($State.game.train.willDepartAt.TimeOfDay)"
+    if ($color -ne 'Magenta') {
+        Write-Host -ForegroundColor $color "Departure: Day $($State.game.train.willDepartAt.Day), $($State.game.train.willDepartAt.TimeOfDay)"
+    } else {
+        $maximumGraceTime = $State.game.train.willDepartAt + (New-TimeSpan -Minutes $State.options.trainDepartureGracePeriod)
+        Write-Host -ForegroundColor $color "⚠️ Last Call: Day $($maximumGraceTime.Day), $($maximumGraceTime.TimeOfDay) ⚠️"
+    }
 
     # Write current sublocation and depth
     Write-Host "Exploring: $($locationData.name) | Depth: $($explore.depth)/$($locationData.field.depth)"
@@ -301,6 +326,28 @@ function Get-ExploreEncounter {
     $explore = $State.game.explore."$($Scene.id)"
     $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
     $encountersCompleted = $explore.locationData."$($explore.location)".encountersCompleted
+    $dangerLevel = $State.game.explore.dangerLevel
+
+    # Pre-roll if the danger level is > 0
+    if ($dangerLevel -gt 0) {
+        Write-Debug "rolling pre-check for danger level $dangerLevel"
+
+        $random = Get-RandomPercent
+        if ($dangerLevel -ge $random) {
+            Write-Debug "triggered horror encounter with strength variant $random -> ($($random/$dangerLevel))"
+
+            # Use the lesser one if we're < 50%, otherwise the worse one, otherwise the worst one
+            if (($random/$dangerLevel) -lt 0.5) {
+                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x1'
+            } elseif (($random/$dangerLevel) -lt 0.75) {
+                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2'
+            } else {
+                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2-nofirstturn'
+            }
+        } else {
+            Write-Debug "no horror encounter (rolled $random)"
+        }
+    }
 
     # Clone an encounter list to roll on
     $availableEncounters = $locationData.field.encounters.Clone()
@@ -312,7 +359,7 @@ function Get-ExploreEncounter {
             ($null -ne $encounter.maxDepthAvailable -and $explore.depth -gt $encounter.maxDepthAvailable) -or
             ($null -ne $encounter.requiredPhase -and $State.time.phase -ne $encounter.requiredPhase) -or
             ($null -ne $encounter.maxTimes -and $encountersCompleted."$($encounter.id)" -ge $encounter.maxTimes) -or
-            ($null -ne $encounter.when -and -not ($State | Test-EncounterFlagConditions -When $encounter.when -WhenMode $encounter.whenMode))
+            ($null -ne $encounter.when -and -not ($State | Test-WhenConditions -When $encounter.when -WhenMode $encounter.whenMode))
         ) {
             Write-Debug "$($encounter.id) does not meet prereqs and will be skipped"
 
@@ -376,13 +423,35 @@ function Invoke-ExploreEncounter {
         { $_ -match 'battle|cutscene|train|explore' } {
             $State | Exit-Scene -Type $Encounter.type -Id $Encounter.id
         }
-        'treasure' {
-            # "treasure" is basically a cutscene with extra steps, so we need to pass along an extra bit of data for the cutscene handler to know what to do
-            $treasureMultiplier = Get-Random -Minimum $Encounter.minMultiplier -Maximum ($Encounter.maxMultiplier + 1)
-            Write-Debug "calculated treasure multiplier of $treasureMultiplier for $($Encounter.id) with min $($Encounter.minMultiplier) / max $($Encounter.maxMultiplier)"
-            $State.game.scene.treasureMultiplier = $treasureMultiplier
+        'item' {
+            # Found an item; print the text provided (if any) and add the item. Anything more complex than this should be a cutscene.
+            if ($Encounter.text) { Write-Host ($State | Enrich-Text $Encounter.text) } else {
+                Write-Host 'You find an item in your exploration.' # kind of a weak default, but all of these should have some sort of text
+            }
 
-            $State | Exit-Scene -Type $Encounter.type -Id $Encounter.id
+            # Randomly get the number if provided with bounds, otherwise use the direct number. Otherwise, 1.
+            $number = if ($Encounter.number) {
+                Write-Debug "Adding exactly $($Encounter.number)x $($Encounter.id)"
+                $Encounter.number
+            } elseif ($Encounter.minAmount -and $Encounter.maxAmount) {
+                Write-Debug "Randomly generating number of $($Encounter.id) to add between $($Encounter.minAmount) and $($Encounter.maxAmount)"
+                Get-Random -Minimum $Encounter.minAmount -Maximum ($Encounter.maxAmount + 1)
+            } else {
+                1
+            }
+
+            # Remove if specified, otherwise add.
+            if ($Encounter.mode -eq 'remove') {
+                Write-Debug "Removing ${number}x $($Encounter.id)"
+                $State | Remove-GameItem -Id $Encounter.id -Number $number -StolenBy $Encounter.removeActor
+            } else {
+                Write-Debug "Adding ${number}x $($Encounter.id)"
+                $State | Add-GameItem -Id $Encounter.id -Number $number
+            }
+
+            # Require an <enter> to keep going, then save.
+            Read-Host -Prompt '> '
+            $State | Invoke-AutoSave
         }
         default { Write-Warning "Invalid encounter type '$_' found in explore scene ID $($Scene.id)" }
     }

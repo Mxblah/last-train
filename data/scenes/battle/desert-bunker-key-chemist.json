@@ -1,0 +1,35 @@
+{
+    "id": "desert-bunker-key-chemist",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "chemist-ghoul",
+                    "loot": [
+                        {
+                            "id": "desert-bunker-keycard",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                },
+                {
+                    "id": "chemist-ghoul"
+                }
+            ]
+        },
+        "special": {
+            "weather": {
+                "id": "weather-acid-rain",
+                "globalChance": 1,
+                "chance": 1,
+                "stack": 6,
+                "intensity": 1,
+                "atkOverride": 10,
+                "pow": 1,
+                "class": "physical"
+            }
+        }
+    }
+}
