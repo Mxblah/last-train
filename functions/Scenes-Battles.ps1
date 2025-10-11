@@ -93,7 +93,7 @@ function Start-BattleScene {
         foreach ($entryDesc in ($State.game.battle.characters | Where-Object -Property id -NE 'player').entryDescription) {
             Write-Host -ForegroundColor Yellow ($State | Enrich-Text $entryDesc )
         }
-        $State | Invoke-AutoSave
+        $State | Save-Game -Auto
     } else {
         # Assume a battle is already active and we've loaded in, so we need to quickly fix the arraylist collection types before starting
         Convert-AllChildArraysToArrayLists -Data $State.game.battle.characters
@@ -151,7 +151,7 @@ function Start-BattleScene {
         }
 
         # End of round. Save if set, then continue
-        $State | Invoke-AutoSave
+        $State | Save-Game -Auto
     }
 
     # Battle is complete, so wrap it up and return to whatever we were doing before the battle happened
@@ -175,7 +175,7 @@ function Import-BattleCharacter {
     } elseif ($Character.faction -eq 'ally') {
         $data = $Character # allies import directly; no messing around needed
     } else {
-        $data = Get-Content "$PSScriptRoot/../data/character/$($Character.id).json" | ConvertFrom-Json -AsHashtable
+        $data = $State.data.character."$($Character.id)"
     }
 
     # Add to bestiary if not already there
@@ -349,18 +349,19 @@ function Show-BattleCharacterInfo {
 
     # Print HP, BP, and MP
     foreach ($attrib in $Character.attrib.GetEnumerator()) {
+        $attribValue = if ($Bestiary -and $Character.id -ne 'player') { $attrib.Value.base } else { $attrib.Value.value }
         $badge = Get-AttribStatBadge -AttribOrStat $attrib.Key
-        $color = Get-PercentageColor -Value $attrib.Value.value -Max $attrib.Value.max
+        $color = Get-PercentageColor -Value $attribValue -Max $attrib.Value.max
 
         # Print it
         if ($Vague -and ($Character.id -ne 'player')) {
             # mult by 5, round, (divide by 5, times 100) (ie times 20) should give us roughly 20% increments
             # (catch divide-by-zero errors)
-            $vaguePercent = try { [System.Math]::Round(($attrib.Value.value / $attrib.Value.max) * 5) * 20 } catch { 0 }
+            $vaguePercent = try { [System.Math]::Round(($attribValue / $attrib.Value.max) * 5) * 20 } catch { 0 }
             Write-Host -ForegroundColor $color "$badge ~$vaguePercent% " -NoNewline
         } else {
             # Either precise, or we're looking at ourselves. And we deserve to know our own stats precisely.
-            Write-Host -ForegroundColor $color "$badge $($attrib.Value.value)/$($attrib.Value.max) " -NoNewline
+            Write-Host -ForegroundColor $color "$badge $($attribValue)/$($attrib.Value.max) " -NoNewline
         }
     }
 
@@ -379,7 +380,7 @@ function Show-BattleCharacterInfo {
     } else {
         foreach ($statusClass in $Character.status.GetEnumerator()) {
             # Each status gets a color and the number of instances + highest stacks
-            $statusInfo = Get-Content "$PSScriptRoot/../data/status/$($statusClass.Key).json" | ConvertFrom-Json -AsHashtable
+            $statusInfo = $State.data.status."$($statusClass.Key)"
             $name = $statusInfo.name
             $color = $statusInfo.color
             $badge = $statusInfo.badge
@@ -469,7 +470,7 @@ function Show-BattleCharacterInfo {
 
                         if ($subcategory -eq 'Status') {
                             # Get status info from the definition
-                            $info = Get-Content "$PSScriptRoot/../data/status/$name.json" | ConvertFrom-Json -AsHashtable
+                            $info = $State.data.status.$name
                             $printName = $info.name
                             $nameColor = $info.color
                             $badge = $info.badge
@@ -534,7 +535,7 @@ function Get-ActionList {
             $actionList.$($skillClass.Key) = New-Object -TypeName System.Collections.ArrayList(,@( foreach ($skill in $skillClass.Value) {
                 Write-Debug "Adding $($skillClass.Key)/$($skill.id) to action map"
                 try {
-                    Get-Content -Path "$PSScriptRoot/../data/skills/$($skillClass.Key)/$($skill.id).json" | ConvertFrom-Json -AsHashtable
+                    $State.data.skills."$($skillClass.Key)"."$($skill.id)"
                 } catch {
                     Write-Warning "Unable to load data for skill $($skillClass.Key)/$($skill.id) with inner error: $_"
                 }
@@ -695,7 +696,7 @@ function Select-BattleAction {
         if ($QueuedAction) {
             Write-Debug "queued action was passed: overriding action selection to $($QueuedAction.class)/$($QueuedAction.id)"
             # No guarantee the character has the queued action on their list (could have been added by another character, for one, so get it directly)
-            $skill = Get-Content "$PSScriptRoot/../data/skills/$($QueuedAction.class)/$($QueuedAction.id).json" | ConvertFrom-Json -AsHashtable
+            $skill = $State.data.skills."$($QueuedAction.class)"."$($QueuedAction.id)"
             # only try this once
             $QueuedAction = $null
         } else {

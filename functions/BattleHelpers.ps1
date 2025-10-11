@@ -387,7 +387,7 @@ function Add-Status {
 
         # Write the status data to the target
         if ($null -eq $Target.status."$($status.id)") { $Target.status."$($status.id)" = New-Object -TypeName System.Collections.ArrayList }
-        $statusInfo = Get-Content "$PSScriptRoot/../data/status/$($status.id).json" | ConvertFrom-Json -AsHashtable
+        $statusInfo = $State.data.status."$($status.id)"
         $statusData = @{
             guid = (New-Guid).Guid
             stack = $status.stack
@@ -452,8 +452,8 @@ function Apply-StatusEffects {
 
             # we need to do something, so load the status data from the data zone if we don't already have it
             if (-not $statusInfo.$statusId) {
-                Write-Debug "loading status info for $statusId ($($status.guid))..."
-                $statusInfo.$statusId = Get-Content "$PSScriptRoot/../data/status/$statusId.json" | ConvertFrom-Json -AsHashtable
+                Write-Debug "getting status info for $statusId ($($status.guid))"
+                $statusInfo.$statusId = $State.data.status.$statusId
             }
 
             # Print description if this is a turn start status and we haven't already written its description this turn

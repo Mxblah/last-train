@@ -82,9 +82,13 @@ function Import-Save {
 
     if ((Test-Path $savePath) -and ($Slot -ne 0)) {
         # exists, load it
+        Write-Host -ForegroundColor Cyan "📚 Loading save data for slot $Slot"
         $state = Get-Content -Raw -Path $savePath | ConvertFrom-Json -AsHashtable
         # fix collection types for the state if needed (imports from json as arrays, but we need arraylists for add/remove operations)
         Convert-AllChildArraysToArrayLists -Data $state
+
+        # Import game data now that the save is set up
+        $state | Import-GameData -TimeStats
 
         return $state
     } elseif ($CreateIfNotPresent -and $savePath -notlike '*auto*') {
@@ -97,7 +101,7 @@ function Import-Save {
 
 <#
 .SYNOPSIS
-Writes a save game to its file
+Writes a save game to its file. Also handles autosaving and the logic for that.
 #>
 function Save-Game {
     [CmdletBinding()]
@@ -106,7 +110,10 @@ function Save-Game {
         [object]$State,
 
         [Parameter()]
-        [int]$Slot
+        [int]$Slot,
+
+        [Parameter()]
+        [switch]$Auto
     )
 
     if ($Slot) {
@@ -116,36 +123,28 @@ function Save-Game {
         $State.id = $Slot
     }
 
+    # Temporarily offload the game data portion; we don't need to save that
+    $dataExport = $State.data
+    $State.Remove('data')
+
+    # Save the game
     $State.lastSaved = Get-Date
-    $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath "$PSScriptRoot/../saves/$($State.id).save"
-    Write-Host -ForegroundColor Cyan "✅📝 Saved to slot $($State.id)!"
-    $State | Invoke-AutoSave -Quiet # keep the autosave synced up with the manual one
-}
-
-<#
-.SYNOPSIS
-Autosaves the game if autosave is enabled
-#>
-function Invoke-AutoSave {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [object]$State,
-
-        [Parameter()]
-        [switch]$Quiet
-    )
-
-    if (-not $State.options.autosave) {
-        Write-Verbose 'Autosave is disabled; not saving game'
+    if (-not $Auto) {
+        # Manual save
+        $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath "$PSScriptRoot/../saves/$($State.id).save"
+        Write-Host -ForegroundColor Cyan "✅📝 Saved to slot $($State.id)!"
     }
 
-    # Write to the autosave slot
-    $State.lastSaved = Get-Date
-    $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath "$PSScriptRoot/../saves/auto.save"
-    if (-not $Quiet) {
-        Write-Host -ForegroundColor Cyan '✅📝 Autosaved!'
+    # Keep the autosave synced up with the manual one, or just do autosave if $Auto
+    if ($State.options.autosave) {
+        $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath "$PSScriptRoot/../saves/auto.save"
+        if ($Auto) { Write-Host -ForegroundColor Cyan '✅📝 Autosaved!' }
+    } else {
+        Write-Verbose 'Autosave is disabled; not auto-saving game'
     }
+
+    # Restore the offloaded game data
+    $State.data = $dataExport
 }
 
 <#
@@ -159,7 +158,7 @@ function Invoke-ManualSave {
         [object]$State
     )
 
-    $response = Read-Host -Prompt 'Save to which slot? (number, or <enter> for auto, or anything else to cancel)'
+    $response = Read-Host -Prompt 'Save to which slot? (number, or <enter> for current slot, or anything else to cancel)'
     try { $slot = [int]$response } catch {
         # not an int
         Write-Host 'Save cancelled.'

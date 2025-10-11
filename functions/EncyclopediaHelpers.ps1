@@ -26,8 +26,9 @@ function Show-BestiaryBook {
 
         # Get inspect data about the creature
         $id = ($creatures.GetEnumerator() | Where-Object -Property Value -EQ $choice).Key
-        $creatureData = Get-Content "$PSScriptRoot/../data/character/$id.json" | ConvertFrom-Json -AsHashtable
+        $creatureData = $State.data.character.$id
         $State | Invoke-SpecialInspect -Attacker $State.player -Target $creatureData -Skill @{id = 'bestiary'}
+        Write-Host ''
 
         # Time mgmt
         $State | Add-GlobalTime -Time '00:00:30'
@@ -43,11 +44,12 @@ function Show-StatusBook {
 
     while($true) {
         # Get available statuses
-        $statuses = (Get-ChildItem "$PSScriptRoot/../data/status" -Filter '*.json').BaseName | Sort-Object
+        $statuses = foreach ($status in $State.data.status.GetEnumerator()) { $status.Value }
+        $statuses = $statuses | Sort-Object -Property name
 
         # Print / read choice
-        Write-Host "Available statuses: [ $($statuses -join ' | ') ]"
-        $choice = $State | Read-PlayerInput -Prompt 'Which status will you read about? (or <enter> to stop reading)' -Choices $statuses -AllowNullChoice
+        Write-Host "Available statuses: [ $($statuses.name -join ' | ') ]"
+        $choice = $State | Read-PlayerInput -Prompt 'Which status will you read about? (or <enter> to stop reading)' -Choices $statuses.name -AllowNullChoice
 
         if ([string]::IsNullOrWhiteSpace($choice)) {
             Write-Host 'You stopped reading the Status Glossary.'
@@ -55,9 +57,10 @@ function Show-StatusBook {
         }
 
         # Return data about the status
-        $statusData = Get-Content "$PSScriptRoot/../data/status/$choice.json" | ConvertFrom-Json -AsHashtable
+        $statusData = $statuses | Where-Object -Property name -EQ $choice
         Write-Host -ForegroundColor $statusData.color "$($statusData.badge) $($statusData.name): " -NoNewline
         Write-Host ($State | Enrich-Text $statusData.description)
+        Write-Host ''
 
         # Time mgmt
         $State | Add-GlobalTime -Time '00:00:30'
@@ -73,11 +76,12 @@ function Show-TutorialBook {
 
     while($true) {
         # Get available tutorials
-        $tutorials = (Get-ChildItem "$PSScriptRoot/../data/scenes/tutorial" -Filter '*.json').BaseName | Sort-Object
+        $tutorials = foreach ($tut in $State.data.scenes.tutorial.GetEnumerator()) { $tut.Value }
+        $tutorials = $tutorials | Sort-Object -Property id
 
         # Print / read choice
-        Write-Host "Available tutorials: [ $($tutorials -join ' | ') ]"
-        $choice = $State | Read-PlayerInput -Prompt 'Which tutorial will you read? (or <enter> to stop reading)' -Choices $tutorials -AllowNullChoice
+        Write-Host "Available tutorials: [ $($tutorials.id -join ' | ') ]"
+        $choice = $State | Read-PlayerInput -Prompt 'Which tutorial will you read? (or <enter> to stop reading)' -Choices $tutorials.id -AllowNullChoice
 
         if ([string]::IsNullOrWhiteSpace($choice)) {
             Write-Host 'You stopped reading about Tutorials.'

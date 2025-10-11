@@ -308,7 +308,7 @@ function Show-TrainSleepMenu {
     }
 
     # Autosave
-    $State | Invoke-AutoSave
+    $State | Save-Game -Auto
 }
 
 function Show-EncyclopediaMenu {
@@ -343,116 +343,4 @@ function Show-EncyclopediaMenu {
 
     # Time mgmt
     $State | Add-GlobalTime -Time '00:01:00'
-}
-
-function Show-SkillsMenu {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [object]$State,
-
-        [Parameter(Mandatory = $true)]
-        [hashtable]$Character,
-
-        [Parameter()]
-        [string]$SkillCategory,
-
-        [Parameter()]
-        [string]$SkillAction,
-
-        [Parameter()]
-        [string]$SkillId,
-
-        # Break the loop after one iteration
-        [Parameter()]
-        [switch]$OnlyOne
-    )
-
-    while ($true) {
-        # Display all current skills
-        foreach ($category in $Character.skills.GetEnumerator()) {
-            # Show the currently equipped skills
-            if ($category.Value.Count -gt 0) {
-                if ($category.Value.Count -ge $State.options.maxSkillsInCategory) { $color = 'White' } else { $color = 'Gray' }
-                Write-Host -ForegroundColor $color "$($category.Key): $($category.Value.id -join ' | ')" -NoNewline
-            } else {
-                Write-Host -ForegroundColor DarkGray "$($category.Key): (none)" -NoNewline
-            }
-
-            # Display how many others there are
-            Write-Host -ForegroundColor DarkGray " ($($State.player.spareSkills.$($category.Key).Count))"
-        }
-        Write-Host ''
-
-        # Get category
-        if (-not $SkillCategory) {
-            $SkillCategory = $State | Read-PlayerInput -Prompt 'Edit which skill category?' -Choices $Character.skills.Keys -AllowNullChoice
-        }
-        if (-not $SkillCategory) {
-            Write-Host 'You stopped memorizing skills.'
-            return
-        }
-
-        # Get action to perform on category
-        if (-not $SkillAction) {
-            $SkillAction = $State | Read-PlayerInput -Prompt 'Perform which action? (add/remove)' -Choices @('Add', 'Remove') -AllowNullChoice
-        }
-        if (-not $SkillAction) {
-            Write-Host "You stopped editing your '$SkillCategory' skills."
-            continue
-        }
-
-        # Get skill to perform the action on
-        if (-not $SkillId) {
-            switch ($SkillAction) {
-                'add' { $availableSkills = $Character.spareSkills.$SkillCategory.id }
-                'remove' { $availableSkills = $Character.skills.$SkillCategory.id }
-                default { Write-Warning "Unknown skill action '$SkillAction'"; continue }
-            }
-            $SkillId = $State | Read-PlayerInput -Prompt "$SkillAction which skill? ($($availableSkills -join ', '))" -Choices $availableSkills -AllowNullChoice
-        }
-        if (-not $SkillId) {
-            Write-Host "You stopped editing your '$SkillCategory' skills."
-            continue
-        }
-
-        # If we need to do a swap, prompt for that
-        if ($SkillAction -eq 'add' -and $Character.skills.$SkillCategory.Count -ge $State.options.maxSkillsInCategory) {
-            $swapSkillId = $State | Read-PlayerInput -Prompt "'$SkillCategory' is full. Swap which skill with '$SkillId'? ($($Character.skills.$SkillCategory.id -join ', '))" -Choices $Character.skills.$SkillCategory.id -AllowNullChoice
-            if ([string]::IsNullOrEmpty($swapSkillId)) {
-                Write-Host "You can't memorize '$SkillId' without forgetting another skill."
-                continue
-            }
-        }
-
-        # Perform the action
-        # todo: there has to be a more DRY way to do this
-        if ($swapSkillId) {
-            Write-Host -ForegroundColor Yellow "🧠 You forgot how to use '$swapSkillId' (moved to memory vault)."
-            $Character.spareSkills.$SkillCategory.Add(($Character.skills.$SkillCategory | Where-Object -Property id -EQ $swapSkillId)) | Out-Null
-            $Character.skills.$SkillCategory.Remove(($Character.skills.$SkillCategory | Where-Object -Property id -EQ $swapSkillId))
-        }
-        switch ($SkillAction) {
-            'add' {
-                Write-Host -ForegroundColor Green "🎓 You memorized '$SkillId'."
-                $Character.skills.$SkillCategory.Add(($Character.spareSkills.$SkillCategory | Where-Object -Property id -EQ $SkillId)) | Out-Null
-                $Character.spareSkills.$SkillCategory.Remove(($Character.spareSkills.$SkillCategory | Where-Object -Property id -EQ $SkillId))
-            }
-            'remove' {
-                Write-Host -ForegroundColor Yellow "🧠 You forgot how to use '$SkillId' (moved to memory vault)."
-                $Character.spareSkills.$SkillCategory.Add(($Character.skills.$SkillCategory | Where-Object -Property id -EQ $SkillId)) | Out-Null
-                $Character.skills.$SkillCategory.Remove(($Character.skills.$SkillCategory | Where-Object -Property id -EQ $SkillId))
-            }
-        }
-
-        $State | Add-GlobalTime -Time '00:02:30'
-        if ($OnlyOne) {
-            return
-        } else {
-            $SkillCategory = $null
-            $SkillAction = $null
-            $SkillId = $null
-            $swapSkillId = $null
-        }
-    }
 }

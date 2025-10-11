@@ -202,7 +202,7 @@ function Invoke-SpecialSteal {
 
     # We now have our non-empty filtered list. Let's steal something.
     $id = $stealableItems | Get-Random
-    $details = Get-Content "$PSScriptRoot/../data/items/$id.json" | ConvertFrom-Json -AsHashtable
+    $details = $State.data.items.$id
     Write-Debug "selected '$id' to steal"
 
     # get how many there are

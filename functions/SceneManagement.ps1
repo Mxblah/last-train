@@ -18,7 +18,7 @@ function Start-Scene {
     try {
         # todo: consider adding a "prefix" or "path" param, in order to allow for better organization than just one giant folder
         Write-Verbose "Loading scene ${type}:$id..."
-        $scene = Get-Content -Path "$PSScriptRoot/../data/scenes/$type/$id.json" | ConvertFrom-Json -AsHashtable
+        $scene = $State.data.scenes.$type.$id
         Convert-AllChildArraysToArrayLists -Data $scene # some scenes don't need this treatment, but some do
     } catch {
         # cut off an attempt to re-open a closed game
@@ -103,7 +103,7 @@ function Exit-Scene {
     $State.game.scene.type = $Type
     $State.game.scene.id = $Id
 
-    $State | Invoke-AutoSave
+    $State | Save-Game -Auto
 
     # Escape hatch to actually end the game
     if ($Type -eq 'end') {

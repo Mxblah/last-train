@@ -36,7 +36,7 @@
     "attrib": {
         "hp": {
             "value": 32,
-            "max": 0,
+            "max": 32,
             "base": 32,
             "regen": 0,
             "baseRegen": 0

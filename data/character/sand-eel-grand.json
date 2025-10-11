@@ -51,7 +51,7 @@
         },
         "bp": {
             "value": 0,
-            "max": 0,
+            "max": 10,
             "base": 10,
             "regen": 0,
             "baseRegen": 0
