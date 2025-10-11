@@ -1,0 +1,36 @@
+{
+    "id": "desert-gremlin-camp",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                },
+                {
+                    "id": "clothes-gremlin"
+                }
+            ]
+        },
+        "special": {
+            "forceFirstTurn": "player"
+        },
+        "exit": {
+            "type": "cutscene",
+            "id": "desert-outskirts-pillow-get"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "desert"
+        }
+    }
+}

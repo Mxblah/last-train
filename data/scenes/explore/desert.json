@@ -54,6 +54,13 @@
                         },
                         {
                             "type": "cutscene",
+                            "id": "desert-outskirts-pillow",
+                            "chance": 0.2,
+                            "requiredPhase": "night",
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
                             "id": "desert-outskirts-well",
                             "chance": 0.225,
                             "maxTimes": 1

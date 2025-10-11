@@ -1,0 +1,33 @@
+{
+    "id": "desert-outskirts-pillow",
+    "data": [
+        {
+            "text": "While exploring the village outskirts, you hear some quiet, overlapping snoring. It doesn't take long to trace the source to a flickering campfire built inside one of the houses where the roof has caved in. A group of clothes gremlins snooze around the fire, with a lone, unfortunately attentive guard keeping lookout."
+        },
+        {
+            "text": "Most of the gremlins sleep in or on piles of clothing, as you would expect, but one of them seems to have acquired a beautiful, fluffy pillow somewhat recently - it's not even that dirty yet. If you had something like that, your rests on the train could be more effective..."
+        },
+        {
+            "text": "But then again, you'd have to fight the gremlins for it; there's no way they would simply give it up. Maybe you don't care to risk the odds of a five-on-one battle, or maybe you don't want to steal what sparse comfort this little guy has managed to gather. Clothes gremlins must have it tough, too."
+        },
+        {
+            "text": "In any case, you'll only get one shot at this; they'll have surely moved on by the time you return later.",
+            "choice": {
+                "text": "Attack the clothes gremlin camp?",
+                "responses": {
+                    "yes": {
+                        "exit": {
+                            "type": "battle",
+                            "id": "desert-gremlin-camp"
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You leave them to their rest and continue on your way."
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}
