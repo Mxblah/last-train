@@ -59,12 +59,13 @@ function Invoke-DamageEffect {
     }
     if ($Item) {
         if ($AsHealing) { $effectPath = 'heal' } else { $effectPath = 'damage' }
-        $id = $Item.data.id
+        $itemData = $State | Find-GameItemData -Guid $Item.guid
+        $id = $itemData.id
         $guid = $Item.guid
-        $class = $Item.data.useData.class
-        $type = $Item.data.useData.type
-        $pow = $Item.data.effects.$effectPath.pow
-        $atk = $Item.data.effects.$effectPath.atk
+        $class = $itemData.useData.class
+        $type = $itemData.useData.type
+        $pow = $itemData.effects.$effectPath.pow
+        $atk = $itemData.effects.$effectPath.atk
     }
 
     Write-Debug "applying damage/heal '$Expression' from $id ($guid)"

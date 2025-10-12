@@ -171,8 +171,8 @@ function Invoke-SpecialSteal {
         $stealableItems = New-Object -TypeName System.Collections.ArrayList
         foreach ($item in $availableItems) {
             # Check each item for validity
-            if ($stealData.stealCategories -and $State.items.$item.data.itemType -notin $stealData.stealCategories) {
-                Write-Debug "$item is not in category list [$($stealData.stealCategories -join ', ')] so is not a valid steal target (is $($State.items.$item.data.itemType))"
+            if ($stealData.stealCategories -and $State.data.items.$item.itemType -notin $stealData.stealCategories) {
+                Write-Debug "$item is not in category list [$($stealData.stealCategories -join ', ')] so is not a valid steal target (is $($State.data.items.$item.itemType))"
                 continue
             }
 

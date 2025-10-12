@@ -141,15 +141,16 @@ function Adjust-Damage {
     if ($Type -eq 'weapon') {
         if ($Attacker.id -eq 'player') {
             # Only the player can equip weapons
-            $equippedWeapon = $State | Find-EquippedItem -Slot 'weapon'
+            $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
+            $equippedWeapon = $State.data.items.$equippedWeaponId
             if ($equippedWeapon) {
-                Write-Debug "replacing damage class '$Class' with equipped weapon's class $($equippedWeapon.data.equipData.weaponData.class)"
-                $Class = $equippedWeapon.data.equipData.weaponData.class
-                Write-Debug "replacing damage type '$Type' with equipped weapon's type $($equippedWeapon.data.equipData.weaponData.type)"
-                $Type = $equippedWeapon.data.equipData.weaponData.type
+                Write-Debug "replacing damage class '$Class' with equipped weapon's class $($equippedWeapon.equipData.weaponData.class)"
+                $Class = $equippedWeapon.equipData.weaponData.class
+                Write-Debug "replacing damage type '$Type' with equipped weapon's type $($equippedWeapon.equipData.weaponData.type)"
+                $Type = $equippedWeapon.equipData.weaponData.type
 
                 # Handle type percent by running through it twice with the two types
-                $typePercent = $equippedWeapon.data.equipData.weaponData.typePercent
+                $typePercent = $equippedWeapon.equipData.weaponData.typePercent
                 if ($typePercent -ne 1) {
                     Write-Debug "type percent: $typePercent -> $($typePercent * 100)% of damage will be this type"
                     $commonSplat = @{

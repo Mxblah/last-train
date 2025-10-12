@@ -5,6 +5,9 @@ function Show-Inventory {
         [object]$State,
 
         [Parameter()]
+        [switch]$JustBrowsing,
+
+        [Parameter()]
         [switch]$Useable,
 
         [Parameter()]
@@ -14,28 +17,33 @@ function Show-Inventory {
         [string]$EquipSlot,
 
         [Parameter()]
-        [string]$SortProperty = 'equipped'
+        [string]$SortPropertyCategory = 'data',
+
+        [Parameter()]
+        [string]$SortProperty = 'name'
     )
 
     # Filter items based on switches
     $itemsToDisplay = foreach ($item in $State.items.GetEnumerator()) {
-        if ($Useable -and $null -eq $item.Value.data.useData) {
+        $itemData = $State.data.items."$($item.Key)"
+
+        if ($Useable -and $null -eq $itemData.useData) {
             Write-Debug "$($item.Key) is not useable; skipping"
             continue
         }
 
-        if ($Equippable -and $null -eq $item.Value.data.equipData) {
+        if ($Equippable -and $null -eq $itemData.equipData) {
             Write-Debug "$($item.Key) is not equippable; skipping"
             continue
         }
 
-        if ($EquipSlot -and $item.Value.data.equipData.slot -ne $EquipSlot) {
-            Write-Debug "$($item.Key) has slot '$($item.Value.data.equipData.slot)' which does not match '$EquipSlot'; skipping"
+        if ($EquipSlot -and $itemData.equipData.slot -ne $EquipSlot) {
+            Write-Debug "$($item.Key) has slot '$($itemData.equipData.slot)' which does not match '$EquipSlot'; skipping"
             continue
         }
 
         Write-Debug "will display $($item.Key)"
-        $item.Value
+        @{ id = $item.Key; data = $State.data.items."$($item.Key)"; playerData = $item.Value }
     }
 
     if ($null -eq $itemsToDisplay) {
@@ -52,24 +60,25 @@ function Show-Inventory {
     # if ($Useable) { $SortProperty =  }
 
     # Display the items
-    $choices = foreach ($item in $itemsToDisplay | Sort-Object -Property $SortProperty ) {
-        Write-Debug "displaying item $($item.data.id)"
+    $choices = foreach ($item in $itemsToDisplay | Sort-Object -Property { $_.$SortPropertyCategory.$SortProperty } ) {
+        $itemData = $item.data
+        Write-Debug "displaying item $($item.id)"
         # Each one gets its own line
         $badge = ''
         $color = 'Gray'
-        if ($item.data.itemType -eq 'quest') { $color = 'Magenta'; $badge += '🏅 ' }
-        if ($item.data.useData) { $color = 'DarkCyan'; $badge += '🎯 ' }
-        if ($item.data.useData.teachesSkill) { $color = 'DarkYellow'; $badge += '📜 ' }
-        if ($item.data.equipData -and -not ($item.data.equipData.weaponData -or $item.data.equipData.barrierData)) { $color = 'Blue'; $badge += '👕 ' }
-        if ($item.data.equipData.weaponData) { $color = 'DarkMagenta'; $badge += '⚔️ ' }
-        if ($item.data.equipData.barrierData) { $color = 'DarkMagenta'; $badge += '🛡️ ' }
-        if ($item.equipped) { $color = 'DarkGreen'; $badge += '✅ ' }
+        if ($itemData.itemType -eq 'quest') { $color = 'Magenta'; $badge += '🏅 ' }
+        if ($itemData.useData) { $color = 'DarkCyan'; $badge += '🎯 ' }
+        if ($itemData.useData.teachesSkill) { $color = 'DarkYellow'; $badge += '📜 ' }
+        if ($itemData.equipData -and -not ($itemData.equipData.weaponData -or $itemData.equipData.barrierData)) { $color = 'Blue'; $badge += '👕 ' }
+        if ($itemData.equipData.weaponData) { $color = 'DarkMagenta'; $badge += '⚔️ ' }
+        if ($itemData.equipData.barrierData) { $color = 'DarkMagenta'; $badge += '🛡️ ' }
+        if ($item.playerData.equipped) { $color = 'DarkGreen'; $badge += '✅ ' }
         if ($badge -eq '') { $badge = '🛍️ ' } # default badge
-        Write-Host -ForegroundColor $color "$($item.number)x $($item.data.name) | $badge| " -NoNewline
-        Write-Host ($State | Enrich-Text $item.data.description)
+        Write-Host -ForegroundColor $color "$($item.playerData.number)x $($itemData.name) | $badge| " -NoNewline
+        Write-Host ($State | Enrich-Text $itemData.description)
 
         # Print out the name for choice use
-        $item.data.name
+        $itemData.name
     }
 
     # Select an item, if desired
@@ -81,8 +90,12 @@ function Show-Inventory {
     if ($null -eq $choice) {
         return $null
     } else {
-        # todo: if not under the useable or equippable filters, maybe print all the info about the object? (or extra inspect description maybe?)
-        return ($itemsToDisplay | Where-Object { $_.data.name -eq $choice }).data.id
+        if ($JustBrowsing) {
+            # todo: if not under the useable or equippable filters, maybe print all the info about the object? (or extra inspect description maybe?)
+            return
+        } else {
+            return ($itemsToDisplay | Where-Object { $_.data.name -eq $choice } ).id
+        }
     }
 }
 
@@ -107,20 +120,16 @@ function Add-GameItem {
     # ^ if I do that, need to add Move-GameItem or something to transfer between storages
 
     Write-Verbose "Adding $Number instances of $Id"
+    $details = $State.data.items.$Id
     if ($State.$Location.$Id) {
         # add to existing stock
         $State.$Location.$Id.number += $Number
-        $details = $State.$Location.$Id.data
     } else {
         # doesn't exist, so create it
-        $details = $State.data.items.$Id
-
-        # todo: stop adding the details to the inventory now that they're available in-memory instead
         $State.$Location.$Id = @{
             number = $Number
             equipped = $false
             guid = (New-Guid).Guid
-            data = $details
         }
     }
     Write-Host -ForegroundColor Green "🎒 Got ${Number}x $($details.name)"
@@ -148,7 +157,7 @@ function Remove-GameItem {
 
     Write-Verbose "Removing $Number instances of $Id"
     if ($State.$Location.$Id) {
-        $name = $State.$Location.$Id.data.name
+        $name = $State.data.items.$Id.name
 
         # Delete if removing all (or more than) we have; otherwise subtract normally
         if ($Number -ge $State.$Location.$Id.number) {
@@ -178,7 +187,7 @@ function Equip-GameItem {
         [string]$Id
     )
     # Vars
-    $data = $State.items.$Id.data
+    $data = $State.data.items.$Id
     $guid = $State.items.$Id.guid
 
     # Sanity check
@@ -190,20 +199,20 @@ function Equip-GameItem {
     # Remove whatever was previously equipped, if any
     $alreadyEquippedItem = $State | Find-EquippedItem -Slot $data.equipData.slot
     if ($null -ne $alreadyEquippedItem) {
-        Write-Verbose "Unequipping already equipped item $($alreadyEquippedItem.data.id) in this slot ($($data.equipData.slot))"
-        $State | Unequip-GameItem -Id $alreadyEquippedItem.data.id
-        if ($alreadyEquippedItem.data.id -eq $Id) {
+        Write-Verbose "Unequipping already equipped item $alreadyEquippedItem in this slot ($($data.equipData.slot))"
+        $State | Unequip-GameItem -Id $alreadyEquippedItem
+        if ($alreadyEquippedItem -eq $Id) {
             # we just unequipped the item we're trying to put on, so assume we wanted to take it off and just return
             return
         }
     }
 
-    Write-Host "You equip the $($State.items.$Id.data.name)."
-    # todo: add equipDescription to items and print it here
+    Write-Host "You equip the $($data.name)."
     $State.items.$Id.equipped = $true
     $State.equipment."$($data.equipData.slot)" = $Id
 
     # Slightly different from the status version of this, so nearly-duplicate code (darn)
+    # todo: see if we can unify this stuff
     foreach ($effectClass in $data.effects.GetEnumerator()) {
         switch ($effectClass.Key) {
             'attrib' {
@@ -297,12 +306,12 @@ function Unequip-GameItem {
         [string]$StolenBy
     )
     # Vars
-    $data = $State.items.$Id.data
+    $data = $State.data.items.$Id
     $guid = $State.items.$Id.guid
 
     # Sanity checks
     if ($null -eq $data.equipData) {
-        Write-Warning "$Id is not in the inventory or is not equippable!"
+        Write-Warning "$Id is not equippable!"
         return
     }
     if (-not $State.items.$Id.equipped) {
@@ -320,11 +329,10 @@ function Unequip-GameItem {
 
     # Officially unequip it
     if ($StolenBy) {
-        Write-Host "$StolenBy takes off your $($State.items.$Id.data.name)."
+        Write-Host "$StolenBy takes off your $($data.name)."
     } else {
-        Write-Host "You take off the $($State.items.$Id.data.name)."
+        Write-Host "You take off the $($data.name)."
     }
-    # todo: add unequipDescription to items and print it here
     $State.items.$Id.equipped = $false
     $State.equipment."$($data.equipData.slot)" = $null
 
@@ -347,7 +355,7 @@ function Find-EquippedItem {
     Write-Verbose "'$($id ?? '(nothing)')' found for equipped slot $Slot"
 
     # Return item data from main item list
-    return ($null -ne $id ? $State.items.$id : $null)
+    return $id
 }
 
 function Find-EquippableItems {
@@ -361,9 +369,9 @@ function Find-EquippableItems {
     )
 
     $availableItems = foreach ($item in $State.items.GetEnumerator()) {
-        if ($item.Value.data.equipData.slot -eq $Slot) {
+        if ($State.data.items."$($item.Key)".equipData.slot -eq $Slot) {
             Write-Debug "found matching item $($item.Key) for slot $Slot"
-            $item.Value
+            $item.Key
         }
     }
 
@@ -385,11 +393,11 @@ function Use-GameItem {
         [string]$Id
     )
     # Sanity checks
-    $data = $State.items.$Id.data
+    $data = $State.data.items.$Id
     $guid = $State.items.$Id.guid
     $number = $State.items.$Id.number
     if ($null -eq $data.useData) {
-        Write-Warning "$Id is not usable or is not found in the inventory"
+        Write-Warning "$Id is not usable"
         return
     }
     if ($number -lt 1) {
