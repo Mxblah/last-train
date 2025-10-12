@@ -7,5 +7,6 @@
     "difficulty": 2,
     "maxSkillsInCategory": 7,
     "trainDepartureGracePeriod": 60,
+    "trainFuelValue": 10,
     "turnDelayMs": 100
 }

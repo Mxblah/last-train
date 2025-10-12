@@ -10,8 +10,25 @@ function Update-TrainState {
     $now = $State.time.currentTime
     $stopped = $State.game.train.stopped
     $departureTime = $State.game.train.willDepartAt
+    $departedTime = $State.game.train.lastDepartedAt
     $arrivalTime = $State.game.train.willArriveAt
+    # $arrivedTime = $State.game.train.lastArrivedAt # currently not needed
     $decideTime = $State.game.train.stationDecisionPoint
+
+    # Handle train fuel in transit
+    if ((-not $stopped) -and $State.game.flags.global.trainFuelEnabled) {
+        $fuelBurnedSoFar = ($now - $departedTime).TotalMinutes / $State.options.trainFuelValue
+        Write-Debug "have traveled for $(($now - $departedTime).TotalMinutes) minutes so far, so have burned $fuelBurnedSoFar fuel."
+        $nowFuel = [System.Math]::Round($State.game.train.fuelAtDepartureTime - $fuelBurnedSoFar)
+        Write-Debug "Had $($State.game.train.fuelAtDepartureTime) fuel at departure, so should have $nowFuel fuel now"
+        $State.game.train.fuel = [System.Math]::Max($nowFuel, 0)
+
+        # todo: for now, just game over if we run out of fuel and don't have any left. Update this later to add a recovery possibility, probably.
+        # (i.e. can refuel when it stops, if you have any fuel left. Or if you don't, maybe some very tough enemies that drop fuel can arrive?)
+        if ($State.game.train.fuel -le 0) {
+            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-out-of-fuel'
+        }
+    }
 
     # Handle train departure
     if ($null -ne $departureTime -and $now -ge $departureTime) {
@@ -81,14 +98,20 @@ function Write-TrainState {
     } else {
         if ($null -ne $train.willArriveAt -and ($train.willArriveAt - $State.time.currentTime) -le [timespan]'00:10:00') {
             # close to arrival
-            Write-Host -ForegroundColor DarkYellow ' The train slows as it approaches the station.'
+            Write-Host -ForegroundColor DarkYellow ' The train slows as it approaches the station.' -NoNewline
         } elseif (($State.time.currentTime - $train.lastDepartedAt) -le [timespan]'00:10:00') {
             # close to last departure
-            Write-Host -ForegroundColor DarkYellow 'The train accelerates as it leaves the station.'
+            Write-Host -ForegroundColor DarkYellow 'The train accelerates as it leaves the station.' -NoNewline
         } else {
             # in transit somewhere
-            Write-Host -ForegroundColor Yellow 'The train speeds along its tracks at a rapid pace.'
+            Write-Host -ForegroundColor Yellow 'The train speeds along its tracks at a rapid pace.' -NoNewline
         }
+        if ($State.game.flags.global.trainFuelEnabled) {
+            Write-Host -ForegroundColor (Get-PercentageColor -Value $train.fuel -Max $train.maxFuel) " Fuel: $($train.fuel)/$($train.maxFuel)"
+        } else {
+            Write-Host ''
+        }
+
         if ($train.nextStationName) {
             Write-Host "🚂 Traveling to: $($train.nextStationName) | " -NoNewline
             Write-Host -ForegroundColor Green "Arrival: Day $($train.willArriveAt.Day), $($train.willArriveAt.TimeOfDay)."
@@ -128,6 +151,20 @@ function Invoke-TrainDeparture {
     }
     # Otherwise, the player is on board, so we're ready to depart. Handle that.
 
+    # If fuel is enabled, make sure we have enough
+    if ($State.game.flags.global.trainFuelEnabled) {
+        if (-not ($State | Test-TrainHasEnoughFuel)) {
+            Write-Host "⛔ The train does not have enough fuel to safely reach the next station."
+            if ($EarlyDeparture) {
+                return
+            } else {
+                Write-Host -ForegroundColor Magenta "⚠️ But because this is last call, the train will depart anyway..."
+            }
+        }
+
+        $train.fuelAtDepartureTime = $train.fuel
+    }
+
     # Load scene data from the station we just left to get available stations and such
     $scene = $State.data.scenes.train."$($train.lastStation)"
     $train.availableStations = $scene.data.availableStations
@@ -143,6 +180,12 @@ function Invoke-TrainDeparture {
 
     Write-Host -ForegroundColor Cyan "🚂 The train has departed $($scene.name)."
     $State | Save-Game -Auto
+
+    # Immediately invoke the decision point if there's only one available station
+    if ($train.availableStations.Count -eq 1) {
+        Write-Host 'There is only one available station on this route.'
+        $State | Invoke-TrainDecisionPoint
+    }
 }
 
 function Invoke-TrainArrival {
@@ -164,6 +207,16 @@ function Invoke-TrainArrival {
     $train.stopped = $true
     $train.lastArrivedAt = $train.willArriveAt
     $train.willArriveAt = $null
+
+    # Update fuel. We do this in transit too, but this trues us up in case the player was sleeping during arrival or something
+    if ($State.game.flags.global.trainFuelEnabled) {
+        $fuelBurnedTotal = ($train.lastArrivedAt - $train.lastDepartedAt).TotalMinutes / $State.options.trainFuelValue
+        Write-Debug "upon arrival ($(($train.lastArrivedAt - $train.lastDepartedAt).TotalMinutes) minute journey), have burned $fuelBurnedTotal fuel."
+        $nowFuel = [System.Math]::Round($State.game.train.fuelAtDepartureTime - $fuelBurnedTotal)
+        Write-Debug "Had $($State.game.train.fuelAtDepartureTime) fuel at departure, so should have $nowFuel fuel now"
+        $State.game.train.fuel = [System.Math]::Max($nowFuel, 0)
+        $State.game.train.fuelAtDepartureTime = $State.game.train.fuel
+    }
 
     # We've arrived somewhere new, so set the next station to the last station and clear the decision point
     $train.lastStation = $train.nextStation
@@ -327,4 +380,71 @@ function Update-TrainDangerLevel {
     Write-Host ''
     Write-Host -ForegroundColor Magenta $message
     Write-Host ''
+}
+
+function Show-TrainFuelMenu {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State
+    )
+
+    # Vars
+    $train = $State.game.train
+
+    $State | Add-GlobalTime -Time '00:00:30'
+    Write-Host -ForegroundColor (Get-PercentageColor -Value $train.fuel -Max $train.maxFuel) "⛽ Fuel: $($train.fuel)/$($train.maxFuel) (Need $($State | Test-TrainHasEnoughFuel -PassThru))"
+    Write-Host -ForegroundColor (Get-PercentageColor -Value $State.items.fuel.number -Max $train.maxFuel) "🎒 Your fuel canisters: $($State.items.fuel.number)"
+
+    if ($State.items.fuel.number -gt 0) {
+        $choice = $State | Read-PlayerInput -Prompt 'Add fuel to the train? (number of canisters, or <enter> to cancel)' -Choices (1..$State.items.fuel.number) -AllowNullChoice
+        if ($null -eq $choice -or $choice -le 0) {
+            Write-Host 'You changed your mind...'
+        } else {
+            $State | Remove-GameItem -Id 'fuel' -Number $choice
+            $train.fuel += $choice
+            Write-Host -ForegroundColor DarkGreen "⛽ Added $choice units of fuel to the train."
+            $State | Add-GlobalTime -Time (New-TimeSpan -Seconds (10 * $choice))
+        }
+    } else {
+        Write-Host "You don't have any fuel to add to the train..."
+    }
+}
+
+function Test-TrainHasEnoughFuel {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter()]
+        [switch]$PassThru
+    )
+
+    # Vars
+    $train = $State.game.train
+    $availableStations = $train.availableStations
+    $fuel = $train.fuel
+
+    # Get the available stations we could travel to, and their travel times
+    $requiredFuels = foreach ($station in $availableStations.GetEnumerator()) {
+        Write-Debug "checking $($station.Key) with travel time $($station.Value.travelTime) for fuel range"
+        $fuelRequired = ([timespan]($station.Value.travelTime)).TotalMinutes / $State.options.trainFuelValue
+        Write-Debug "need: $fuelRequired / have: $fuel (can reach: $($fuel -ge $fuelRequired))"
+        $fuelRequired
+        if ($fuel -ge $fuelRequired) {
+            Write-Debug "can reach station $($station.Key)!"
+            if (-not $PassThru) {
+                return $true
+            }
+        }
+    }
+
+    if (-not $PassThru) {
+        Write-Debug "cannot reach any of the $($availableStations.Count) available stations"
+        return $false
+    } else {
+        Write-Debug "passthru enabled: returning smallest required fuel of $($requiredFuels | Sort-Object | Select-Object -First 1)"
+        return ($requiredFuels | Sort-Object | Select-Object -First 1)
+    }
 }

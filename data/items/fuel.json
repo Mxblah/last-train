@@ -1,0 +1,6 @@
+{
+    "id": "fuel",
+    "name": "Train Fuel",
+    "description": "Enchanted diesel fuel, fit for use in the strange train's locomotive. You probably shouldn't run out of this, if you can help it.\nOne unit is good for ${options.trainFuelValue} minutes' travel time.",
+    "itemType": "normal"
+}

@@ -32,6 +32,13 @@
             "greaterThan": -1
         }
     },
+    "trainFuelValue": {
+        "type": "int",
+        "hint": "A single unit of train fuel will last this many minutes. High values lower the difficulty. Extremely low values may be unwinnable.",
+        "validators": {
+            "greaterThan": 0
+        }
+    },
     "turnDelayMs": {
         "type": "int",
         "hint": "Milliseconds to delay when performing an enemy battle turn.",
