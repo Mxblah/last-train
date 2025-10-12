@@ -1,0 +1,65 @@
+{
+    "id": "airport",
+    "name": "Airport",
+    "badge": "🛬",
+    "data": {
+        "station": {
+            "location": "transitCenter",
+            "leaveTrainDescription": "You step off the train onto a dim underground platform in a damp concrete tunnel. Stalled escalators - now merely stairs - lead up with faded signs reading \"All Terminals\" assuring you that this is in fact an airport. The air is cool and moist, and the hum of still-functioning ventilation mixes with less-identifiable sounds from deeper in the dark tunnels."
+        },
+        "locations": [
+            {
+                "id": "transitCenter",
+                "name": "Transit Center",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 1,
+                    "travelBaseCost": "00:01:30",
+                    "deeperDescription": "Head to the other end of the platform",
+                    "shallowerDescription": "Head back towards the train",
+                    "exploreHereDescription": "Explore the platform",
+                    "flavor": {
+                        "general": [
+                            "Your footsteps echo uncomfortably in the station's muffled, saturated air.",
+                            "Most of the overhead lights are out or broken, but a few still remain to bravely defy the darkness.",
+                            "Faded, peeling transit maps and schedules hint at a formerly comprehensive network.",
+                            "The walls are damp with moisture and little puddles collect on the tracks."
+                        ],
+                        "0": [
+                            "The strong lights of your train are comforting in the station's gloomy atmosphere."
+                        ],
+                        "1": [
+                            "Something chitters and squeaks somewhere down the tracks, deep in the darkness.",
+                            "A glimmer of light reflects briefly off the eyes of some scurrying vermin past the platform's edge.",
+                            "Someone has dumped a half-dozen luggage carts off the edge here. They lie broken and rusting, but at least not blocking the tracks."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "airport-fuel-enable",
+                            "chance": 1,
+                            "maxTimes": 1
+                        }
+                    ]
+                },
+                "connections": {
+                    "tracks": {
+                        "minDepthAvailable": 1,
+                        "maxDepthAvailable": 1,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:00:30",
+                        "description": "You hop over the platform's edge and lower yourself onto the tracks."
+                    },
+                    "arrivals": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 1,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You climb up the still escalator and emerge into a wide hall. A sign proclaims it \"Arrivals.\""
+                    }
+                }
+            }
+        ]
+    }
+}

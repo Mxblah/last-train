@@ -257,6 +257,7 @@ function Set-HashtableValueFromPath {
     $Hashtable.$lastFragment = $Value
 }
 
+# Renames the specified property in a list of maps in order to avoid duplicates
 function Rename-ForUniquePropertyValues {
     [CmdletBinding()]
     param(

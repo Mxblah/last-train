@@ -91,7 +91,7 @@ function Exit-Scene {
     # If we didn't have a previous scene (due to "problems"), Start-Scene will allow the player to reset to the train later, so it's still okay.
 
     # Clear battle data if it exists (don't need it anymore if we just left the scene)
-    if ($State.options.clearBattleDataOnExit) {
+    if ($State.options.clearBattleDataOnExit -and $State.game.battle.phase) {
         Write-Debug 'clearing battle data'
         $State.game.battle = @{}
     }

@@ -1,0 +1,22 @@
+{
+    "id": "airport-fuel-enable",
+    "data": [
+        {
+            "text": "As you climb down from the train, you notice a steady orange hazard light near the door that you haven't seen before. Worried that your only way of reaching ASCENSION might break down, you look for a label to tell you what the light means."
+        },
+        {
+            "text": "\"LOW FUEL\". Ah. You sort of expected the train to run on magic or something, but this makes sense. You step back inside and find another control panel, quickly locating a display that tells you how dire the situation is. Past that, you locate the hatch to add more and some schematics explaining what sort of fuel to use.",
+            "action": {
+                "flag": {
+                    "global.trainFuelEnabled": true
+                },
+                "time": {
+                    "add": "00:02:30"
+                }
+            }
+        },
+        {
+            "text": "🔓 Unlocked the train's fuel system. Use the \"Fuel\" option in the train menu to manage it. Find more fuel by exploring to avoid getting stranded."
+        }
+    ]
+}

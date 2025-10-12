@@ -105,9 +105,9 @@ function Apply-SunDamage {
         [timespan]$Time
     )
 
-    # Short-circuit conditions: if we're on the train or a cutscene, or the sun isn't out, exit immediately
-    if ( $State.time.phase -eq 'night' -or $State.game.train.playerOnBoard ) {
-        Write-Debug "solar damage is not applicable at current day phase '$($State.time.phase)', or current scene type '$($State.game.scene.type)' due to playerOnBoard"
+    # Short-circuit conditions: if we're on the train or the sun isn't out, exit immediately
+    if ( $State.time.phase -eq 'night' -or $State.game.train.playerOnBoard -or $State.game.explore.currentSunStrengthMultiplier -eq 0 ) {
+        Write-Debug "solar damage is not applicable at current day phase '$($State.time.phase)', current sun multiplier '$($State.game.explore.currentSunStrengthMultiplier)', or playerOnBoard is true"
         return
     }
 

@@ -36,13 +36,13 @@
             }
         },
         {
-            "text": "Finally making your way to the locked door leading to the locomotive, you find a strange control panel bleeding blue light into the car. It describes your trajectory on a map you don't recognize - heading east, apparently. There is a fork in the tracks a fair distance ahead of the train icon on the screen, and it appears you can operate the switch from here."
+            "text": "Finally making your way to the locked door leading to the locomotive, you find a strange control panel bleeding blue light into the car. It describes your trajectory on a map you don't recognize - heading east, apparently. It appears you can operate track switches from here to change the train's path, but there aren't any on the current route."
         },
         {
-            "text": "The northern branch is listed as DESERT, and seems to stop at a rural town in the listed desert. The southern branch is listed as AIRPORT, and - wouldn't you believe it - seems to stop at exactly such a facility."
+            "text": "The next station is listed as DESERT, and seems to stop at a rural town in the aforementioned desert. The map is pretty low-detail, but you can at least make out that the train will stop at a small platform in the village outskirts. It might be a good idea to head into town once you arrive to try and pick up some supplies."
         },
         {
-            "text": "Either one seems almost a full day's travel away; you'll be spending most of the day on this train regardless of your choice. Although that's probably a good thing, as the shutters you noticed earlier begin to latch firmly closed against the first light of dawn - blocking out the deadly sun. You should be safe here until you arrive.",
+            "text": "Regardless, it's a full day's travel away; you'll be spending most of the day on this train whether you want to or not. Although that's probably a good thing, as the shutters you noticed earlier begin to latch firmly closed against the first light of dawn - blocking out the deadly sun. You should be safe here until you arrive.",
             "action": {
                 "time": {
                     "add": "00:08:00"

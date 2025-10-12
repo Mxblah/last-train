@@ -189,7 +189,7 @@ function Show-TrainMenu {
             # Saving does not take any time. That would be mean.
         }
         'explore' {
-            Write-Host "You prepare to depart at $($State.game.train.lastStationName)."
+            Write-Host "You prepare to disembark at $($State.game.train.lastStationName)."
             $State | Add-GlobalTime -Time '00:01:00'
             $State | Exit-Scene -Type 'explore' -Id $State.game.train.lastStation
         }
