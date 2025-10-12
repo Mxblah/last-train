@@ -80,10 +80,14 @@ function Show-TrainMenu {
     }
     if (
         (-not $State.game.train.stopped) -and
+        ($State.game.train.availableStations.Count -gt 1) -and
         ($null -ne $State.game.train.stationDecisionPoint) -and
         ($State.time.currentTime -lt $State.game.train.stationDecisionPoint)
     ) {
         $availableActions += 'Change Destination'
+    }
+    if ($State.game.train.stopped -and $State.game.flags.global.trainFuelEnabled) {
+        $availableActions += 'Fuel'
     }
     if ($State.game.train.stopped) {
         $availableActions += 'Depart'
@@ -192,6 +196,10 @@ function Show-TrainMenu {
         'change destination' {
             $State | Show-TrainDecisionMenu
             # Already handles the time add in the helper function
+        }
+        'fuel' {
+            $State | Show-TrainFuelMenu
+            # Handles time add in helper function
         }
         'depart' {
             $choice = $State | Read-PlayerInput -Prompt "Depart from $($State.game.train.lastStationName) early? (y/n)" -Choices @('yes', 'no') -AllowNullChoice

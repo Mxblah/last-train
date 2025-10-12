@@ -18,7 +18,10 @@
         "nextStationName": null,
         "willArriveAt": null,
         "lastArrivedAt": "2028-10-01T06:00:00",
-        "availableStations": null
+        "availableStations": null,
+        "fuel": 19,
+        "fuelAtDepartureTime": null,
+        "maxFuel": 200
     },
     "explore": {},
     "flags": {}

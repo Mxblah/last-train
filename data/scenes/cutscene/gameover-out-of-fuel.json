@@ -1,0 +1,15 @@
+{
+    "id": "gameover-out-of-fuel",
+    "data": [
+        {
+            "text": "An unhappy sputtering noise from the locomotive informs you that the fuel tanks have run dry. In moments, the engine cuts out and the power dies. The train coasts for a good distance further, but it does eventually roll to a stop in the middle of nowhere. Distant clicking noises pierce into the carriages."
+        },
+        {
+            "text": "You have no hope of reaching ASCENSION now. Your journey is over; you have failed. All that remains is to see whether the sun or the monsters will kill you first.",
+            "exit": {
+                "type": "end",
+                "id": "bad"
+            }
+        }
+    ]
+}
