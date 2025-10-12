@@ -340,11 +340,11 @@ function Get-ExploreEncounter {
 
             # Use the lesser one if we're < 50%, otherwise the worse one, otherwise the worst one
             if (($random/$dangerLevel) -lt 0.5) {
-                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x1'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'hunting-horror-x1'
             } elseif (($random/$dangerLevel) -lt 0.75) {
-                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'hunting-horror-x2'
             } else {
-                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2-nofirstturn'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'hunting-horror-x2-nofirstturn'
             }
         } else {
             Write-Debug "no horror encounter (rolled $random)"

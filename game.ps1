@@ -58,7 +58,7 @@ if ($Cheats.Count -gt 0) {
         switch ($cheat) {
             'bullseye' {
                 Write-Host -ForegroundColor Cyan "CHEAT: 🎯 Set player accuracy to 999999"
-                $state.player.stats.acc.base = 999999; $state.player.stats.acc.base = 999999
+                $state.player.stats.acc.base = 999999
             }
             'def' {
                 Write-Host -ForegroundColor Cyan "CHEAT: 🛡️ Set player defenses to 999999"
@@ -67,6 +67,10 @@ if ($Cheats.Count -gt 0) {
             'healthy' {
                 Write-Host -ForegroundColor Cyan "CHEAT: ❤️ Set player HP to 999999"
                 $state.player.attrib.hp.base = 999999; $state.player.attrib.hp.value = 999999
+            }
+            'speedy' {
+                Write-Host -ForegroundColor Cyan "CHEAT: 👟 Set player speed to 999999"
+                $state.player.stats.spd.base = 999999
             }
             'onboard' {
                 Write-Host -ForegroundColor Cyan "CHEAT: 🚂 Forcing player to board the train"

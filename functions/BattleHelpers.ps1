@@ -142,8 +142,8 @@ function Adjust-Damage {
         if ($Attacker.id -eq 'player') {
             # Only the player can equip weapons
             $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
-            $equippedWeapon = $State.data.items.$equippedWeaponId
-            if ($equippedWeapon) {
+            if ($equippedWeaponId) {
+                $equippedWeapon = $State.data.items.$equippedWeaponId
                 Write-Debug "replacing damage class '$Class' with equipped weapon's class $($equippedWeapon.equipData.weaponData.class)"
                 $Class = $equippedWeapon.equipData.weaponData.class
                 Write-Debug "replacing damage type '$Type' with equipped weapon's type $($equippedWeapon.equipData.weaponData.type)"

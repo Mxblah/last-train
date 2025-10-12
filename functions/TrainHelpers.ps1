@@ -26,7 +26,7 @@ function Update-TrainState {
         # todo: for now, just game over if we run out of fuel and don't have any left. Update this later to add a recovery possibility, probably.
         # (i.e. can refuel when it stops, if you have any fuel left. Or if you don't, maybe some very tough enemies that drop fuel can arrive?)
         if ($State.game.train.fuel -le 0) {
-            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-out-of-fuel'
+            $State | Exit-Scene -Type 'cutscene' -Path 'gameover' -Id 'gameover-out-of-fuel'
         }
     }
 
@@ -142,7 +142,7 @@ function Invoke-TrainDeparture {
     if (-not $train.playerOnBoard) {
         if ($now -gt $maximumGraceTime) {
             # We're beyond the grace period, so the train departs without the player. Game over.
-            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-leftbehind'
+            $State | Exit-Scene -Type 'cutscene' -Path 'gameover' -Id 'gameover-leftbehind'
         } else {
             # We're within the grace period, so update the danger level
             $State | Update-TrainDangerLevel

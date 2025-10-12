@@ -177,7 +177,7 @@ function Show-TrainMenu {
         'training' {
             $choice = $State | Read-PlayerInput -Prompt 'Fight the training dummy? (y/n, or <enter> to cancel)' -Choices @('yes', 'no') -AllowNullChoice
             if ($choice -eq 'yes') {
-                $State | Exit-Scene -Type 'battle' -Id 'training-dummy'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'training-dummy'
             } else {
                 Write-Host 'You changed your mind...'
                 $State | Add-GlobalTime -Time '00:00:30'
