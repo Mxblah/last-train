@@ -18,25 +18,26 @@ function Show-EquipMenu {
             $slotId = $slotRaw.Key
             $slot = $slotRaw.Value
             $item = $State | Find-EquippedItem -Slot $slotId
+            $itemData = $null -ne $item ? $State.data.items.$item : $null
 
             # Name and color it appropriately
-            $itemName = $item.data.name ?? '(normal)'
-            if (-not $item.data.name) {
+            $itemName = $itemData.name ?? '(normal)'
+            if (-not $itemData.name) {
                 # no item
                 $itemColor = 'DarkGray'
             } else {
                 # item!
-                if ($item.data.equipData.weaponData.type) {
+                if ($itemData.equipData.weaponData.type) {
                     # Flavor it from the weapon type
-                    $damageFlavor = Get-DamageTypeFlavorInfo -Class $item.data.equipData.weaponData.class -Type $item.data.equipData.weaponData.type
+                    $damageFlavor = Get-DamageTypeFlavorInfo -Class $itemData.equipData.weaponData.class -Type $itemData.equipData.weaponData.type
                     $secondBadge = '⭐'
-                } elseif ($item.data.effects.affinities.element) {
+                } elseif ($itemData.effects.affinities.element) {
                     # Flavor it from the primary affinity
-                    $damageFlavor = Get-DamageTypeFlavorInfo -Type ($item.data.effects.affinities.element.GetEnumerator() | Select-Object -First 1).Key
+                    $damageFlavor = Get-DamageTypeFlavorInfo -Type ($itemData.effects.affinities.element.GetEnumerator() | Select-Object -First 1).Key
                     $secondBadge = '⚔️'
-                } elseif ($item.data.effects.resistances.element) {
+                } elseif ($itemData.effects.resistances.element) {
                     # Flavor it from the primary resistance
-                    $damageFlavor = Get-DamageTypeFlavorInfo -Type ($item.data.effects.resistances.element.GetEnumerator() | Select-Object -First 1).Key
+                    $damageFlavor = Get-DamageTypeFlavorInfo -Type ($itemData.effects.resistances.element.GetEnumerator() | Select-Object -First 1).Key
                     $secondBadge = '🛡️'
                 } else {
                     # this item is not very cool >:(
@@ -86,6 +87,24 @@ function Show-EquipMenu {
             return
         } else {
             $State | Add-GlobalTime -Time '00:01:00'
+        }
+    }
+}
+
+function Find-GameItemData {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'guid')]
+        [string]$Guid
+    )
+
+    foreach ($item in $State.items.GetEnumerator()) {
+        if ($item.Value.guid -eq $Guid) {
+            Write-Debug "found item '$($item.Key)' for guid '$($item.Value.guid)'"
+            return $State.data.items."$($item.Key)"
         }
     }
 }

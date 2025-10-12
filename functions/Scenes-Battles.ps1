@@ -940,6 +940,8 @@ function Exit-Battle {
                         $State | Add-GameItem -Id $lootItem.id -Number $number
                     }
                 }
+                # If we're taking from an ally (steal-backs, maybe?), clear their loot table after we're done looting to avoid infinite items
+                if ($character.faction -eq 'ally') { $character.loot = @() }
             }
         }
 

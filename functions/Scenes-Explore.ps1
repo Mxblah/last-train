@@ -153,7 +153,7 @@ function Show-ExploreMenu {
     # Perform action
     switch ($choice) {
         'browse' {
-            $State | Show-Inventory
+            $State | Show-Inventory -JustBrowsing
             $State | Add-GlobalTime -Time '00:01:00'
         }
         'item' {

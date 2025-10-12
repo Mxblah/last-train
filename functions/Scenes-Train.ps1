@@ -111,7 +111,7 @@ function Show-TrainMenu {
     $choice = $State | Read-PlayerInput -Choices $availableActions
     switch ($choice) {
         'browse' {
-            $State | Show-Inventory
+            $State | Show-Inventory -JustBrowsing
             $State | Add-GlobalTime -Time '00:01:00'
         }
         'item' {
