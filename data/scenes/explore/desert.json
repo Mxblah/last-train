@@ -57,6 +57,7 @@
                             "id": "desert-outskirts-pillow",
                             "chance": 0.2,
                             "requiredPhase": "night",
+                            "minDepthAvailable": 1,
                             "maxTimes": 3,
                             "when": {
                                 "desert.outskirts.gremlinCampCleared": false
@@ -66,6 +67,7 @@
                             "type": "cutscene",
                             "id": "desert-outskirts-well",
                             "chance": 0.225,
+                            "minDepthAvailable": 1,
                             "maxTimes": 1
                         },
                         {

@@ -4,6 +4,7 @@
     },
     "scene": {
         "type": "cutscene",
+        "path": "start",
         "id": "intro"
     },
     "train": {

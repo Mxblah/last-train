@@ -871,7 +871,7 @@ function Exit-Battle {
             }
         } else {
             # end the game if the player died
-            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-battle'
+            $State | Exit-Scene -Type 'cutscene' -Path 'gameover' -Id 'gameover-battle'
         }
     } elseif ($State.game.battle.victor -eq 'escaped') {
         # If the player died but an ally fled, end the game

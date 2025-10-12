@@ -7,9 +7,6 @@
         "availableStations": {
             "desert": {
                 "travelTime": "12:02:00"
-            },
-            "airport": {
-                "travelTime": "11:29:00"
             }
         }
     }

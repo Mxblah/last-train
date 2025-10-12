@@ -26,7 +26,7 @@ function Update-TrainState {
         # todo: for now, just game over if we run out of fuel and don't have any left. Update this later to add a recovery possibility, probably.
         # (i.e. can refuel when it stops, if you have any fuel left. Or if you don't, maybe some very tough enemies that drop fuel can arrive?)
         if ($State.game.train.fuel -le 0) {
-            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-out-of-fuel'
+            $State | Exit-Scene -Type 'cutscene' -Path 'gameover' -Id 'gameover-out-of-fuel'
         }
     }
 
@@ -142,7 +142,7 @@ function Invoke-TrainDeparture {
     if (-not $train.playerOnBoard) {
         if ($now -gt $maximumGraceTime) {
             # We're beyond the grace period, so the train departs without the player. Game over.
-            $State | Exit-Scene -Type 'cutscene' -Id 'gameover-leftbehind'
+            $State | Exit-Scene -Type 'cutscene' -Path 'gameover' -Id 'gameover-leftbehind'
         } else {
             # We're within the grace period, so update the danger level
             $State | Update-TrainDangerLevel
@@ -179,13 +179,15 @@ function Invoke-TrainDeparture {
     $State | Update-TrainDangerLevel -Clear
 
     Write-Host -ForegroundColor Cyan "🚂 The train has departed $($scene.name)."
-    $State | Save-Game -Auto
 
     # Immediately invoke the decision point if there's only one available station
     if ($train.availableStations.Count -eq 1) {
-        Write-Host 'There is only one available station on this route.'
+        Write-Host '🚉 There is only one available station on this route.'
         $State | Invoke-TrainDecisionPoint
     }
+
+    # Finally, save the game after we're on our way
+    $State | Save-Game -Auto
 }
 
 function Invoke-TrainArrival {
@@ -297,7 +299,7 @@ function Invoke-TrainDecisionPoint {
         Write-Debug "station not selected, so chose $($train.nextStation) randomly. Gathering scene data..."
         $nextStationData = $State.data.scenes.train."$($train.nextStation)"
         $train.nextStationName = $nextStationData.name
-        Write-Host 'The train selected its next station without your input.'
+        Write-Host '🚉 The train selected its next station without your input.'
 
         # Update arrival time based on departure + travel time
         Write-Debug "calculating arrival time based on departure of $($train.lastDepartedAt) and travel time of $($train.availableStations."$($train.nextStation)".travelTime)"
@@ -394,7 +396,7 @@ function Show-TrainFuelMenu {
 
     $State | Add-GlobalTime -Time '00:00:30'
     Write-Host -ForegroundColor (Get-PercentageColor -Value $train.fuel -Max $train.maxFuel) "⛽ Fuel: $($train.fuel)/$($train.maxFuel) (Need $($State | Test-TrainHasEnoughFuel -PassThru))"
-    Write-Host -ForegroundColor (Get-PercentageColor -Value $State.items.fuel.number -Max $train.maxFuel) "🎒 Your fuel canisters: $($State.items.fuel.number)"
+    Write-Host -ForegroundColor (Get-PercentageColor -Value $State.items.fuel.number -Max $train.maxFuel) "🎒 Your fuel canisters: $($State.items.fuel.number ?? 0)"
 
     if ($State.items.fuel.number -gt 0) {
         $choice = $State | Read-PlayerInput -Prompt 'Add fuel to the train? (number of canisters, or <enter> to cancel)' -Choices (1..$State.items.fuel.number) -AllowNullChoice

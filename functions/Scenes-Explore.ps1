@@ -23,11 +23,13 @@ function Start-ExploreScene {
     # If the player is just getting off the train, handle that
     if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq -1) {
         Write-Host ($State | Enrich-Text $Scene.data.station.leaveTrainDescription)
-        $explore.depth = 0
+
         # Shouldn't strictly be necessary, but just in case something weird happened, reset it.
         $State.game.explore.currentSunStrengthMultiplier = ($Scene.data.locations |
             Where-Object -Property id -EQ $Scene.data.station.location).sunStrengthMultiplier
         Write-Debug "sun strength is $($State.game.explore.currentSunStrengthMultiplier) in $($Scene.id):$($Scene.data.station.location)"
+
+        $State | Invoke-ExploreMovement -Scene $Scene -SetDepth 0
     }
 
     # Main exploration loop
@@ -298,10 +300,10 @@ function Invoke-ExploreMovement {
     $State | Add-GlobalTime -Time $locationData.field.travelBaseCost
 
     # Move to the new location, if applicable
-    if ($SetDepth) {
+    if ($null -ne $SetDepth) {
         Write-Debug "setting depth in $($explore.location) to $SetDepth"
         $explore.depth = $SetDepth
-    } elseif ($AddDepth -ne 0) {
+    } elseif ($null -ne $AddDepth -and $AddDepth -ne 0) {
         Write-Debug "adding $AddDepth to current depth $($explore.depth) in $($explore.location)"
         $explore.depth += $AddDepth
     } else {
@@ -338,11 +340,11 @@ function Get-ExploreEncounter {
 
             # Use the lesser one if we're < 50%, otherwise the worse one, otherwise the worst one
             if (($random/$dangerLevel) -lt 0.5) {
-                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x1'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'hunting-horror-x1'
             } elseif (($random/$dangerLevel) -lt 0.75) {
-                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'hunting-horror-x2'
             } else {
-                $State | Exit-Scene -Type 'battle' -Id 'hunting-horror-x2-nofirstturn'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'hunting-horror-x2-nofirstturn'
             }
         } else {
             Write-Debug "no horror encounter (rolled $random)"

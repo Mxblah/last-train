@@ -85,6 +85,11 @@ function Invoke-CutsceneAction {
         }
 
         switch ($ActionType) {
+            { $_ -match 'when|whenMode' } {
+                # Do nothing; these are used in conditionals, not as actions themselves
+                # But we can skip the rest of the checks to save a bit of time
+                break
+            }
             'text' {
                 # Just print some text
                 foreach ($line in $act) {
@@ -243,10 +248,12 @@ function Invoke-CutsceneAction {
                 }
             }
             'exit' {
-                $State | Exit-Scene -Type $act.type -Id $act.id
-            }
-            { $_ -match 'when|whenMode' } {
-                # Do nothing; these are used in conditionals, not as actions themselves
+                $splat = @{
+                    type = $act.type
+                    id = $act.id
+                }
+                if ($act.path) { $splat.path = $act.path } # otherwise, the default is the current station
+                $State | Exit-Scene @splat
             }
             default {
                 Write-Warning "Unknown cutscene action type '$_' encountered in cutscene with ID '$($State.game.scene.id)'!"

@@ -43,7 +43,7 @@
             }
         },
         {
-            "text": "With a lurch, the train begins moving. Speed picks up quickly, and it's not long before the clanging stops the the clicking noise fades into the distant desert behind. It seems you're safe, for now.",
+            "text": "With a lurch, the train begins moving. Speed picks up quickly, and it's not long before the clanging stops and the clicking noise fades into the distant desert behind. It seems you're safe, for now.",
             "action": {
                 "time": {
                     "add": "00:02:00"

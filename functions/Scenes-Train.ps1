@@ -177,7 +177,7 @@ function Show-TrainMenu {
         'training' {
             $choice = $State | Read-PlayerInput -Prompt 'Fight the training dummy? (y/n, or <enter> to cancel)' -Choices @('yes', 'no') -AllowNullChoice
             if ($choice -eq 'yes') {
-                $State | Exit-Scene -Type 'battle' -Id 'training-dummy'
+                $State | Exit-Scene -Type 'battle' -Path 'global' -Id 'training-dummy'
             } else {
                 Write-Host 'You changed your mind...'
                 $State | Add-GlobalTime -Time '00:00:30'
@@ -189,7 +189,7 @@ function Show-TrainMenu {
             # Saving does not take any time. That would be mean.
         }
         'explore' {
-            Write-Host "You prepare to depart at $($State.game.train.lastStationName)."
+            Write-Host "You prepare to disembark at $($State.game.train.lastStationName)."
             $State | Add-GlobalTime -Time '00:01:00'
             $State | Exit-Scene -Type 'explore' -Id $State.game.train.lastStation
         }
