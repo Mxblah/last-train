@@ -136,8 +136,8 @@ function Show-ExploreMenu {
             }
 
             # we're within this connection's depth range and its 'when' is valid (or does not exist), so add it
-            Write-Debug "adding valid connection $($connection.Key)"
-            $availableActions.Add("🔀 Enter $(($Scene.data.locations | Where-Object -Property id -EQ $connection.Key).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
+            Write-Debug "adding valid connection $($connection.Key) ($($connection.Key -replace '\.\d+', ''))"
+            $availableActions.Add("🔀 Enter $(($Scene.data.locations | Where-Object -Property id -EQ ($connection.Key -replace '\.\d+', '')).name) (`"go:$($connection.Key)`") [$($connection.Value.travelCost)]") | Out-Null
         } else {
             Write-Debug "$($connection.Key) not valid from depth of $($explore.depth)"
         }
@@ -258,19 +258,34 @@ function Invoke-ExploreConnection {
     $explore = $State.game.explore."$($Scene.id)"
     $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
     $connectionData = $locationData.connections.$NewLocation
+    $newLocationClean = ($NewLocation -replace '\.\d+', '')
+    $newLocationData = $Scene.data.locations | Where-Object -Property id -EQ $newLocationClean
 
-    # Handle time first and print the travel line
+    # Handle cutscene, if present (usually used for first-time actions or to open one-way connections)
+    if ($connectionData.cutscene) {
+        $shouldPlayCutscene = $State | Test-WhenConditions -When $connectionData.cutscene.when -WhenMode $connectionData.cutscene.whenMode
+        if ($shouldPlayCutscene) {
+            Write-Debug "playing cutscene for connection to $NewLocation ($shouldPlayCutscene)"
+            # Can set flags, add time, grant items, deal damage; anything a single cutscene paragraph can do, can be done here.
+            # For more complicated cutscenes, use a real cutscene.
+            $State | Invoke-CutsceneAction -Action $connectionData.cutscene
+        } else {
+            Write-Debug "cutscene for $NewLocation connection did not pass its when requirements ($shouldPlayCutscene)"
+        }
+    }
+
+    # Handle time and print the travel line
     $State | Add-GlobalTime -Time $connectionData.travelCost
     Write-Host ($State | Enrich-Text $connectionData.description)
 
     # Move to the new location and reset depth
-    Write-Debug "resetting explore location to $NewLocation at depth $($connectionData.arrivalDepth)"
-    $explore.location = $NewLocation
+    Write-Debug "resetting explore location to $NewLocation ($newLocationClean) at depth $($connectionData.arrivalDepth)"
+    $explore.location = $newLocationClean
     $explore.depth = $connectionData.arrivalDepth
 
     # update sun strength
-    $State.game.explore.currentSunStrengthMultiplier = ($Scene.data.locations."$($explore.location)").sunStrengthMultiplier
-    Write-Debug "sun strength is $($State.game.explore.currentSunStrengthMultiplier) in $($Scene.id):$($Scene.data.station.location)"
+    $State.game.explore.currentSunStrengthMultiplier = $newLocationData.sunStrengthMultiplier
+    Write-Debug "sun strength is $($State.game.explore.currentSunStrengthMultiplier) in $($Scene.id):$newLocationClean"
 
     # Roll for an encounter
     $State | Get-ExploreEncounter -Scene $Scene
@@ -295,15 +310,16 @@ function Invoke-ExploreMovement {
     # Vars
     $explore = $State.game.explore."$($Scene.id)"
     $locationData = $Scene.data.locations | Where-Object -Property id -EQ $explore.location
+    Write-Debug "adding: '$AddDepth' / setting: '$SetDepth' - will use $($PSCmdlet.ParameterSetName)"
 
     # Handle time first
     $State | Add-GlobalTime -Time $locationData.field.travelBaseCost
 
     # Move to the new location, if applicable
-    if ($null -ne $SetDepth) {
+    if ($PSCmdlet.ParameterSetName -eq 'Set') {
         Write-Debug "setting depth in $($explore.location) to $SetDepth"
         $explore.depth = $SetDepth
-    } elseif ($null -ne $AddDepth -and $AddDepth -ne 0) {
+    } elseif ($PSCmdlet.ParameterSetName -eq 'Add') {
         Write-Debug "adding $AddDepth to current depth $($explore.depth) in $($explore.location)"
         $explore.depth += $AddDepth
     } else {
