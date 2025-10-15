@@ -53,7 +53,7 @@ function Show-LevelUpMenu {
         }
 
         # Make sure we have some of that orb available
-        if ($orbs.$choice -le 0) {
+        if ($choice -and $orbs.$choice -le 0) {
             Write-Host "You don't have any $choice orbs!"
             continue
         }
@@ -130,7 +130,7 @@ function Invoke-SingleStatLevelUp {
             Write-Host "Your body can't handle any more increases to $statToIncrease right now! Try a different stat."
             continue
         }
-        $orbsToSpend = $State | Read-PlayerInput -Prompt "Increase $statToIncrease how many times? (1-$limitingFactor, or <enter> to cancel)" -Choices (1..$limitingFactor) -AllowNullChoice
+        $orbsToSpend = $State | Read-PlayerNumberInput -Prompt "Increase $statToIncrease how many times? (1-$limitingFactor, or <enter> to cancel)" -Min 1 -Max $limitingFactor -IntegerOnly -AllowNullChoice
 
         # Validation handling
         if ([string]::IsNullOrEmpty($orbsToSpend)) {
@@ -177,7 +177,7 @@ function Invoke-AllStatLevelUp {
     $orbNumber = $orbs.$OrbType
 
     # Ask by how much
-    $orbsToSpend = $State | Read-PlayerInput -Prompt "Increase all stats how many times? (1-$orbNumber, or <enter> to cancel)" -Choices (1..$orbNumber) -AllowNullChoice
+    $orbsToSpend = $State | Read-PlayerNumberInput -Prompt "Increase all stats how many times? (1-$orbNumber, or <enter> to cancel)" -Min 1 -Max $orbNumber -IntegerOnly -AllowNullChoice
     if ([string]::IsNullOrEmpty($orbsToSpend)) {
         Write-Host 'You changed your mind...'
         return 0
@@ -225,7 +225,7 @@ function Invoke-LowestStatLevelUp {
     $orbNumber = $orbs.$OrbType
 
     # Ask by how much
-    $orbsToSpend = $State | Read-PlayerInput -Prompt "Increase lowest $Number stats how many times? (1-$orbNumber, or <enter> to cancel)" -Choices (1..$orbNumber) -AllowNullChoice
+    $orbsToSpend = $State | Read-PlayerNumberInput -Prompt "Increase lowest $Number stats how many times? (1-$orbNumber, or <enter> to cancel)" -Min 1 -Max $orbNumber -IntegerOnly -AllowNullChoice
     if ([string]::IsNullOrEmpty($orbsToSpend)) {
         Write-Host 'You changed your mind...'
         return 0

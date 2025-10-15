@@ -140,6 +140,74 @@ function Read-PlayerInput {
     }
 }
 
+# Read player input and ensure it's a number
+function Read-PlayerNumberInput {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter()]
+        [string]$Prompt = '> ',
+
+        [Parameter(Mandatory = $true)]
+        [double]$Min,
+
+        [Parameter(Mandatory = $true)]
+        [double]$Max,
+
+        [Parameter()]
+        [switch]$AllowNullChoice,
+
+        [Parameter()]
+        [switch]$IntegerOnly,
+
+        [Parameter()]
+        [switch]$SuperDebug
+    )
+
+    while ($true) {
+        # Read input (strip quotes; they don't do anything here)
+        $response = (Read-Host -Prompt ($State | Enrich-Text $Prompt)) -replace "[`"']", ''
+        if ($IntegerOnly) { $integerText = " Must be an integer." } else { $integerText = '' }
+        if ($AllowNullChoice) { $nullText = " (Or <enter> to cancel.)" } else { $nullText = '' }
+
+        # Handle null responses
+        if ([string]::IsNullOrWhitespace($response)) {
+            if ($AllowNullChoice) {
+                Write-Host -ForegroundColor Yellow "🚫 No selection made."
+                return $null
+            } else {
+                # $null converts to 0 when typecast as int or double, which would make it valid, so short-circuit it here
+                Write-Host -ForegroundColor Yellow "❌ Invalid input; make a valid choice to continue!`nMust be between $Min and $Max, inclusive.$integerText$nullText"
+                continue
+            }
+        }
+
+        # Convert to number
+        try {
+            if ($SuperDebug) { Write-Debug "Converting '$response' to number" }
+            $number = if ($IntegerOnly) {
+                [int]$response
+                # You actually can cast doubles to ints (it just rounds them) so throw manually here if the mod is wrong
+                if (-not (([double]$response % 1) -eq 0)) { throw "'$response' is not an integer" }
+            } else {
+                [double]$response
+            }
+
+            if ($number -ge $Min -and $number -le $Max) {
+                return $number
+            }
+        } catch {
+            # Conversion error usually means it's not a number of the right format
+            if ($SuperDebug) { Write-Debug "Conversion failed with exception '$_' - will mark invalid" }
+        }
+
+        # If we got here, we didn't return anything, so it was invalid. Say as such and try again.
+        Write-Host -ForegroundColor Yellow "❌ Invalid input; make a valid choice to continue!`nMust be between $Min and $Max, inclusive.$integerText$nullText"
+    }
+}
+
 function ConvertTo-TitleCase {
     [CmdletBinding()]
     param(
