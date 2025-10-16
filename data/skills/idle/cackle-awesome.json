@@ -1,0 +1,7 @@
+{
+    "id": "cackle-awesome",
+    "name": "Cackle",
+    "description": "${game.battle.attacker} guffaws at how awesome that was.",
+    "skillType": "idle",
+    "data": {}
+}

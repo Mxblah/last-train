@@ -1,0 +1,31 @@
+{
+    "id": "trolley-crash",
+    "name": "Trolley Crash",
+    "description": "${game.battle.attacker} crashes into ${game.battle.defender} with a luggage trolley!",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 0,
+        "pow": 35,
+        "acc": 0.8,
+        "crit": 0.05,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.8,
+                "stack": 3,
+                "intensity": 2
+            }
+        ],
+        "queue": [
+            {
+                "target": "attacker",
+                "class": "idle",
+                "id": "cackle-awesome"
+            }
+        ]
+    }
+}

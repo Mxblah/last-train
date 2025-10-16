@@ -1,0 +1,154 @@
+{
+    "id": "luggage-gremlin",
+    "name": "Luggage Gremlin",
+    "entryDescription": "A knee-high goblinoid creature, hairy and wrinkled, screeches something about clothes and rushes at you!",
+    "inspectDescription": "A hairy, wrinkled goblinoid creature as tall as your knee. Obsesses over human belongings, particularly clothes, even though it can't wear them properly. Crude and brutish. Likes to ride luggage trolleys - can get going surprisingly fast on them.",
+    "bestiaryDescription": "Clearly a cousin to the desert's clothes gremlins, and behaves in a similar though more dangerous manner. Braver than its cousins, and only flees on rare occasions.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {},
+        "element": {}
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 74,
+            "max": 74,
+            "base": 74,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 8,
+            "max": 16,
+            "base": 16,
+            "regen": 3,
+            "baseRegen": 3
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 18
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 17
+        },
+        "pDef": {
+            "value": 0,
+            "base": 19
+        },
+        "mDef": {
+            "value": 0,
+            "base": 17
+        },
+        "acc": {
+            "value": 0,
+            "base": 15
+        },
+        "spd": {
+            "value": 0,
+            "base": 16
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 1,
+            "max": 4,
+            "chance": 0.60
+        },
+        {
+            "id": "skill-book-clothes-gremlin-sing",
+            "number": 1,
+            "chance": 0.03
+        },
+        {
+            "id": "bandage",
+            "number": 1,
+            "chance": 0.2
+        }
+    ],
+    "ai": "lazy-burst",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 75
+            },
+            {
+                "id": "scratch",
+                "weight": 45
+            },
+            {
+                "id": "clothes-gremlin-sing",
+                "weight": 100
+            },
+            {
+                "id": "trolley-crash-queue",
+                "weight": 200
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+            {
+                "id": "clothes-gremlin-admire-sock",
+                "weight": 75
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "loafing-around",
+                "weight": 20
+            },
+            {
+                "id": "clothes-gremlin-leer",
+                "weight": 20
+            }
+        ],
+        "special": [
+            {
+                "id": "trolley-driveby-queue",
+                "weight": 300
+            },
+            {
+                "id": "steal-luggage",
+                "weight": 135
+            },
+            {
+                "id": "flee",
+                "weight": 15
+            }
+        ]
+    }
+}

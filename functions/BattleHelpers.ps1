@@ -902,9 +902,14 @@ function Invoke-Skill {
     # Add queued actions to the queue, if applicable
     if ($null -ne $Skill.data.queue) {
         foreach ($actionToQueue in $Skill.data.queue) {
-            foreach ($target in $Targets) {
-                Write-Debug "queueing $($actionToQueue.class)/$($actionToQueue.id) for $($target.name)"
-                $target.actionQueue.Add($actionToQueue) | Out-Null
+            if ($actionToQueue.target -eq 'attacker') {
+                Write-Debug "queueing $($actionToQueue.class)/$($actionToQueue.id) for $($Attacker.name)"
+                $Attacker.actionQueue.Add($actionToQueue) | Out-Null
+            } else {
+                foreach ($target in $Targets) {
+                    Write-Debug "queueing $($actionToQueue.class)/$($actionToQueue.id) for $($target.name)"
+                    $target.actionQueue.Add($actionToQueue) | Out-Null
+                }
             }
         }
     }
@@ -966,7 +971,7 @@ function Invoke-Skill {
             }
 
             # Handle special effects, if present
-            if ($Skill.skillType -eq 'special') {
+            if ($Skill.data.specialType) {
                 $State | Invoke-SpecialSkill -Attacker $Attacker -Target $Target -Skill $Skill
             }
         }

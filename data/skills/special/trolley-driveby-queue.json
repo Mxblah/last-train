@@ -1,0 +1,32 @@
+{
+    "id": "trolley-driveby-queue",
+    "name": "Trolley Drive-By ⏱️",
+    "description": "${game.battle.attacker} leaps aboard a luggage trolley and revs up while wiggling their fingers!",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "mp": 9,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 0,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "queue",
+        "status": [
+            {
+                "id": "fired-up",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 1
+            }
+        ],
+        "queue": [
+            {
+                "class": "special",
+                "id": "trolley-driveby"
+            }
+        ]
+    }
+}

@@ -90,7 +90,11 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x1",
+                            "chance": 0.05
+                        }
                     ]
                 },
                 "connections": {
@@ -153,7 +157,11 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x1",
+                            "chance": 0.05
+                        }
                     ]
                 },
                 "connections": {
