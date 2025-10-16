@@ -1,0 +1,85 @@
+[
+    {
+        "items": [
+            {
+                "id": "orb-pearlescent",
+                "number": 10
+            },
+            {
+                "id": "bandage",
+                "number": 3
+            },
+            {
+                "id": "coin",
+                "number": 10
+            },
+            {
+                "id": "glasses-rose",
+                "number": 1
+            },
+            {
+                "id": "glove-chemists",
+                "number": 1
+            },
+            {
+                "id": "liquid-balm",
+                "number": 3
+            },
+            {
+                "id": "lowerFace-surgical-mask",
+                "number": 1
+            },
+            {
+                "id": "neck-heartbeat-necklace",
+                "number": 1
+            },
+            {
+                "id": "needle-brace",
+                "number": 1
+            },
+            {
+                "id": "offhand-lead-plate",
+                "number": 1
+            },
+            {
+                "id": "silver-feather",
+                "number": 1
+            },
+            {
+                "id": "simple-medallion",
+                "number": 1
+            },
+            {
+                "id": "smoked-glass-rod",
+                "number": 1
+            },
+            {
+                "id": "sock-clothes-troll",
+                "number": 1
+            }
+        ],
+        "skills": [
+            {
+                "category": "attack-single",
+                "id": "ignite"
+            },
+            {
+                "category": "attack-single",
+                "id": "inject"
+            },
+            {
+                "category": "attack-single",
+                "id": "attack-magic"
+            },
+            {
+                "category": "attack-multi",
+                "id": "flame-fan"
+            }
+        ],
+        "sceneOverride": {
+            "type": "train",
+            "path": "",
+            "id": "desert"
+        }
+    }
+]

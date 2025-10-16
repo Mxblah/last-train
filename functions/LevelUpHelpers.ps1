@@ -31,9 +31,9 @@ function Show-LevelUpMenu {
             # Get color based on % of max
             $color = switch ($base / $max) {
                 { $_ -ge 1 } { 'DarkGreen'; break }
-                { $_ -ge 0.875 } { 'Green'; break }
-                { $_ -ge 0.75 } { 'Yellow'; break }
-                { $_ -ge 0.625 } { 'DarkYellow'; break }
+                { $_ -ge 0.8 } { 'Green'; break }
+                { $_ -ge 0.7 } { 'Yellow'; break }
+                { $_ -ge 0.6 } { 'DarkYellow'; break }
                 { $_ -gt 0.5 } { 'Red'; break }
                 default { 'DarkRed' }
             }
