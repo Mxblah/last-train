@@ -48,7 +48,9 @@ if (-not $state.time.meta.init) {
 }
 
 # Apply cheats
-$state | Apply-GameCheats -Cheats $Cheats
+if ($Cheats.Count -gt 0) {
+    $state | Apply-GameCheats -Cheats $Cheats
+}
 
 # Update now that all the init is done
 $State | Update-CharacterValues -Character $State.player

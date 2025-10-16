@@ -181,6 +181,16 @@ function Apply-GameCheats {
                     $state.game.scene.path = $_.sceneOverride.path
                     $state.game.scene.id = $_.sceneOverride.id
                 }
+                { $null -ne $_.time } {
+                    Write-Host -ForegroundColor Cyan "CHEAT: 🕑 Updating game time"
+                    foreach ($timeAction in $_.time.GetEnumerator()) {
+                        switch ($timeAction.Key) {
+                            'add' { $State | Add-GlobalTime -Time $timeAction.Value }
+                            'set' { $State | Set-GlobalTime -Time $timeAction.Value }
+                            default { Write-Warning "Unknown time action '$_'" }
+                        }
+                    }
+                }
                 default { Write-Warning "unknown cheat $cheat - ignoring" }
             }
         }
