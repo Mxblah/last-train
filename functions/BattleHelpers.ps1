@@ -920,6 +920,29 @@ function Invoke-Skill {
         return
     }
 
+    # If this is a weapon-typed skill and the attacker is the player, merge the weapon and skill's status entries, if any
+    if ($Skill.data.type -eq 'weapon' -and $Attacker.id -eq 'player') {
+        $Skill = $Skill | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashtable # clone to avoid modifying the base skill data
+
+        $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
+        if ($equippedWeaponId) {
+            $equippedWeapon = $State.data.items.$equippedWeaponId
+            Write-Debug "Merging $($equippedWeapon.equipData.weaponData.status.Count) statuses from equipped weapon $equippedWeaponId into skill $($Skill.id)"
+            if ($null -ne $equippedWeapon.equipData.weaponData.status) {
+                # Don't destroy the arraylist here, and in fact create it if needed
+                if ($null -eq $Skill.data.status) {
+                    $Skill.data.status = New-Object -TypeName System.Collections.ArrayList
+                }
+
+                # Merge those statuses
+                foreach ($weaponStatus in $equippedWeapon.equipData.weaponData.status) {
+                    Write-Debug "merging weapon status $($weaponStatus.id)"
+                    $Skill.data.status.Add($weaponStatus) | Out-Null
+                }
+            }
+        }
+    }
+
     # Loop over all the targets in order
     foreach ($Target in $Targets) {
         $State.game.battle.defender = $Target.name
