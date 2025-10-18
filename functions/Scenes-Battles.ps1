@@ -331,7 +331,8 @@ function Show-TurnOrder {
     # write out each character's name in order
     foreach ($character in $State.game.battle.characters | Where-Object -Property isActive -EQ $true) {
         if ($character.id -eq 'player') { $color = 'Cyan' } elseif ($character.faction -eq 'ally') { $color = 'DarkGreen' } else { $color = 'DarkRed' }
-        Write-Host -ForegroundColor $color " ➡️ $($character.name)" -NoNewline
+        $badge = Get-PercentageHeartBadge -Value $character.attrib.hp.value -Max $character.attrib.hp.max
+        Write-Host -ForegroundColor $color " ➡️ $badge $($character.name)" -NoNewline
     }
 
     # finish the line

@@ -11,7 +11,7 @@
             "text": "2. Hybrid damage.\nMost weapons with a non-standard damage type have a type percent. The remaining percentage is standard damage of the weapon's class. This means you'll usually be able to do a little damage even when an enemy resists your weapon's main element."
         },
         {
-            "text": "4. Passive effects.\nNearly all weapons grant bonuses to physical or magical attack, or both. Some weapons also increase or decrease various other stats, attributes, affinities, resistances, or more. Keep an eye out for weapons with effects that compliment your other equipment."
+            "text": "3. Passive effects.\nNearly all weapons grant bonuses to physical or magical attack, or both. Some weapons also increase or decrease various other stats, attributes, affinities, resistances, or more. Keep an eye out for weapons with effects that compliment your other equipment."
         },
         {
             "text": "4. Status effects.\nSome weapons have one or more status effects built-in. When using a skill with a damage type of \"weapon\", these status effects will be applied alongside the skill's own statuses. Some special skills can boost the potency or chance of weapon status effects."

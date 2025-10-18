@@ -348,6 +348,33 @@ function Get-PercentageColor {
     return $color
 }
 
+function Get-PercentageHeartBadge {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [double]$Value,
+
+        [Parameter(Mandatory = $true)]
+        [double]$Max
+    )
+
+    # divide-by-zero protection
+    if ($Max -le 0) { $badge = '💔' } else {
+        # get badge based on how full the value is
+        $badge = switch ($Value / $Max) {
+            { $_ -ge 1 } { '🩵'; break }
+            { $_ -ge 0.8 } { '💚'; break }
+            { $_ -ge 0.6 } { '💛'; break }
+            { $_ -ge 0.4 } { '🧡'; break }
+            { $_ -ge 0.2 } { '❤️'; break }
+            { $_ -ge 0 } { '❤️‍🩹'; break }
+            default { '❓' }
+        }
+    }
+
+    return $badge
+}
+
 function Get-EquipmentSlotFlavorInfo {
     [CmdletBinding()]
     param(
