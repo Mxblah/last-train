@@ -74,7 +74,7 @@
         {
             "id": "skill-book-clothes-gremlin-sing",
             "number": 1,
-            "chance": 0.03
+            "chance": 0.025
         },
         {
             "id": "bandage",

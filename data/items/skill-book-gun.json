@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-gun",
+    "name": "Skill Book: Gun",
+    "description": "A well-used pistol with a sticky note attached to the business end of it. The note reads \"This end away from face.\"\n...Okay, there's a booklet on safety and discipline, too. Read to learn how to use Gun.",
+    "useDescription": "After picking up the gun and pointing it away from your face (and reading the booklet), you are able to fire a gun. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "01:09:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "gun"
+            }
+        ]
+    }
+}

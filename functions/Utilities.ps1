@@ -269,19 +269,55 @@ function Rename-ForUniquePropertyValues {
 
         [Parameter(Mandatory = $true)]
         [ValidateSet('Number')]
-        [string]$SuffixType
+        [string]$SuffixType,
+
+        # For when Debug isn't enough
+        [Parameter()]
+        [switch]$SuperDebug
     )
 
-    # Get the dupes and init a hashtable to store how many times we've seen 'em
-    $duplicateValues = ($List.$Property | Group-Object | Where-Object -Property Count -gt 1).Name
+    # First, build a list of clean names by removing any existing suffixes of this type
+    switch ($SuffixType) {
+        'number' { $regex = ' (\d+)$' }
+        # no default needed; ValidateSet takes care of it
+    }
+
+    $cleanPropertyMap = @{}
+    foreach ($item in $List) {
+        $base = $item.$Property -replace $regex, ''
+        $suffix = (($item.$Property | Select-String $regex).Matches.Groups | Where-Object -Property name -EQ 1).Value
+
+        # Add to map of existing suffixes for this base
+        if (-not $cleanPropertyMap.ContainsKey($base)) {
+            if ($SuperDebug) { Write-Debug "adding existing base '$base'" }
+            $cleanPropertyMap[$base] = @{ seen = 0 }
+        }
+        if (-not [string]::IsNullOrEmpty($suffix)) {
+            if ($SuperDebug) { Write-Debug "adding existing suffix '$suffix' for base '$base'"}
+            $cleanPropertyMap[$base]["$suffix"] = $true
+        }
+        $cleanPropertyMap[$base].seen += 1 # regardless of suffix-ness
+        if ($SuperDebug) { Write-Debug "seen '$base' $($cleanPropertyMap[$base].seen) times" }
+    }
+
+    # Get the dupes off the clean list and init a hashtable to store how many times we've seen 'em
+    $duplicateValues = $cleanPropertyMap.Keys | Where-Object { $cleanPropertyMap[$_].seen -gt 1 }
     $seen = @{}
 
+    # Check each item in the list for duplicates; rename as needed
     foreach ($item in $List) {
         if ($item.$Property -in $duplicateValues) {
-            Write-Debug "$($item.$Property) is a duplicate; appending $SuffixType suffix"
+            Write-Debug "$($item[$Property]) is a duplicate; appending $SuffixType suffix"
 
-            $seen."$($item.$Property)" += 1
-            $item.$Property = "$($item.$Property) $($seen."$($item.$Property)")"
+            # Get a suffix that hasn't already been used
+            $seen["$($item.$Property)"] += 1
+            while ($seen["$($item.$Property)"] -in $cleanPropertyMap["$($item.$Property)"].Keys) {
+                Write-Debug "collision: suffix $($seen["$($item.$Property)"]) already exists for $($item.$Property); incrementing again"
+                $seen["$($item.$Property)"] += 1
+            }
+
+            # Do the actual rename
+            $item.$Property = "$($item.$Property) $($seen["$($item.$Property)"])"
             Write-Debug "fixed: $($item.$Property)"
         }
     }

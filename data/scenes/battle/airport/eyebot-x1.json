@@ -1,0 +1,14 @@
+{
+    "id": "eyebot-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "eyebot"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "id": "gun",
+    "name": "Gun",
+    "description": "${game.battle.attacker} shoots ${game.battle.defender} with a gun.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 3,
+        "pow": 18,
+        "acc": 1,
+        "crit": 0.15,
+        "hits": 1,
+        "class": "physical",
+        "type": "piercing"
+    }
+}

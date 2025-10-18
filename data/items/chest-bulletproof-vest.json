@@ -1,0 +1,40 @@
+{
+    "id": "chest-bulletproof-vest",
+    "name": "Bulletproof Vest",
+    "description": "A bulletproof vest. It's labeled \"SECURITY\" on the back in big yellow letters. Provides good physical protection, particularly against piercing attacks.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "chest"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "piercing": 0.2,
+                "slashing": 0.1
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 10
+                }
+            },
+            "bp": {
+                "max": {
+                    "buff": 8
+                },
+                "regen": {
+                    "buff": 2
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 7
+            },
+            "mDef": {
+                "buff": 3
+            }
+        }
+    }
+}

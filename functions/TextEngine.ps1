@@ -23,7 +23,11 @@ function Enrich-Text {
         $cleanKey = $match.Value -replace '\$|\{|\}', ''
         $value = $State
         foreach ($key in ($cleanKey -split '\.')) {
-            $value = $value.$key
+            switch ($key) {
+                # Handle special expressions that aren't direct paths in the state (default is a direct state path)
+                'battle:current' { $value = $State.game.battle.characters | Where-Object -Property name -EQ $State.game.battle.currentTurn.characterName }
+                default { $value = $value.$key }
+            }
         }
 
         # Perform the substitution

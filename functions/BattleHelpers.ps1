@@ -1052,6 +1052,9 @@ function Invoke-SpecialSkill {
         'steal' {
             $State | Invoke-SpecialSteal -Attacker $Attacker -Target $Target -Skill $Skill
         }
+        'summon' {
+            $State | Invoke-SpecialSummon -Attack $Attacker -Skill $Skill
+        }
         'queue' {
             Write-Debug "$($Skill.id) is a queueing skill only; no special behavior will be executed"
         }

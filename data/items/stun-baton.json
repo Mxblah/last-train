@@ -1,0 +1,37 @@
+{
+    "id": "stun-baton",
+    "name": "Stun Baton",
+    "description": "An airport security agent's stun baton, humming with electric energy. Seems to provide a slight protection to the user's nervous system. Boosts physical attack and accuracy.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "physical",
+            "type": "lightning",
+            "typePercent": 0.8
+        }
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "lightning": 0.2
+            }
+        },
+        "resistances": {
+            "status": {
+                "paralysis": 0.1
+            }
+        },
+        "stats": {
+            "pAtk": {
+                "buff": 7
+            },
+            "mAtk": {
+                "buff": 4
+            },
+            "acc": {
+                "buff": 3
+            }
+        }
+    }
+}

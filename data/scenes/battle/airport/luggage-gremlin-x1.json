@@ -10,8 +10,8 @@
                         {
                             "id": "coin",
                             "min": 3,
-                            "max": 8,
-                            "chance": 1
+                            "max": 6,
+                            "chance": 0.4
                         }
                     ]
                 }

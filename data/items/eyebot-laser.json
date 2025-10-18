@@ -1,0 +1,44 @@
+{
+    "id": "eyebot-laser",
+    "name": "Eyebot Laser",
+    "description": "The red-lit core of an eyebot security drone. Crackles with radiation and residual heat. You probably shouldn't hold it too close to your vitals. Boosts magical attack, but slightly lowers maximum health.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "magical",
+            "type": "radiation",
+            "typePercent": 0.5
+        }
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "radiation": 0.2
+            }
+        },
+        "resistances": {
+            "status": {
+                "irradiated": 0.1
+            },
+            "element": {
+                "radiation": 0.1
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "mult": 0.95
+                }
+            }
+        },
+        "stats": {
+            "pAtk": {
+                "buff": "3"
+            },
+            "mAtk": {
+                "buff": "11"
+            }
+        }
+    }
+}
