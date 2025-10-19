@@ -258,11 +258,11 @@ function Start-BattleTurn {
     # Handle start of turn stuff
     $State.game.battle.currentTurn.characterName = $Character.name
 
-    # Status stuff
-    $State | Apply-StatusEffects -Character $Character -Phase 'turnStart'
-
     # Attrib regen
     $State | Invoke-AttribRegen -Character $Character -All
+
+    # Status stuff
+    $State | Apply-StatusEffects -Character $Character -Phase 'turnStart'
 
     # Start of turn check to see if the character just died (due to a status or something)
     if ($Character.isActive -ne $true -or $Character.attrib.hp.value -le 0) {

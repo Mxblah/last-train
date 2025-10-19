@@ -2,7 +2,7 @@
     "id": "failed-blessing",
     "name": "(F) Bless",
     "description": "${game.battle.attacker} is drenched in sickly, infected sunlight.",
-    "skillType": "buff-single",
+    "skillType": "heal-single",
     "data": {
         "target": 1,
         "mp": 5,

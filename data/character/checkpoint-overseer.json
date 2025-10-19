@@ -1,15 +1,19 @@
 {
-    "id": "eyebot",
-    "name": "Eyebot",
-    "entryDescription": "A small round security drone swoops down from above and whirls around you.",
-    "inspectDescription": "The airport's eyes and ears, these little robots patrol its empty halls unheeding of its long abandonment. Can summon security agents to deal with anything they deem a threat, but only have minimal combat capabilities on their own. Uses radiation and sonic magic.",
-    "bestiaryDescription": "These little guys don't have any obvious means of propulsion like propellors or jet engines, but a heat haze around the bottom of the ball indicates that whatever it is, it's hot. Maybe you could reprogram one to be your friend if you could find a way to get it to hold still for a few minutes?",
+    "id": "checkpoint-overseer",
+    "name": "Checkpoint Overseer",
+    "entryDescription": "A large, bulky machine rumbles to life in the midst of the security checkpoint's barriers.",
+    "inspectDescription": "Resembling nothing more than one of those bag scanner machines brought to artificial life and set to murder everyone attempting to pass through security, the overseer can summon subordinate security agents and drones. Uses radiation, lightning, and vision magic.",
+    "bestiaryDescription": "It seems to spin up, spend all of its power on attacks, then recharge again. It's most vulnerable while it's recharging, so spend the time between trying to whether its onslaught and deal with the enemies it's summoned.",
     "faction": "enemy",
     "activeEffects": [],
     "status": {},
     "resistances": {
         "status": {
             "bleed": {
+                "value": 0,
+                "base": 1
+            },
+            "demoralized": {
                 "value": 0,
                 "base": 1
             },
@@ -33,7 +37,7 @@
         "element": {
             "earth": {
                 "value": 0,
-                "base": 0.3
+                "base": -0.2
             },
             "fire": {
                 "value": 0,
@@ -58,10 +62,6 @@
             "slashing": {
                 "value": 0,
                 "base": 0.15
-            },
-            "sonic": {
-                "value": 0,
-                "base": -0.15
             }
         }
     },
@@ -71,72 +71,77 @@
     },
     "attrib": {
         "hp": {
-            "value": 60,
-            "max": 60,
-            "base": 60,
+            "value": 360,
+            "max": 360,
+            "base": 360,
             "regen": 0,
             "baseRegen": 0
         },
         "bp": {
             "value": 0,
-            "max": 20,
-            "base": 20,
-            "regen": 2,
+            "max": 40,
+            "base": 40,
+            "regen": 0,
             "baseRegen": 0
         },
         "mp": {
-            "value": 18,
-            "max": 24,
-            "base": 24,
-            "regen": 3,
-            "baseRegen": 3
+            "value": 0,
+            "max": 40,
+            "base": 40,
+            "regen": 0,
+            "baseRegen": 0
         }
     },
     "stats": {
         "pAtk": {
             "value": 0,
-            "base": 11
+            "base": 12
         },
         "mAtk": {
             "value": 0,
-            "base": 15
+            "base": 20
         },
         "pDef": {
             "value": 0,
-            "base": 16
+            "base": 40
         },
         "mDef": {
             "value": 0,
-            "base": 17
+            "base": 38
         },
         "acc": {
             "value": 0,
-            "base": 18
+            "base": 19
         },
         "spd": {
             "value": 0,
-            "base": 19
+            "base": 4
         }
     },
     "loot": [
         {
             "id": "coin",
-            "min": 2,
-            "max": 5,
-            "chance": 0.7
+            "min": 5,
+            "max": 10,
+            "chance": 1
         },
         {
             "id": "eyebot-laser",
             "number": 1,
             "chance": 0.05
+        },
+        {
+            "id": "skill-book-focus",
+            "number": 1,
+            "chance": 1
         }
     ],
     "ai": "lazy-burst",
     "skills": {
         "attack-single": [
             {
-                "id": "attack",
-                "weight": 50
+                "id": "jolt",
+                "weight": 60
             },
             {
                 "id": "irradiate",
@@ -147,13 +152,14 @@
             {
                 "id": "microwave",
                 "weight": 30
+            },
+            {
+                "id": "arc",
+                "weight": 50
             }
         ],
         "buff-single": [
-            {
-                "id": "fly-dodge",
-                "weight": 80
-            }
+
         ],
         "buff-multi": [
 
@@ -162,6 +168,10 @@
             {
                 "id": "air-net",
                 "weight": 40
+            },
+            {
+                "id": "x-ray-vision",
+                "weight": 50
             }
         ],
         "debuff-multi": [
@@ -174,19 +184,12 @@
 
         ],
         "idle": [
-            {
-                "id": "floating-around",
-                "weight": 20
-            }
+
         ],
         "special": [
             {
-                "id": "eyebot-summon-security-queue",
-                "weight": 500
-            },
-            {
-                "id": "flee",
-                "weight": 20
+                "id": "checkpoint-overseer-recharge-1",
+                "weight": 1
             }
         ]
     }

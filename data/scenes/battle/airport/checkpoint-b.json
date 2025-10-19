@@ -1,0 +1,14 @@
+{
+    "id": "checkpoint-b",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "checkpoint-overseer"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

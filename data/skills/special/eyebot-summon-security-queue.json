@@ -6,7 +6,7 @@
     "data": {
         "target": 1,
         "selfTargetOnly": true,
-        "mp": 18,
+        "mp": 20,
         "pow": 0,
         "acc": 1,
         "crit": -1,

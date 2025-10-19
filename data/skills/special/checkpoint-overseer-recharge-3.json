@@ -1,0 +1,31 @@
+{
+    "id": "checkpoint-overseer-recharge-3",
+    "name": "Complete Recharge",
+    "description": "${game.battle.attacker} reactivates as its recharge completes.",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "magical",
+        "type": "standard",
+        "specialType": "queue",
+        "status": [
+            {
+                "id": "focused",
+                "chance": 1,
+                "stack": 1,
+                "intensity": 100
+            },
+            {
+                "id": "barricade",
+                "chance": 1,
+                "stack": 1,
+                "intensity": 100
+            }
+        ]
+    }
+}

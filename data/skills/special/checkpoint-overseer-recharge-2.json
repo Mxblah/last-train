@@ -1,0 +1,39 @@
+{
+    "id": "checkpoint-overseer-recharge-2",
+    "name": "Recharge 🕑",
+    "description": "${game.battle.attacker} hums loudly and mechanical noises sound from within its chassis.",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "magical",
+        "type": "standard",
+        "specialType": "summon",
+        "specialData": {
+            "characters": [
+                {
+                    "id": "security-agent",
+                    "chance": 1
+                },
+                {
+                    "id": "security-agent",
+                    "chance": 0.5
+                },
+                {
+                    "id": "eyebot",
+                    "chance": 0.25
+                }
+            ]
+        },
+        "queue": [
+            {
+                "class": "special",
+                "id": "checkpoint-overseer-recharge-3"
+            }
+        ]
+    }
+}

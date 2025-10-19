@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-focus",
+    "name": "Skill Book: Focus",
+    "description": "A set of printed instructions on how to clear your mind, restoring your ability to use complicated skills. Read to learn how to use Focus.",
+    "useDescription": "After practicing the techniques provided in the booklet, you feel you can better restore your mental equilibrium. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "00:32:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "heal-single",
+                "id": "focus"
+            }
+        ]
+    }
+}

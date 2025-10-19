@@ -393,7 +393,7 @@ function Add-Status {
             guid = (New-Guid).Guid
             stack = $status.stack
             intensity = $status.intensity
-            pow = $Skill.data.pow
+            pow = $status.powOverride ?? $Skill.data.pow
             atk = $AttackOverride -gt 0 ? $AttackOverride : $Attacker.stats."${typeLetter}Atk".value
             class = $statusInfo.data.class
             type = $statusInfo.data.type
@@ -507,8 +507,36 @@ function Apply-StatusEffects {
                             $expression = $data
                         }
 
-                        # Ship it
-                        $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $Character @splat -DoNotRemoveStatuses
+                        # Check for faction damage
+                        if ($_ -match 'faction') {
+                            Write-Debug 'effect is faction-based; verifying extra targets'
+                            $targets = switch ($data.faction) {
+                                'own' { $State.game.battle.characters | Where-Object -Property faction -EQ $Character.faction }
+                                'opposite' { $State.game.battle.characters | Where-Object -Property faction -NE $Character.faction }
+                                default { Write-Warning "unknown faction '$($data.faction)' in status $statusId ($($status.guid)); will not apply" }
+                            }
+                            if ($Phase -eq 'onDeath' -and (-not $splat.AsHealing) -and $Character -in $targets) {
+                                # Super definitely do not let it hit self for damage if in onDeath phase; that'll trigger the onDeath effect again -> ♾️
+                                Write-Debug "removing self ($($Character.name)) from faction targets for damage effect"
+                                $targets = $targets | Where-Object { $_.name -ne $Character.name }
+                            }
+
+                            Write-Debug "will apply to the following targets: [$($targets.name -join ', ')]"
+                            foreach ($target in $targets) {
+                                Write-Debug "applying to $($target.name)..."
+                                $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $target @splat -DoNotRemoveStatuses
+                            }
+                        } else {
+                            # Same onDeath check as above
+                            if ($Phase -eq 'onDeath' -and (-not $splat.AsHealing)) {
+                                Write-Debug "skipping self-targeted damage onDeath effect for $($Character.name) ($statusId ($($status.guid)))"
+                                continue
+                            }
+
+                            # Ship it normally
+                            $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $Character @splat -DoNotRemoveStatuses
+                        }
+
                     }
                     'skipTurn' {
                         Write-Debug "setting skipTurn flag to $data for $($Character.name) due to $statusId ($($status.guid))"
@@ -525,7 +553,8 @@ function Apply-StatusEffects {
                                 foreach ($actionRaw in $subAttribRaw.Value.GetEnumerator()) {
                                     # mult, buff, etc.
                                     $action = $actionRaw.Key
-                                    $number = Parse-BattleExpression -Expression $actionRaw.Value -Status $status
+                                    $number = Parse-BattleExpression -Expression $actionRaw.Value -Status $status -TargetValue $Character.attrib.$attrib.max
+                                    # Using 'max' instead of $subAttrib here because "t" is generally used in effects relative to max, not current
 
                                     # Finally, we can do the thing
                                     Write-Debug "modifying $attrib/$subAttrib by ${action}:$number"
@@ -541,7 +570,7 @@ function Apply-StatusEffects {
                         }
                     }
                     'stats' {
-                        Write-Debug "modifying status due to $statusId ($($status.guid))"
+                        Write-Debug "modifying stats due to $statusId ($($status.guid))"
                         # similar to attribs, but with a slightly different flow
                         foreach ($statRaw in $data.GetEnumerator()) {
                             # atk, acc, spd, etc.
@@ -549,7 +578,7 @@ function Apply-StatusEffects {
                             foreach ($activity in $statRaw.Value.GetEnumerator()) {
                                 # mult, buff, etc.
                                 $action = $activity.Key
-                                $number = Parse-BattleExpression -Expression $activity.Value -Status $status
+                                $number = Parse-BattleExpression -Expression $activity.Value -Status $status -TargetValue $Character.stats.$stat.value
 
                                 # Do the thing
                                 Write-Debug "modifying $stat by ${action}:$number"

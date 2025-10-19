@@ -1,0 +1,31 @@
+{
+    "id": "exposed",
+    "name": "Exposed",
+    "color": "White",
+    "badge": "🎯",
+    "applyDesc": "${game.battle.attacker} reveals ${game.battle.defender}'s weaknesses.",
+    "turnDesc": "${game.battle.currentTurn.characterName}'s weaknesses are on display.",
+    "description": "Precise targeting reduces defenses and prevents barrier regeneration.",
+    "data": {
+        "passive": {
+            "attrib": {
+                "bp": {
+                    "regen": {
+                        "mult": 0
+                    }
+                }
+            },
+            "stats": {
+                "pDef": {
+                    "mult": "-0.05 * s * i + 1.0"
+                },
+                "mDef": {
+                    "mult": "-0.05 * s * i + 1.0"
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

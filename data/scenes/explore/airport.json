@@ -94,6 +94,11 @@
                             "type": "battle",
                             "id": "luggage-gremlin-x1",
                             "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "eyebot-x1",
+                            "chance": 0.05
                         }
                     ]
                 },
@@ -161,6 +166,11 @@
                             "type": "battle",
                             "id": "luggage-gremlin-x1",
                             "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "eyebot-x1",
+                            "chance": 0.05
                         }
                     ]
                 },
@@ -180,8 +190,8 @@
                         "description": "You climb down the still escalator and emerge into a wide hall. A sign proclaims it \"Arrivals.\""
                     },
                     "concourseA": {
-                        "minDepthAvailable": 1,
-                        "maxDepthAvailable": 3,
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 2,
                         "arrivalDepth": 2,
                         "travelCost": "00:01:30",
                         "description": "You pass through the unstaffed security checkpoint and enter Concourse A.",
@@ -597,7 +607,7 @@
                     "departures": {
                         "minDepthAvailable": 2,
                         "maxDepthAvailable": 2,
-                        "arrivalDepth": 2,
+                        "arrivalDepth": 1,
                         "travelCost": "00:01:30",
                         "description": "You pass back through the unstaffed security checkpoint and enter the Departures hall.",
                         "when": {
@@ -668,7 +678,7 @@
                     "departures": {
                         "minDepthAvailable": 2,
                         "maxDepthAvailable": 2,
-                        "arrivalDepth": 4,
+                        "arrivalDepth": 5,
                         "travelCost": "00:01:30",
                         "description": "You pass back through the unstaffed security checkpoint and enter the Departures hall.",
                         "when": {

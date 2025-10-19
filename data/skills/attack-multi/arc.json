@@ -1,0 +1,31 @@
+{
+    "id": "arc",
+    "name": "Arc",
+    "description": "${game.battle.attacker} releases a bouncing arc of lightning.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 2,
+        "targetsAll": false,
+        "mp": 7,
+        "pow": 8,
+        "acc": 1,
+        "crit": 0,
+        "hits": 3,
+        "class": "magical",
+        "type": "lightning",
+        "status": [
+            {
+                "id": "dazzled",
+                "chance": 0.15,
+                "stack": 2,
+                "intensity": 1
+            },
+            {
+                "id": "paralysis",
+                "chance": 0.067,
+                "stack": 1,
+                "intensity": 1
+            }
+        ]
+    }
+}
