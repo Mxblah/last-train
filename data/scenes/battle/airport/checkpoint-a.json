@@ -1,19 +1,25 @@
 {
-    "id": "checkpoint-b",
+    "id": "checkpoint-a",
     "data": {
         "characters": {
             "ally": [],
             "enemy": [
                 {
-                    "id": "checkpoint-overseer"
+                    "id": "eyebot"
+                },
+                {
+                    "id": "eyebot"
+                },
+                {
+                    "id": "security-agent"
                 }
             ]
         },
         "special": {
-            "forceFirstTurn": "checkpoint-overseer"
+            "forceFirstTurn": "eyebot"
         },
         "flags": {
-            "airport.departures.openedConcourseBConnection": true
+            "airport.departures.openedConcourseAConnection": true
         },
         "exit": {
             "type": "explore",

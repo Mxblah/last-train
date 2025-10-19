@@ -82,16 +82,6 @@ function Start-BattleScene {
             $State.game.battle.cannotFlee = $true
         }
 
-        # Reset all character BPs
-        foreach ($character in $State.game.battle.characters) {
-            if ($character.attrib.bp.max -gt 0) {
-                Write-Debug "restoring $($character.id)'s bp to $($character.attrib.bp.max)"
-                $character.attrib.bp.value = $character.attrib.bp.max
-            } else {
-                Write-Debug "$($character.id) max bp <= 0"
-            }
-        }
-
         Write-Verbose 'Starting battle'
         $State.game.battle.phase = 'active'
         foreach ($entryDesc in ($State.game.battle.characters | Where-Object -Property id -NE 'player').entryDescription) {
@@ -235,6 +225,14 @@ function Import-BattleCharacter {
         $data.attribs.bp.base *= $difficultyFactor
         $data.stats.pAtk.base *= $difficultyFactor
         $data.stats.mAtk.base *= $difficultyFactor
+    }
+
+    # Reset BP to max
+    if ($data.attrib.bp.max -gt 0) {
+        Write-Debug "restoring $($data.name)'s bp to $($data.attrib.bp.max)"
+        $data.attrib.bp.value = $data.attrib.bp.max
+    } else {
+        Write-Debug "$($data.name) max bp <= 0"
     }
 
     # Fix collection types for participants if needed

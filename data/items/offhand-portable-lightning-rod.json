@@ -1,0 +1,28 @@
+{
+    "id": "offhand-portable-lightning-rod",
+    "name": "Portable Lightning Rod",
+    "description": "A lightweight conductive rod the length of your arm, with an attached wire and odd pack that seems to dissipate charge over time. Protects against lightning and slightly protects against dazzling light, but the charge passing through your hand slightly decreases paralysis resistance.",
+    "itemType": "held",
+    "equipData": {
+        "slot": "offhand"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "lightning": 0.4
+            },
+            "status": {
+                "dazzled": 0.1,
+                "paralysis": -0.1
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 4
+            }
+        }
+    }
+}

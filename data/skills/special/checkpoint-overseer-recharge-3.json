@@ -25,6 +25,12 @@
                 "chance": 1,
                 "stack": 1,
                 "intensity": 100
+            },
+            {
+                "id": "defend",
+                "chance": 1,
+                "stack": 99,
+                "intensity": 1
             }
         ]
     }

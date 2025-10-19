@@ -71,9 +71,9 @@
     },
     "attrib": {
         "hp": {
-            "value": 360,
-            "max": 360,
-            "base": 360,
+            "value": 440,
+            "max": 440,
+            "base": 440,
             "regen": 0,
             "baseRegen": 0
         },
@@ -99,7 +99,7 @@
         },
         "mAtk": {
             "value": 0,
-            "base": 20
+            "base": 19
         },
         "pDef": {
             "value": 0,
@@ -134,6 +134,17 @@
             "id": "skill-book-focus",
             "number": 1,
             "chance": 1
+        },
+        {
+            "id": "legs-zap-pants",
+            "number": 1,
+            "chance": 1
+        },
+        {
+            "id": "fuel",
+            "min": 2,
+            "max": 4,
+            "chance": 0.8
         }
     ],
     "ai": "lazy-burst",

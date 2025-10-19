@@ -204,7 +204,10 @@ function Get-HashtableValueFromPath {
 
         # Returns the last hashtable before the value, and the key to get the value, instead of the value itself
         [Parameter()]
-        [switch]$LastContainer
+        [switch]$LastContainer,
+
+        [Parameter()]
+        [switch]$SuperDebug
     )
 
     $lastFragment = $Path.Split('.')[-1]
@@ -214,7 +217,7 @@ function Get-HashtableValueFromPath {
             $Hashtable = $Hashtable.$pathFragment
         } else {
             # This is the actual value
-            Write-Debug "found last fragment '$lastFragment'"
+            if ($SuperDebug) { Write-Debug "found last fragment '$lastFragment'" }
             if ($LastContainer) {
                 return @($Hashtable, $lastFragment)
             } else {
@@ -234,7 +237,10 @@ function Set-HashtableValueFromPath {
         [string]$Path,
 
         [Parameter(Mandatory = $true)]
-        [object]$Value
+        [object]$Value,
+
+        [Parameter()]
+        [switch]$SuperDebug
     )
 
     $fragmentedPath = $Path.Split('.')
@@ -250,10 +256,10 @@ function Set-HashtableValueFromPath {
             $Hashtable = $Hashtable.$pathFragment
         } else {
             # This is the actual value
-            Write-Debug "found last fragment '$pathFragment' at depth $i"
+            if ($SuperDebug) { Write-Debug "found last fragment '$pathFragment' at depth $i" }
         }
     }
-    Write-Debug "setting value at $Path to $Value"
+    if ($SuperDebug) { Write-Debug "setting value at $Path to $Value" }
     $Hashtable.$lastFragment = $Value
 }
 

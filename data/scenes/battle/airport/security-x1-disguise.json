@@ -1,0 +1,21 @@
+{
+    "id": "security-x1-disguise",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "security-agent",
+                    "loot": [
+                        {
+                            "id": "lowerFace-identity-scrambler",
+                            "number": 1,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {}
+    }
+}

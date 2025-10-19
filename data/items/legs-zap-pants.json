@@ -1,0 +1,35 @@
+{
+    "id": "legs-zap-pants",
+    "name": "Zap Pants",
+    "description": "Loose-fitting jogging trousers with a cheesy lightning bolt design. Confiscated by airport security due to interfering with electronic devices. You feel faster already. Boosts lightning damage and resistance, and slightly resists paralysis.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "legs"
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "lightning": 0.1
+            }
+        },
+        "resistances": {
+            "status": {
+                "paralysis": 0.1
+            },
+            "element": {
+                "lightning": 0.2
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 2
+            },
+            "spd": {
+                "buff": 6
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "id": "legs-padded-trousers",
+    "name": "Padded Trousers",
+    "description": "Chunky, somewhat snowpants-like trousers with extra padding. A little hard to move in, but they offer good protection. Slightly boosts cold resistance.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "legs"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "cold": 0.1
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 6
+            },
+            "mDef": {
+                "buff": 2
+            },
+            "spd": {
+                "debuff": 2
+            }
+        }
+    }
+}

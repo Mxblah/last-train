@@ -126,6 +126,11 @@
             "chance": 0.7
         },
         {
+            "id": "fuel",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
             "id": "eyebot-laser",
             "number": 1,
             "chance": 0.05

@@ -1,0 +1,50 @@
+{
+    "id": "arrivals-water-fountain",
+    "data": [
+        {
+            "text": "You come across a pristine-looking water fountain that has been cordoned off with caution tape and a crude sign reading \"gLOWy watER\". You presume the gremlins are responsible for the poor handwriting."
+        },
+        {
+            "text": "Indeed, when you push the button, the fountain's water appears to shine with faint radiance. That's probably not good, but some risk-taking part of you suggests it might be magical.",
+            "choice": {
+                "text": "Take a drink?",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "You take a cautious sip. It tastes like normal water, but seconds later, your head feels fuzzy.",
+                            "Pain lances through your mind and your body shimmers briefly. After a few moments, the sensations fade and you're left with nothing but the echoes of a headache and a lingering sense of confusion."
+                        ],
+                        "damage": {
+                            "class": "magical",
+                            "type": "radiation",
+                            "expression": "0.05 * t",
+                            "ignoreDefense": true,
+                            "ignoreBarrier": true
+                        },
+                        "attrib": {
+                            "mp": {
+                                "base": {
+                                    "buff": 4
+                                },
+                                "baseRegen": {
+                                    "buff": 1
+                                },
+                                "value": {
+                                    "buff": 4
+                                }
+                            }
+                        },
+                        "flag": {
+                            "airport.arrivals.drankFromFountain": true
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You leave the fountain alone and continue on your way."
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

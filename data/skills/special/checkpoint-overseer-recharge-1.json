@@ -18,7 +18,7 @@
                 "id": "exposed",
                 "chance": 1,
                 "stack": 3,
-                "intensity": 4
+                "intensity": 3
             },
             {
                 "id": "damage-faction-on-death",
@@ -26,6 +26,13 @@
                 "stack": 3,
                 "intensity": 60,
                 "powOverride": 1
+            }
+        ],
+        "removeStatus": [
+            {
+                "id": "defend",
+                "chance": 1,
+                "stack": 99
             }
         ],
         "queue": [

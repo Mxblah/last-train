@@ -91,6 +91,40 @@
                     },
                     "encounters": [
                         {
+                            "type": "item",
+                            "id": "orb-opalescent",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "item",
+                            "id": "orb-roseate",
+                            "number": 1,
+                            "chance": 0.3,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "arrivals-water-fountain",
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "security-x1-disguise",
+                            "chance": 0.15,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "arrivals-water-fountain",
+                            "chance": 0.05,
+                            "when": {
+                                "airport.arrivals.drankFromFountain": false
+                            }
+                        },
+                        {
                             "type": "battle",
                             "id": "luggage-gremlin-x1",
                             "chance": 0.05
@@ -162,6 +196,53 @@
                         ]
                     },
                     "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "checkpoint-a",
+                            "chance": 1,
+                            "minDepthAvailable": 1,
+                            "maxDepthAvailable": 1,
+                            "when": {
+                                "airport.departures.openedConcourseAConnection": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "checkpoint-b",
+                            "chance": 1,
+                            "minDepthAvailable": 5,
+                            "maxDepthAvailable": 5,
+                            "when": {
+                                "airport.departures.openedConcourseBConnection": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "legs-padded-trousers",
+                            "text": "You find a perfectly good set of pants left in a spare security bin, just lying on the floor.",
+                            "number": 1,
+                            "chance": 0.5,
+                            "minDepthAvailable": 0,
+                            "maxDepthAvailable": 2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "offhand-portable-lightning-rod",
+                            "text": "You find a strange electrical device left in a spare security bin, just lying on the floor.",
+                            "number": 1,
+                            "chance": 0.5,
+                            "minDepthAvailable": 4,
+                            "maxDepthAvailable": 6,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "orb-roseate",
+                            "number": 1,
+                            "chance": 0.3,
+                            "maxTimes": 3
+                        },
                         {
                             "type": "battle",
                             "id": "luggage-gremlin-x1",
