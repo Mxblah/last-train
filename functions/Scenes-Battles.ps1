@@ -787,6 +787,11 @@ function Invoke-BattleAction {
     if ($targets) {
         $State | Invoke-Skill -Attacker $Character -Targets $targets -Skill $Action
     } else {
+        # Whoops. This might happen if a solo enemy tries to use a skill on an ally when there aren't any left, for instance.
+        if ($Action.data.target -gt 0) {
+            Write-Host -ForegroundColor DarkGray "$($Character.name) tried to use $($Action.name), but there weren't any valid targets..."
+            return
+        }
         $State | Invoke-NonTargetSkill -Attacker $Character -Skill $Action
     }
 }

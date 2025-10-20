@@ -70,4 +70,13 @@ Describe 'Rename-ForUniquePropertyValues tests' {
 
         $list.name | Should -Be $result.name
     }
+
+    # Various structures needed to hit all the SuperDebug lines
+    It 'Calls debug prints when SuperDebug is enabled' -ForEach @(@(@{ name = 'Dup' }, @{ name = 'Dup' }, @{ name = 'Unique' }), @(@{ name = 'Dup 1' }, @{ name = 'Dup 2' }, @{ name = 'Unique' })) {
+        Mock Write-Debug
+
+        Rename-ForUniquePropertyValues -List $_ -Property 'name' -SuffixType 'Number' -SuperDebug
+
+        Should -Invoke Write-Debug
+    }
 }

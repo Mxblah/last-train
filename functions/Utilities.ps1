@@ -23,12 +23,15 @@ function Get-WeightedRandom {
     param(
         # The input array or arraylist must be made of hashtable-like objects with the property "weight" in them
         [Parameter(Mandatory = $true)]
-        [object]$List
+        [System.Collections.IEnumerable]$List
     )
 
     # Total weight; upper bound of the random chance
     $totalWeight = ($List.weight | Measure-Object -Sum).Sum
-    $currentWeight = 1..$totalWeight | Get-Random
+    if ($totalWeight -le 0) {
+        throw "Total weight of all $($List.Count) elements in list is less than 0 (total: $totalWeight), so cannot perform weighted random selection"
+    }
+    $currentWeight = Get-Random -InputObject (1..$totalWeight)
     Write-Debug "performing weighted random choice of array with $($List.Count) elements and total weight $totalWeight - selected $currentWeight"
 
     # Go through the array, subtracting weight as we go, until we run out. That's what we must have selected.
@@ -40,54 +43,6 @@ function Get-WeightedRandom {
             # I'd like to say *what* we're returning, but we don't know any properties besides weight
             Write-Debug 'running total <= 0; returning'
             return $element
-        }
-    }
-}
-
-<#
-.NOTES
-Deprecated. Use Convert-AllChildrenToArrayLists instead.
-#>
-function Convert-SpecificChildrenToArrayLists {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true)]
-        [hashtable]$Data,
-
-        [Parameter()]
-        [string[]]$CollectionList = @('activeEffects'),
-
-        [Parameter()]
-        [string[]]$ParentCollectionList = @('status', 'skills')
-    )
-
-    foreach ($collection in $CollectionList) {
-        # simple collections that only need the top level to be an arraylist
-        if ($null -ne $Data.$collection) {
-            if ($Data.$collection.GetType().Name -ne 'ArrayList') {
-                Write-Debug "changing $($Data.name) $collection type to arraylist"
-                $Data.$collection = New-Object -TypeName System.Collections.ArrayList(,$Data.$collection)
-            } else {
-                Write-Debug "$collection is already arraylist for $($Data.name)"
-            }
-        } else {
-            Write-Debug "$collection does not exist for $($Data.name)"
-        }
-    }
-    foreach ($parentCollection in $ParentCollectionList) {
-        # block for collections that need an extra step (but just one, due to the Clone() method)
-        if ($null -ne $Data.$parentCollection) {
-            foreach ($collectionRaw in $Data.$parentCollection.Clone().GetEnumerator()) {
-                $collection = $collectionRaw.Key
-                if ($Data.$parentCollection.$collection.GetType().Name -ne 'ArrayList') {
-                    Write-Debug "changing $($Data.name) $parentCollection.$collection type to arraylist"
-                    $Data.$parentCollection.$collection = New-Object -TypeName System.Collections.ArrayList(,$Data.$parentCollection.$collection)
-                } else {
-                    Write-Debug "$parentCollection.$collection is already arraylist for $($Data.name)"
-                }
-            }
-        } else {
-            Write-Debug "$parentCollection does not exist for $($Data.name)"
         }
     }
 }
@@ -123,6 +78,8 @@ function Convert-AllChildArraysToArrayLists {
 
     # Main loop: build the list to convert and recursively iterate through child collections
     $conversionList = New-Object -TypeName System.Collections.ArrayList
+    # Ensure we don't carry over a previous iteration's key when switching between map and array enumerators
+    $key = $null
     foreach ($child in $enumerator) {
         if ($enumerator.GetType().Name -in @('HashtableEnumerator', 'OrderedDictionaryEnumerator')) {
             # This is a map, so get the value before continuing
@@ -132,9 +89,7 @@ function Convert-AllChildArraysToArrayLists {
 
         # null check!
         if ($null -eq $child) {
-            if ($SuperDebug) {
-                if ($SuperDebug) { Write-Debug "child (with key '$key' if applicable) is null; nothing to do" }
-            }
+            if ($SuperDebug) { Write-Debug "child (with key '$key' if applicable) is null; nothing to do" }
             continue
         }
 
