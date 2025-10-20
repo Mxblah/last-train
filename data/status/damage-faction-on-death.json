@@ -1,0 +1,23 @@
+{
+    "id": "damage-faction-on-death",
+    "name": "Death Burst",
+    "color": "Black",
+    "badge": "💣",
+    "applyDesc": "${game.battle.defender} will explode on death.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is unstable.",
+    "description": "Death Burst causes damage to a character's faction if they die.",
+    "data": {
+        "class": "magical",
+        "type": "explosive",
+        "turnStart": {
+            "stacks": -1
+        },
+        "onDeath": {
+            "faction-damage": {
+                "faction": "own",
+                "expression": "i"
+            },
+            "stacks": -99
+        }
+    }
+}

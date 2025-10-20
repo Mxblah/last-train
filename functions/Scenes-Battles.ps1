@@ -14,9 +14,10 @@ function Start-BattleScene {
         Write-Verbose "Assembling battle $($Scene.id) with $($Scene.data.characters.enemy.Count) opponents"
         $battleParticipants = @( @(@{id = 'player'}) + ( $State.party ?? $null ) + @($Scene.data.characters.ally) + @($Scene.data.characters.enemy) )
         Write-Debug "All battle IDs: $($battleParticipants.id -join ', ') ($($battleParticipants.GetType()))"
-        $battleCharacters = foreach ($npc in $battleParticipants) {
+        $battleCharacters = New-Object -TypeName System.Collections.ArrayList
+        foreach ($npc in $battleParticipants) {
             # Import actual data from disk
-            $State | Import-BattleCharacter -Character $npc
+            $battleCharacters.Add(($State | Import-BattleCharacter -Character $npc)) | Out-Null
         }
 
         $State.game.battle = @{
@@ -26,7 +27,8 @@ function Start-BattleScene {
             victor = $null
             currentTurn = @{}
             # Get a list of all the active characters, then sort by speed
-            characters = @($battleCharacters) | Sort-Object { $_.stats.spd.value } -Descending
+            characters = New-Object -TypeName System.Collections.ArrayList(,($battleCharacters | Sort-Object { $_.stats.spd.value } -Descending))
+            pendingCharacters = New-Object -TypeName System.Collections.ArrayList
         }
 
         # Handle multiple characters named the same thing
@@ -42,11 +44,13 @@ function Start-BattleScene {
         Write-Verbose 'Handling special battle properties'
         if ($Scene.data.special.forceFirstTurn) {
             Write-Debug "forcing $($Scene.data.special.forceFirstTurn) to take first turn"
-            # Ensure the designated id (usually "player") goes first by rearranging the array
-            $State.game.battle.characters = @( @($State.game.battle.characters |
-                Where-Object -Property id -EQ $Scene.data.special.forceFirstTurn) +
+            # Ensure the designated id (usually "player") goes first by rearranging the list
+            $State.game.battle.characters = New-Object -TypeName System.Collections.ArrayList(
+                ,(@($State.game.battle.characters |
+                    Where-Object -Property id -EQ $Scene.data.special.forceFirstTurn) +
                 @($State.game.battle.characters |
-                Where-Object -Property id -NE $Scene.data.special.forceFirstTurn) )
+                    Where-Object -Property id -NE $Scene.data.special.forceFirstTurn))
+            )
         }
         if ($Scene.data.special.weather) {
             Write-Verbose "applying weather effect $($Scene.data.special.weather.id) to all participants - if applicable, atkOverride is $($Scene.data.special.weather.atkOverride)"
@@ -76,16 +80,6 @@ function Start-BattleScene {
         if ($Scene.data.special.cannotFlee) {
             Write-Debug 'disabling flee option'
             $State.game.battle.cannotFlee = $true
-        }
-
-        # Reset all character BPs
-        foreach ($character in $State.game.battle.characters) {
-            if ($character.attrib.bp.max -gt 0) {
-                Write-Debug "restoring $($character.id)'s bp to $($character.attrib.bp.max)"
-                $character.attrib.bp.value = $character.attrib.bp.max
-            } else {
-                Write-Debug "$($character.id) max bp <= 0"
-            }
         }
 
         Write-Verbose 'Starting battle'
@@ -150,6 +144,23 @@ function Start-BattleScene {
             }
         }
 
+        # Add any new guys that have been summoned in the last round
+        if ($State.game.battle.pendingCharacters.Count -gt 0) {
+            Write-Verbose "Adding $($State.game.battle.pendingCharacters.Count) new characters to in-progress battle"
+
+            # Add to the actual battle list, then clear the pending list
+            foreach ($character in $State.game.battle.pendingCharacters) {
+                $State.game.battle.characters.Add(($State | Import-BattleCharacter -Character $character)) | Out-Null
+            }
+            $State.game.battle.pendingCharacters.Clear()
+
+            # Fix name collisions (again)
+            Rename-ForUniquePropertyValues -List $State.game.battle.characters -Property 'name' -SuffixType 'Number'
+        }
+
+        # Always re-sort in case speed changed over the course of the round (or a new guy has been added)
+        $State.game.battle.characters = New-Object -TypeName System.Collections.ArrayList(,($State.game.battle.characters | Sort-Object { $_.stats.spd.value } -Descending))
+
         # End of round. Save if set, then continue
         $State | Save-Game -Auto
     }
@@ -175,7 +186,8 @@ function Import-BattleCharacter {
     } elseif ($Character.faction -eq 'ally') {
         $data = $Character # allies import directly; no messing around needed
     } else {
-        $data = $State.data.character."$($Character.id)"
+        # Json intermediary to break the reference and fully clone the data. Only allies and the player should keep the reference
+        $data = $State.data.character."$($Character.id)" | ConvertTo-Json -Depth 99 -Compress | ConvertFrom-Json -AsHashtable
     }
 
     # Add to bestiary if not already there
@@ -187,6 +199,11 @@ function Import-BattleCharacter {
     # Mark as active
     $data.isActive = $true
 
+    # Add an action queue if we don't already have one
+    if ($null -eq $data.actionQueue) {
+        $data.actionQueue = New-Object -TypeName System.Collections.ArrayList
+    }
+
     # Apply any modifiers found, if applicable
     if ($Character.name) {
         $data.name = $Character.name
@@ -194,6 +211,9 @@ function Import-BattleCharacter {
     if ($Character.loot) {
         Write-Debug "adding loot items $($Character.loot.id -join ', ')"
         $data.loot += $Character.loot
+    }
+    if ($Character.isSummon) {
+        $data.actionQueue.Add(@{ class = "idle"; id = "summon-arrive" }) | Out-Null
     }
 
     # Scale enemies based on difficulty
@@ -207,9 +227,12 @@ function Import-BattleCharacter {
         $data.stats.mAtk.base *= $difficultyFactor
     }
 
-    # Add an action queue if we don't already have one
-    if ($null -eq $data.actionQueue) {
-        $data.actionQueue = New-Object -TypeName System.Collections.ArrayList
+    # Reset BP to max
+    if ($data.attrib.bp.max -gt 0) {
+        Write-Debug "restoring $($data.name)'s bp to $($data.attrib.bp.max)"
+        $data.attrib.bp.value = $data.attrib.bp.max
+    } else {
+        Write-Debug "$($data.name) max bp <= 0"
     }
 
     # Fix collection types for participants if needed
@@ -233,11 +256,11 @@ function Start-BattleTurn {
     # Handle start of turn stuff
     $State.game.battle.currentTurn.characterName = $Character.name
 
-    # Status stuff
-    $State | Apply-StatusEffects -Character $Character -Phase 'turnStart'
-
     # Attrib regen
     $State | Invoke-AttribRegen -Character $Character -All
+
+    # Status stuff
+    $State | Apply-StatusEffects -Character $Character -Phase 'turnStart'
 
     # Start of turn check to see if the character just died (due to a status or something)
     if ($Character.isActive -ne $true -or $Character.attrib.hp.value -le 0) {
@@ -306,7 +329,8 @@ function Show-TurnOrder {
     # write out each character's name in order
     foreach ($character in $State.game.battle.characters | Where-Object -Property isActive -EQ $true) {
         if ($character.id -eq 'player') { $color = 'Cyan' } elseif ($character.faction -eq 'ally') { $color = 'DarkGreen' } else { $color = 'DarkRed' }
-        Write-Host -ForegroundColor $color " ➡️ $($character.name)" -NoNewline
+        $badge = Get-PercentageHeartBadge -Value $character.attrib.hp.value -Max $character.attrib.hp.max
+        Write-Host -ForegroundColor $color " ➡️ $badge $($character.name)" -NoNewline
     }
 
     # finish the line
@@ -763,6 +787,11 @@ function Invoke-BattleAction {
     if ($targets) {
         $State | Invoke-Skill -Attacker $Character -Targets $targets -Skill $Action
     } else {
+        # Whoops. This might happen if a solo enemy tries to use a skill on an ally when there aren't any left, for instance.
+        if ($Action.data.target -gt 0) {
+            Write-Host -ForegroundColor DarkGray "$($Character.name) tried to use $($Action.name), but there weren't any valid targets..."
+            return
+        }
         $State | Invoke-NonTargetSkill -Attacker $Character -Skill $Action
     }
 }

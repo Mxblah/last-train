@@ -497,26 +497,6 @@
                     },
                     "encounters": [
                         {
-                            "type": "cutscene",
-                            "id": "desert-bunker-open-dunes-exit",
-                            "chance": 1,
-                            "maxDepthAvailable": 0,
-                            "maxTimes": 1,
-                            "when": {
-                                "desert.bunker.openedDunesExit": false
-                            }
-                        },
-                        {
-                            "type": "cutscene",
-                            "id": "desert-bunker-open-outskirts-exit",
-                            "chance": 1,
-                            "minDepthAvailable": 8,
-                            "maxTimes": 1,
-                            "when": {
-                                "desert.bunker.openedOutskirtsExit": false
-                            }
-                        },
-                        {
                             "type": "battle",
                             "id": "desert-bunker-goop-x1-matk",
                             "chance": 0.2,
@@ -589,7 +569,20 @@
                         "maxDepthAvailable": 0,
                         "arrivalDepth": 4,
                         "travelCost": "00:02:30",
-                        "description": "You climb the ladder and push open the trapdoor, emerging into the desert dunes."
+                        "description": "You climb the ladder and push open the trapdoor, emerging into the desert dunes.",
+                        "cutscene": {
+                            "when": {
+                                "desert.bunker.openedDunesExit": false
+                            },
+                            "text": [
+                                "You come across a vertical shaft with a ladder against one side. A time-faded sign barely legible in the dim light reads \"SURFACE: Secondary\".",
+                                "An experimental climb and a shove against the trapdoor at the top confirms it: you've re-emerged into the desert dunes. The train is just visible over a few mounds of sand.",
+                                "Now that you know where this is on the surface, you should be able to get back here from above."
+                            ],
+                            "flag": {
+                                "desert.bunker.openedDunesExit": true
+                            }
+                        }
                     },
                     "deepBunker": {
                         "minDepthAvailable": 4,
@@ -603,7 +596,20 @@
                         "maxDepthAvailable": 8,
                         "arrivalDepth": 4,
                         "travelCost": "00:02:30",
-                        "description": "You climb the ladder and push open the trapdoor, emerging into the village outskirts."
+                        "description": "You climb the ladder and push open the trapdoor, emerging into the village outskirts.",
+                        "cutscene": {
+                            "when": {
+                                "desert.bunker.openedOutskirtsExit": false
+                            },
+                            "text": [
+                                "You come across a vertical shaft with a ladder against one side. A time-faded sign barely legible in the dim light reads \"SURFACE: Primary\".",
+                                "An experimental climb and a shove against the trapdoor at the top confirms it: you've re-emerged into the village outskirts. The train is just visible behind a few buildings.",
+                                "Now that you know where this is on the surface, you should be able to get back here from above."
+                            ],
+                            "flag": {
+                                "desert.bunker.openedOutskirtsExit": true
+                            }
+                        }
                     }
                 }
             },
@@ -641,16 +647,6 @@
                             "maxDepthAvailable": 3,
                             "when": {
                                 "desert.bunker.hallowedLabClear": false
-                            }
-                        },
-                        {
-                            "type": "cutscene",
-                            "id": "desert-bunker-open-downtown-exit",
-                            "chance": 1,
-                            "minDepthAvailable": 5,
-                            "maxTimes": 1,
-                            "when": {
-                                "desert.bunker.openedDowntownExit": false
                             }
                         },
                         {
@@ -716,7 +712,23 @@
                         "maxDepthAvailable": 5,
                         "arrivalDepth": 2,
                         "travelCost": "00:04:00",
-                        "description": "You call the elevator and ascend to the surface, emerging into the village plaza."
+                        "description": "You call the elevator and ascend to the surface, emerging into the village plaza.",
+                        "cutscene": {
+                            "when": {
+                                "desert.bunker.openedDowntownExit": false
+                            },
+                            "text": [
+                                "You come across a pair of smooth metal doors and faintly glowing buttons: an elevator. A time-faded sign barely legible in the dim light reads \"SURFACE: Emergency\".",
+                                "Ascending via the elevator confirms it leads into a partially-destroyed building near the village plaza. You have to dislodge a few boards to free up the entrance, but it doesn't take too long.",
+                                "Now that you know where this is on the surface, you should be able to get back here from above."
+                            ],
+                            "time": {
+                                "add": "00:06:00"
+                            },
+                            "flag": {
+                                "desert.bunker.openedDowntownExit": true
+                            }
+                        }
                     }
                 }
             }

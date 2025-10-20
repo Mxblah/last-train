@@ -1,0 +1,25 @@
+{
+    "id": "barricade",
+    "name": "Barricaded",
+    "color": "Blue",
+    "badge": "🛡️",
+    "applyDesc": "${game.battle.defender}'s barrier begins to recover.",
+    "turnDesc": "${game.battle.currentTurn.characterName}'s barrier recovers.",
+    "description": "Barricade restores barrier points (BP).",
+    "data": {
+        "class": "physical",
+        "type": "healing",
+        "passive": {
+            "attrib": {
+                "bp": {
+                    "regen": {
+                        "buff": "i * t / 100"
+                    }
+                }
+            }
+        },
+        "turnStart": {
+            "stacks": -1
+        }
+    }
+}

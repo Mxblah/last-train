@@ -1,0 +1,197 @@
+{
+    "id": "security-agent",
+    "name": "Security Agent",
+    "entryDescription": "A grim, stiffly-moving security agent with their face covered in dark-red shadow approaches you.",
+    "inspectDescription": "A formerly-human airport security agent, now lost to the sun's infection. Mindlessly obeys orders to eliminate threats. Is often called into battle by eyebots. Uses primarily physical attacks.",
+    "bestiaryDescription": "Reconciling the deep shadow over their faces with the slight sunlit glow produced from their bodies is a tough task. No matter how you move in relation to them, you just can't make out the face until they're dead. At that point, the glow dims and the shadow fades to reveal a withered, nearly featureless expanse placed above the neck.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": -0.5
+            },
+            "demoralized": {
+                "value": 0,
+                "base": 0.5
+            },
+            "fear": {
+                "value": 0,
+                "base": 0.3
+            },
+            "paralysis": {
+                "value": 0,
+                "base": 0.1
+            }
+        },
+        "element": {
+            "mental": {
+                "value": 0,
+                "base": -0.15
+            },
+            "piercing": {
+                "value": 0,
+                "base": 0.3
+            },
+            "poison": {
+                "value": 0,
+                "base": -0.3
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.15
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 140,
+            "max": 140,
+            "base": 140,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 20,
+            "base": 20,
+            "regen": 2,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 0,
+            "max": 30,
+            "base": 30,
+            "regen": 3,
+            "baseRegen": 3
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 22
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 14
+        },
+        "pDef": {
+            "value": 0,
+            "base": 21
+        },
+        "mDef": {
+            "value": 0,
+            "base": 19
+        },
+        "acc": {
+            "value": 0,
+            "base": 16
+        },
+        "spd": {
+            "value": 0,
+            "base": 13
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 3,
+            "max": 8,
+            "chance": 0.65
+        },
+        {
+            "id": "chest-bulletproof-vest",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "stun-baton",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "skill-book-gun",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "skill-book-multi-gun",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 50
+            },
+            {
+                "id": "stun-baton",
+                "weight": 60
+            },
+            {
+                "id": "gun",
+                "weight": 70
+            },
+            {
+                "id": "body-slam",
+                "weight": 30
+            },
+            {
+                "id": "pulverize-queue",
+                "weight": 50
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "multi-gun",
+                "weight": 35
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "defend",
+                "weight": 60
+            },
+            {
+                "id": "protect",
+                "weight": 50
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "air-net",
+                "weight": 40
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "stare-into-space",
+                "weight": 20
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

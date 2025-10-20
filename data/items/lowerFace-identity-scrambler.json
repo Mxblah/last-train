@@ -1,0 +1,24 @@
+{
+    "id": "lowerFace-identity-scrambler",
+    "name": "Identity Scrambler",
+    "description": "A bandana for the lower face with a pattern of blocky, broken-up blocks. Hurts your eyes to look at. Protects against enemy analysis and slightly increases visual resistance.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "lowerFace"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "visual": 0.1
+            },
+            "status": {
+                "exposed": 0.5
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            }
+        }
+    }
+}

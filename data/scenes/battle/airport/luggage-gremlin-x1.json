@@ -1,0 +1,22 @@
+{
+    "id": "luggage-gremlin-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "luggage-gremlin",
+                    "loot": [
+                        {
+                            "id": "coin",
+                            "min": 3,
+                            "max": 6,
+                            "chance": 0.4
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {}
+    }
+}

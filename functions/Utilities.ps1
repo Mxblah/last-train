@@ -23,12 +23,15 @@ function Get-WeightedRandom {
     param(
         # The input array or arraylist must be made of hashtable-like objects with the property "weight" in them
         [Parameter(Mandatory = $true)]
-        [object]$List
+        [System.Collections.IEnumerable]$List
     )
 
     # Total weight; upper bound of the random chance
     $totalWeight = ($List.weight | Measure-Object -Sum).Sum
-    $currentWeight = 1..$totalWeight | Get-Random
+    if ($totalWeight -le 0) {
+        throw "Total weight of all $($List.Count) elements in list is less than 0 (total: $totalWeight), so cannot perform weighted random selection"
+    }
+    $currentWeight = Get-Random -InputObject (1..$totalWeight)
     Write-Debug "performing weighted random choice of array with $($List.Count) elements and total weight $totalWeight - selected $currentWeight"
 
     # Go through the array, subtracting weight as we go, until we run out. That's what we must have selected.
@@ -40,54 +43,6 @@ function Get-WeightedRandom {
             # I'd like to say *what* we're returning, but we don't know any properties besides weight
             Write-Debug 'running total <= 0; returning'
             return $element
-        }
-    }
-}
-
-<#
-.NOTES
-Deprecated. Use Convert-AllChildrenToArrayLists instead.
-#>
-function Convert-SpecificChildrenToArrayLists {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true)]
-        [hashtable]$Data,
-
-        [Parameter()]
-        [string[]]$CollectionList = @('activeEffects'),
-
-        [Parameter()]
-        [string[]]$ParentCollectionList = @('status', 'skills')
-    )
-
-    foreach ($collection in $CollectionList) {
-        # simple collections that only need the top level to be an arraylist
-        if ($null -ne $Data.$collection) {
-            if ($Data.$collection.GetType().Name -ne 'ArrayList') {
-                Write-Debug "changing $($Data.name) $collection type to arraylist"
-                $Data.$collection = New-Object -TypeName System.Collections.ArrayList(,$Data.$collection)
-            } else {
-                Write-Debug "$collection is already arraylist for $($Data.name)"
-            }
-        } else {
-            Write-Debug "$collection does not exist for $($Data.name)"
-        }
-    }
-    foreach ($parentCollection in $ParentCollectionList) {
-        # block for collections that need an extra step (but just one, due to the Clone() method)
-        if ($null -ne $Data.$parentCollection) {
-            foreach ($collectionRaw in $Data.$parentCollection.Clone().GetEnumerator()) {
-                $collection = $collectionRaw.Key
-                if ($Data.$parentCollection.$collection.GetType().Name -ne 'ArrayList') {
-                    Write-Debug "changing $($Data.name) $parentCollection.$collection type to arraylist"
-                    $Data.$parentCollection.$collection = New-Object -TypeName System.Collections.ArrayList(,$Data.$parentCollection.$collection)
-                } else {
-                    Write-Debug "$parentCollection.$collection is already arraylist for $($Data.name)"
-                }
-            }
-        } else {
-            Write-Debug "$parentCollection does not exist for $($Data.name)"
         }
     }
 }
@@ -123,6 +78,8 @@ function Convert-AllChildArraysToArrayLists {
 
     # Main loop: build the list to convert and recursively iterate through child collections
     $conversionList = New-Object -TypeName System.Collections.ArrayList
+    # Ensure we don't carry over a previous iteration's key when switching between map and array enumerators
+    $key = $null
     foreach ($child in $enumerator) {
         if ($enumerator.GetType().Name -in @('HashtableEnumerator', 'OrderedDictionaryEnumerator')) {
             # This is a map, so get the value before continuing
@@ -132,9 +89,7 @@ function Convert-AllChildArraysToArrayLists {
 
         # null check!
         if ($null -eq $child) {
-            if ($SuperDebug) {
-                if ($SuperDebug) { Write-Debug "child (with key '$key' if applicable) is null; nothing to do" }
-            }
+            if ($SuperDebug) { Write-Debug "child (with key '$key' if applicable) is null; nothing to do" }
             continue
         }
 
@@ -204,7 +159,10 @@ function Get-HashtableValueFromPath {
 
         # Returns the last hashtable before the value, and the key to get the value, instead of the value itself
         [Parameter()]
-        [switch]$LastContainer
+        [switch]$LastContainer,
+
+        [Parameter()]
+        [switch]$SuperDebug
     )
 
     $lastFragment = $Path.Split('.')[-1]
@@ -214,7 +172,7 @@ function Get-HashtableValueFromPath {
             $Hashtable = $Hashtable.$pathFragment
         } else {
             # This is the actual value
-            Write-Debug "found last fragment '$lastFragment'"
+            if ($SuperDebug) { Write-Debug "found last fragment '$lastFragment'" }
             if ($LastContainer) {
                 return @($Hashtable, $lastFragment)
             } else {
@@ -234,7 +192,10 @@ function Set-HashtableValueFromPath {
         [string]$Path,
 
         [Parameter(Mandatory = $true)]
-        [object]$Value
+        [object]$Value,
+
+        [Parameter()]
+        [switch]$SuperDebug
     )
 
     $fragmentedPath = $Path.Split('.')
@@ -250,10 +211,10 @@ function Set-HashtableValueFromPath {
             $Hashtable = $Hashtable.$pathFragment
         } else {
             # This is the actual value
-            Write-Debug "found last fragment '$pathFragment' at depth $i"
+            if ($SuperDebug) { Write-Debug "found last fragment '$pathFragment' at depth $i" }
         }
     }
-    Write-Debug "setting value at $Path to $Value"
+    if ($SuperDebug) { Write-Debug "setting value at $Path to $Value" }
     $Hashtable.$lastFragment = $Value
 }
 
@@ -269,19 +230,55 @@ function Rename-ForUniquePropertyValues {
 
         [Parameter(Mandatory = $true)]
         [ValidateSet('Number')]
-        [string]$SuffixType
+        [string]$SuffixType,
+
+        # For when Debug isn't enough
+        [Parameter()]
+        [switch]$SuperDebug
     )
 
-    # Get the dupes and init a hashtable to store how many times we've seen 'em
-    $duplicateValues = ($List.$Property | Group-Object | Where-Object -Property Count -gt 1).Name
+    # First, build a list of clean names by removing any existing suffixes of this type
+    switch ($SuffixType) {
+        'number' { $regex = ' (\d+)$' }
+        # no default needed; ValidateSet takes care of it
+    }
+
+    $cleanPropertyMap = @{}
+    foreach ($item in $List) {
+        $base = $item.$Property -replace $regex, ''
+        $suffix = (($item.$Property | Select-String $regex).Matches.Groups | Where-Object -Property name -EQ 1).Value
+
+        # Add to map of existing suffixes for this base
+        if (-not $cleanPropertyMap.ContainsKey($base)) {
+            if ($SuperDebug) { Write-Debug "adding existing base '$base'" }
+            $cleanPropertyMap[$base] = @{ seen = 0 }
+        }
+        if (-not [string]::IsNullOrEmpty($suffix)) {
+            if ($SuperDebug) { Write-Debug "adding existing suffix '$suffix' for base '$base'"}
+            $cleanPropertyMap[$base]["$suffix"] = $true
+        }
+        $cleanPropertyMap[$base].seen += 1 # regardless of suffix-ness
+        if ($SuperDebug) { Write-Debug "seen '$base' $($cleanPropertyMap[$base].seen) times" }
+    }
+
+    # Get the dupes off the clean list and init a hashtable to store how many times we've seen 'em
+    $duplicateValues = $cleanPropertyMap.Keys | Where-Object { $cleanPropertyMap[$_].seen -gt 1 }
     $seen = @{}
 
+    # Check each item in the list for duplicates; rename as needed
     foreach ($item in $List) {
         if ($item.$Property -in $duplicateValues) {
-            Write-Debug "$($item.$Property) is a duplicate; appending $SuffixType suffix"
+            Write-Debug "$($item[$Property]) is a duplicate; appending $SuffixType suffix"
 
-            $seen."$($item.$Property)" += 1
-            $item.$Property = "$($item.$Property) $($seen."$($item.$Property)")"
+            # Get a suffix that hasn't already been used
+            $seen["$($item.$Property)"] += 1
+            while ($seen["$($item.$Property)"] -in $cleanPropertyMap["$($item.$Property)"].Keys) {
+                Write-Debug "collision: suffix $($seen["$($item.$Property)"]) already exists for $($item.$Property); incrementing again"
+                $seen["$($item.$Property)"] += 1
+            }
+
+            # Do the actual rename
+            $item.$Property = "$($item.$Property) $($seen["$($item.$Property)"])"
             Write-Debug "fixed: $($item.$Property)"
         }
     }

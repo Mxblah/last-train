@@ -1,0 +1,39 @@
+{
+    "id": "trolley-driveby",
+    "name": "Trolley Drive-By",
+    "description": "${game.battle.attacker} screams past ${game.battle.defender} on a luggage trolley, scrambling to steal items on the way!",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "targetOverride": "opposite-faction",
+        "mp": 0,
+        "pow": 5,
+        "acc": 0.85,
+        "crit": 0.05,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "steal",
+        "specialData": {
+            "stealCategories": ["clothing", "weapon", "barrier"],
+            "stealAmount": 1,
+            "canStealEquippedItem": true,
+            "mustStealEquippedItem": true
+        },
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.4,
+                "stack": 3,
+                "intensity": 1
+            }
+        ],
+        "queue": [
+            {
+                "target": "attacker",
+                "class": "idle",
+                "id": "cackle-awesome"
+            }
+        ]
+    }
+}

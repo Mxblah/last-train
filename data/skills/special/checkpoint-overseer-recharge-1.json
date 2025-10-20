@@ -1,0 +1,45 @@
+{
+    "id": "checkpoint-overseer-recharge-1",
+    "name": "Recharge 🕑",
+    "description": "${game.battle.attacker} releases a hiss of gas and becomes inactive while recharging.",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "magical",
+        "type": "standard",
+        "specialType": "queue",
+        "status": [
+            {
+                "id": "exposed",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 3
+            },
+            {
+                "id": "damage-faction-on-death",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 60,
+                "powOverride": 1
+            }
+        ],
+        "removeStatus": [
+            {
+                "id": "defend",
+                "chance": 1,
+                "stack": 99
+            }
+        ],
+        "queue": [
+            {
+                "class": "special",
+                "id": "checkpoint-overseer-recharge-2"
+            }
+        ]
+    }
+}

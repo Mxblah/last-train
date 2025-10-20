@@ -1,0 +1,198 @@
+{
+    "id": "eyebot",
+    "name": "Eyebot",
+    "entryDescription": "A small round security drone swoops down from above and whirls around you.",
+    "inspectDescription": "The airport's eyes and ears, these little robots patrol its empty halls unheeding of its long abandonment. Can summon security agents to deal with anything they deem a threat, but only have minimal combat capabilities on their own. Uses radiation and sonic magic.",
+    "bestiaryDescription": "These little guys don't have any obvious means of propulsion like propellors or jet engines, but a heat haze around the bottom of the ball indicates that whatever it is, it's hot. Maybe you could reprogram one to be your friend if you could find a way to get it to hold still for a few minutes?",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "bleed": {
+                "value": 0,
+                "base": 1
+            },
+            "fear": {
+                "value": 0,
+                "base": 1
+            },
+            "fired-up": {
+                "value": 0,
+                "base": 1
+            },
+            "paralysis": {
+                "value": 0,
+                "base": 0.35
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            }
+        },
+        "element": {
+            "earth": {
+                "value": 0,
+                "base": 0.3
+            },
+            "fire": {
+                "value": 0,
+                "base": -0.15
+            },
+            "healing": {
+                "value": 0,
+                "base": 1
+            },
+            "lightning": {
+                "value": 0,
+                "base": -0.3
+            },
+            "mental": {
+                "value": 0,
+                "base": 0.9
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.15
+            },
+            "sonic": {
+                "value": 0,
+                "base": -0.15
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 60,
+            "max": 60,
+            "base": 60,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 20,
+            "base": 20,
+            "regen": 2,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 18,
+            "max": 24,
+            "base": 24,
+            "regen": 3,
+            "baseRegen": 3
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 11
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 15
+        },
+        "pDef": {
+            "value": 0,
+            "base": 16
+        },
+        "mDef": {
+            "value": 0,
+            "base": 17
+        },
+        "acc": {
+            "value": 0,
+            "base": 18
+        },
+        "spd": {
+            "value": 0,
+            "base": 19
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 2,
+            "max": 5,
+            "chance": 0.7
+        },
+        {
+            "id": "fuel",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "eyebot-laser",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "lazy-burst",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 50
+            },
+            {
+                "id": "irradiate",
+                "weight": 40
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "microwave",
+                "weight": 30
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "fly-dodge",
+                "weight": 80
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "air-net",
+                "weight": 40
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "floating-around",
+                "weight": 20
+            }
+        ],
+        "special": [
+            {
+                "id": "eyebot-summon-security-queue",
+                "weight": 500
+            },
+            {
+                "id": "flee",
+                "weight": 20
+            }
+        ]
+    }
+}

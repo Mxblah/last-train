@@ -1,0 +1,24 @@
+{
+    "id": "eyebot-summon-security-queue",
+    "name": "Summon Security 🕑",
+    "description": "${game.battle.attacker} flashes with red light and prepares to sound its siren.",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "mp": 20,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "queue",
+        "queue": [
+            {
+                "class": "special",
+                "id": "eyebot-summon-security"
+            }
+        ]
+    }
+}

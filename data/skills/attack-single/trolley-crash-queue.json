@@ -1,0 +1,31 @@
+{
+    "id": "trolley-crash-queue",
+    "name": "Trolley Crash ⏱️",
+    "description": "${game.battle.attacker} leaps aboard a luggage trolley and revs up with their foot!",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 8,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 0,
+        "class": "physical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "fired-up",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 1
+            }
+        ],
+        "queue": [
+            {
+                "class": "attack-single",
+                "id": "trolley-crash"
+            }
+        ]
+    }
+}

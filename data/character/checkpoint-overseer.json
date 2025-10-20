@@ -1,0 +1,207 @@
+{
+    "id": "checkpoint-overseer",
+    "name": "Checkpoint Overseer",
+    "entryDescription": "A large, bulky machine rumbles to life in the midst of the security checkpoint's barriers.",
+    "inspectDescription": "Resembling nothing more than one of those bag scanner machines brought to artificial life and set to murder everyone attempting to pass through security, the overseer can summon subordinate security agents and drones. Uses radiation, lightning, and vision magic.",
+    "bestiaryDescription": "It seems to spin up, spend all of its power on attacks, then recharge again. It's most vulnerable while it's recharging, so spend the time between trying to whether its onslaught and deal with the enemies it's summoned.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "bleed": {
+                "value": 0,
+                "base": 1
+            },
+            "demoralized": {
+                "value": 0,
+                "base": 1
+            },
+            "fear": {
+                "value": 0,
+                "base": 1
+            },
+            "fired-up": {
+                "value": 0,
+                "base": 1
+            },
+            "paralysis": {
+                "value": 0,
+                "base": 0.35
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            }
+        },
+        "element": {
+            "earth": {
+                "value": 0,
+                "base": -0.2
+            },
+            "fire": {
+                "value": 0,
+                "base": -0.15
+            },
+            "healing": {
+                "value": 0,
+                "base": 1
+            },
+            "lightning": {
+                "value": 0,
+                "base": -0.3
+            },
+            "mental": {
+                "value": 0,
+                "base": 0.9
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.15
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 440,
+            "max": 440,
+            "base": 440,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 40,
+            "base": 40,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 0,
+            "max": 40,
+            "base": 40,
+            "regen": 0,
+            "baseRegen": 0
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 12
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 19
+        },
+        "pDef": {
+            "value": 0,
+            "base": 40
+        },
+        "mDef": {
+            "value": 0,
+            "base": 38
+        },
+        "acc": {
+            "value": 0,
+            "base": 19
+        },
+        "spd": {
+            "value": 0,
+            "base": 4
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 5,
+            "max": 10,
+            "chance": 1
+        },
+        {
+            "id": "eyebot-laser",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "skill-book-focus",
+            "number": 1,
+            "chance": 1
+        },
+        {
+            "id": "legs-zap-pants",
+            "number": 1,
+            "chance": 1
+        },
+        {
+            "id": "fuel",
+            "min": 2,
+            "max": 4,
+            "chance": 0.8
+        }
+    ],
+    "ai": "lazy-burst",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "jolt",
+                "weight": 60
+            },
+            {
+                "id": "irradiate",
+                "weight": 40
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "microwave",
+                "weight": 30
+            },
+            {
+                "id": "arc",
+                "weight": 50
+            }
+        ],
+        "buff-single": [
+
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "air-net",
+                "weight": 40
+            },
+            {
+                "id": "x-ray-vision",
+                "weight": 50
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+
+        ],
+        "special": [
+            {
+                "id": "checkpoint-overseer-recharge-1",
+                "weight": 1
+            }
+        ]
+    }
+}

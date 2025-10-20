@@ -1,0 +1,27 @@
+{
+    "id": "checkpoint-b",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "checkpoint-overseer"
+                }
+            ]
+        },
+        "special": {
+            "forceFirstTurn": "checkpoint-overseer"
+        },
+        "flags": {
+            "airport.departures.openedConcourseBConnection": true
+        },
+        "exit": {
+            "type": "explore",
+            "id": "airport"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "airport"
+        }
+    }
+}

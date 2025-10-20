@@ -9,10 +9,10 @@
     "effects": {
         "resistances": {
             "element": {
-                "radiation": 0.5
+                "radiation": 0.4
             },
             "status": {
-                "irradiated": 0.5
+                "irradiated": 0.4
             }
         },
         "stats": {

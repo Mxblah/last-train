@@ -1,0 +1,29 @@
+{
+    "id": "weapon-choice",
+    "data": [
+        {
+            "text": "Your choice of weapon in a fight is one of the biggest factors in your success, or untimely demise. Read on for some tips on how to pick which one to use."
+        },
+        {
+            "text": "1. Class and Type.\nAll weapons have a class (physical or magical) and a type (slashing, poison, fire, radiation, etc.). The class determines which attack stat will be used for damage calculations with the weapon, while the type affects affinities and resistances. When you use a skill with damage type \"weapon\", the weapon's damage class and type are used for damage adjustment instead of the skill's.\nHowever, the initial attack calculation still uses the skill's damage type, so you'll typically find it more effective to match your weapon's and skill's damage type to your highest attack stat."
+        },
+        {
+            "text": "2. Hybrid damage.\nMost weapons with a non-standard damage type have a type percent. The remaining percentage is standard damage of the weapon's class. This means you'll usually be able to do a little damage even when an enemy resists your weapon's main element."
+        },
+        {
+            "text": "3. Passive effects.\nNearly all weapons grant bonuses to physical or magical attack, or both. Some weapons also increase or decrease various other stats, attributes, affinities, resistances, or more. Keep an eye out for weapons with effects that compliment your other equipment."
+        },
+        {
+            "text": "4. Status effects.\nSome weapons have one or more status effects built-in. When using a skill with a damage type of \"weapon\", these status effects will be applied alongside the skill's own statuses. Some special skills can boost the potency or chance of weapon status effects."
+        },
+        {
+            "text": "5. So, how to pick a weapon.\nWhen choosing a weapon, consider the following:\n  - Weaknesses: Most enemies are weak to one or more damage types or statuses. Pick a weapon with that type, that status, or an affinity for either, to deal more damage.\n  - Resistances: Weapons usually have less defensive utility, but an extra ten or twenty percent resistance to a big attack could make all the difference.\n  - Stats: Most enemies are weaker to physical or magical damage, and tend to deal more of one than the other. Scale your stats accordingly. Similarly, choose weapons with higher accuracy if you keep missing or higher speed if you keep going last."
+        },
+        {
+            "text": "6. In-battle data.\nUse the \"Inspect\" skill to get a sense of an enemy's stat layout, affinities, and resistances. Then, remember you can always change your weapon in the middle of battle with the \"Equip\" skill. If you've just defeated an enemy weak against physical attacks with your physical weapon, but the remaining enemy strongly resists physical damage, try switching to a magical weapon! Be flexible and adapt as the battle progresses, and remember you can always (usually) flee."
+        },
+        {
+            "text": "7. Experimenting.\nWeapons interact with skills, enemy resistances, and your stats in many ways. Try different combinations in a safe fight (such as with the training dummy on the train) and notice which ones let you finish a battle faster or with less damage."
+        }
+    ]
+}

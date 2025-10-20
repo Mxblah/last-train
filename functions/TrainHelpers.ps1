@@ -399,7 +399,7 @@ function Show-TrainFuelMenu {
     Write-Host -ForegroundColor (Get-PercentageColor -Value $State.items.fuel.number -Max $train.maxFuel) "🎒 Your fuel canisters: $($State.items.fuel.number ?? 0)"
 
     if ($State.items.fuel.number -gt 0) {
-        $choice = $State | Read-PlayerInput -Prompt 'Add fuel to the train? (number of canisters, or <enter> to cancel)' -Choices (1..$State.items.fuel.number) -AllowNullChoice
+        $choice = $State | Read-PlayerNumberInput -Prompt 'Add fuel to the train? (number of canisters, or <enter> to cancel)' -Min 1 -Max $State.items.fuel.number -IntegerOnly -AllowNullChoice
         if ($null -eq $choice -or $choice -le 0) {
             Write-Host 'You changed your mind...'
         } else {

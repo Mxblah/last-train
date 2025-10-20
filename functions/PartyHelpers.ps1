@@ -26,15 +26,14 @@ function Remove-PartyMember {
         [string]$Id
     )
 
-    # Get details and remove
-    $data = $State.party | Where-Object -Property id -EQ $Id
-    if ($data) {
-        $State.party.Remove($data)
-    } else {
+    # Find the first matching party member and remove it
+    $member = $State.party | Where-Object -Property id -EQ $Id | Select-Object -First 1
+    if ($null -eq $member) {
         Write-Verbose "'$Id' not found in the party to remove"
         return
     }
+    $State.party.Remove($member) | Out-Null
 
     # Inform
-    Write-Host -ForegroundColor Cyan "$($data.name) has left $($State.player.name)'s party."
+    Write-Host -ForegroundColor Cyan "$($member.name) has left $($State.player.name)'s party."
 }

@@ -251,3 +251,34 @@ function Invoke-SpecialSteal {
         }
     }
 }
+
+function Invoke-SpecialSummon {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Attacker,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Skill
+    )
+
+    foreach ($character in $Skill.data.specialData.characters) {
+        Write-Debug "$($Skill.id): attempting to summon $($character.id) with chance $($character.chance)"
+        if ($null -eq $character.chance -or $character.chance -ge (Get-RandomPercent)) {
+            Write-Debug 'succeeded; adding to pending list'
+            $character.isSummon = $true
+            $State.game.battle.pendingCharacters.Add($character) | Out-Null
+            Write-Host -ForegroundColor Yellow "$($State.data.character.$($character.id).name) will join the battle."
+            $summonedAtLeastOneGuy = $true
+        } else {
+            Write-Debug 'summon roll failed'
+        }
+    }
+
+    if (-not $summonedAtLeastOneGuy) {
+        Write-Host -ForegroundColor DarkGray "... but it failed."
+    }
+}

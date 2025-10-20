@@ -5,7 +5,7 @@
     "badge": "🩸",
     "applyDesc": "${game.battle.defender} is bleeding heavily!",
     "turnDesc": "${game.battle.currentTurn.characterName} is bleeding heavily.",
-    "description": "Heavy bleeding saps focus, reduces accuracy, and deals damage.",
+    "description": "Heavy bleeding prevents health regeneration, reduces accuracy, and deals damage.",
     "data": {
         "class": "physical",
         "type": "bleed",
@@ -14,9 +14,9 @@
         },
         "passive": {
             "attrib": {
-                "mp": {
+                "hp": {
                     "regen": {
-                        "mult": 0.5
+                        "mult": 0
                     }
                 }
             },

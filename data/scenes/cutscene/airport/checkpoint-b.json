@@ -1,0 +1,21 @@
+{
+    "id": "checkpoint-b",
+    "data": [
+        {
+            "text": "You approach the security checkpoint that leads to Concourse B. It appears to be unmanned, but there's an odd, bulky machine flashing lights and making noises in the midst of all the barriers. If you want to enter Concourse B from here, it seems you'll have to go through whatever that thing is.",
+            "choice": {
+                "text": "Approach Checkpoint B?",
+                "responses": {
+                    "yes": {
+                        "text": "The thing whirs to life and seems to focus on you as you approach. Better get ready for a fight.",
+                        "exit": {
+                            "type": "battle",
+                            "id": "checkpoint-b"
+                        }
+                    },
+                    "no": {}
+                }
+            }
+        }
+    ]
+}

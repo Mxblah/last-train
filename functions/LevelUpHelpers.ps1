@@ -10,15 +10,17 @@ function Show-LevelUpMenu {
 
     while ($true) {
         # Get all the available orbs
-        $pearlescentOrbs = $State.items.'orb-pearlescent'.number
-        if ($pearlescentOrbs -le 0) {
-            Write-Host "You don't have any orbs!"
-            Write-Host 'You changed your mind...'
+        $orbs = @{}
+        foreach ($orbType in @('orb-pearlescent', 'orb-opalescent', 'orb-roseate')) {
+            $orbs."$($orbType.Replace('orb-', ''))" = $State.items.$orbType.number ?? 0
+        }
+        if (($orbs.Values | Measure-Object -Sum).Sum -le 0) {
+            Write-Host "You don't have any orbs left!"
             return
         }
 
         # Display header
-        Write-Host -ForegroundColor White "Available orbs: ⚪ $pearlescentOrbs"
+        Write-Host -ForegroundColor White "Available orbs: 🤍 $($orbs.pearlescent) 🖤 $($orbs.opalescent) 🩷 $($orbs.roseate)"
 
         # Display available stats, possible max, and delta to get them there
         $max = $State | Get-MaxStatBase
@@ -29,9 +31,9 @@ function Show-LevelUpMenu {
             # Get color based on % of max
             $color = switch ($base / $max) {
                 { $_ -ge 1 } { 'DarkGreen'; break }
-                { $_ -ge 0.875 } { 'Green'; break }
-                { $_ -ge 0.75 } { 'Yellow'; break }
-                { $_ -ge 0.625 } { 'DarkYellow'; break }
+                { $_ -ge 0.8 } { 'Green'; break }
+                { $_ -ge 0.7 } { 'Yellow'; break }
+                { $_ -ge 0.6 } { 'DarkYellow'; break }
                 { $_ -gt 0.5 } { 'Red'; break }
                 default { 'DarkRed' }
             }
@@ -44,30 +46,100 @@ function Show-LevelUpMenu {
         }
 
         # Ask what the player wants to do
+        $choice = $State | Read-PlayerInput -Prompt 'Consume which type of orb? (or <enter> to cancel)' -Choices $orbs.Keys -AllowNullChoice
+        $splat = @{
+            Orbs    = $orbs
+            OrbType = $choice
+        }
+
+        # Make sure we have some of that orb available
+        if ($choice -and $orbs.$choice -le 0) {
+            Write-Host "You don't have any $choice orbs!"
+            continue
+        }
+
+        # Spend the orbs and return that data here for processing
+        # Subfunctions are responsible for producing submenus and doing actual stat changes, then returning the number spent so this function can handle items and time
+        $orbsSpent = switch ($choice) {
+            { [string]::IsNullOrEmpty($_) } {
+                Write-Host 'You stopped increasing your stats.'
+                return
+            }
+            'pearlescent' {
+                $State | Invoke-SingleStatLevelUp -Max $max @splat
+            }
+            'opalescent' {
+                # Does not need $Max, as we're guaranteed to increase the lowest stat(s)
+                $State | Invoke-AllStatLevelUp @splat
+            }
+            'roseate' {
+                # Does not need $Max, as we're guaranteed to increase the lowest stat(s)
+                $State | Invoke-LowestStatLevelUp -Number 2 @splat
+            }
+            default {
+                Write-Warning "Unknown orb type '$_'"
+                continue
+            }
+        }
+
+        # Update stats no matter which orb was used
+        $State | Update-CharacterValues -Character $State.player
+
+        # Time and item cost
+        $State | Remove-GameItem -Id "orb-$choice" -Number $orbsSpent
+        $State | Add-GlobalTime -Time (New-TimeSpan -Minutes $orbsSpent)
+    }
+}
+
+function Invoke-SingleStatLevelUp {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Orbs,
+
+        [Parameter(Mandatory = $true)]
+        [string]$OrbType,
+
+        [Parameter()]
+        [int]$Power = 1,
+
+        [Parameter(Mandatory = $true)]
+        [int]$Max
+    )
+
+    # Vars
+    $orbNumber = $orbs.$OrbType
+
+    while ($true) {
+        # Get the stat to increase
         $response = $State | Read-PlayerInput -Prompt 'Increase which stat? (or <enter> to cancel)' -Choices @('pAtk', 'mAtk', 'pDef', 'mDef', 'acc', 'spd') -AllowNullChoice
         if ([string]::IsNullOrEmpty($response)) {
-            Write-Host 'You stopped increasing your stats.'
-            return
+            Write-Host 'You changed your mind...'
+            return 0
         }
 
         # Ask by how much
         $statToIncrease = $response
         $base = $State.player.stats.$statToIncrease.base
-        $limitingFactor = [System.Math]::Min($pearlescentOrbs, ($max - $base))
-        Write-Debug "limit is $limitingFactor due to orb count $pearlescentOrbs and delta $($max - $base)"
+        $limitingFactor = [System.Math]::Floor([System.Math]::Min($orbNumber, ($Max - $base)) / $Power)
+        Write-Debug "limit is $limitingFactor due to orb count $orbNumber, power $Power, and delta $($Max - $base)"
         if ($limitingFactor -lt 1) {
             Write-Host "Your body can't handle any more increases to $statToIncrease right now! Try a different stat."
             continue
         }
-        $increaseAmount = $State | Read-PlayerInput -Prompt "Increase $statToIncrease by how much? (1-$limitingFactor, or <enter> to cancel)" -Choices (1..$limitingFactor) -AllowNullChoice
+        $orbsToSpend = $State | Read-PlayerNumberInput -Prompt "Increase $statToIncrease how many times? (1-$limitingFactor, or <enter> to cancel)" -Min 1 -Max $limitingFactor -IntegerOnly -AllowNullChoice
 
         # Validation handling
-        if ([string]::IsNullOrEmpty($increaseAmount)) {
+        if ([string]::IsNullOrEmpty($orbsToSpend)) {
             Write-Host 'You changed your mind...'
             continue
         }
 
         # Do it
+        $increaseAmount = $Power * $orbsToSpend
         $State.player.stats.$statToIncrease.base += $increaseAmount
         Write-Host -ForegroundColor Green "$(Get-AttribStatBadge -AttribOrStat $statToIncrease) $statToIncrease increased by $increaseAmount"
         if ($statToIncrease -like '*Def') {
@@ -81,36 +153,106 @@ function Show-LevelUpMenu {
             $State.player.attrib.hp.max += $increaseAmount
             $State.player.attrib.hp.value += $increaseAmount
         }
-        $State | Update-CharacterValues -Character $State.player
-
-        # Time and item cost
-        $State | Remove-GameItem -Id 'orb-pearlescent' -Number $increaseAmount
-        $State | Add-GlobalTime -Time (New-TimeSpan -Minutes $increaseAmount)
-
-        # Cancel if we're out of orbs
-        if ($State.items.'orb-pearlescent'.number -le 0) {
-            Write-Host "You're out of orbs, so you decide to stop."
-            return
-        }
+        return $orbsToSpend
     }
 }
 
-# Was used in a previous calculation for Get-MaxStatBase; might be needed again sometime
-function Get-StatTotal {
+function Invoke-AllStatLevelUp {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [object]$State
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Orbs,
+
+        [Parameter(Mandatory = $true)]
+        [string]$OrbType,
+
+        [Parameter()]
+        [int]$Power = 1
     )
 
-    # Calculate stat total
-    $statTotal = 0
-    foreach ($stat in $State.player.stats.GetEnumerator()) {
-        $statTotal += $stat.Value.base
+    # Vars
+    $orbNumber = $orbs.$OrbType
+
+    # Ask by how much
+    $orbsToSpend = $State | Read-PlayerNumberInput -Prompt "Increase all stats how many times? (1-$orbNumber, or <enter> to cancel)" -Min 1 -Max $orbNumber -IntegerOnly -AllowNullChoice
+    if ([string]::IsNullOrEmpty($orbsToSpend)) {
+        Write-Host 'You changed your mind...'
+        return 0
     }
 
-    Write-Debug "player's stat total is $statTotal"
-    return $statTotal
+    # Do it
+    $increaseAmount = $Power * $orbsToSpend
+    foreach ($stat in $State.player.stats.GetEnumerator()) {
+        $State.player.stats."$($stat.Key)".base += $increaseAmount
+        Write-Host -ForegroundColor Green "$(Get-AttribStatBadge -AttribOrStat $stat.Key) $($stat.Key) increased by $increaseAmount"
+    }
+
+    # HP increases by 2 for each def stat and 1 for the other four, so +8 total per orb
+    $hpBoost = 8 * $increaseAmount
+    $State.player.attrib.hp.base += $hpBoost
+    $State.player.attrib.hp.max += $hpBoost
+    $State.player.attrib.hp.value += $hpBoost
+    Write-Host -ForegroundColor Green "❤️ HP increased by $hpBoost"
+
+    return $orbsToSpend
+}
+
+function Invoke-LowestStatLevelUp {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [object]$State,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable]$Orbs,
+
+        [Parameter(Mandatory = $true)]
+        [string]$OrbType,
+
+        [Parameter()]
+        [int]$Power = 1,
+
+        # A 6 here should be identical to Invoke-AllStatLevelUp, which makes me wonder if that function can be eliminated...?
+        [Parameter()]
+        [ValidateRange(1, 6)]
+        [int]$Number = 1
+    )
+
+    # Vars
+    $orbNumber = $orbs.$OrbType
+
+    # Ask by how much
+    $orbsToSpend = $State | Read-PlayerNumberInput -Prompt "Increase lowest $Number stats how many times? (1-$orbNumber, or <enter> to cancel)" -Min 1 -Max $orbNumber -IntegerOnly -AllowNullChoice
+    if ([string]::IsNullOrEmpty($orbsToSpend)) {
+        Write-Host 'You changed your mind...'
+        return 0
+    }
+
+    # Perform each increase in a loop, to ensure we keep increasing the lowest stats if the stats we increase first become higher than other stats
+    foreach ($i in 1..$orbsToSpend) {
+        # Get the lowest $Number stats
+        # In case of ties, the implicit stat order will ensure the first stats listed in the player object are increased.
+        $statBases = foreach ($stat in $State.player.stats.GetEnumerator()) {@{id = $stat.Key; base = $stat.Value.base}}
+        $statsToIncrease = $statBases | Sort-Object -Property base | Select-Object -ExpandProperty id -First 2
+
+        # Do it
+        $hpBoost = 0
+        foreach ($stat in $statsToIncrease) {
+            $State.player.stats.$stat.base += $Power
+            Write-Host -ForegroundColor Green "$(Get-AttribStatBadge -AttribOrStat $stat) $stat increased by $Power"
+            if ($stat -like '*Def') { $hpBoost += 2 * $Power } else { $hpBoost += $Power }
+        }
+
+        $State.player.attrib.hp.base += $hpBoost
+        $State.player.attrib.hp.max += $hpBoost
+        $State.player.attrib.hp.value += $hpBoost
+        Write-Host -ForegroundColor Green "❤️ HP increased by $hpBoost"
+    }
+
+    return $orbsToSpend
 }
 
 function Get-ExtremeStat {
@@ -128,9 +270,9 @@ function Get-ExtremeStat {
 
     $bases = foreach ($stat in $State.player.stats.GetEnumerator()) { $stat.Value.base }
     if ($Highest) {
-        return (($bases | Sort-Object | Select-Object -First 1))
-    } elseif ($Lowest) {
         return (($bases | Sort-Object | Select-Object -Last 1))
+    } elseif ($Lowest) {
+        return (($bases | Sort-Object | Select-Object -First 1))
     } else {
         Write-Warning 'No argument passed to Get-ExtremeStat'
         return 0
@@ -216,10 +358,10 @@ function Show-SkillsMenu {
     # Make a lookup table for easier handling
     $skillLookupTable = foreach ($category in $State.player.skills.GetEnumerator()) {
         foreach ($skill in $State.player.skills."$($category.Key)") {
-            @{id = $skill.id; name = $State.data.skills."$($category.Key)"."$($skill.id)".name; category = $category.Key}
+            @{id = $skill.id; name = $State.data.skills."$($category.Key)"."$($skill.id)".name; category = $category.Key }
         }
         foreach ($skill in $State.player.spareSkills."$($category.Key)") {
-            @{id = $skill.id; name = $State.data.spareSkills."$($category.Key)"."$($skill.id)".name; category = $category.Key}
+            @{id = $skill.id; name = $State.data.spareSkills."$($category.Key)"."$($skill.id)".name; category = $category.Key }
         }
     }
 
@@ -306,7 +448,7 @@ function Show-SkillsMenu {
 
         # If we need to do a swap, prompt for that
         if ($SkillAction -eq 'add' -and $Character.skills.$SkillCategory.Count -ge $State.options.maxSkillsInCategory) {
-            $swapSkillName = $State | Read-PlayerInput -Prompt "'$SkillCategory' is full. Swap which skill with '$SkillName'? ($(($skillLookupTable | Where-Object -Property category -eq $SkillCategory).name -join ', '))" -Choices ($skillLookupTable | Where-Object -Property category -eq $SkillCategory).name -AllowNullChoice
+            $swapSkillName = $State | Read-PlayerInput -Prompt "'$SkillCategory' is full. Swap which skill with '$SkillName'? ($(($skillLookupTable | Where-Object -Property category -EQ $SkillCategory).name -join ', '))" -Choices ($skillLookupTable | Where-Object -Property category -EQ $SkillCategory).name -AllowNullChoice
             $swapSkillId = $skillLookupTable | Where-Object -Property name -EQ $swapSkillName
             if ([string]::IsNullOrEmpty($swapSkillId)) {
                 Write-Host "You can't memorize '$SkillName' without forgetting another skill."

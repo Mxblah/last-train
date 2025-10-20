@@ -1,0 +1,30 @@
+{
+    "id": "jolt",
+    "name": "Jolt",
+    "description": "${game.battle.attacker} jolts ${game.battle.defender} with an arc of electricity.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 5,
+        "pow": 10,
+        "acc": 1,
+        "crit": 0.05,
+        "hits": 2,
+        "class": "magical",
+        "type": "lightning",
+        "status": [
+            {
+                "id": "dazzled",
+                "chance": 0.2,
+                "stack": 2,
+                "intensity": 1
+            },
+            {
+                "id": "paralysis",
+                "chance": 0.1,
+                "stack": 1,
+                "intensity": 1
+            }
+        ]
+    }
+}

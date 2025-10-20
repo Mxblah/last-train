@@ -1,6 +1,6 @@
 {
     "id": "attack-magic",
-    "name": "(M) Attack",
+    "name": "M. Attack",
     "description": "${game.battle.attacker} attacks ${game.battle.defender} with magic.",
     "skillType": "attack-single",
     "data": {

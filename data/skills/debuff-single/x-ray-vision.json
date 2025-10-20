@@ -1,0 +1,30 @@
+{
+    "id": "x-ray-vision",
+    "name": "X-Ray Analyze",
+    "description": "${game.battle.attacker} analyzes ${game.battle.defender} with an x-ray bombardment.",
+    "skillType": "debuff-single",
+    "data": {
+        "target": 1,
+        "mp": 6,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 1,
+        "class": "magical",
+        "type": "visual",
+        "status": [
+            {
+                "id": "dazzled",
+                "chance": 0.3,
+                "stack": 3,
+                "intensity": 1
+            },
+            {
+                "id": "exposed",
+                "chance": 0.95,
+                "stack": 3,
+                "intensity": 2
+            }
+        ]
+    }
+}

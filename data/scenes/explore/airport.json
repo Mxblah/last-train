@@ -54,9 +54,871 @@
                     "arrivals": {
                         "minDepthAvailable": 0,
                         "maxDepthAvailable": 1,
-                        "arrivalDepth": 0,
+                        "arrivalDepth": 2,
                         "travelCost": "00:01:00",
                         "description": "You climb up the still escalator and emerge into a wide hall. A sign proclaims it \"Arrivals.\""
+                    }
+                }
+            },
+            {
+                "id": "arrivals",
+                "name": "Arrivals",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 6,
+                    "travelBaseCost": "00:01:40",
+                    "deeperDescription": "Head towards Concourse B and parking",
+                    "shallowerDescription": "Head towards Concourse A and transit",
+                    "exploreHereDescription": "Explore the nearby baggage claims and sub-rooms",
+                    "flavor": {
+                        "general": [
+                            "Luggage trolleys can be found smashed in the most improbable of ways here.",
+                            "A baggage carousel lies still and silent.",
+                            "An overhead sign has fallen here. You step around the broken display.",
+                            "Your footsteps echo in the wide-open hall.",
+                            "Piles of discarded suitcases, clothes, and useless items lie scattered around."
+                        ],
+                        "2": [
+                            "Twin escalators run up and down here; nothing more than metal staircases now."
+                        ],
+                        "3": [
+                            "An automatic security exit still functions here. You can't get back to the terminal without going upstairs."
+                        ],
+                        "4": [
+                            "A still escalator leads up a level here.",
+                            "A tunnel to the parking deck yawns empty and dark."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "item",
+                            "id": "orb-opalescent",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "item",
+                            "id": "orb-roseate",
+                            "number": 1,
+                            "chance": 0.3,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "arrivals-water-fountain",
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "security-x1-disguise",
+                            "chance": 0.15,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "arrivals-water-fountain",
+                            "chance": 0.05,
+                            "when": {
+                                "airport.arrivals.drankFromFountain": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x1",
+                            "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "eyebot-x1",
+                            "chance": 0.05
+                        }
+                    ]
+                },
+                "connections": {
+                    "transitCenter": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 2,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You climb down the still escalator into the transit center."
+                    },
+                    "departures.1": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 2,
+                        "arrivalDepth": 2,
+                        "travelCost": "00:01:00",
+                        "description": "You climb up the still escalator and emerge into a wide hall. A sign proclaims it \"Departures.\""
+                    },
+                    "departures.2": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:01:00",
+                        "description": "You climb up the still escalator and emerge into a wide hall. A sign proclaims it \"Departures.\""
+                    },
+                    "parkingB": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You pass through a short tunnel into the basement level of an echoing parking garage."
+                    }
+                }
+            },
+            {
+                "id": "departures",
+                "name": "Departures",
+                "sunStrengthMultiplier": 0.2,
+                "field": {
+                    "depth": 6,
+                    "travelBaseCost": "00:01:40",
+                    "deeperDescription": "Head towards Concourse B and parking",
+                    "shallowerDescription": "Head towards Concourse A and transit",
+                    "exploreHereDescription": "Explore the nearby kiosks and check-in counters",
+                    "flavor": {
+                        "general": [
+                            "Luggage trolleys can be found smashed in the most improbable of ways here.",
+                            "An automated kiosk still flickers with a semblance of life, but it doesn't respond to your presence.",
+                            "An overhead sign has fallen here. You step around the broken display.",
+                            "Your footsteps echo in the wide-open hall.",
+                            "Piles of discarded suitcases, clothes, and useless items lie scattered around."
+                        ],
+                        "2": [
+                            "A still escalator leads down a level here.",
+                            "The security line has never been faster, you suppose."
+                        ],
+                        "4": [
+                            "A still escalator leads down a level here.",
+                            "The security line has never been faster, you suppose.",
+                            "A walkway to the parking deck advertises its presence with plentiful signage."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "checkpoint-a",
+                            "chance": 1,
+                            "minDepthAvailable": 1,
+                            "maxDepthAvailable": 1,
+                            "when": {
+                                "airport.departures.openedConcourseAConnection": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "checkpoint-b",
+                            "chance": 1,
+                            "minDepthAvailable": 5,
+                            "maxDepthAvailable": 5,
+                            "when": {
+                                "airport.departures.openedConcourseBConnection": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "legs-padded-trousers",
+                            "text": "You find a perfectly good set of pants left in a spare security bin, just lying on the floor.",
+                            "number": 1,
+                            "chance": 0.5,
+                            "minDepthAvailable": 0,
+                            "maxDepthAvailable": 2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "offhand-portable-lightning-rod",
+                            "text": "You find a strange electrical device left in a spare security bin, just lying on the floor.",
+                            "number": 1,
+                            "chance": 0.5,
+                            "minDepthAvailable": 4,
+                            "maxDepthAvailable": 6,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "orb-roseate",
+                            "number": 1,
+                            "chance": 0.3,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x1",
+                            "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "eyebot-x1",
+                            "chance": 0.05
+                        }
+                    ]
+                },
+                "connections": {
+                    "arrivals.1": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 2,
+                        "arrivalDepth": 2,
+                        "travelCost": "00:01:00",
+                        "description": "You climb down the still escalator and emerge into a wide hall. A sign proclaims it \"Arrivals.\""
+                    },
+                    "arrivals.2": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:01:00",
+                        "description": "You climb down the still escalator and emerge into a wide hall. A sign proclaims it \"Arrivals.\""
+                    },
+                    "concourseA": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 2,
+                        "arrivalDepth": 2,
+                        "travelCost": "00:01:30",
+                        "description": "You pass through the unstaffed security checkpoint and enter Concourse A.",
+                        "when": {
+                            "airport.departures.openedConcourseAConnection": true
+                        }
+                    },
+                    "concourseB": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 6,
+                        "arrivalDepth": 2,
+                        "travelCost": "00:01:30",
+                        "description": "You pass through the unstaffed security checkpoint and enter Concourse B.",
+                        "when": {
+                            "airport.departures.openedConcourseBConnection": true
+                        }
+                    },
+                    "parking1": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You pass through a covered walkway into the ground level of an echoing parking garage."
+                    }
+                }
+            },
+            {
+                "id": "tracks",
+                "name": "Train Tunnels",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 11,
+                    "travelBaseCost": "00:02:10",
+                    "deeperDescription": "Head away from the transit center",
+                    "shallowerDescription": "Head towards the transit center",
+                    "exploreHereDescription": "Explore the nearby tracks",
+                    "flavor": {
+                        "general": [
+                            "The air is thick with the stench of earth, mold, and decaying metal.",
+                            "A small section of the tracks here is gleaming like brand new.",
+                            "Uneven earth, unstable rails, and unending darkness.",
+                            "Water has pooled into a dark, stagnant pond that you have to walk on the rails to cross.",
+                            "Cobwebs wave in the breeze of your passing.",
+                            "The dust is thick on everything. It dances in your light, making you see movement that isn't there.",
+                            "A long, low groaning sound echoes through the tunnel."
+                        ],
+                        "0": [
+                            "The lights from the transit center platform grant you a sense of safety, even from here."
+                        ],
+                        "1": [
+                            "The distant lights from the transit center platform grant you a sense of safety, even from here."
+                        ],
+                        "4": [
+                            "Mounds of dirt and tumbled rock cover one set of tracks from a partial cave-in.",
+                            "Clearly artificial light gleams through portions of the collapse."
+                        ],
+                        "6": [
+                            "A shiny maintenance door stands out amidst the rusted, ruined detritus surrounding it."
+                        ],
+                        "10": [
+                            "A steep staircase is visible in the tunnel wall here. Broken hinges suggest it once had a door."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "transitCenter": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 1,
+                        "travelCost": "00:00:30",
+                        "description": "You haul yourself up and clamber back onto the platform."
+                    },
+                    "parkingB": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:04:00",
+                        "description": "You squirm through a partially-collapsed section of the tunnel and find yourself in the basement of a parking garage.",
+                        "cutscene": {
+                            "when": {
+                                "airport.tracks.openedParkingConnection": false
+                            },
+                            "text": [
+                                "Pushing some rocks out of the way and looking upwards, you think there's a path you could follow to climb up here. It'll take some work to enlarge it, but you should be able to get through."
+                            ],
+                            "flag": {
+                                "airport.tracks.openedParkingConnection": true
+                            },
+                            "time": {
+                                "add": "00:03:00"
+                            }
+                        }
+                    },
+                    "concourseB": {
+                        "minDepthAvailable": 10,
+                        "maxDepthAvailable": 10,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:04:00",
+                        "description": "You climb up a narrow, dark staircase and emerge into Concourse B.",
+                        "cutscene": {
+                            "when": {
+                                "airport.tracks.openedConcourseBConnection": false
+                            },
+                            "text": [
+                                "There's an obscure staircase here that leads into Concourse B. You push open a nondescript door upstairs; you never would have noticed if not for just coming through it. Now that you know where it is, you can use it to go back down if you want."
+                            ],
+                            "flag": {
+                                "airport.tracks.openedConcourseBConnection": true
+                            }
+                        }
+                    },
+                    "tunnels": {
+                        "minDepthAvailable": 6,
+                        "maxDepthAvailable": 6,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You pass through a shiny maintenance door and find yourself in narrower, human-sized service tunnels."
+                    }
+                }
+            },
+            {
+                "id": "tunnels",
+                "name": "Service Tunnels",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 11,
+                    "travelBaseCost": "00:02:10",
+                    "deeperDescription": "Head towards the airfield",
+                    "shallowerDescription": "Head towards the transit center",
+                    "exploreHereDescription": "Explore the nearby tunnels",
+                    "flavor": {
+                        "general": [
+                            "The air is thick with the stench of earth, mold, and decaying metal.",
+                            "A small section of the floor here is gleaming as if it had just been cleaned.",
+                            "The concrete wall has buckled here, but it still holds.",
+                            "Water has pooled into a dark, stagnant pond that you have to jump across.",
+                            "Cobwebs wave in the breeze of your passing.",
+                            "The dust is thick on everything. It dances in your light, making you see movement that isn't there.",
+                            "A long, low groaning sound echoes through the tunnel."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "tracks": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 6,
+                        "travelCost": "00:01:00",
+                        "description": "You pass through a shiny maintenance door and find yourself in wide, damp railway tunnels."
+                    },
+                    "runways": {
+                        "minDepthAvailable": 11,
+                        "maxDepthAvailable": 11,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:02:30",
+                        "description": "You climb a long staircase and pop out of a small, shed-like building in the middle of the airfield.",
+                        "when": {
+                            "airport.runways.openedTunnelConnection": true
+                        }
+                    }
+                }
+            },
+            {
+                "id": "parkingB",
+                "name": "Parking Garage (B)",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 6,
+                    "travelBaseCost": "00:02:00",
+                    "deeperDescription": "Head away from the terminal",
+                    "shallowerDescription": "Head towards the terminal",
+                    "exploreHereDescription": "Explore the nearby spaces and vehicles",
+                    "flavor": {
+                        "general": [
+                            "A soft breeze winds from above, somehow making the air feel more stagnant than if it were totally still.",
+                            "Metal clatters elsewhere in the structure.",
+                            "Destroyed, burnt-out car skeletons squat haphazardly in parking spaces and aisles.",
+                            "A support pillar here is badly cracked and the ceiling above it sags gently.",
+                            "You find more broken-down cars. Not a single vehicle here can move."
+                        ],
+                        "0": [
+                            "The tunnel to the terminal yawns empty and open here."
+                        ],
+                        "1": [
+                            "A rust-stained staircase leads up here."
+                        ],
+                        "4": [
+                            "The ground is cracked and upheaved here, forming a large sinkhole.",
+                            "Several cars have fallen into the partial collapse, leaning up and down at crazy angles."
+                        ],
+                        "5": [
+                            "A rust-stained staircase leads up here."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "tracks": {
+                        "minDepthAvailable": 4,
+                        "maxDepthAvailable": 4,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:04:00",
+                        "description": "You squeeze through a pile of rubble and drop into the railway tunnels.",
+                        "when": {
+                            "airport.tracks.openedParkingConnection": true
+                        }
+                    },
+                    "parking1.1": {
+                        "minDepthAvailable": 1,
+                        "maxDepthAvailable": 1,
+                        "arrivalDepth": 1,
+                        "travelCost": "00:00:30",
+                        "description": "You climb up the stairs to the ground level of the parking garage."
+                    },
+                    "parking1.2": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:00:30",
+                        "description": "You climb up the stairs to the ground level of the parking garage."
+                    },
+                    "arrivals": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:01:00",
+                        "description": "You pass through a short tunnel into the wide Arrivals hall."
+                    }
+                }
+            },
+            {
+                "id": "parking1",
+                "name": "Parking Garage (1)",
+                "sunStrengthMultiplier": 0.5,
+                "field": {
+                    "depth": 6,
+                    "travelBaseCost": "00:02:00",
+                    "deeperDescription": "Head away from the terminal",
+                    "shallowerDescription": "Head towards the terminal",
+                    "exploreHereDescription": "Explore the nearby spaces and vehicles",
+                    "flavor": {
+                        "general": [
+                            "A soft breeze whistles through the structure, carrying a cool moisture from outside.",
+                            "Metal clatters elsewhere in the structure.",
+                            "Destroyed, burnt-out car skeletons squat haphazardly in parking spaces and aisles.",
+                            "A support pillar here is badly cracked and the ceiling above it sags gently.",
+                            "You find more broken-down cars. Not a single vehicle here can move."
+                        ],
+                        "0": [
+                            "The walkway to the terminal presents itself with excessive signage here."
+                        ],
+                        "1": [
+                            "A rust-stained staircase leads up and down here."
+                        ],
+                        "5": [
+                            "A rust-stained staircase leads up and down here."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "parkingB.1": {
+                        "minDepthAvailable": 1,
+                        "maxDepthAvailable": 1,
+                        "arrivalDepth": 1,
+                        "travelCost": "00:00:30",
+                        "description": "You climb down the stairs to the basement level of the parking garage."
+                    },
+                    "parkingB.2": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:00:30",
+                        "description": "You climb down the stairs to the basement level of the parking garage."
+                    },
+                    "parking2.1": {
+                        "minDepthAvailable": 1,
+                        "maxDepthAvailable": 1,
+                        "arrivalDepth": 1,
+                        "travelCost": "00:00:30",
+                        "description": "You climb up the stairs to the second level of the parking garage."
+                    },
+                    "parking2.2": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:00:30",
+                        "description": "You climb up the stairs to the second level of the parking garage."
+                    },
+                    "departures": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 4,
+                        "travelCost": "00:01:00",
+                        "description": "You pass through a covered walkway into the wide Departures hall."
+                    }
+                }
+            },
+            {
+                "id": "parking2",
+                "name": "Parking Garage (2)",
+                "sunStrengthMultiplier": 0.5,
+                "field": {
+                    "depth": 6,
+                    "travelBaseCost": "00:02:00",
+                    "deeperDescription": "Head away from the terminal",
+                    "shallowerDescription": "Head towards the terminal",
+                    "exploreHereDescription": "Explore the nearby spaces and vehicles",
+                    "flavor": {
+                        "general": [
+                            "A soft breeze whistles through the structure, carrying a cool moisture from outside.",
+                            "Metal clatters elsewhere in the structure.",
+                            "Destroyed, burnt-out car skeletons squat haphazardly in parking spaces and aisles.",
+                            "A support pillar here is badly cracked and the ceiling above it sags gently.",
+                            "You find more broken-down cars. Not a single vehicle here can move."
+                        ],
+                        "1": [
+                            "A rust-stained staircase leads up and down here."
+                        ],
+                        "2": [
+                            "You can look down on the apron from here. The fence is sagging and nearly fallen."
+                        ],
+                        "3": [
+                            "You can look down on the apron from here. The fence is sagging and nearly fallen."
+                        ],
+                        "5": [
+                            "A rust-stained staircase leads up and down here."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "parking1.1": {
+                        "minDepthAvailable": 1,
+                        "maxDepthAvailable": 1,
+                        "arrivalDepth": 1,
+                        "travelCost": "00:00:30",
+                        "description": "You climb down the stairs to the ground level of the parking garage."
+                    },
+                    "parking1.2": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:00:30",
+                        "description": "You climb down the stairs to the ground level of the parking garage."
+                    },
+                    "apron": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 3,
+                        "arrivalDepth": 3,
+                        "travelCost": "00:05:00",
+                        "description": "You carefully climb down the side of the parking structure and drop past the fence onto the apron. Ow.",
+                        "cutscene": {
+                            "damage": {
+                                "class": "physical",
+                                "type": "earth",
+                                "expression": 5,
+                                "pow": 1,
+                                "atk": 10,
+                                "ignoreBarrier": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "concourseA",
+                "name": "Concourse A",
+                "sunStrengthMultiplier": 0.7,
+                "field": {
+                    "depth": 7,
+                    "travelBaseCost": "00:02:40",
+                    "deeperDescription": "Head to the end of the terminal",
+                    "shallowerDescription": "Head towards the center of the airport",
+                    "exploreHereDescription": "Explore the nearby gates",
+                    "flavor": {
+                        "general": [
+                            "You pass by a dead, immobile travelator. It's nothing but metal floor now.",
+                            "Gate seating lies upended and shuffled around here, covered in sweet-smelling residue.",
+                            "A gate sign is still active, displaying information for a flight that would have departed years upon years ago.",
+                            "The floors are mostly free of debris and even dusted or polished in places.",
+                            "Luggage trolleys can be found smashed in the most improbable of ways here."
+                        ],
+                        "0": [
+                            "The automated security exit still slides open at your approach.",
+                            "A faded sign hanging above proclaims this is the way to Concourse B."
+                        ],
+                        "2": [
+                            "Security scanner machines squat like pale, rotund toads at the ends of empty lines.",
+                            "The security line has never been faster, you suppose."
+                        ],
+                        "5": [
+                            "There's a good view of the apron from here. Planes lie scattered about, most visibly damaged or burned."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "departures": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 2,
+                        "arrivalDepth": 1,
+                        "travelCost": "00:01:30",
+                        "description": "You pass back through the unstaffed security checkpoint and enter the Departures hall.",
+                        "when": {
+                            "airport.departures.openedConcourseAConnection": true
+                        }
+                    },
+                    "arrivals": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 3,
+                        "travelCost": "00:01:30",
+                        "description": "You pass through a short exit hallway and return to the Arrivals hall. The one-way door shuts behind you."
+                    },
+                    "concourseB": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You walk past the shared security exit and enter Concourse B."
+                    },
+                    "apron": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:30",
+                        "description": "You pass through a staff-only door and descend to the apron.",
+                        "when": {
+                            "airport.apron.openedConcourseAConnection": true
+                        }
+                    }
+                }
+            },
+            {
+                "id": "concourseB",
+                "name": "Concourse B",
+                "sunStrengthMultiplier": 0.6,
+                "field": {
+                    "depth": 7,
+                    "travelBaseCost": "00:02:40",
+                    "deeperDescription": "Head to the end of the terminal",
+                    "shallowerDescription": "Head towards the center of the airport",
+                    "exploreHereDescription": "Explore the nearby gates",
+                    "flavor": {
+                        "general": [
+                            "You pass by a dead, immobile travelator. It's nothing but metal floor now.",
+                            "Gate seating lies upended and shuffled around here, covered in sweet-smelling residue.",
+                            "A gate sign is still active, displaying information for a flight that would have departed years upon years ago.",
+                            "The floors are mostly free of debris and even dusted or polished in places.",
+                            "Luggage trolleys can be found smashed in the most improbable of ways here."
+                        ],
+                        "0": [
+                            "The automated security exit still slides open at your approach.",
+                            "A faded sign hanging above proclaims this is the way to Concourse A."
+                        ],
+                        "2": [
+                            "Security scanner machines squat like pale, rotund toads at the ends of empty lines.",
+                            "The security line has never been faster, you suppose."
+                        ],
+                        "5": [
+                            "There's a good view of the apron from here. Planes lie scattered about, most visibly damaged or burned."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "departures": {
+                        "minDepthAvailable": 2,
+                        "maxDepthAvailable": 2,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:01:30",
+                        "description": "You pass back through the unstaffed security checkpoint and enter the Departures hall.",
+                        "when": {
+                            "airport.departures.openedConcourseBConnection": true
+                        }
+                    },
+                    "arrivals": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 3,
+                        "travelCost": "00:01:30",
+                        "description": "You pass through a short exit hallway and return to the Arrivals hall. The one-way door shuts behind you."
+                    },
+                    "concourseA": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:01:00",
+                        "description": "You walk past the shared security exit and enter Concourse A."
+                    },
+                    "apron": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 6,
+                        "travelCost": "00:02:30",
+                        "description": "You pass through a wedged-open staff-only door and descend to the apron."
+                    },
+                    "tracks": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 10,
+                        "travelCost": "00:04:00",
+                        "description": "You climb down a narrow, dark staircase and emerge into the railway tunnels.",
+                        "when": {
+                            "airport.tracks.openedConcourseBConnection": true
+                        }
+                    }
+                }
+            },
+            {
+                "id": "apron",
+                "name": "Apron",
+                "sunStrengthMultiplier": 1,
+                "field": {
+                    "depth": 8,
+                    "travelBaseCost": "00:03:00",
+                    "deeperDescription": "Head towards the airfield",
+                    "shallowerDescription": "Head towards the terminal",
+                    "exploreHereDescription": "Explore the nearby planes and debris",
+                    "flavor": {
+                        "general": [
+                            "You pass between the hulks of rusted, decaying planes.",
+                            "You jog for a while, just for a change of pace. You don't feel like you're going much faster.",
+                            "The vast expanse of concrete feels endless.",
+                            "Vegetation has broken through the concrete here, starting to reclaim this place for nature.",
+                            "One foot in front of the other."
+                        ],
+                        "day": [
+                            "Heat shimmers over the apron as the sun cooks you and the planes alike."
+                        ],
+                        "night": [
+                            "Some of the airport lights still work, twinkling like tiny, ground-level stars."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "concourseA": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:02:30",
+                        "description": "You pass through a staff-only door and return to Concourse A.",
+                        "cutscene": {
+                            "when": {
+                                "airport.apron.openedConcourseAConnection": false
+                            },
+                            "text": [
+                                "You make sure to wedge this staff-only door open so you can get back through from the other side. Thankfully, its power seems out, so the alarm won't sound."
+                            ],
+                            "flag": {
+                                "airport.apron.openedConcourseAConnection": true
+                            }
+                        }
+                    },
+                    "concourseB": {
+                        "minDepthAvailable": 6,
+                        "maxDepthAvailable": 6,
+                        "arrivalDepth": 5,
+                        "travelCost": "00:02:30",
+                        "description": "You pass through a wedged-open staff-only door and return to Concourse B."
+                    },
+                    "runways": {
+                        "minDepthAvailable": 8,
+                        "maxDepthAvailable": 8,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:00",
+                        "description": "You walk past the edge of the airport terminal and enter the airfield proper."
+                    }
+                }
+            },
+            {
+                "id": "runways",
+                "name": "Airfield",
+                "sunStrengthMultiplier": 1.2,
+                "field": {
+                    "depth": 9,
+                    "travelBaseCost": "00:03:00",
+                    "deeperDescription": "Head towards the edge of the airport grounds",
+                    "shallowerDescription": "Head towards the terminal",
+                    "exploreHereDescription": "Explore the nearby planes and debris",
+                    "flavor": {
+                        "general": [
+                            "You pass between the hulks of rusted, decaying planes.",
+                            "You jog for a while, just for a change of pace. You don't feel like you're going much faster.",
+                            "The vast expanses of concrete feel endless.",
+                            "Vegetation has broken through the concrete here, starting to reclaim this place for nature.",
+                            "One foot in front of the other.",
+                            "The painted letters and markings seem so much more massive on foot than from an airplane window.",
+                            "The breeze is strong out here, past the terminal's protection."
+                        ],
+                        "day": [
+                            "Heat shimmers over the taxiways as the sun cooks you and the planes alike."
+                        ],
+                        "night": [
+                            "Some of the airport lights still work, twinkling like tiny, ground-level stars."
+                        ]
+                    },
+                    "encounters": [
+
+                    ]
+                },
+                "connections": {
+                    "apron": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 8,
+                        "travelCost": "00:02:00",
+                        "description": "You walk back towards the airport terminal and enter the apron."
+                    },
+                    "tunnels": {
+                        "minDepthAvailable": 5,
+                        "maxDepthAvailable": 5,
+                        "arrivalDepth": 11,
+                        "travelCost": "00:02:30",
+                        "description": "You enter a small, shed-like building and climb down the stairs to enter the service tunnels.",
+                        "cutscene": {
+                            "when": {
+                                "airport.runways.openedTunnelConnection": false
+                            },
+                            "text": [
+                                "Climbing down the stairs you find in a small, shed-like building leads you to the service tunnels. You make sure to mark the extremely generic door at the bottom so you can find your way back later."
+                            ],
+                            "flag": {
+                                "airport.runways.openedTunnelConnection": true
+                            }
+                        }
                     }
                 }
             }

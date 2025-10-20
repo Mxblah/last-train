@@ -1,0 +1,7 @@
+{
+    "id": "summon-arrive",
+    "name": "<null>",
+    "description": "${battle:current.entryDescription}",
+    "skillType": "idle",
+    "data": {}
+}

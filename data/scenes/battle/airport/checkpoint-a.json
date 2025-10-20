@@ -1,0 +1,33 @@
+{
+    "id": "checkpoint-a",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "eyebot"
+                },
+                {
+                    "id": "eyebot"
+                },
+                {
+                    "id": "security-agent"
+                }
+            ]
+        },
+        "special": {
+            "forceFirstTurn": "eyebot"
+        },
+        "flags": {
+            "airport.departures.openedConcourseAConnection": true
+        },
+        "exit": {
+            "type": "explore",
+            "id": "airport"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "airport"
+        }
+    }
+}

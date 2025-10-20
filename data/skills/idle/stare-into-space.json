@@ -1,0 +1,7 @@
+{
+    "id": "stare-into-space",
+    "name": "Dissociate",
+    "description": "${game.battle.attacker} stares into space...",
+    "skillType": "idle",
+    "data": {}
+}

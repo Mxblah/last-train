@@ -1,0 +1,21 @@
+{
+    "id": "checkpoint-a",
+    "data": [
+        {
+            "text": "You approach the security checkpoint that leads to Concourse A. One security agent stands totally still at the metal detectors, and two eyebots hover erratically near their head. If you want to enter Concourse A from here, it seems you'll have to go through them, and whatever allies the eyebots might call for backup.",
+            "choice": {
+                "text": "Approach Checkpoint A?",
+                "responses": {
+                    "yes": {
+                        "text": "The security agent begins to move and the eyebots blink an alert as your approach. Better get ready for a fight.",
+                        "exit": {
+                            "type": "battle",
+                            "id": "checkpoint-a"
+                        }
+                    },
+                    "no": {}
+                }
+            }
+        }
+    ]
+}
