@@ -14,7 +14,7 @@
                 "sunStrengthMultiplier": 0,
                 "field": {
                     "depth": 1,
-                    "travelBaseCost": "00:01:30",
+                    "travelBaseCost": "00:01:00",
                     "deeperDescription": "Head to the other end of the platform",
                     "shallowerDescription": "Head back towards the train",
                     "exploreHereDescription": "Explore the platform",
