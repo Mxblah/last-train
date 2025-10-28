@@ -321,9 +321,12 @@ function Invoke-Skill {
                 default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
             }
 
+            # Handle multi-target parsing for resistance purposes
+            $targetClass = if ($Skill.data.targetsAll) { 'all' } elseif ($Skill.data.target -gt 1) { 'multi' } else { 'single' }
+
             # Calculate damage and crit if it hit
             $damage = Get-Damage -Power $Skill.data.pow -Attack $Attacker.stats."${typeLetter}Atk".value -Defense $Target.stats."${typeLetter}Def".value |
-                Adjust-Damage -Class $Skill.data.class -Type $Skill.data.type -Attacker $Attacker -Target $Target
+                Adjust-Damage -Class $Skill.data.class -Type $Skill.data.type -Attacker $Attacker -Target $Target -TargetClass $targetClass
             $critMult = Get-CriticalMultiplier -SkillBonus $Skill.data.crit
             switch ($critMult) {
                 { $_ -le 1 } { break <# do nothing; normal hit #> }
@@ -350,6 +353,9 @@ function Invoke-Skill {
             if ($Skill.data.specialType) {
                 $State | Invoke-SpecialSkill -Attacker $Attacker -Target $Target -Skill $Skill
             }
+
+            # Handle onHit status effects
+            $State | Apply-StatusEffects -Character $Target -Phase 'onHit'
         }
 
         # Print for multi-hits

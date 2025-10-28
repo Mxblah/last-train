@@ -135,7 +135,7 @@ function Apply-StatusEffects {
         [hashtable]$Character,
 
         [Parameter(Mandatory = $true)]
-        [ValidateSet('passive', 'turnStart', 'turnEnd', 'onDeath')]
+        [ValidateSet('passive', 'turnStart', 'turnEnd', 'onHit', 'onDeath')]
         [string]$Phase,
 
         # If set, will skip removing statuses that are out of stacks.
@@ -233,6 +233,8 @@ function Apply-StatusEffects {
                                 # (even if not, it looks weird to have dead characters taking damage)
                                 'own' { $State.game.battle.characters | Where-Object { $_.faction -eq $Character.faction -and $_.isActive } }
                                 'opposite' { $State.game.battle.characters | Where-Object { $_.faction -ne $Character.faction -and $_.isActive } }
+                                # Ignore self to avoid triggering onHit effects when a character buffs themselves, for instance (technically a "hit")
+                                'attacker' { $State.game.battle.characters | Where-Object { $_.name -eq $State.game.battle.attacker -and $_ -ne $Character -and $_.isActive } }
                                 default { Write-Warning "unknown faction '$($data.faction)' in status $statusId ($($status.guid)); will not apply" }
                             }
 
@@ -257,6 +259,7 @@ function Apply-StatusEffects {
                         Write-Debug "setting skipTurn flag to $data for $($Character.name) due to $statusId ($($status.guid))"
                         $Character.skipTurn = $data
                     }
+                    # todo: attrib, stats, affinities, resistances all have very similar code - can we combine them?
                     'attrib' {
                         Write-Debug "modifying attributes due to $statusId ($($status.guid))..."
                         foreach ($attribRaw in $data.GetEnumerator()) {
@@ -304,6 +307,32 @@ function Apply-StatusEffects {
                                     guid = $status.guid
                                     source = "status/$statusId"
                                 }) | Out-Null
+                            }
+                        }
+                    }
+                    { $_ -match 'affinities|resistances' } {
+                        Write-Debug "modifying $case due to $statusId ($($status.guid))"
+                        foreach ($affResCategory in $data.GetEnumerator()) {
+                            # e.g. 'element', 'status', etc.
+                            $affResCategoryName = $affResCategory.Key
+                            foreach ($affResRaw in $affResCategory.Value.GetEnumerator()) {
+                                # e.g. 'fire', 'physical', etc.
+                                $affRes = $affResRaw.Key
+                                foreach ($activity in $affResRaw.Value.GetEnumerator()) {
+                                    # mult, buff, etc.
+                                    $action = $activity.Key
+                                    $number = Parse-BattleExpression -Expression $activity.Value -Status $status -TargetValue $Character."$case"."$affRes".value
+
+                                    # Do the thing
+                                    Write-Debug "modifying $case/$affResCategoryName/$affRes by ${action}:$number"
+                                    $Character.activeEffects.Add(@{
+                                        path = "$case.$affResCategoryName.$affRes.value"
+                                        action = $action
+                                        number = $number
+                                        guid = $status.guid
+                                        source = "status/$statusId"
+                                    }) | Out-Null
+                                }
                             }
                         }
                     }

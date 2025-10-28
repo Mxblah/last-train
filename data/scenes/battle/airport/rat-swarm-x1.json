@@ -1,0 +1,14 @@
+{
+    "id": "rat-swarm-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "rat-swarm"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

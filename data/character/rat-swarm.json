@@ -1,0 +1,191 @@
+{
+    "id": "rat-swarm",
+    "name": "Rat Swarm",
+    "entryDescription": "A swarm of chittering, squirming rats surges towards you!",
+    "inspectDescription": "A cluster of dozens upon dozens of filthy, squirming rats, made bold and maddened by the sun. Resistant to precise attacks, as more rats can fill in for any one killed. Uses physical and poison attacks.",
+    "bestiaryDescription": "These creatures seem crazed by sunlit hunger; they lurch towards you without a shred of the fear that would keep ordinary rats at bay. Magical attacks are somewhat more effective than physical ones, and attacks that target multiple or all enemies are more effective still.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": -0.5
+            },
+            "demoralized": {
+                "value": 0,
+                "base": 0.5
+            },
+            "fear": {
+                "value": 0,
+                "base": 0.75
+            },
+            "fired-up": {
+                "value": 0,
+                "base": -0.5
+            },
+            "poison": {
+                "value": 0,
+                "base": 0.2
+            }
+        },
+        "element": {
+            "physical": {
+                "value": 0,
+                "base": 0.33
+            },
+            "fire": {
+                "value": 0,
+                "base": -0.15
+            },
+            "piercing": {
+                "value": 0,
+                "base": 0.67
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.33
+            }
+        },
+        "target": {
+            "single": {
+                "value": 0,
+                "base": 0.67
+            },
+            "all": {
+                "value": 0,
+                "base": -0.33
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 120,
+            "max": 120,
+            "base": 120,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 6,
+            "max": 10,
+            "base": 10,
+            "regen": 2,
+            "baseRegen": 2
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 17
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 0
+        },
+        "pDef": {
+            "value": 0,
+            "base": 16
+        },
+        "mDef": {
+            "value": 0,
+            "base": 13
+        },
+        "acc": {
+            "value": 0,
+            "base": 14
+        },
+        "spd": {
+            "value": 0,
+            "base": 16
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 1,
+            "max": 4,
+            "chance": 0.8
+        },
+        {
+            "id": "antidote",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "liquid-balm",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "skill-book-wiggling",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 50
+            },
+            {
+                "id": "scratch",
+                "weight": 60
+            },
+            {
+                "id": "poison-fang",
+                "weight": 80
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "multi-bite",
+                "weight": 50
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "wiggle",
+                "weight": 40
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "aimless-wriggle",
+                "weight": 20
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

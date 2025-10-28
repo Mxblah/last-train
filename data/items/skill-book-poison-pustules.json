@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-poison-pustules",
+    "name": "Skill Book: Poison Pustules",
+    "description": "A yellowed, tattered manuscript that describes a technique to produce defensive poisoned pustules from the skin. Read to learn how to use Poison Pustules.",
+    "useDescription": "After memorizing the book's gestures and incantations, you become capable of growing heavy, infected pustules from your skin. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "00:52:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "buff-single",
+                "id": "poison-pustules"
+            }
+        ]
+    }
+}

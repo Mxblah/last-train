@@ -30,7 +30,12 @@ Describe 'Adjust-Damage tests' {
         $npcAttacker = @{
             id = 'golem'
             affinities = @{ element = @{ physical = @{ value = 0.20 }; slashing = @{ value = 1 } } }
-            resistances = @{ element = @{ physical = @{ value = 0.50 }; slashing = @{ value = 0.20 }; fire = @{ value = 0.10 } } }
+            resistances = @{ element = @{ physical = @{ value = 0.50 }; slashing = @{ value = 0.20 }; fire = @{ value = 0.10 }; cold = @{ value = -0.25 } } }
+        }
+        $swarmGuy = @{
+            id = 'swarmGuy'
+            affinities = @{ target = @{ single = @{ value = 0.10 }; multi = @{ value = 0.20 }; all = @{ value = -0.30 } } }
+            resistances = @{ target = @{ single = @{ value = 0.5 }; multi = @{ value = -0.15 }; all = @{ value = -0.30 } } }
         }
         $dummyTarget = @{
             id = 'dummy'
@@ -48,9 +53,12 @@ Describe 'Adjust-Damage tests' {
             @{ name = 'zero damage returns zero' ; Damage = 0; Class = 'physical'; Type = 'slashing'; splat = @{}; expected = 0 }
             @{ name = 'attacker affinity' ; Damage = 100; Class = 'magical'; Type = 'fire'; Attacker = 'playerAttacker'; splat = @{}; expected = 150 }
             @{ name = 'defender resistance'; Damage = 100; Class = 'magical'; Type = 'fire'; Target = 'npcAttacker'; splat = @{}; expected = 90 }
+            @{ name = 'negative affinity'; Damage = 100; Class = 'magical'; Type = 'cold'; Attacker = 'swarmGuy'; TargetClass = 'all'; splat = @{}; expected = 70 }
+            @{ name = 'negative resistance'; Damage = 100; Class = 'magical'; Type = 'cold'; Target = 'npcAttacker'; splat = @{}; expected = 125 }
             @{ name = 'affinity and resistance'; Damage = 100; Class = 'magical'; Type = 'fire'; Attacker = 'playerAttacker'; Target = 'npcAttacker'; splat = @{}; expected = 135 }
             @{ name = 'multiple affinities'; Damage = 100; Class = 'physical'; Type = 'slashing'; Attacker = 'playerAttacker'; splat = @{}; expected = 132 }
             @{ name = 'multiple affinities and resistances'; Damage = 100; Class = 'physical'; Type = 'slashing'; Attacker = 'playerAttacker'; Target = 'npcAttacker'; splat = @{}; expected = 53 }
+            @{ name = 'target class affinities and resistances'; Damage = 100; Class = 'physical'; Type = 'slashing'; Attacker = 'swarmGuy'; Target = 'swarmGuy'; TargetClass = 'multi'; splat = @{}; expected = 138 }
             @{ name = 'ignore affinities'; Damage = 100; Class = 'physical'; Type = 'slashing'; Attacker = 'playerAttacker'; Target = 'npcAttacker'; splat = @{ IgnoreAffinity = $true }; expected = 40 }
             @{ name = 'ignore resistances'; Damage = 100; Class = 'physical'; Type = 'slashing'; Attacker = 'playerAttacker'; Target = 'npcAttacker'; splat = @{ IgnoreResistance = $true }; expected = 132 }
             @{ name = 'ignore both'; Damage = 100; Class = 'physical'; Type = 'slashing'; Attacker = 'playerAttacker'; Target = 'npcAttacker'; splat = @{ IgnoreAffinity = $true; IgnoreResistance = $true }; expected = 100 }
@@ -59,6 +67,7 @@ Describe 'Adjust-Damage tests' {
             @{ name = 'player weapon no split (affinity)' ; Damage = 100; Class = 'weapon'; Type = 'weapon'; Attacker = 'playerAttacker'; weapon = 'allFire'; splat = @{}; expected = 150 }
             @{ name = 'player weapon no split (both)'; Damage = 100; Class = 'weapon'; Type = 'weapon'; Attacker = 'playerAttacker'; Target = 'npcAttacker'; weapon = 'allFire'; splat = @{}; expected = 135 }
             @{ name = 'npc weapon -> standard type'; Damage = 100; Class = 'weapon'; Type = 'weapon'; Attacker = 'npcAttacker'; splat = @{}; expected = 120 }
+            @{ name = 'player unarmed with weapon type -> standard'; Damage = 100; Class = 'weapon'; Type = 'weapon'; Attacker = 'playerAttacker'; weapon = 'none'; splat = @{}; expected = 110 }
             @{ name = 'npc weapon -> standard type (with resists)'; Damage = 100; Class = 'weapon'; Type = 'weapon'; Attacker = 'npcAttacker'; Target = 'playerAttacker'; splat = @{}; expected = 108 }
         )
     }
@@ -70,10 +79,15 @@ Describe 'Adjust-Damage tests' {
 
         # Update the mock if needed
         if ($weapon) {
-            Mock Find-EquippedItem -MockWith { return $weapon }
+            if ($weapon -eq 'none') {
+                Mock Find-EquippedItem -MockWith { return $null }
+            } else {
+                Mock Find-EquippedItem -MockWith { return $weapon }
+            }
         }
 
-        $result = Adjust-Damage @splat -Damage $Damage -Class $Class -Type $Type -Attacker $attackerObject -Target $targetObject
+        $result = Adjust-Damage @splat -Damage $Damage -Class $Class -Type $Type `
+            -Attacker $attackerObject -Target $targetObject -TargetClass ($TargetClass ?? 'single')
 
         $result | Should -Be $expected
     }

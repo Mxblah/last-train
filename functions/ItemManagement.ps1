@@ -484,7 +484,7 @@ function Use-GameItem {
                                 }
                                 Write-Debug "removing status class $status"
                                 $State.player.status.Remove($status)
-                                Write-Host -ForegroundColor DarkCyan "🧼 Cleared status '$status'"
+                                Write-Host -ForegroundColor DarkCyan "🧼 Cleared status '$($State.data.status.$status.name)'"
                             }
                             default { Write-Warning "unknown action '$action' on status '$status' in item $Id ($guid)" }
                         }

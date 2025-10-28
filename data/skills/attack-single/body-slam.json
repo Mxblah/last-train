@@ -7,7 +7,7 @@
         "target": 1,
         "mp": 5,
         "pow": 25,
-        "acc": 0.9,
+        "acc": 0.85,
         "crit": 0,
         "hits": 1,
         "class": "physical",

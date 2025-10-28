@@ -126,7 +126,12 @@ function Adjust-Damage {
 
         # If set, will ignore resistances
         [Parameter()]
-        [switch]$IgnoreResistance
+        [switch]$IgnoreResistance,
+
+        # Number of targets being hit; used for certain special affinities/resistances
+        [Parameter()]
+        [ValidateSet('single', 'multi', 'all')]
+        [string]$TargetClass = 'single'
     )
     # Escape hatches
     if ($IgnoreAffinity -and $IgnoreResistance) {
@@ -162,6 +167,7 @@ function Adjust-Damage {
                         Target = $Target
                         IgnoreAffinity = $IgnoreAffinity
                         IgnoreResistance = $IgnoreResistance
+                        TargetClass = $TargetClass
                     }
                     $typedDamage = Adjust-Damage -Damage ($typePercent * $Damage) -Type $Type @commonSplat
                     $untypedDamage = Adjust-Damage -Damage ((1 - $typePercent) * $Damage) -Type 'standard' @commonSplat
@@ -184,13 +190,18 @@ function Adjust-Damage {
     if (-not $IgnoreAffinity) {
         $classBonus = $Attacker.affinities.element.$Class.value
         $typeBonus = $Attacker.affinities.element.$Type.value
+        $targetBonus = $Attacker.affinities.target.$TargetClass.value
         if ($classBonus) {
-            Write-Debug "increasing $Damage $Class damage by $classBonus"
+            Write-Debug "increasing $Damage $Class damage by $classBonus (class)"
             $Damage = [System.Math]::Max($Damage * (1 + $classBonus), 0)
         }
         if ($typeBonus) {
-            Write-Debug "increasing $Damage $Type damage by $typeBonus"
+            Write-Debug "increasing $Damage $Type damage by $typeBonus (type)"
             $Damage = [System.Math]::Max($Damage * (1 + $typeBonus), 0)
+        }
+        if ($targetBonus) {
+            Write-Debug "increasing $Damage damage by $targetBonus (target)"
+            $Damage = [System.Math]::Max($Damage * (1 + $targetBonus), 0)
         }
         Write-Debug "-> (now $Damage)"
     }
@@ -198,13 +209,18 @@ function Adjust-Damage {
     if (-not $IgnoreResistance) {
         $classResist = $Target.resistances.element.$Class.value
         $typeResist = $Target.resistances.element.$Type.value
+        $targetResist = $Target.resistances.target.$TargetClass.value
         if ($classResist) {
-            Write-Debug "reducing $Damage $Class damage by $classResist"
+            Write-Debug "reducing $Damage $Class damage by $classResist (class)"
             $Damage = [System.Math]::Max($Damage * (1 - $classResist), 0)
         }
         if ($typeResist) {
-            Write-Debug "reducing $Damage $Type damage by $typeResist"
+            Write-Debug "reducing $Damage $Type damage by $typeResist (type)"
             $Damage = [System.Math]::Max($Damage * (1 - $typeResist), 0)
+        }
+        if ($targetResist) {
+            Write-Debug "reducing $Damage damage by $targetResist (target)"
+            $Damage = [System.Math]::Max($Damage * (1 - $targetResist), 0)
         }
         Write-Debug "-> (now $Damage)"
     }

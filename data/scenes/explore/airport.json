@@ -337,7 +337,19 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "item",
+                            "id": "orb-opalescent",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-swarm-x1",
+                            "chance": 0.05,
+                            "minDepthAvailable": 2
+                        }
                     ]
                 },
                 "connections": {
