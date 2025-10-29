@@ -246,7 +246,7 @@ function Apply-StatusEffects {
                                     # Print a message to inform the attacker why they're taking damage
                                     Write-Host -ForegroundColor Blue "↩️ $($target.name) takes retaliatory damage!"
                                 }
-                                $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $target @splat -DoNotRemoveStatuses
+                                $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $target -Attribute ($data.attrib ?? 'hp') @splat -DoNotRemoveStatuses
                             }
                         } else {
                             # Verify we aren't doing self-targeted damage onDeath (causes infinite loop as the damage kills us again)
@@ -256,7 +256,7 @@ function Apply-StatusEffects {
                             }
 
                             # Ship it normally
-                            $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $Character @splat -DoNotRemoveStatuses
+                            $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $Character -Attribute ($data.attrib ?? 'hp') @splat -DoNotRemoveStatuses
                         }
 
                     }

@@ -105,7 +105,7 @@ function Show-ExploreMenu {
     Write-Host "| $($availableActions[0..3] -join ' | ') |"
 
     if ($explore.location -eq $Scene.data.station.location -and $explore.depth -eq 0) {
-        $availableActions.Add('Board Train [00:00:30]') | Out-Null
+        $availableActions.Add('🚂 Board Train [00:00:30]') | Out-Null
     }
     if ($explore.depth -gt 0) {
         $availableActions.Add("⏪ $($locationData.field.shallowerDescription) (`"shallower`") [$($locationData.field.travelBaseCost)]") | Out-Null
@@ -176,7 +176,7 @@ function Show-ExploreMenu {
             $State.game.explore.blockAttribRegen += 1
         }
 
-        { $_ -like 'board train `[*`]' } {
+        { $_ -like '*board train `[*`]' } {
             Write-Host 'You climb aboard the train.'
             $explore.depth = -1
             $State.game.train.playerOnBoard = $true # Make sure they can get on board even if < 30s left

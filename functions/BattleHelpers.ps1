@@ -339,6 +339,13 @@ function Invoke-Skill {
             # Apply and report damage
             $State | Apply-Damage -Target $Target -Damage $damage -Class $Skill.data.class -Type $Skill.data.type
 
+            # Handle onHit status effects first, to avoid triggering them for statuses being added by this attack (if applicable)
+            if ($Skill.data.skipOnHitEffects) {
+                Write-Debug "skipping onHit status effects for $($Skill.name) against $($Target.name)"
+            } else {
+                $State | Apply-StatusEffects -Character $Target -Phase 'onHit'
+            }
+
             # Handle status additions, if present
             if ($Skill.data.status) {
                 $State | Add-Status -Attacker $Attacker -Target $Target -Skill $Skill
@@ -352,13 +359,6 @@ function Invoke-Skill {
             # Handle special effects, if present
             if ($Skill.data.specialType) {
                 $State | Invoke-SpecialSkill -Attacker $Attacker -Target $Target -Skill $Skill
-            }
-
-            # Handle onHit status effects
-            if ($Skill.data.skipOnHitEffects) {
-                Write-Debug "skipping onHit status effects for $($Skill.name) against $($Target.name)"
-            } else {
-                $State | Apply-StatusEffects -Character $Target -Phase 'onHit'
             }
         }
 
@@ -479,7 +479,7 @@ function Invoke-AttribRegen {
         }
     } else {
         # Var init
-        $regen = $RegenOverride ?? $Character.attrib.$Attribute.regen
+        $regen = $null -eq $RegenOverride -or 0 -eq $RegenOverride ? $Character.attrib.$Attribute.regen : $RegenOverride
         $max = $Character.attrib.$Attribute.max
         $current = $Character.attrib.$Attribute.value
 

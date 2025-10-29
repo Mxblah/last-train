@@ -1,7 +1,7 @@
 {
     "id": "focus",
     "name": "Focus",
-    "description": "${game.battle.attacker} refocuses.",
+    "description": null,
     "skillType": "heal-single",
     "data": {
         "target": 1,
@@ -17,7 +17,8 @@
                 "id": "focused",
                 "chance": 1,
                 "stack": 1,
-                "intensity": 10
+                "intensity": 10,
+                "powOverride": 10
             }
         ]
     }

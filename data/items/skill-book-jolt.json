@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-jolt",
+    "name": "Skill Book: Jolt",
+    "description": "A book with a thin metal cover that describes electric magic. Read to learn how to use Jolt.",
+    "useDescription": "After memorizing the spell's gestures and incantations, a brief arc of electricity crackles from your hands to one target. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "00:52:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "jolt"
+            }
+        ]
+    }
+}

@@ -140,6 +140,16 @@
             "chance": 1
         },
         {
+            "id": "skill-book-arc",
+            "number": 1,
+            "chance": 0.5
+        },
+        {
+            "id": "skill-book-jolt",
+            "number": 1,
+            "chance": 0.5
+        },
+        {
             "id": "legs-zap-pants",
             "number": 1,
             "chance": 1

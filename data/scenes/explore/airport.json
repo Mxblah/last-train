@@ -348,8 +348,8 @@
                             "type": "item",
                             "id": "pustule-cheese",
                             "text": "You find a handful of moldy, awful-looking cheese chunks in a grimy shopping bag. For some reason, you decide to take them.",
-                            "min": 2,
-                            "max": 3,
+                            "minAmount": 2,
+                            "maxAmount": 3,
                             "minDepthAvailable": 2,
                             "chance": 0.15,
                             "maxTimes": 2
@@ -359,6 +359,7 @@
                             "id": "shoes-wellies",
                             "text": "You find a pair of wellies wedged between the tracks and the floor. They're a little dirty, but otherwise perfectly intact.",
                             "number": 1,
+                            "minDepthAvailable": 3,
                             "chance": 0.25,
                             "maxTimes": 1
                         },

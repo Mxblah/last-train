@@ -3,23 +3,19 @@
     "name": "Focused",
     "color": "Blue",
     "badge": "✨",
-    "applyDesc": "${game.battle.defender} is focusing.",
+    "applyDesc": "${game.battle.defender} refocuses.",
     "turnDesc": "${game.battle.currentTurn.characterName} recovers their focus.",
     "description": "Refocusing restores focus (MP).",
     "data": {
         "class": "physical",
         "type": "healing",
-        "passive": {
-            "attrib": {
-                "mp": {
-                    "regen": {
-                        "buff": "i * t / 100"
-                    }
-                }
+        "turnEnd": {
+            "stacks": -1,
+            "heal": {
+                "attrib": "mp",
+                "expression": "i * t / 100",
+                "ignoreAttack": true
             }
-        },
-        "turnStart": {
-            "stacks": -1
         }
     }
 }
