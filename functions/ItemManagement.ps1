@@ -450,7 +450,7 @@ function Use-GameItem {
         switch ($effect.Key) {
             { $_ -match 'damage|heal' } {
                 if ($_ -match 'heal') { $splat = @{ AsHealing = $true }; Write-Debug 'effect is healing' } else { $splat = @{}; Write-Debug 'effect is damage' }
-                $State | Invoke-DamageEffect -Expression $effect.Value.expression -Item $State.items.$Id -Target $target @splat
+                $State | Invoke-DamageEffect -Expression $effect.Value.expression -Attribute ($effect.Value.attrib ?? 'hp') -Item $State.items.$Id -Target $target @splat
             }
             'status' {
                 foreach ($actionCategory in $data.effects.status.GetEnumerator()) {

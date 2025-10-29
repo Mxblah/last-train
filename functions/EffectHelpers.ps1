@@ -7,6 +7,11 @@ function Invoke-DamageEffect {
         [Parameter(Mandatory = $true)]
         [string]$Expression,
 
+        # Attribute to apply damage to. Defaults to HP.
+        [Parameter()]
+        [ValidateSet('hp', 'mp', 'bp')]
+        [string]$Attribute = 'hp',
+
         [Parameter(Mandatory = $true, ParameterSetName = 'Status')]
         [hashtable]$Status,
 
@@ -39,7 +44,7 @@ function Invoke-DamageEffect {
         [Parameter()]
         [switch]$IgnoreResistance,
 
-        # If set, will apply damage directly to HP, even if the target has BP remaining
+        # If set, will apply damage directly to HP, even if the target has BP remaining. Only applies if Attribute is HP.
         [Parameter()]
         [switch]$IgnoreBarrier,
 
@@ -69,8 +74,8 @@ function Invoke-DamageEffect {
     }
 
     Write-Debug "applying damage/heal '$Expression' from $id ($guid)"
-    # Nice and "simple" - just apply damage (after some parsing). $Status might be null here, but that's okay.
-    $base = Parse-BattleExpression -Expression $Expression -Status $Status -TargetValue $Target.attrib.hp.max
+    # $Status might be null here, but that's okay - it's only used to get stacks and intensity, which non-status effects don't use.
+    $base = Parse-BattleExpression -Expression $Expression -Status $Status -TargetValue $Target.attrib.$Attribute.max
 
     # Physical/magical determination
     $typeLetter = switch ($class) {
@@ -92,7 +97,7 @@ function Invoke-DamageEffect {
         Adjust-Damage -Class $class -Type $type -Target $Target -IgnoreAffinity:$IgnoreAffinity -IgnoreResistance:$IgnoreResistance
     # statuses and items don't deal critical hits
     Write-Debug "adjusted damage/heal based on intensity of $base is $damage"
-    $State | Apply-Damage -Target $Target -Damage $damage -Class "$class" -Type "$type" -AsHealing:$AsHealing -IgnoreBarrier:$IgnoreBarrier -DoNotRemoveStatuses:$DoNotRemoveStatuses
+    $State | Apply-Damage -Target $Target -Damage $damage -Attribute $Attribute -Class "$class" -Type "$type" -AsHealing:$AsHealing -IgnoreBarrier:$IgnoreBarrier -DoNotRemoveStatuses:$DoNotRemoveStatuses
 }
 
 function Apply-SunDamage {

@@ -14,16 +14,25 @@ Describe 'Apply-Damage tests' {
     BeforeDiscovery {
         # Each case describes initial bp/hp/max, damage, optional switches and expected outcomes
         $cases = @(
-            @{ name = 'no damage'; Damage = 0; InitialBp = 10; InitialHp = 50; HpMax = 50; expectedBp = 10; expectedHp = 50; shouldKill = $false }
-            @{ name = 'damage without barrier'; Damage = 20; InitialBp = 0; InitialHp = 50; HpMax = 50; expectedBp = 0; expectedHp = 30; shouldKill = $false }
-            @{ name = 'barrier absorbs'; Damage = 5; InitialBp = 10; InitialHp = 50; HpMax = 50; expectedBp = 5; expectedHp = 50; shouldKill = $false }
-            @{ name = 'barrier breaks exact'; Damage = 5; InitialBp = 5; InitialHp = 50; HpMax = 50; expectedBp = 0; expectedHp = 50; shouldKill = $false }
-            @{ name = 'barrier breaks -> survives'; Damage = 8; InitialBp = 5; InitialHp = 4; HpMax = 4; expectedBp = 0; expectedHp = 1; shouldKill = $false }
+            @{ name = 'no damage'; Damage = 0; InitialBp = 10; InitialHp = 50; HpMax = 50; expectedBp = 10; expectedHp = 50 }
+            @{ name = 'damage without barrier'; Damage = 20; InitialBp = 0; InitialHp = 50; HpMax = 50; expectedBp = 0; expectedHp = 30 }
+            @{ name = 'barrier absorbs'; Damage = 5; InitialBp = 10; InitialHp = 50; HpMax = 50; expectedBp = 5; expectedHp = 50 }
+            @{ name = 'barrier breaks exact'; Damage = 5; InitialBp = 5; InitialHp = 50; HpMax = 50; expectedBp = 0; expectedHp = 50 }
+            @{ name = 'barrier breaks -> survives'; Damage = 8; InitialBp = 5; InitialHp = 4; HpMax = 4; expectedBp = 0; expectedHp = 1 }
             @{ name = 'barrier breaks -> leftover kills'; Damage = 10; InitialBp = 5; InitialHp = 4; HpMax = 4; expectedBp = 0; shouldKill = $true }
-            @{ name = 'ignore barrier applies to hp'; Damage = 15; InitialBp = 10; InitialHp = 20; HpMax = 20; IgnoreBarrier = $true; expectedBp = 10; expectedHp = 5; shouldKill = $false }
-            @{ name = 'healing increases hp'; Damage = 8; InitialBp = 10; InitialHp = 10; HpMax = 20; AsHealing = $true; expectedBp = 10; expectedHp = 18; shouldKill = $false }
-            @{ name = 'healing caps at max'; Damage = 15; InitialBp = 0; InitialHp = 10; HpMax = 20; AsHealing = $true; expectedBp = 0; expectedHp = 20; shouldKill = $false }
+            @{ name = 'ignore barrier applies to hp'; Damage = 15; InitialBp = 10; InitialHp = 20; HpMax = 20; IgnoreBarrier = $true; expectedBp = 10; expectedHp = 5 }
+            @{ name = 'healing increases hp'; Damage = 8; InitialBp = 10; InitialHp = 10; HpMax = 20; AsHealing = $true; expectedBp = 10; expectedHp = 18 }
+            @{ name = 'healing caps at max'; Damage = 15; InitialBp = 0; InitialHp = 10; HpMax = 20; AsHealing = $true; expectedBp = 0; expectedHp = 20 }
             @{ name = 'kill with DoNotRemoveStatuses true'; Damage = 10; InitialBp = 0; InitialHp = 5; HpMax = 5; DoNotRemoveStatusesSwitch = $true; expectedBp = 0; shouldKill = $true }
+            # BP-specific cases (attribute 'bp' should only affect BP and not carry over to HP)
+            @{ name = 'bp attribute reduces bp only'; Damage = 5; InitialBp = 10; InitialHp = 50; HpMax = 50; Attribute = 'bp'; expectedBp = 5; expectedHp = 50 }
+            @{ name = 'bp attribute breaks exact'; Damage = 5; InitialBp = 5; InitialHp = 50; HpMax = 50; Attribute = 'bp'; expectedBp = 0; expectedHp = 50 }
+            @{ name = 'bp attribute breaks leftover ignored for hp'; Damage = 8; InitialBp = 5; InitialHp = 10; HpMax = 10; Attribute = 'bp'; expectedBp = 0; expectedHp = 10 }
+            # MP-specific cases (attribute 'mp' should skip BP and operate on MP)
+            @{ name = 'mp damage reduces mp'; Damage = 3; InitialBp = 10; InitialMp = 10; MpMax = 10; Attribute = 'mp'; expectedBp = 10; expectedMp = 7 }
+            @{ name = 'mp damage underflow sets to zero'; Damage = 15; InitialBp = 0; InitialMp = 5; MpMax = 5; Attribute = 'mp'; expectedBp = 0; expectedMp = 0 }
+            @{ name = 'mp healing not overflow'; Damage = 3; InitialBp = 10; InitialMp = 5; MpMax = 10; Attribute = 'mp'; AsHealing = $true; expectedBp = 10; expectedMp = 8 }
+            @{ name = 'mp healing caps at max'; Damage = 8; InitialBp = 0; InitialMp = 5; MpMax = 10; Attribute = 'mp'; AsHealing = $true; expectedBp = 0; expectedMp = 10 }
         )
     }
 
@@ -37,6 +46,11 @@ Describe 'Apply-Damage tests' {
             }
         }
 
+        # If the test case supplies MP fields, include them
+        if ($PSBoundParameters.ContainsKey('InitialMp') -or ($InitialMp -ne $null)) {
+            $target.attrib.mp = @{ value = $InitialMp; max = $MpMax }
+        }
+
         # Build splat for Apply-Damage
         $splat = @{
             State = @{} # used in Kill-Character, but no data is needed because it's mocked
@@ -46,6 +60,7 @@ Describe 'Apply-Damage tests' {
             Class = 'physical'
             Type = 'standard'
         }
+        if ($Attribute) { $splat.Attribute = $Attribute }
         if ($AsHealing) { $splat.AsHealing = $true }
         if ($IgnoreBarrier) { $splat.IgnoreBarrier = $true }
         if ($DoNotRemoveStatusesSwitch) { $splat.DoNotRemoveStatuses = $true }
@@ -72,6 +87,14 @@ Describe 'Apply-Damage tests' {
             $target.attrib.hp.value | Should -Be $expectedHp
             # Ensure Kill-Character was not invoked
             Should -Not -Invoke Kill-Character
+        }
+
+        # Only verify these if set
+        if ($expectedBp) {
+            $target.attrib.bp.value | Should -Be $expectedBp
+        }
+        if ($expectedMp) {
+            $target.attrib.mp.value | Should -Be $expectedMp
         }
     }
 }

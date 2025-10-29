@@ -8,10 +8,11 @@
         "target": 1,
         "selfTargetOnly": true,
         "class": "magical",
-        "type": "healing"
+        "type": "mp-healing"
     },
     "effects": {
-        "mp": {
+        "heal": {
+            "attrib": "mp",
             "expression": "0.4 * t",
             "pow": 10,
             "atk": 1

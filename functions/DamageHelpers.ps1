@@ -280,6 +280,10 @@ function Apply-Damage {
         [Parameter(Mandatory = $true)]
         [int]$Damage,
 
+        [Parameter()]
+        [ValidateSet('hp', 'bp', 'mp')]
+        [string]$Attribute = 'hp',
+
         # Just used for icon / color; adjustments due to resistance, etc. are done in Adjust-Damage
         [Parameter()]
         [string]$Class,
@@ -307,8 +311,8 @@ function Apply-Damage {
     }
 
     # Apply to BP first, if applicable (not applicable for healing, as well)
-    if ($AsHealing -or $IgnoreBarrier) {
-        Write-Debug 'applying healing-type or barrier-ignoring damage, so skipping BP calculation'
+    if ($AsHealing -or $IgnoreBarrier -or $Attribute -eq 'mp') {
+        Write-Debug 'applying healing-type, mp-type, or barrier-ignoring damage, so skipping BP calculation'
     } else {
         switch ($Target.attrib.bp.value) {
             { $_ -gt $Damage } {
@@ -333,30 +337,70 @@ function Apply-Damage {
         }
     }
 
-    # Apply to HP next
+    # HP and MP both use this, so get it now
     $flavorMap = Get-DamageTypeFlavorInfo -Class "$Class" -Type "$Type"
-    if ($AsHealing) {
-        Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) regains $Damage HP."
-        switch ($Target.attrib.hp.max - $Target.attrib.hp.value) {
-            { $_ -ge $Damage } {
-                # We won't overflow
-                $Target.attrib.hp.value += $Damage
+
+    # Apply to HP next, if applicable
+    if ($Attribute -ne 'hp') {
+        Write-Debug "damage attribute '$Attribute' is not hp, so skipping HP calculation"
+    } else {
+        if ($AsHealing) {
+            Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) regains $Damage HP."
+            switch ($Target.attrib.hp.max - $Target.attrib.hp.value) {
+                { $_ -ge $Damage } {
+                    # We won't overflow
+                    $Target.attrib.hp.value += $Damage
+                }
+                { $_ -lt $Damage } {
+                    # Overflow risk, so set to max
+                    $Target.attrib.hp.value = $Target.attrib.hp.max
+                }
             }
-            { $_ -lt $Damage } {
-                # Overflow risk, so set to max
-                $Target.attrib.hp.value = $Target.attrib.hp.max
+        } else {
+            Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) takes $Damage damage."
+            switch ($Target.attrib.hp.value) {
+                { $_ -gt $Damage } {
+                    # Target survives
+                    $Target.attrib.hp.value -= $Damage
+                }
+                { $_ -le $Damage } {
+                    # Target dies
+                    $State | Kill-Character -Character $Target -DoNotRemoveStatuses:$DoNotRemoveStatuses
+                }
             }
         }
+
+        # No need to keep going to the MP case, since if we're in here we definitely were dealing with HP damage
+        return
+    }
+
+    # Finally, handle MP damage if applicable
+    if ($Attribute -ne 'mp') {
+        Write-Debug "damage attribute '$Attribute' is not mp, so skipping MP calculation"
     } else {
-        Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) takes $Damage damage."
-        switch ($Target.attrib.hp.value) {
-            { $_ -gt $Damage } {
-                # Target survives
-                $Target.attrib.hp.value -= $Damage
+        if ($AsHealing) {
+            Write-Host -ForegroundColor Blue "$($flavorMap.badge) $($Target.name) regains $Damage focus."
+            switch ($Target.attrib.mp.max - $Target.attrib.mp.value) {
+                { $_ -ge $Damage } {
+                    # We won't overflow
+                    $Target.attrib.mp.value += $Damage
+                }
+                { $_ -lt $Damage } {
+                    # Overflow risk, so set to max
+                    $Target.attrib.mp.value = $Target.attrib.mp.max
+                }
             }
-            { $_ -le $Damage } {
-                # Target dies
-                $State | Kill-Character -Character $Target -DoNotRemoveStatuses:$DoNotRemoveStatuses
+        } else {
+            Write-Host -ForegroundColor Blue "$($flavorMap.badge) $($Target.name) takes $Damage focus damage."
+            switch ($Target.attrib.mp.value) {
+                { $_ -gt $Damage } {
+                    # No underflow; just subtract
+                    $Target.attrib.mp.value -= $Damage
+                }
+                { $_ -le $Damage } {
+                    # Underflow; set to 0
+                    $Target.attrib.mp.value = 0
+                }
             }
         }
     }
