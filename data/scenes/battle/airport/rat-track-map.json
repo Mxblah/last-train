@@ -1,0 +1,24 @@
+{
+    "id": "rat-track-map",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "rat-mutant"
+                },
+                {
+                    "id": "rat-swarm"
+                }
+            ]
+        },
+        "special": {},
+        "flags": {
+            "airport.tracks.ratCaveOpen": true
+        },
+        "exit": {
+            "type": "cutscene",
+            "id": "rat-track-map"
+        }
+    }
+}

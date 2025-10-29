@@ -62,6 +62,10 @@
             "sonic": {
                 "value": 0,
                 "base": -0.15
+            },
+            "water": {
+                "value": 0,
+                "base": -0.2
             }
         }
     },

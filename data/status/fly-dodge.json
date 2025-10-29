@@ -15,6 +15,13 @@
                 "spd": {
                     "mult": "2 * i"
                 }
+            },
+            "resistances": {
+                "element": {
+                    "earth": {
+                        "buff": "i * 0.25"
+                    }
+                }
             }
         }
     }

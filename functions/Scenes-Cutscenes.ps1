@@ -11,6 +11,15 @@ function Start-CutsceneScene {
     # Main loop: iterate through the data until we hit something that makes us exit
     Write-Debug "Found $($scene.data.count) paragraphs in scene $($scene.id)"
     foreach ($para in $Scene.data) {
+        # Zeroth, check to see if we should skip this block entirely
+        if ($para.when) {
+            if ($para.notWhen) { $splat = @{ Inverted = $true } } else { $splat = @{} }
+            if (-not ($State | Test-WhenConditions -When $para.when -WhenMode $para.whenMode @splat)) {
+                Write-Debug 'skipping paragraph due to when condition'
+                continue
+            }
+        }
+
         # First, output the text
         Write-Host ($State | Enrich-Text $para.text)
 
@@ -33,7 +42,8 @@ function Start-CutsceneScene {
                 $choiceName = $choiceRaw.Key
                 $choiceInfo = $choiceRaw.Value
                 if ($choiceInfo.when) {
-                    $shouldList = $State | Test-WhenConditions -When $choiceInfo.when -WhenMode $choiceInfo.whenMode
+                    if ($choiceInfo.notWhen) { $splat = @{ Inverted = $true } } else { $splat = @{} }
+                    $shouldList = $State | Test-WhenConditions -When $choiceInfo.when -WhenMode $choiceInfo.whenMode @splat
                 } else {
                     # Always list choices without whens
                     $shouldList = $true

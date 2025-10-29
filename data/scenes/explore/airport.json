@@ -345,10 +345,80 @@
                             "maxTimes": 2
                         },
                         {
+                            "type": "item",
+                            "id": "pustule-cheese",
+                            "text": "You find a handful of moldy, awful-looking cheese chunks in a grimy shopping bag. For some reason, you decide to take them.",
+                            "min": 2,
+                            "max": 3,
+                            "minDepthAvailable": 2,
+                            "chance": 0.15,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "shoes-wellies",
+                            "text": "You find a pair of wellies wedged between the tracks and the floor. They're a little dirty, but otherwise perfectly intact.",
+                            "number": 1,
+                            "chance": 0.25,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "antidote",
+                            "number": 1,
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-track-map",
+                            "chance": 0.25,
+                            "minDepthAvailable": 2,
+                            "maxDepthAvailable": 9,
+                            "when": {
+                                "airport.tracks.ratCaveOpen": false
+                            }
+                        },
+                        {
                             "type": "battle",
                             "id": "rat-swarm-x1",
                             "chance": 0.05,
-                            "minDepthAvailable": 2
+                            "minDepthAvailable": 2,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-mutant-x1",
+                            "chance": 0.05,
+                            "minDepthAvailable": 2,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-royal-x1",
+                            "chance": 0.025,
+                            "minDepthAvailable": 2,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "number": 1,
+                            "chance": 0.07
                         }
                     ]
                 },
@@ -381,6 +451,16 @@
                             }
                         }
                     },
+                    "ratCave": {
+                        "minDepthAvailable": 7,
+                        "maxDepthAvailable": 7,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:00",
+                        "description": "You squeeze through a nearly hidden break in the tunnel wall and emerge into a stinky, dark, natural cavern.",
+                        "when": {
+                            "airport.tracks.ratCaveOpen": true
+                        }
+                    },
                     "concourseB": {
                         "minDepthAvailable": 10,
                         "maxDepthAvailable": 10,
@@ -405,6 +485,76 @@
                         "arrivalDepth": 0,
                         "travelCost": "00:01:00",
                         "description": "You pass through a shiny maintenance door and find yourself in narrower, human-sized service tunnels."
+                    }
+                }
+            },
+            {
+                "id": "ratCave",
+                "name": "Rat Cave",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 0,
+                    "travelBaseCost": "00:00:30",
+                    "deeperDescription": "<null>",
+                    "shallowerDescription": "<null>",
+                    "exploreHereDescription": "Speak to the Rat King",
+                    "flavor": {
+                        "general": [
+                            "The cave is too short for you to stand up properly.",
+                            "Rats squirm and squeak on the edges of your vision, but stay mostly out of sight.",
+                            "Bones litter the floor, gnawed by tiny - and much larger - rodent teeth."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-initial",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-1",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": 1
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-2",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": 2
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-done",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": "done"
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-king-battle",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": "battle"
+                            }
+                        }
+                    ]
+                },
+                "connections": {
+                    "tracks": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 7,
+                        "travelCost": "00:02:00",
+                        "description": "You squeeze through the cave's entrance and return to the train tracks."
                     }
                 }
             },

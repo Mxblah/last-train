@@ -1,0 +1,17 @@
+{
+    "id": "rat-track-map",
+    "data": [
+        {
+            "text": "You find an odd scrap of chitin or shell or something on one of the rats you just defeated. It sticks out as odd due to a pattern of lines and curves on one side which, when rotated correctly, almost seems to resemble a map. Of this very tunnel, in fact."
+        },
+        {
+            "text": "As best you can tell, it indicates there's a cave entrance towards the end of the tracks furthest from the transit center, hidden behind a few natural obstructions. You could go there now, if you wanted, but you have to wonder if you'll find anything beyond just lots more rats.",
+            "action": {
+                "exit": {
+                    "type": "explore",
+                    "id": "airport"
+                }
+            }
+        }
+    ]
+}

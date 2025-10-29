@@ -130,7 +130,8 @@ function Show-ExploreMenu {
             $explore.depth -le $connection.Value.maxDepthAvailable
         ) {
             # Validate the when condition, if it has one
-            if (-not ($State | Test-WhenConditions -When $connection.Value.when -WhenMode $connection.Value.whenMode)) {
+            if ($connection.Value.notWhen) { $splat = @{ Inverted = $true } } else { $splat = @{} }
+            if (-not ($State | Test-WhenConditions -When $connection.Value.when -WhenMode $connection.Value.whenMode @splat)) {
                 Write-Debug "connection $($connection.Key) does not meet its 'when' prerequisites; skipping"
                 continue
             }
@@ -263,7 +264,8 @@ function Invoke-ExploreConnection {
 
     # Handle cutscene, if present (usually used for first-time actions or to open one-way connections)
     if ($connectionData.cutscene) {
-        $shouldPlayCutscene = $State | Test-WhenConditions -When $connectionData.cutscene.when -WhenMode $connectionData.cutscene.whenMode
+        if ($connectionData.cutscene.notWhen) { $splat = @{ Inverted = $true } } else { $splat = @{} }
+        $shouldPlayCutscene = $State | Test-WhenConditions -When $connectionData.cutscene.when -WhenMode $connectionData.cutscene.whenMode @splat
         if ($shouldPlayCutscene) {
             Write-Debug "playing cutscene for connection to $NewLocation ($shouldPlayCutscene)"
             # Can set flags, add time, grant items, deal damage; anything a single cutscene paragraph can do, can be done here.
@@ -372,12 +374,13 @@ function Get-ExploreEncounter {
 
     # Skip the ones we don't meet prereqs for, then roll for each valid encounter in turn
     foreach ($encounter in $availableEncounters) {
+        if ($encounter.notWhen) { $splat = @{ Inverted = $true } } else { $splat = @{} }
         if (
             ($null -ne $encounter.minDepthAvailable -and $explore.depth -lt $encounter.minDepthAvailable) -or
             ($null -ne $encounter.maxDepthAvailable -and $explore.depth -gt $encounter.maxDepthAvailable) -or
             ($null -ne $encounter.requiredPhase -and $State.time.phase -ne $encounter.requiredPhase) -or
             ($null -ne $encounter.maxTimes -and $encountersCompleted."$($encounter.id)" -ge $encounter.maxTimes) -or
-            ($null -ne $encounter.when -and -not ($State | Test-WhenConditions -When $encounter.when -WhenMode $encounter.whenMode))
+            ($null -ne $encounter.when -and -not ($State | Test-WhenConditions -When $encounter.when -WhenMode $encounter.whenMode @splat))
         ) {
             Write-Debug "$($encounter.id) does not meet prereqs and will be skipped"
 

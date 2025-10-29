@@ -1,0 +1,206 @@
+{
+    "id": "rat-king",
+    "name": "Rat King",
+    "entryDescription": "The Rat King attacks!",
+    "inspectDescription": "A massive rat about the size of a toddler with matted fur and a serious superiority complex. Commands legions of smaller, less intelligent rats. Uses physical, poison, and bleed attacks.",
+    "bestiaryDescription": "The rat king commands the respect and loyalty of all other rats within the airport. It's capable of summoning overwhelming swarms of lesser rats, including other royal rats that can summon their own subjects. It consists of three conjoined rats, which reduces its agility but dramatically increases its hardiness compared to royal rats of similar strength. If slain, all other rats will lose heart.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {
+        "damage-faction-on-death": [
+            {
+                "passiveApplied": false,
+                "type": "mental",
+                "stack": 99,
+                "guid": "4a6c3b0d-df4a-4732-a057-f5989b3cd252",
+                "atk": 20,
+                "pow": 10,
+                "class": "magical",
+                "intensity": 100
+            }
+        ]
+    },
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": -0.5
+            },
+            "demoralized": {
+                "value": 0,
+                "base": 0.5
+            },
+            "fear": {
+                "value": 0,
+                "base": 0.75
+            },
+            "fired-up": {
+                "value": 0,
+                "base": -0.5
+            },
+            "poison": {
+                "value": 0,
+                "base": 0.2
+            }
+        },
+        "element": {
+            "physical": {
+                "value": 0,
+                "base": 0.15
+            },
+            "fire": {
+                "value": 0,
+                "base": -0.1
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.3
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 660,
+            "max": 660,
+            "base": 660,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 20,
+            "max": 40,
+            "base": 40,
+            "regen": 3,
+            "baseRegen": 3
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 21
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 0
+        },
+        "pDef": {
+            "value": 0,
+            "base": 22
+        },
+        "mDef": {
+            "value": 0,
+            "base": 17
+        },
+        "acc": {
+            "value": 0,
+            "base": 16
+        },
+        "spd": {
+            "value": 0,
+            "base": 12
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 3,
+            "max": 7,
+            "chance": 0.9
+        },
+        {
+            "id": "antidote",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "liquid-balm",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "skill-book-poison-pustules",
+            "number": 1,
+            "chance": 0.05
+        },
+        {
+            "id": "soul-fragment-silver",
+            "number": 1,
+            "chance": 1
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 40
+            },
+            {
+                "id": "scratch",
+                "weight": 50
+            },
+            {
+                "id": "poison-fang",
+                "weight": 70
+            },
+            {
+                "id": "deep-bite",
+                "weight": 120
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "multi-bite",
+                "weight": 50
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "wiggle",
+                "weight": 20
+            },
+            {
+                "id": "poison-pustules",
+                "weight": 60
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "aimless-wriggle",
+                "weight": 20
+            }
+        ],
+        "special": [
+            {
+                "id": "rat-king-summon-queue",
+                "weight": 360
+            }
+        ]
+    }
+}

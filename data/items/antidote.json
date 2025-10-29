@@ -2,7 +2,7 @@
     "id": "antidote",
     "name": "Antidote",
     "description": "A wide-spectrum antidote effective against all kinds of toxins. Used to cure poison and temporarily boost poison resistance.",
-    "useDescription": "You drink the antidote. You feel poison-proof, temporarily.",
+    "useDescription": "You drink the antidote. You feel poison-resistant, temporarily.",
     "itemType": "consumable",
     "useData": {
         "target": 1,
@@ -17,7 +17,7 @@
                     "id": "antidote",
                     "chance": 1,
                     "stack": 18,
-                    "intensity": 50
+                    "intensity": 25
                 }
             ],
             "remove": [

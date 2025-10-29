@@ -291,6 +291,7 @@ function Get-DamageTypeFlavorInfo {
         'sonic' { @{ badge = '🎶'; color = 'DarkGreen'; name = 'Sonic' } }
         'visual' { @{ badge = '👁️'; color = 'DarkMagenta'; name = 'Visual' } }
         'void' { @{ badge = '🌑'; color = 'Black'; name = 'Void' } }
+        'water' { @{ badge = '💧'; color = 'Blue'; name = 'Water' } }
         default { @{ badge = '🩸'; color = 'DarkRed' ; name = 'Unknown'} }
     }
     return $flavorMap

@@ -1,0 +1,25 @@
+{
+    "id": "skill-book-snowstuff",
+    "name": "Skill Book: Snow Spells Vol. 1",
+    "description": "A compact, well-written book describing several cold magic spells. Read to learn how to use Snowball and Flash Freeze.",
+    "useDescription": "After memorizing the spells' gestures and incantations, you can hurl snowballs and freeze foes solid. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "01:48:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-multi",
+                "id": "snowball"
+            },
+            {
+                "category": "attack-single",
+                "id": "flash-freeze"
+            }
+        ]
+    }
+}

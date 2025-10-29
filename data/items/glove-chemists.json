@@ -14,11 +14,13 @@
         },
         "resistances": {
             "element": {
-                "acid": 0.2
+                "acid": 0.2,
+                "water": 0.05
             },
             "status": {
                 "acidburn": 0.4,
-                "poison": 0.2
+                "poison": 0.2,
+                "wet": 0.1
             }
         },
         "stats": {

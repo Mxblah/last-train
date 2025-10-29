@@ -159,6 +159,10 @@ function Apply-GameCheats {
                     Write-Host -ForegroundColor Cyan "CHEAT: 👟 Set player speed to 999999"
                     $state.player.stats.spd.base = 999999
                 }
+                'maxPower' {
+                    Write-Host -ForegroundColor Cyan "CHEAT: 💪 Set player attacks to 999999"
+                    $state.player.stats.pAtk.base = 999999; $state.player.stats.mAtk.base = 999999
+                }
                 'onboard' {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🚂 Forcing player to board the train"
                     $state.game.train.playerOnBoard = $true

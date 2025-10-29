@@ -355,7 +355,11 @@ function Invoke-Skill {
             }
 
             # Handle onHit status effects
-            $State | Apply-StatusEffects -Character $Target -Phase 'onHit'
+            if ($Skill.data.skipOnHitEffects) {
+                Write-Debug "skipping onHit status effects for $($Skill.name) against $($Target.name)"
+            } else {
+                $State | Apply-StatusEffects -Character $Target -Phase 'onHit'
+            }
         }
 
         # Print for multi-hits
@@ -457,7 +461,15 @@ function Invoke-AttribRegen {
         [string]$Attribute,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'All')]
-        [switch]$All
+        [switch]$All,
+
+        # Directly specify the amount to regenerate, instead of using the character's regen attribute
+        [Parameter(ParameterSetName = 'Individual')]
+        [int]$RegenOverride,
+
+        # If true, will write output to the player
+        [Parameter()]
+        [switch]$Loud
     )
 
     if ($All) {
@@ -467,7 +479,7 @@ function Invoke-AttribRegen {
         }
     } else {
         # Var init
-        $regen = $Character.attrib.$Attribute.regen
+        $regen = $RegenOverride ?? $Character.attrib.$Attribute.regen
         $max = $Character.attrib.$Attribute.max
         $current = $Character.attrib.$Attribute.value
 
@@ -488,6 +500,12 @@ function Invoke-AttribRegen {
                 # set to max to avoid overflow
                 Write-Debug "$Attribute regen: setting $current to $max (diff < $regen)"
                 $Character.attrib.$Attribute.value = $max
+                $regen = $max - $current # for printing later, if needed
+            }
+
+            # Output to player if called as such
+            if ($Loud) {
+                Write-Host -ForegroundColor Green "$(Get-AttribStatBadge -AttribOrStat $Attribute) $Attribute recovered by $regen"
             }
         } else {
             Write-Debug "$Attribute regen: not needed; $current >= $max"

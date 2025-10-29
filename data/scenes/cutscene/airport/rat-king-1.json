@@ -1,0 +1,48 @@
+{
+    "id": "rat-king-1",
+    "data": [
+        {
+            "text": "The rat king squats grotesquely atop a crudely carven stone block near the rear of the cave, hissing and chittering as you return. \"Well?\" it asks. \"Has the human reconsidered?\"",
+            "choice": {
+                "text": "Agree to help the rat king?",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "You agree to help the rat king with as much grace as you can muster in the current situation.",
+                            "It chitters in appreciation. \"Remember,\" it says. \"Get rid of the cat. Reward is magic tool and spell book.\"",
+                            "After a pause, it then remembers one more thing you can help with: \"Rogue royals, in the human tunnels under the sky-lawn,\" it explains. \"Kill them for additional shinies.\"",
+                            "You are dismissed, it seems."
+                        ],
+                        "flag": {
+                            "airport.ratKing.conversationStage": 2
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You explain that you can't commit to this right now, as your own tasks are very pressing.",
+                            "The rat king hisses and chitters with annoyance, but does not attack. If you change your mind later - which you should, it hints - return and tell it at once.",
+                            "You are dismissed, it seems."
+                        ]
+                    },
+                    "attack": {
+                        "text": [
+                            "You say nothing, simply readying your weapon as you prepare for battle."
+                        ],
+                        "flag": {
+                            "airport.ratKing.conversationStage": "battle"
+                        },
+                        "exit": {
+                            "type": "battle",
+                            "id": "rat-king-battle"
+                        }
+                    }
+                }
+            },
+            "action": {
+                "time": {
+                    "add": "00:02:00"
+                }
+            }
+        }
+    ]
+}

@@ -20,6 +20,13 @@
                 "mDef": {
                     "mult": "-0.05 * s + 1.0"
                 }
+            },
+            "resistances": {
+                "element": {
+                    "cold": {
+                        "buff": "i * 0.1"
+                    }
+                }
             }
         },
         "turnEnd": {

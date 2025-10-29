@@ -1,0 +1,49 @@
+{
+    "id": "snow-scepter",
+    "name": "Snow Scepter",
+    "description": "A meter-long scepter of pale blue metal, decorated with a snowglobe topper. Always feels cool to the touch. Boosts magic attack and cold affinity, and provides a small bonus to BP. Weapon attacks have a chance to freeze enemies.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "magical",
+            "type": "cold",
+            "typePercent": 1,
+            "status": [
+                {
+                    "id": "freeze",
+                    "chance": 0.2,
+                    "stack": 1,
+                    "intensity": 1
+                }
+            ]
+        }
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "cold": 0.2
+            }
+        },
+        "resistances": {
+            "status": {
+                "freeze": 0.2
+            }
+        },
+        "attrib": {
+            "bp": {
+                "max": {
+                    "buff": 4
+                }
+            }
+        },
+        "stats": {
+            "pAtk": {
+                "buff": 7
+            },
+            "mAtk": {
+                "buff": 21
+            }
+        }
+    }
+}

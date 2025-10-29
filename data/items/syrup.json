@@ -1,0 +1,20 @@
+{
+    "id": "syrup",
+    "name": "Crystalline Syrup",
+    "description": "A droplet of crystallized golden syrup. Instantly recovers focus upon consumption.",
+    "useDescription": "You swallow the syrup droplet. It tastes only faintly sweet, but your mind recovers quickly.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "magical",
+        "type": "healing"
+    },
+    "effects": {
+        "mp": {
+            "expression": "0.4 * t",
+            "pow": 10,
+            "atk": 1
+        }
+    }
+}

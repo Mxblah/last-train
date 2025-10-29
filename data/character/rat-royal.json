@@ -1,0 +1,188 @@
+{
+    "id": "rat-royal",
+    "name": "Royal Rat",
+    "entryDescription": "A huge, bulky, rat with burning gold in its eyes shuffles menacingly towards you.",
+    "inspectDescription": "A massive rat about the size of a toddler with matted fur and a haughty disposition. Commands legions of smaller, less intelligent rats. Uses physical, poison, and bleed attacks.",
+    "bestiaryDescription": "These rat \"royals\" seem to command the respect and loyalty of their less-capable brethren; they serve only the reclusive rat king. They're capable of summoning overwhelming swarms of lesser rats and should be a primary target when faced. They have similar strength and poison abilities to their lesser brethren, but have far sharper teeth excellent for puncturing deep, bleeding wounds.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": -0.5
+            },
+            "demoralized": {
+                "value": 0,
+                "base": 0.5
+            },
+            "fear": {
+                "value": 0,
+                "base": 0.75
+            },
+            "fired-up": {
+                "value": 0,
+                "base": -0.5
+            },
+            "poison": {
+                "value": 0,
+                "base": 0.2
+            }
+        },
+        "element": {
+            "physical": {
+                "value": 0,
+                "base": 0.15
+            },
+            "fire": {
+                "value": 0,
+                "base": -0.1
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.3
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 310,
+            "max": 310,
+            "base": 310,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 16,
+            "max": 30,
+            "base": 30,
+            "regen": 3,
+            "baseRegen": 3
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 21
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 0
+        },
+        "pDef": {
+            "value": 0,
+            "base": 19
+        },
+        "mDef": {
+            "value": 0,
+            "base": 15
+        },
+        "acc": {
+            "value": 0,
+            "base": 16
+        },
+        "spd": {
+            "value": 0,
+            "base": 14
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 3,
+            "max": 7,
+            "chance": 0.9
+        },
+        {
+            "id": "antidote",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "liquid-balm",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "skill-book-poison-pustules",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "aggressive",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack",
+                "weight": 40
+            },
+            {
+                "id": "scratch",
+                "weight": 50
+            },
+            {
+                "id": "poison-fang",
+                "weight": 70
+            },
+            {
+                "id": "deep-bite",
+                "weight": 120
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "multi-bite",
+                "weight": 50
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "wiggle",
+                "weight": 20
+            },
+            {
+                "id": "poison-pustules",
+                "weight": 60
+            }
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "aimless-wriggle",
+                "weight": 20
+            }
+        ],
+        "special": [
+            {
+                "id": "rat-royal-summon-queue",
+                "weight": 360
+            }
+        ]
+    }
+}

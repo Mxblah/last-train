@@ -124,7 +124,8 @@ function Remove-Status {
     }
 }
 
-# todo: there's seemingly some sort of bug where if a status expires at the start of your turn, then you re-apply it with an item, the new status doesn't apply. no idea why that's happening. (??? - cannot reproduce???)
+# todo: there's seemingly some sort of bug where if a status expires at the start of your turn, then you re-apply it with an item, the new status doesn't apply. no idea why that's happening.
+# (??? - cannot reproduce??? ^)
 function Apply-StatusEffects {
     [CmdletBinding()]
     param(
@@ -233,14 +234,18 @@ function Apply-StatusEffects {
                                 # (even if not, it looks weird to have dead characters taking damage)
                                 'own' { $State.game.battle.characters | Where-Object { $_.faction -eq $Character.faction -and $_.isActive } }
                                 'opposite' { $State.game.battle.characters | Where-Object { $_.faction -ne $Character.faction -and $_.isActive } }
-                                # Ignore self to avoid triggering onHit effects when a character buffs themselves, for instance (technically a "hit")
-                                'attacker' { $State.game.battle.characters | Where-Object { $_.name -eq $State.game.battle.attacker -and $_ -ne $Character -and $_.isActive } }
+                                # Ignore self and allies to avoid triggering onHit effects when a character/ally provides buffs, for instance (technically a "hit")
+                                'attacker' { $State.game.battle.characters | Where-Object { $_.name -eq $State.game.battle.attacker -and $_ -ne $Character -and $_.faction -ne $Character.faction -and $_.isActive } }
                                 default { Write-Warning "unknown faction '$($data.faction)' in status $statusId ($($status.guid)); will not apply" }
                             }
 
                             Write-Debug "will apply to the following targets: [$($targets.name -join ', ')]"
                             foreach ($target in $targets) {
                                 Write-Debug "applying to $($target.name)..."
+                                if ($data.faction -ne 'own' -and $Phase -eq 'onHit') {
+                                    # Print a message to inform the attacker why they're taking damage
+                                    Write-Host -ForegroundColor Blue "↩️ $($target.name) takes retaliatory damage!"
+                                }
                                 $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $target @splat -DoNotRemoveStatuses
                             }
                         } else {

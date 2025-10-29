@@ -1,0 +1,24 @@
+{
+    "id": "flash-freeze",
+    "name": "Flash Freeze",
+    "description": "${game.battle.attacker} violently freezes ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 7,
+        "pow": 28,
+        "acc": 0.95,
+        "crit": 0.1,
+        "hits": 1,
+        "class": "magical",
+        "type": "cold",
+        "status": [
+            {
+                "id": "freeze",
+                "chance": 0.45,
+                "stack": 2,
+                "intensity": 1
+            }
+        ]
+    }
+}
