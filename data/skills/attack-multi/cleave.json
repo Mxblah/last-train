@@ -11,7 +11,7 @@
         "acc": 1,
         "crit": 0,
         "hits": 1,
-        "class": "physical",
+        "class": "weapon",
         "type": "weapon"
     }
 }

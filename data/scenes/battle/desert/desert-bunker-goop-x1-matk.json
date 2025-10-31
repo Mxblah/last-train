@@ -8,7 +8,7 @@
                     "id": "acid-muck",
                     "loot": [
                         {
-                            "id": "skill-book-attack-magic",
+                            "id": "skill-book-acid-stream",
                             "number": 1,
                             "chance": 1
                         }

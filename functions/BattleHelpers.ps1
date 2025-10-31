@@ -268,8 +268,8 @@ function Invoke-Skill {
         return
     }
 
-    # If this is a weapon-typed skill and the attacker is the player, merge the weapon and skill's status entries, if any
-    if ($Skill.data.type -eq 'weapon' -and $Attacker.id -eq 'player') {
+    # If this is a weapon-typed skill and the attacker is the player, merge the weapon and skill's status + type entries, if any
+    if (($Skill.data.class -eq 'weapon' -or $Skill.data.type -eq 'weapon') -and $Attacker.id -eq 'player') {
         $Skill = $Skill | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashtable # clone to avoid modifying the base skill data
 
         $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
@@ -287,6 +287,17 @@ function Invoke-Skill {
                     Write-Debug "merging weapon status $($weaponStatus.id)"
                     $Skill.data.status.Add($weaponStatus) | Out-Null
                 }
+            }
+
+            # Update class/type so atk/def is handled against the right class
+            if ($Skill.data.class -eq 'weapon') {
+                Write-Debug "substituting weapon's class $($equippedWeapon.equipData.weaponData.class) for skill's class of $($Skill.data.class)"
+                $Skill.data.class = $equippedWeapon.equipData.weaponData.class
+            }
+            if ($Skill.data.type -eq 'weapon' -and $equippedWeapon.equipData.weaponData.typePercent -eq 1) {
+                # Only make this substitution if the type is 100% - otherwise, leave it as "weapon" and Adjust-Damage will handle it
+                Write-Debug "substituting weapon's 100% type $($equippedWeapon.equipData.weaponData.type) for skill's class of $($Skill.data.type)"
+                $Skill.data.type = $equippedWeapon.equipData.weaponData.type
             }
         }
     }
