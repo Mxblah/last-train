@@ -5,6 +5,7 @@
     "badge": "🛡️",
     "applyDesc": "${game.battle.defender} brings up their guard.",
     "turnDesc": "${game.battle.currentTurn.characterName} is guarding.",
+    "removeDesc": "${game.battle.defender} lowers their guard.",
     "description": "Focusing on guarding against attacks vastly improves defense and slightly improves speed.",
     "data": {
         "turnStart": {

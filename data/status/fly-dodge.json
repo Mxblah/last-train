@@ -5,6 +5,7 @@
     "badge": "🦅",
     "applyDesc": "${game.battle.defender} flies quickly to avoid attacks.",
     "turnDesc": "${game.battle.currentTurn.characterName} is flying around.",
+    "removeDesc": "${game.battle.defender} stops flying erratically.",
     "description": "Flying around rapidly and unpredictably makes you really hard to hit!",
     "data": {
         "turnStart": {

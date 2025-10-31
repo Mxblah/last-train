@@ -108,7 +108,7 @@ function Remove-Status {
 
             # Subtract stacks, but do not fully remove now
             $oldStack = $instance.stack
-            $instance.stack = $instance.stack - $removal.stack # todo: double check that this gets the real reference
+            $instance.stack = $instance.stack - $removal.stack
             Write-Debug "reduced $($removal.id) $($instance.guid) from $oldStack to $($instance.stack)"
 
             if ($instance.stack -le 0) {
@@ -426,8 +426,11 @@ function Remove-StatusByGuid {
         [System.Collections.IEnumerable]$Guids
     )
 
+    # Vars
     Write-Debug "removing statuses from $($Character.name) with guids: [$($Guids -join ', ')]"
     $statusClassesToRemove = New-Object -TypeName System.Collections.ArrayList
+    $oldDefender = $State.game.battle.defender
+    $State.game.battle.defender = $Character.name # Many removal messages reference this value, so ensure it's right
 
     foreach ($guid in $Guids) {
         Write-Debug "removing status guid $guid from $($Character.name)"
@@ -460,7 +463,10 @@ function Remove-StatusByGuid {
         # Optionally show a remove description if present in data
         $statusInfo = $State.data.status."$($statusClass)"
         if ($statusInfo -and $statusInfo.removeDesc) {
-            Write-Host -ForegroundColor Blue "🧼 $($State | Enrich-Text $statusInfo.removeDesc)"
+            Write-Host "$($State | Enrich-Text $statusInfo.removeDesc)"
         }
     }
+
+    # Put it back in case it's relevant
+    $State.game.battle.defender = $oldDefender
 }

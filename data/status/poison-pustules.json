@@ -5,6 +5,7 @@
     "badge": "💉",
     "applyDesc": "${game.battle.defender} grows poisoned pustules across their body.",
     "turnDesc": "${game.battle.currentTurn.characterName}'s pustules pulse and throb.",
+    "removeDesc": "${game.battle.defender}'s pustules wither away.",
     "description": "Poisoned pustules provide some defense and retaliate against attackers with a poison burst when struck.",
     "data": {
         "class": "physical",

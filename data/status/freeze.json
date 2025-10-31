@@ -5,6 +5,7 @@
     "badge": "🧊",
     "applyDesc": "${game.battle.defender} freezes solid.",
     "turnDesc": "${game.battle.currentTurn.characterName} is frozen solid.",
+    "removeDesc": "The ice coating ${game.battle.defender} shatters.",
     "description": "Freeze prevents action while reducing defenses and zeroing speed. It is removed on being hit.",
     "data": {
         "turnStart": {

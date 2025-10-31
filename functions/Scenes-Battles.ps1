@@ -259,6 +259,8 @@ function Start-BattleTurn {
     )
     # Handle start of turn stuff
     $State.game.battle.currentTurn.characterName = $Character.name
+    $State.game.battle.attacker = $Character.name
+    $State.game.battle.defender = $Character.name
 
     # Attrib regen
     if (-not $State.game.battle.noRegen) {

@@ -5,6 +5,7 @@
     "badge": "⚡",
     "applyDesc": "${game.battle.defender}'s body freezes in place.",
     "turnDesc": "${game.battle.currentTurn.characterName} is paralyzed.",
+    "removeDesc": "${game.battle.defender} can move again.",
     "description": "Paralysis prevents action while reducing defenses and vastly reducing speed.",
     "data": {
         "turnStart": {

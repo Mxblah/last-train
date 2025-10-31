@@ -5,6 +5,7 @@
     "badge": "🩸",
     "applyDesc": "${game.battle.defender} is bleeding heavily!",
     "turnDesc": "${game.battle.currentTurn.characterName} is bleeding heavily.",
+    "removeDesc": "${game.battle.defender}'s bleeding stops.",
     "description": "Heavy bleeding prevents health regeneration, reduces accuracy, and deals damage.",
     "data": {
         "class": "physical",
