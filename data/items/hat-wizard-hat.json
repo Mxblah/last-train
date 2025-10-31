@@ -1,0 +1,38 @@
+{
+    "id": "hat-wizard-hat",
+    "name": "Wizard Hat",
+    "description": "A traditional, pointy, wide-brimmed wizard hat with star decals. Boosts MP capacity and regen, magic defense, and force resistance, but slightly reduces accuracy.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "hat"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "magical": 0.02,
+                "force": 0.15
+            }
+        },
+        "attrib": {
+            "mp": {
+                "max": {
+                    "buff": 12
+                },
+                "regen": {
+                    "buff": 2
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 7
+            },
+            "acc": {
+                "debuff": 1
+            }
+        }
+    }
+}

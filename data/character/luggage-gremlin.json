@@ -17,9 +17,9 @@
     },
     "attrib": {
         "hp": {
-            "value": 74,
-            "max": 74,
-            "base": 74,
+            "value": 84,
+            "max": 84,
+            "base": 84,
             "regen": 0,
             "baseRegen": 0
         },

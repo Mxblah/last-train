@@ -458,6 +458,7 @@ function Invoke-AttribRegen {
         [hashtable]$Character,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Individual')]
+        [ValidateSet('hp', 'mp', 'bp')]
         [string]$Attribute,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'All')]

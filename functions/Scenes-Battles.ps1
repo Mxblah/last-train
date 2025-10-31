@@ -81,6 +81,10 @@ function Start-BattleScene {
             Write-Debug 'disabling flee option'
             $State.game.battle.cannotFlee = $true
         }
+        if ($Scene.data.special.noRegen) {
+            Write-Debug "disabling regen for [$($Scene.data.special.noRegen -join ', ')]"
+            $State.game.battle.noRegen = $Scene.data.special.noRegen
+        }
 
         Write-Verbose 'Starting battle'
         $State.game.battle.phase = 'active'
@@ -257,7 +261,14 @@ function Start-BattleTurn {
     $State.game.battle.currentTurn.characterName = $Character.name
 
     # Attrib regen
-    $State | Invoke-AttribRegen -Character $Character -All
+    if (-not $State.game.battle.noRegen) {
+        $State | Invoke-AttribRegen -Character $Character -All
+    } else {
+        # Only regen attribs that aren't disabled
+        foreach ($attrib in (@('hp', 'mp', 'bp') | Where-Object { $_ -notin $State.game.battle.noRegen })) {
+            $State | Invoke-AttribRegen -Character $Character -Attribute $attrib
+        }
+    }
 
     # Status stuff
     $State | Apply-StatusEffects -Character $Character -Phase 'turnStart'

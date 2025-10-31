@@ -581,7 +581,70 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "rat-royal-rogue",
+                            "minDepthAvailable": 5,
+                            "chance": 0.2,
+                            "when": {
+                                "airport.ratKing.rogueQuestComplete": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "hat-wizard-hat",
+                            "text": "A half-broken cabinet wedged into a side room opens to reveal a full-on wizard hat hanging on a hook inside.",
+                            "number": 1,
+                            "chance": 0.1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "ringMajor-sutures",
+                            "text": "A half-broken cabinet wedged into a side room opens to reveal a small ring set on a shelf inside.",
+                            "number": 1,
+                            "chance": 0.1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "text": "Someone has left a partially-filled first aid kit in a locker here.",
+                            "number": 1,
+                            "chance": 0.1,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "battle",
+                            "id": "tunnels-mutant-eyebot",
+                            "chance": 0.045
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-swarm-x1",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-mutant-x1",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-royal-x1",
+                            "chance": 0.025,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "chance": 0.035
+                        }
                     ]
                 },
                 "connections": {

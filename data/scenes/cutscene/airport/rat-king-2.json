@@ -80,25 +80,32 @@
             }
         },
         {
-            "text": [
-                "\"Both tasks complete!\" the king exclaims. \"The human is friend to rats! Extra, *extra* shinies are needed - bring!\"",
-                "A royal rat emerges from a hidden nook in the very back of the cave, bowing before you and presenting a glimmering shard of flawless silver. You try to pick it up, but it dissolves into your body as soon as you touch it. You don't feel any different, but the rat king looks quite impressed.",
-                "\"It can even hold the gifted soul,\" it rattles. \"Rats, treat this thing with care. No biting.\" It seems you will no longer be accosted by the king's rats in these tunnels."
-            ],
+            "text": "\"One task still unfinished!\" the king exclaims. \"Hurry and finish what is left!\"\nYou are dismissed, it seems.",
+            "exit": {},
+            "whenMode": "or",
+            "when": {
+                "airport.ratKing.catQuestTurnedIn": false,
+                "airport.ratKing.rogueQuestTurnedIn": false
+            }
+        },
+        {
+            "text": "\"Both tasks complete!\" the king exclaims. \"The human is friend to rats! Extra, *extra* shinies are needed - bring!\"\n\nA royal rat emerges from a hidden nook in the very back of the cave, bowing before you and presenting a glimmering shard of flawless silver. You try to pick it up, but it dissolves into your body as soon as you touch it. You don't feel any different, but the rat king looks quite impressed.\n\n\"It can even hold the gifted soul,\" it rattles. \"Rats, treat this one with care. No biting.\" It seems you will no longer be accosted by the king's rats in these tunnels.",
             "when": {
                 "airport.ratKing.catQuestTurnedIn": true,
                 "airport.ratKing.rogueQuestTurnedIn": true
             },
-            "flag": {
-                "airport.ratKing.conversationStage": "done"
-            },
-            "item": [
-                {
-                    "action": "add",
-                    "id": "soul-fragment-silver",
-                    "number": 1
-                }
-            ]
+            "action": {
+                "flag": {
+                    "airport.ratKing.conversationStage": "done"
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-silver",
+                        "number": 1
+                    }
+                ]
+            }
         },
         {
             "text": "You are dismissed, it seems.",
@@ -118,6 +125,10 @@
                     },
                     "no": {}
                 }
+            },
+            "when": {
+                "airport.ratKing.catQuestTurnedIn": true,
+                "airport.ratKing.rogueQuestTurnedIn": true
             }
         }
     ]
