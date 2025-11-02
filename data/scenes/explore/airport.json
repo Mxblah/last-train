@@ -907,7 +907,56 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "item",
+                            "id": "quick-charge-medallion",
+                            "text": "An old mannequin stands in a storefront window, wearing a barrier medallion.",
+                            "number": 1,
+                            "maxDepthAvailable": 1,
+                            "chance": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "offhand-pocket-telescope",
+                            "text": "A small pile of clothes sits atop a chair facing the apron, and a gleaming pocket telescope lies atop the pile. You wonder what its previous owner was like.",
+                            "number": 1,
+                            "minDepthAvailable": 7,
+                            "chance": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "eyedrops",
+                            "minAmount": 2,
+                            "maxAmount": 4,
+                            "chance": 0.1,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "minAmount": 2,
+                            "maxAmount": 4,
+                            "chance": 0.1,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "battle",
+                            "id": "eyebot-x3",
+                            "chance": 0.08,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "battle",
+                            "id": "security-eyebot",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.03
+                        }
                     ]
                 },
                 "connections": {
@@ -978,7 +1027,30 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "cutscene",
+                            "id": "conB-wheel-vending",
+                            "chance": 0.1,
+                            "when": {
+                                "airport.concourseB.shoesVended": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "eyedrops",
+                            "minAmount": 1,
+                            "maxAmount": 3,
+                            "chance": 0.1,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "minAmount": 1,
+                            "maxAmount": 3,
+                            "chance": 0.1,
+                            "maxTimes": 2
+                        }
                     ]
                 },
                 "connections": {

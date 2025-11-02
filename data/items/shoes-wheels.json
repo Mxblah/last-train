@@ -1,0 +1,19 @@
+{
+    "id": "shoes-wheels",
+    "name": "Heel-Wheeled Shoes",
+    "description": "A pair of snazzy, nostalgic sneakers with wheels in the heel. Allows quick, effortless, (stylish) movement, but can be hard to stop. Multiples speed by 1.5x, but slightly reduces accuracy.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "shoes"
+    },
+    "effects": {
+        "stats": {
+            "acc": {
+                "mult": 0.95
+            },
+            "spd": {
+                "mult": 1.5
+            }
+        }
+    }
+}

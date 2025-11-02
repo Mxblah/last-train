@@ -1,16 +1,16 @@
 {
     "id": "solar-embrace",
-    "name": "(S) Embrace",
+    "name": "S. Embrace",
     "description": "${game.battle.attacker} embraces ${game.battle.defender} in a sunlit grasp.",
     "skillType": "debuff-single",
     "data": {
         "target": 1,
-        "mp": 2,
-        "pow": 1,
+        "mp": 3,
+        "pow": 0,
         "acc": 0.9,
         "crit": 0,
         "hits": 1,
-        "class": "physical",
+        "class": "magical",
         "type": "standard",
         "status": [
             {
@@ -21,8 +21,9 @@
             },
             {
                 "id": "sunburn",
-                "chance": 0.5,
+                "chance": 0.75,
                 "stack": 3,
+                "powOverride": 3,
                 "intensity": 1
             },
             {

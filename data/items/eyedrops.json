@@ -1,8 +1,8 @@
 {
-    "id": "liquid-balm",
-    "name": "Balm",
-    "description": "A capsule of a soothing concoction. Used to neutralize acid, extinguish flames, and cure poisons.",
-    "useDescription": "You apply the balm. You feel a little better.",
+    "id": "eyedrops",
+    "name": "Eyedrops",
+    "description": "A set of curative eyedrops. Used to cure and temporarily boost resistance to various vision-related statuses.",
+    "useDescription": "You apply the eyedrops. Your vision becomes clear.",
     "itemType": "consumable",
     "useData": {
         "target": 1,
@@ -14,17 +14,16 @@
         "status": {
             "add": [
                 {
-                    "id": "balm",
+                    "id": "eyedrops",
                     "chance": 1,
                     "stack": 18,
                     "intensity": 25
                 }
             ],
             "remove": [
-                "acidburn",
-                "burn",
-                "poison",
-                "sunburn"
+                "blind",
+                "dazzled",
+                "fixated"
             ]
         }
     }

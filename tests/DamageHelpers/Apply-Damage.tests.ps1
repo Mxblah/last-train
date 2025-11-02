@@ -28,6 +28,8 @@ Describe 'Apply-Damage tests' {
             @{ name = 'bp attribute reduces bp only'; Damage = 5; InitialBp = 10; InitialHp = 50; HpMax = 50; Attribute = 'bp'; expectedBp = 5; expectedHp = 50 }
             @{ name = 'bp attribute breaks exact'; Damage = 5; InitialBp = 5; InitialHp = 50; HpMax = 50; Attribute = 'bp'; expectedBp = 0; expectedHp = 50 }
             @{ name = 'bp attribute breaks leftover ignored for hp'; Damage = 8; InitialBp = 5; InitialHp = 10; HpMax = 10; Attribute = 'bp'; expectedBp = 0; expectedHp = 10 }
+            @{ name = 'bp healing not overflow'; Damage = 3; InitialBp = 0; Attribute = 'bp'; AsHealing = $true; expectedBp = 3 }
+            @{ name = 'bp healing caps at max'; Damage = 8; InitialBp = 9; Attribute = 'bp'; AsHealing = $true; expectedBp = 10 }
             # MP-specific cases (attribute 'mp' should skip BP and operate on MP)
             @{ name = 'mp damage reduces mp'; Damage = 3; InitialBp = 10; InitialMp = 10; MpMax = 10; Attribute = 'mp'; expectedBp = 10; expectedMp = 7 }
             @{ name = 'mp damage underflow sets to zero'; Damage = 15; InitialBp = 0; InitialMp = 5; MpMax = 5; Attribute = 'mp'; expectedBp = 0; expectedMp = 0 }
@@ -41,7 +43,7 @@ Describe 'Apply-Damage tests' {
         $target = @{
             id = 'Dummy'
             attrib = @{
-                bp = @{ value = $InitialBp }
+                bp = @{ value = $InitialBp; max = $BpMax ?? 10 }
                 hp = @{ value = $InitialHp; max = $HpMax }
             }
         }

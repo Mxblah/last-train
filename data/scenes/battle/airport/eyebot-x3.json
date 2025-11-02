@@ -1,0 +1,44 @@
+{
+    "id": "eyebot-x3",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "eyebot",
+                    "loot": [
+                        {
+                            "id": "charge-gel",
+                            "min": 1,
+                            "max": 2,
+                            "chance": 1
+                        }
+                    ]
+                },
+                {
+                    "id": "eyebot",
+                    "loot": [
+                        {
+                            "id": "charge-gel",
+                            "min": 1,
+                            "max": 2,
+                            "chance": 1
+                        }
+                    ]
+                },
+                {
+                    "id": "eyebot",
+                    "loot": [
+                        {
+                            "id": "charge-gel",
+                            "min": 1,
+                            "max": 2,
+                            "chance": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        "special": {}
+    }
+}

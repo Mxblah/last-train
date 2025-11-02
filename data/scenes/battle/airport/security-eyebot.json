@@ -1,0 +1,17 @@
+{
+    "id": "security-eyebot",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "security-agent"
+                },
+                {
+                    "id": "eyebot"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

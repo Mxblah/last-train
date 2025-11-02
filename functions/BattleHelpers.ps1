@@ -110,8 +110,8 @@ function Update-CharacterValues {
         }
     }
 
-    # Process all AEs at once
-    foreach ($effect in $Character.activeEffects) {
+    # Process all AEs at once, sorting to ensure additive operators are processed before multiplicative
+    foreach ($effect in ($Character.activeEffects | Sort-Object { @('buff', 'debuff', 'mult').IndexOf($_.action) } -Stable)) {
         # todo: consider updating this to do additive multiplication (i.e. "buff" and "mult" fields for stats/attribs instead of direct operations)
 
         # Find the right thing to modify
@@ -302,6 +302,9 @@ function Invoke-Skill {
         }
     }
 
+    # Handle healing skills
+    if ($Skill.data.isHealing) { $healSplat = @{ AsHealing = $true } } else { $healSplat = @{} }
+
     # Loop over all the targets in order
     foreach ($Target in $Targets) {
         $State.game.battle.defender = $Target.name
@@ -329,6 +332,11 @@ function Invoke-Skill {
             $typeLetter = switch ($Skill.data.class) {
                 'physical' { 'p' }
                 'magical' { 'm' }
+                'weapon' {
+                    # If it's still 'weapon' here, that means it must either be an enemy, or the player without a weapon.
+                    # In either case, assume physical. This is an expected outcome though, so don't write-warning in the default case.
+                    'p'
+                }
                 default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
             }
 
@@ -336,7 +344,7 @@ function Invoke-Skill {
             $targetClass = if ($Skill.data.targetsAll) { 'all' } elseif ($Skill.data.target -gt 1) { 'multi' } else { 'single' }
 
             # Calculate damage and crit if it hit
-            $damage = Get-Damage -Power $Skill.data.pow -Attack $Attacker.stats."${typeLetter}Atk".value -Defense $Target.stats."${typeLetter}Def".value |
+            $damage = Get-Damage -Power $Skill.data.pow -Attack $Attacker.stats."${typeLetter}Atk".value -Defense $Target.stats."${typeLetter}Def".value @healSplat |
                 Adjust-Damage -Class $Skill.data.class -Type $Skill.data.type -Attacker $Attacker -Target $Target -TargetClass $targetClass
             $critMult = Get-CriticalMultiplier -SkillBonus $Skill.data.crit
             switch ($critMult) {
@@ -348,7 +356,7 @@ function Invoke-Skill {
             $damage *= $critMult
 
             # Apply and report damage
-            $State | Apply-Damage -Target $Target -Damage $damage -Class $Skill.data.class -Type $Skill.data.type
+            $State | Apply-Damage -Target $Target -Damage $damage -Class $Skill.data.class -Type $Skill.data.type @healSplat
 
             # Handle onHit status effects first, to avoid triggering them for statuses being added by this attack (if applicable)
             if ($Skill.data.skipOnHitEffects) {

@@ -310,25 +310,43 @@ function Apply-Damage {
         return
     }
 
+    # todo: all of these cases use very similar logic; combine?
+    # All cases can use this if they're doing healing; HP uses it for damage too
+    $flavorMap = Get-DamageTypeFlavorInfo -Class "$Class" -Type "$Type"
+
     # Apply to BP first, if applicable (not applicable for healing, as well)
-    if ($AsHealing -or $IgnoreBarrier -or $Attribute -eq 'mp') {
-        Write-Debug 'applying healing-type, mp-type, or barrier-ignoring damage, so skipping BP calculation'
+    if (($AsHealing -and $Attribute -ne 'bp') -or $IgnoreBarrier -or $Attribute -eq 'mp') {
+        Write-Debug 'applying non-bp healing-type, mp-type, or barrier-ignoring damage, so skipping BP calculation'
     } else {
-        switch ($Target.attrib.bp.value) {
-            { $_ -gt $Damage } {
-                # Barrier absorbs the hit
-                $originalBp = $Target.attrib.bp.value
-                $Target.attrib.bp.value -= $Damage
-                Write-Host -ForegroundColor Blue "🛡️ $($Target.name)'s barrier takes $Damage damage."
-                $Damage -= $originalBp
+        if ($AsHealing) {
+            Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) regains $Damage BP."
+            switch ($Target.attrib.bp.max - $Target.attrib.bp.value) {
+                { $_ -ge $Damage } {
+                    # We won't overflow
+                    $Target.attrib.bp.value += $Damage
+                }
+                { $_ -lt $Damage } {
+                    # Overflow risk, so set to max
+                    $Target.attrib.bp.value = $Target.attrib.bp.max
+                }
             }
-            { $_ -le $Damage -and $_ -gt 0 } {
-                # Barrier absorbs some damage, then breaks
-                $Damage -= $Target.attrib.bp.value
-                $Target.attrib.bp.value = 0
-                Write-Host -ForegroundColor Blue "🛡️ $($Target.name)'s barrier breaks!"
+        } else {
+            switch ($Target.attrib.bp.value) {
+                { $_ -gt $Damage } {
+                    # Barrier absorbs the hit
+                    $originalBp = $Target.attrib.bp.value
+                    $Target.attrib.bp.value -= $Damage
+                    Write-Host -ForegroundColor Blue "🛡️ $($Target.name)'s barrier takes $Damage damage."
+                    $Damage -= $originalBp
+                }
+                { $_ -le $Damage -and $_ -gt 0 } {
+                    # Barrier absorbs some damage, then breaks
+                    $Damage -= $Target.attrib.bp.value
+                    $Target.attrib.bp.value = 0
+                    Write-Host -ForegroundColor Blue "🛡️ $($Target.name)'s barrier breaks!"
+                }
+                default { <# no barrier; do nothing #> }
             }
-            default { <# no barrier; do nothing #> }
         }
 
         # Break out if we're out of damage
@@ -336,9 +354,6 @@ function Apply-Damage {
             return
         }
     }
-
-    # HP and MP both use this, so get it now
-    $flavorMap = Get-DamageTypeFlavorInfo -Class "$Class" -Type "$Type"
 
     # Apply to HP next, if applicable
     if ($Attribute -ne 'hp') {

@@ -478,13 +478,23 @@ function Use-GameItem {
                                 $State | Add-Status -Attacker $State.player -Target $target -Skill $fakeStatusSkill
                             }
                             'remove' {
-                                foreach ($ae in ($State.player.activeEffects | Where-Object -Property source -EQ "status/$status")) {
-                                    Write-Debug "removing AE with guid $($ae.guid) from source $($ae.source)"
-                                    $State.player.activeEffects.Remove($ae)
+                                # Construct a fake skill to send to Remove-Status
+                                $fakeStatusSkill = @{
+                                    id = $data.id
+                                    name = $data.name
+                                    data = @{
+                                        removeStatus = @(
+                                            @{
+                                                id = $status
+                                                chance = 1
+                                                stack = 99
+                                            }
+                                        )
+                                    }
                                 }
-                                Write-Debug "removing status class $status"
-                                $State.player.status.Remove($status)
-                                Write-Host -ForegroundColor DarkCyan "🧼 Cleared status '$($State.data.status.$status.name)'"
+
+                                # Remove the status
+                                $State | Remove-Status -Attacker $State.player -Target $State.player -Skill $fakeStatusSkill -Loud
                             }
                             default { Write-Warning "unknown action '$action' on status '$status' in item $Id ($guid)" }
                         }

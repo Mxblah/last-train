@@ -13,6 +13,7 @@
         "hits": 1,
         "class": "physical",
         "type": "healing",
+        "isHealing": true,
         "status": [
             {
                 "id": "regen",

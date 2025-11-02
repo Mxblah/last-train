@@ -10,9 +10,15 @@
         "resistances": {
             "element": {
                 "solar": 0.2
+            },
+            "status": {
+                "sunburn": 0.4
             }
         },
         "stats": {
+            "mDef": {
+                "buff": 2
+            },
             "acc": {
                 "buff": -1
             }

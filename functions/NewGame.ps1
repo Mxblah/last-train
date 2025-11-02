@@ -140,50 +140,53 @@ function Apply-GameCheats {
     )
 
     if ($Cheats.Count -gt 0) {
-        $state.cheater = $true
+        $State.cheater = $true
         foreach ($cheat in $Cheats) {
             switch ($cheat) {
                 'bullseye' {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🎯 Set player accuracy to 999999"
-                    $state.player.stats.acc.base = 999999
+                    $State.player.stats.acc.base = 999999
                 }
                 'def' {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🛡️ Set player defenses to 999999"
-                    $state.player.stats.pDef.base = 999999; $state.player.stats.mDef.base = 999999
+                    $State.player.stats.pDef.base = 999999; $State.player.stats.mDef.base = 999999
                 }
                 'healthy' {
                     Write-Host -ForegroundColor Cyan "CHEAT: ❤️ Set player HP to 999999"
-                    $state.player.attrib.hp.base = 999999; $state.player.attrib.hp.value = 999999
+                    $State.player.attrib.hp.base = 999999; $State.player.attrib.hp.value = 999999
                 }
                 'speedy' {
                     Write-Host -ForegroundColor Cyan "CHEAT: 👟 Set player speed to 999999"
-                    $state.player.stats.spd.base = 999999
+                    $State.player.stats.spd.base = 999999
                 }
                 'maxPower' {
                     Write-Host -ForegroundColor Cyan "CHEAT: 💪 Set player attacks to 999999"
-                    $state.player.stats.pAtk.base = 999999; $state.player.stats.mAtk.base = 999999
+                    $State.player.stats.pAtk.base = 999999; $State.player.stats.mAtk.base = 999999
                 }
                 'onboard' {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🚂 Forcing player to board the train"
-                    $state.game.train.playerOnBoard = $true
+                    $State.game.train.playerOnBoard = $true
                 }
                 { $null -ne $_.items } {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🛒 Adding extra items"
                     foreach ($item in $_.items) {
-                        $state | Add-GameItem -Id $item.id -Number ($item.number ?? 1)
+                        $State | Add-GameItem -Id $item.id -Number ($item.number ?? 1)
                     }
                 }
                 { $null -ne $_.skills } {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🤹 Adding extra skills"
                     foreach ($skill in $_.skills) {
-                        $state | Add-SkillIfRoom -Character $State.player -Category $skill.category -Id $skill.id
+                        $State | Add-SkillIfRoom -Character $State.player -Category $skill.category -Id $skill.id
                     }
                 }
                 { $null -ne $_.sceneOverride } {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🔐 Setting current scene to $($_.sceneOverride.id)"
-                    $state.game.scene.type = $_.sceneOverride.type
-                    $state.game.scene.path = $_.sceneOverride.path
-                    $state.game.scene.id = $_.sceneOverride.id
+                    if ($State.game.scene.type) { $State.game.scene.previousType = $State.game.scene.type }
+                    if ($State.game.scene.path) { $State.game.scene.previousPath = $State.game.scene.path }
+                    if ($State.game.scene.id) { $State.game.scene.previousId = $State.game.scene.id }
+                    $State.game.scene.type = $_.sceneOverride.type
+                    $State.game.scene.path = $_.sceneOverride.path
+                    $State.game.scene.id = $_.sceneOverride.id
                 }
                 { $null -ne $_.time } {
                     Write-Host -ForegroundColor Cyan "CHEAT: 🕑 Updating game time"

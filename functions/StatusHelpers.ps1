@@ -49,7 +49,7 @@ function Add-Status {
         if ($null -eq $Target.status."$($status.id)") { $Target.status."$($status.id)" = New-Object -TypeName System.Collections.ArrayList }
         $statusInfo = $State.data.status."$($status.id)"
         $statusData = @{
-            guid = (New-Guid).Guid
+            guid = $status.guid ?? (New-Guid).Guid
             stack = $status.stack
             intensity = $status.intensity
             pow = $status.powOverride ?? $Skill.data.pow
@@ -78,7 +78,10 @@ function Remove-Status {
         [hashtable]$Target,
 
         [Parameter(Mandatory = $true)]
-        [hashtable]$Skill
+        [hashtable]$Skill,
+
+        [Parameter()]
+        [switch]$Loud
     )
 
     # Update state
@@ -120,7 +123,8 @@ function Remove-Status {
     # Now perform final removals
     if ($guidsToRemove.Count -gt 0) {
         Write-Debug "will remove the following status guids: [$($guidsToRemove -join ', ')]"
-        $State | Remove-StatusByGuid -Character $Target -Guids $guidsToRemove
+        if ($Loud) { $splat = @{ Loud = $true } } else { $splat = @{} }
+        $State | Remove-StatusByGuid -Character $Target -Guids $guidsToRemove @splat
     }
 }
 
@@ -354,6 +358,7 @@ function Apply-StatusEffects {
                                     Write-Debug "parsed $subProperty into $($subStatus.$subProperty)"
                                 }
                             }
+                            $subStatus.guid = $status.guid # propagate guid to child statuses so they're removed with the parent
                         }
 
                         # We definitely can't add it now, as that would modify during iteration, so do it later
@@ -423,7 +428,10 @@ function Remove-StatusByGuid {
         [hashtable]$Character,
 
         [Parameter(Mandatory = $true)]
-        [System.Collections.IEnumerable]$Guids
+        [System.Collections.IEnumerable]$Guids,
+
+        [Parameter()]
+        [switch]$Loud
     )
 
     # Vars
@@ -465,6 +473,9 @@ function Remove-StatusByGuid {
         if ($statusInfo -and $statusInfo.removeDesc) {
             Write-Host "$($State | Enrich-Text $statusInfo.removeDesc)"
         }
+
+        # And print a scrub message if Loud
+        if ($Loud) { Write-Host -ForegroundColor DarkCyan "🧼 Cleared status '$($statusInfo.name)'" }
     }
 
     # Put it back in case it's relevant

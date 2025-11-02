@@ -1,0 +1,17 @@
+{
+    "id": "luggage-gremlin-x2",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "luggage-gremlin"
+                },
+                {
+                    "id": "luggage-gremlin"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

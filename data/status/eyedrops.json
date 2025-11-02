@@ -1,0 +1,37 @@
+{
+    "id": "eyedrops",
+    "name": "Vision",
+    "color": "Green",
+    "badge": "👁️",
+    "applyDesc": "${game.battle.defender} can see clearly.",
+    "turnDesc": "${game.battle.currentTurn.characterName}'s vision is protected.",
+    "removeDesc": "${game.battle.defender}'s vision is no longer protected.",
+    "description": "Vision grants resistance to various vision-related status effects, and a slight resistance to Vision damage.",
+    "data": {
+        "class": "physical",
+        "type": "healing",
+        "passive": {
+            "resistances": {
+                "element": {
+                    "vision": {
+                        "buff": "i / 250"
+                    }
+                },
+                "status": {
+                    "blind": {
+                        "buff": "i / 100"
+                    },
+                    "dazzled": {
+                        "buff": "i / 100"
+                    },
+                    "fixated": {
+                        "buff": "i / 100"
+                    }
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

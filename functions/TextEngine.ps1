@@ -282,6 +282,7 @@ function Get-DamageTypeFlavorInfo {
         'force' { @{ badge = '✨'; color = 'Magenta'; name = 'Force' } }
         'healing' { @{ badge = '💖'; color = 'Green'; name = 'Healing' } }
         'mp-healing' { @{ badge = '✨'; color = 'Green'; name = 'Healing' } }
+        'bp-healing' { @{ badge = '🛡️'; color = 'Green'; name = 'Healing' } }
         'lightning' { @{ badge = '⚡'; color = 'Yellow'; name = 'Lightning' } }
         'mental' { @{ badge = '🧠'; color = 'Magenta'; name = 'Mental' } }
         'piercing' { @{ badge = '🗡️'; color = 'White'; name = 'Piercing' } }

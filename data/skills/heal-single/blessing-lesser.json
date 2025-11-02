@@ -1,23 +1,23 @@
 {
-    "id": "failed-blessing",
-    "name": "F. Bless",
-    "description": "${game.battle.attacker} is drenched in sickly, infected sunlight.",
+    "id": "blessing-lesser",
+    "name": "L. Bless",
+    "description": "${game.battle.attacker} is drenched in healing sunlight.",
     "skillType": "heal-single",
     "data": {
         "target": 1,
-        "mp": 5,
-        "selfTargetOnly": true,
+        "mp": 10,
         "pow": 10,
         "acc": 1,
         "crit": 0.15,
         "hits": 1,
         "class": "magical",
-        "type": "divine",
+        "type": "healing",
+        "isHealing": true,
         "status": [
             {
                 "id": "aureole",
                 "chance": 1,
-                "stack": 7,
+                "stack": 9,
                 "intensity": 10
             }
         ]
