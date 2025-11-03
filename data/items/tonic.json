@@ -1,0 +1,25 @@
+{
+    "id": "tonic",
+    "name": "Tonic",
+    "description": "A potent curative drink. Used to cure dizziness and recover health.",
+    "useDescription": "You drink the tonic. You feel better.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "physical",
+        "type": "healing"
+    },
+    "effects": {
+        "heal": {
+            "expression": "0.4 * t",
+            "pow": 10,
+            "atk": 1
+        },
+        "status": {
+            "remove": [
+                "dizzy"
+            ]
+        }
+    }
+}

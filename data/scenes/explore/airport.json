@@ -641,9 +641,14 @@
                             }
                         },
                         {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.0175
+                        },
+                        {
                             "type": "item",
                             "id": "fuel",
-                            "chance": 0.035
+                            "chance": 0.04
                         }
                     ]
                 },
@@ -948,6 +953,15 @@
                             "maxTimes": 2
                         },
                         {
+                            "type": "item",
+                            "id": "tonic",
+                            "text": "You find a little cooler in a shop to one side of the concourse. It seems to contain health drinks.",
+                            "minAmount": 1,
+                            "maxAmount": 3,
+                            "chance": 0.1,
+                            "maxTimes": 1
+                        },
+                        {
                             "type": "battle",
                             "id": "security-eyebot",
                             "chance": 0.03
@@ -956,6 +970,11 @@
                             "type": "battle",
                             "id": "luggage-gremlin-x2",
                             "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.02
                         }
                     ]
                 },
@@ -1029,11 +1048,25 @@
                     "encounters": [
                         {
                             "type": "cutscene",
+                            "id": "conB-heart-vending",
+                            "chance": 0.15,
+                            "when": {
+                                "airport.concourseB.heartVended": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
                             "id": "conB-wheel-vending",
                             "chance": 0.1,
                             "when": {
                                 "airport.concourseB.shoesVended": false
                             }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "conB-bot-gremlin-fight",
+                            "chance": 0.125,
+                            "maxTimes": 1
                         },
                         {
                             "type": "item",
@@ -1050,6 +1083,29 @@
                             "maxAmount": 3,
                             "chance": 0.1,
                             "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "tonic",
+                            "text": "You find a small bottle in a shop to one side of the concourse. It seems to be a health drink.",
+                            "number": 1,
+                            "chance": 0.15,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "battle",
+                            "id": "security-eyebot",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.02
                         }
                     ]
                 },

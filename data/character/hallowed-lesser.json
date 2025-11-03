@@ -120,9 +120,15 @@
     },
     "loot": [
         {
+            "id": "coin",
+            "min": 6,
+            "max": 11,
+            "chance": 0.95
+        },
+        {
             "id": "silver-feather",
             "number": 1,
-            "chance": 0.2
+            "chance": 0.25
         },
         {
             "id": "skill-book-force-bolt",

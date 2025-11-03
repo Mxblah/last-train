@@ -1,14 +1,14 @@
 {
-    "id": "conB-wheel-shoes",
+    "id": "conB-wheel-vending",
     "data": [
         {
             "text": "You come across a still-operational glass-fronted vending machine, although it does have a substantial covering of graffiti from the local gremlin population. It appears to be selling shoes, and there's just one box left. How convenient.",
             "choice": {
-                "text": "Pay 20 coins for a pair of shoes?",
+                "text": "Pay 18 coins for a pair of shoes?",
                 "responses": {
                     "yes": {
                         "text": [
-                            "You deposit 20 coins into the slot and receive a cardboard box in return.",
+                            "You deposit 18 coins into the slot and receive a cardboard box in return.",
                             "The shoes are very retro, and have little wheels built into the heels. You feel a momentary urge to zoom about like a kid."
                         ],
                         "time": {
@@ -18,7 +18,7 @@
                             {
                                 "action": "remove",
                                 "id": "coin",
-                                "number": 20
+                                "number": 18
                             },
                             {
                                 "action": "add",
@@ -32,7 +32,7 @@
                         "when": {
                             "item": {
                                 "id": "coin",
-                                "min": 20
+                                "min": 18
                             }
                         }
                     },

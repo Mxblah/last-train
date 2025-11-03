@@ -1,0 +1,43 @@
+{
+    "id": "conB-bot-gremlin-fight",
+    "data": [
+        {
+            "text": "You hear the sounds of distressed beeping coming from a broken storefront. Taking a look, you spot three luggage gremlins poking and prodding at a security eyebot on the ground. The gremlins are cackling, bonking the robot with a stick whenever it tries to sound its alarm."
+        },
+        {
+            "text": "You could intervene if you wanted. You're pretty sure the robots don't have feelings, but you never know. Or you could join the gremlins if you're careful enough; they seem too distracted to notice right now. Or you could just walk away; it definitely does not need to be your problem.",
+            "choice": {
+                "text": "Intervene?",
+                "responses": {
+                    "help the eyebot": {
+                        "text": [
+                            "You prepare for battle, hurrying over to press the gremlins away from the eyebot.",
+                            "The three gremlins chatter and rev up their luggage trolleys, while the eyebot hovers unsteadily into the air."
+                        ],
+                        "exit": {
+                            "type": "battle",
+                            "id": "conB-bot-gremlin-help-eyebot"
+                        }
+                    },
+                    "help the gremlins": {
+                        "text": [
+                            "You prepare for battle as the eyebot finally manages to get its siren going, hurrying over to help the gremlins deal with whatever extra security is about to arrive.",
+                            "They seem surprised to see you, but aren't too picky to turn down your help against the incoming security agents."
+                        ],
+                        "exit": {
+                            "type": "battle",
+                            "id": "conB-bot-gremlin-help-gremlins"
+                        }
+                    },
+                    "leave": {
+                        "text": [
+                            "You turn around and leave. You hear the eyebot finally manage to get its siren going a moment later.",
+                            "Two burly security agents hustle past you to come to its aid; you hear the gremlins screeching.",
+                            "Good thing you didn't get involved in that mess."
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

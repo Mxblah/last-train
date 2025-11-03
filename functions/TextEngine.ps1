@@ -257,7 +257,8 @@ function Get-DamageTypeFlavorInfo {
     $flavorMap = switch ($Type) {
         # Standout damage types
         { $_ -match 'standard|weapon' } {
-            if ($Class -eq 'physical') {
+            if ($Class -match 'physical|weapon') {
+                # (physical is the default for 'weapon' damage)
                 @{ badge = '⚔️'; color = 'White'; name = 'Weapon' }
             } elseif ($Class -eq 'magical') {
                 @{ badge = '🪄'; color = 'Blue'; name = 'Weapon' }
