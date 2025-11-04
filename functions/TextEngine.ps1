@@ -116,6 +116,9 @@ function Read-PlayerInput {
             }
         }
 
+        # Ensure $matchedResponses is an array so .Count reports the number of items (not string length)
+        $matchedResponses = @($matchedResponses)
+
         switch ($matchedResponses.Count) {
             {$_ -eq 0 -or [string]::IsNullOrWhiteSpace($response)} {
                 if ($AllowNullChoice -and [string]::IsNullOrWhiteSpace($response)) {
@@ -215,12 +218,17 @@ function Read-PlayerNumberInput {
 function ConvertTo-TitleCase {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [Parameter(ValueFromPipeline)]
         [string]$String,
 
         [Parameter()]
         [switch]$SuperDebug
     )
+
+    if ([string]::IsNullOrEmpty($String)) {
+        Write-Debug "empty string; cannot capitalize"
+        return ''
+    }
 
     if ($SuperDebug) {
         Write-Debug "capitalizing '$String'"
