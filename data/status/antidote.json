@@ -1,0 +1,31 @@
+{
+    "id": "antidote",
+    "name": "Immune",
+    "color": "Green",
+    "badge": "💊",
+    "applyDesc": "${game.battle.defender}'s immune system is boosted.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is immune.",
+    "removeDesc": "${game.battle.defender}'s immunity wanes.",
+    "description": "Immunity grants resistance to poisons of all types.",
+    "data": {
+        "class": "physical",
+        "type": "healing",
+        "passive": {
+            "resistances": {
+                "element": {
+                    "poison": {
+                        "buff": "i / 100"
+                    }
+                },
+                "status": {
+                    "poison": {
+                        "buff": "i / 100"
+                    }
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

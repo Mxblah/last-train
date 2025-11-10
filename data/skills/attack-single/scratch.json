@@ -11,6 +11,14 @@
         "crit": 0.05,
         "hits": 2,
         "class": "physical",
-        "type": "slashing"
+        "type": "slashing",
+        "status": [
+            {
+                "id": "bleed",
+                "chance": 0.25,
+                "stack": 2,
+                "intensity": 0.2
+            }
+        ]
     }
 }

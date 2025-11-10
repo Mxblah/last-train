@@ -1,0 +1,26 @@
+{
+    "id": "conB-bot-gremlin-eyebot-victory",
+    "data": [
+        {
+            "text": "With the gremlins defeated, the airport security forces quickly lose interest in you, having ostensibly proven that you are a rule-abiding citizen."
+        },
+        {
+            "text": "The bots and agents disperse, but one of them leaves behind a strange metal card dotted with perforations. It almost reminds you of an ancient punch card, though made of sturdier stuff.",
+            "action": {
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "airport-punch-card",
+                        "number": 1
+                    }
+                ],
+                "time": {
+                    "add": "00:00:40"
+                }
+            }
+        },
+        {
+            "text": "You're not really sure what to do with it, so for now you just store it away. Maybe you can find a computer to put it in later."
+        }
+    ]
+}

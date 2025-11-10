@@ -13,21 +13,36 @@ function Add-Status {
         [Parameter(Mandatory = $true)]
         [hashtable]$Skill,
 
+        # Only apply statuses to this target. By default, applies to both.
+        [Parameter()]
+        [ValidateSet('Attacker', 'Target')]
+        [string]$OnlyApplyTo,
+
         # Explicitly set the atk value, instead of calculating from the attacker
         [Parameter()]
         [double]$AttackOverride
     )
     # Update state
     $State.game.battle.attacker = $Attacker.name
-    $State.game.battle.defender = $Target.name
 
     # Loop through all the statuses we have
     foreach ($status in $Skill.data.status) {
-        Write-Debug "Applying status $($status.id) against $($Target.name)"
+        # Target determination
+        if ($status.applyToAttacker) { $statusTarget = $Attacker } else { $statusTarget = $Target }
+        if ($OnlyApplyTo -eq 'Attacker' -and -not $status.applyToAttacker ) {
+            Write-Debug "Not applying status $($status.id) because it does not apply to Attacker"
+            continue
+        } elseif ($OnlyApplyTo -eq 'Target' -and $status.applyToAttacker) {
+            Write-Debug "Not applying status $($status.id) because it does not apply to Target"
+            continue
+        }
+
+        Write-Debug "Applying status $($status.id) against $($statusTarget.name)"
+        $State.game.battle.defender = $statusTarget.name
 
         # Check if it applies at all
-        $statusApplyChance = $status.chance * ( 1 - $Target.resistances.status."$($status.id)".value )
-        Write-Debug "checking if status applies: chance is $($status.chance) * 1 - $($Target.resistances.status."$($status.id)".value ?? '(none)') = $statusApplyChance"
+        $statusApplyChance = $status.chance * ( 1 - $statusTarget.resistances.status."$($status.id)".value )
+        Write-Debug "checking if status applies: chance is $($status.chance) * 1 - $($statusTarget.resistances.status."$($status.id)".value ?? '(none)') = $statusApplyChance"
         if ($statusApplyChance -lt (Get-RandomPercent)) {
             Write-Debug 'did not apply'
             continue
@@ -46,10 +61,10 @@ function Add-Status {
         }
 
         # Write the status data to the target
-        if ($null -eq $Target.status."$($status.id)") { $Target.status."$($status.id)" = New-Object -TypeName System.Collections.ArrayList }
+        if ($null -eq $statusTarget.status."$($status.id)") { $statusTarget.status."$($status.id)" = New-Object -TypeName System.Collections.ArrayList }
         $statusInfo = $State.data.status."$($status.id)"
         $statusData = @{
-            guid = (New-Guid).Guid
+            guid = $status.guid ?? (New-Guid).Guid
             stack = $status.stack
             intensity = $status.intensity
             pow = $status.powOverride ?? $Skill.data.pow
@@ -57,11 +72,11 @@ function Add-Status {
             class = $statusInfo.data.class
             type = $statusInfo.data.type
         }
-        $Target.status."$($status.id)".Add($statusData) | Out-Null
+        $statusTarget.status."$($status.id)".Add($statusData) | Out-Null
         Write-Host ($State | Enrich-Text $statusInfo.applyDesc)
 
         # Immediately apply passive status effects
-        $State | Apply-StatusEffects -Character $Target -Phase 'passive'
+        $State | Apply-StatusEffects -Character $statusTarget -Phase 'passive'
     }
 }
 
@@ -78,27 +93,48 @@ function Remove-Status {
         [hashtable]$Target,
 
         [Parameter(Mandatory = $true)]
-        [hashtable]$Skill
+        [hashtable]$Skill,
+
+        # Only apply statuses to this target. By default, applies to both.
+        [Parameter()]
+        [ValidateSet('Attacker', 'Target')]
+        [string]$OnlyApplyTo,
+
+        [Parameter()]
+        [switch]$Loud
     )
 
     # Update state
     $State.game.battle.attacker = $Attacker.name
-    $State.game.battle.defender = $Target.name
 
     # Collect GUIDs to remove after iteration (avoid modifying collection while iterating)
-    $guidsToRemove = New-Object -TypeName System.Collections.ArrayList
+    $guidsToRemove = @{
+        'Attacker' = New-Object -TypeName System.Collections.ArrayList
+        'Target' = New-Object -TypeName System.Collections.ArrayList
+    }
 
     foreach ($removal in $Skill.data.removeStatus) {
-        Write-Debug "Attempting removals for status $($removal.id) against $($Target.name)"
+        # Target determination
+        if ($status.applyToAttacker) { $statusTarget = $Attacker; $guidListName = 'Attacker' } else { $statusTarget = $Target; $guidListName = 'Target' }
+        if ($OnlyApplyTo -eq 'Attacker' -and -not $status.applyToAttacker ) {
+            Write-Debug "Not applying status $($status.id) because it does not apply to Attacker"
+            continue
+        } elseif ($OnlyApplyTo -eq 'Target' -and $status.applyToAttacker) {
+            Write-Debug "Not applying status $($status.id) because it does not apply to Target"
+            continue
+        }
+
+        Write-Debug "Attempting removals for status $($removal.id) against $($statusTarget.name)"
+        $State.game.battle.defender = $statusTarget.name
 
         # If the target has no instances of this status, skip
-        if ($null -eq $Target.status."$($removal.id)") {
-            Write-Debug "No stacks of $($removal.id) on $($Target.name); skipping"
+        if ($null -eq $statusTarget.status."$($removal.id)") {
+            Write-Debug "No stacks of $($removal.id) on $($statusTarget.name); skipping"
             continue
         }
 
         # For every instance of the status, check chance and reduce stacks accordingly
-        foreach ($instance in $Target.status."$($removal.id)" ) {
+        foreach ($instance in $statusTarget.status."$($removal.id)" ) {
             $chance = $removal.chance
             Write-Debug "checking removal chance $chance"
             if ($chance -lt (Get-RandomPercent)) {
@@ -108,23 +144,27 @@ function Remove-Status {
 
             # Subtract stacks, but do not fully remove now
             $oldStack = $instance.stack
-            $instance.stack = $instance.stack - $removal.stack # todo: double check that this gets the real reference
+            $instance.stack = $instance.stack - $removal.stack
             Write-Debug "reduced $($removal.id) $($instance.guid) from $oldStack to $($instance.stack)"
 
             if ($instance.stack -le 0) {
-                $guidsToRemove.Add($instance.guid) | Out-Null
+                $guidsToRemove.$guidListName.Add($instance.guid) | Out-Null
             }
         }
     }
 
     # Now perform final removals
-    if ($guidsToRemove.Count -gt 0) {
-        Write-Debug "will remove the following status guids: [$($guidsToRemove -join ', ')]"
-        $State | Remove-StatusByGuid -Character $Target -Guids $guidsToRemove
+    foreach ($guidList in $guidsToRemove.GetEnumerator()) {
+        if ($guidList.Value.Count -gt 0) {
+            Write-Debug "will remove the following status guids: [$($guidList.Value -join ', ')] from $((Get-Variable -Name $guidList.Key -ValueOnly).Name)"
+            if ($Loud) { $splat = @{ Loud = $true } } else { $splat = @{} }
+            $State | Remove-StatusByGuid -Character (Get-Variable -Name $guidList.Key -ValueOnly) -Guids $guidList.Value @splat
+        }
     }
 }
 
-# todo: there's seemingly some sort of bug where if a status expires at the start of your turn, then you re-apply it with an item, the new status doesn't apply. no idea why that's happening. (??? - cannot reproduce???)
+# todo: there's seemingly some sort of bug where if a status expires at the start of your turn, then you re-apply it with an item, the new status doesn't apply. no idea why that's happening.
+# (??? - cannot reproduce??? ^)
 function Apply-StatusEffects {
     [CmdletBinding()]
     param(
@@ -135,7 +175,7 @@ function Apply-StatusEffects {
         [hashtable]$Character,
 
         [Parameter(Mandatory = $true)]
-        [ValidateSet('passive', 'turnStart', 'turnEnd', 'onDeath')]
+        [ValidateSet('passive', 'turnStart', 'turnEnd', 'onHit', 'onDeath')]
         [string]$Phase,
 
         # If set, will skip removing statuses that are out of stacks.
@@ -233,13 +273,19 @@ function Apply-StatusEffects {
                                 # (even if not, it looks weird to have dead characters taking damage)
                                 'own' { $State.game.battle.characters | Where-Object { $_.faction -eq $Character.faction -and $_.isActive } }
                                 'opposite' { $State.game.battle.characters | Where-Object { $_.faction -ne $Character.faction -and $_.isActive } }
+                                # Ignore self and allies to avoid triggering onHit effects when a character/ally provides buffs, for instance (technically a "hit")
+                                'attacker' { $State.game.battle.characters | Where-Object { $_.name -eq $State.game.battle.attacker -and $_ -ne $Character -and $_.faction -ne $Character.faction -and $_.isActive } }
                                 default { Write-Warning "unknown faction '$($data.faction)' in status $statusId ($($status.guid)); will not apply" }
                             }
 
                             Write-Debug "will apply to the following targets: [$($targets.name -join ', ')]"
                             foreach ($target in $targets) {
                                 Write-Debug "applying to $($target.name)..."
-                                $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $target @splat -DoNotRemoveStatuses
+                                if ($data.faction -ne 'own' -and $Phase -eq 'onHit') {
+                                    # Print a message to inform the attacker why they're taking damage
+                                    Write-Host -ForegroundColor Blue "↩️ $($target.name) takes retaliatory damage!"
+                                }
+                                $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $target -Attribute ($data.attrib ?? 'hp') @splat -DoNotRemoveStatuses
                             }
                         } else {
                             # Verify we aren't doing self-targeted damage onDeath (causes infinite loop as the damage kills us again)
@@ -249,7 +295,7 @@ function Apply-StatusEffects {
                             }
 
                             # Ship it normally
-                            $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $Character @splat -DoNotRemoveStatuses
+                            $State | Invoke-DamageEffect -Expression $expression -Status $status -Target $Character -Attribute ($data.attrib ?? 'hp') @splat -DoNotRemoveStatuses
                         }
 
                     }
@@ -257,6 +303,7 @@ function Apply-StatusEffects {
                         Write-Debug "setting skipTurn flag to $data for $($Character.name) due to $statusId ($($status.guid))"
                         $Character.skipTurn = $data
                     }
+                    # todo: attrib, stats, crits, affinities, resistances all have very similar code - can we combine them?
                     'attrib' {
                         Write-Debug "modifying attributes due to $statusId ($($status.guid))..."
                         foreach ($attribRaw in $data.GetEnumerator()) {
@@ -307,6 +354,54 @@ function Apply-StatusEffects {
                             }
                         }
                     }
+                    'crit' {
+                        Write-Debug "modifying crit chance due to $statusId ($($status.guid))"
+                        foreach ($formRaw in $data.GetEnumerator()) {
+                            # deal or take, usually
+                            $form = $formRaw.Key
+                            foreach ($activity in $formRaw.Value.GetEnumerator()) {
+                                # mult, buff, etc.
+                                $action = $activity.Key
+                                $number = Parse-BattleExpression -Expression $activity.Value -Status $status -TargetValue $Character.crit.$form.value
+
+                                # Do the thing
+                                Write-Debug "modifying crit:$form by ${action}:$number"
+                                $Character.activeEffects.Add(@{
+                                    path = "crit.$form.value"
+                                    action = $action
+                                    number = $number
+                                    guid = $status.guid
+                                    source = "status/$statusId"
+                                }) | Out-Null
+                            }
+                        }
+                    }
+                    { $_ -match 'affinities|resistances' } {
+                        Write-Debug "modifying $case due to $statusId ($($status.guid))"
+                        foreach ($affResCategory in $data.GetEnumerator()) {
+                            # e.g. 'element', 'status', etc.
+                            $affResCategoryName = $affResCategory.Key
+                            foreach ($affResRaw in $affResCategory.Value.GetEnumerator()) {
+                                # e.g. 'fire', 'physical', etc.
+                                $affRes = $affResRaw.Key
+                                foreach ($activity in $affResRaw.Value.GetEnumerator()) {
+                                    # mult, buff, etc.
+                                    $action = $activity.Key
+                                    $number = Parse-BattleExpression -Expression $activity.Value -Status $status -TargetValue $Character."$case"."$affRes".value
+
+                                    # Do the thing
+                                    Write-Debug "modifying $case/$affResCategoryName/$affRes by ${action}:$number"
+                                    $Character.activeEffects.Add(@{
+                                        path = "$case.$affResCategoryName.$affRes.value"
+                                        action = $action
+                                        number = $number
+                                        guid = $status.guid
+                                        source = "status/$statusId"
+                                    }) | Out-Null
+                                }
+                            }
+                        }
+                    }
                     'status' {
                         Write-Debug "applying subordinate statuses for $statusId ($($status.guid))"
                         # Check to see if chance, stack, or intensity needs to be parsed, and do so if needed
@@ -320,6 +415,7 @@ function Apply-StatusEffects {
                                     Write-Debug "parsed $subProperty into $($subStatus.$subProperty)"
                                 }
                             }
+                            $subStatus.guid = $status.guid # propagate guid to child statuses so they're removed with the parent
                         }
 
                         # We definitely can't add it now, as that would modify during iteration, so do it later
@@ -389,11 +485,17 @@ function Remove-StatusByGuid {
         [hashtable]$Character,
 
         [Parameter(Mandatory = $true)]
-        [System.Collections.IEnumerable]$Guids
+        [System.Collections.IEnumerable]$Guids,
+
+        [Parameter()]
+        [switch]$Loud
     )
 
+    # Vars
     Write-Debug "removing statuses from $($Character.name) with guids: [$($Guids -join ', ')]"
     $statusClassesToRemove = New-Object -TypeName System.Collections.ArrayList
+    $oldDefender = $State.game.battle.defender
+    $State.game.battle.defender = $Character.name # Many removal messages reference this value, so ensure it's right
 
     foreach ($guid in $Guids) {
         Write-Debug "removing status guid $guid from $($Character.name)"
@@ -426,7 +528,13 @@ function Remove-StatusByGuid {
         # Optionally show a remove description if present in data
         $statusInfo = $State.data.status."$($statusClass)"
         if ($statusInfo -and $statusInfo.removeDesc) {
-            Write-Host -ForegroundColor Blue "🧼 $($State | Enrich-Text $statusInfo.removeDesc)"
+            Write-Host "$($State | Enrich-Text $statusInfo.removeDesc)"
         }
+
+        # And print a scrub message if Loud
+        if ($Loud) { Write-Host -ForegroundColor DarkCyan "🧼 Cleared status '$($statusInfo.name)'" }
     }
+
+    # Put it back in case it's relevant
+    $State.game.battle.defender = $oldDefender
 }

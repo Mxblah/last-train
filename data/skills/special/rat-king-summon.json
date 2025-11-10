@@ -1,0 +1,34 @@
+{
+    "id": "rat-king-summon",
+    "name": "Summon Rats",
+    "description": "${game.battle.attacker}'s subjects respond to its call for aid!",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "mp": 0,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "summon",
+        "specialData": {
+            "characters": [
+                {
+                    "id": "rat-swarm",
+                    "chance": 0.8
+                },
+                {
+                    "id": "rat-mutant",
+                    "chance": 0.8
+                },
+                {
+                    "id": "rat-royal",
+                    "chance": 0.4
+                }
+            ]
+        }
+    }
+}

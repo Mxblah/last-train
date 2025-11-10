@@ -1,0 +1,21 @@
+{
+    "id": "charge-gel",
+    "name": "Charge Gel",
+    "description": "A packet of energy-charged gel that resonates with barrier medallions. Instantly recovers BP when used.",
+    "useDescription": "You smear the gel on your barrier medallion, where it quickly sublimates. Your barrier recovers quickly.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "magical",
+        "type": "bp-healing"
+    },
+    "effects": {
+        "heal": {
+            "attrib": "bp",
+            "expression": "0.5 * t",
+            "pow": 10,
+            "atk": 1
+        }
+    }
+}

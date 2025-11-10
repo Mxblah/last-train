@@ -8,8 +8,10 @@ function Add-PartyMember {
         [string]$Id
     )
 
-    # Get details and add
-    $data = $State.data.character.$Id
+    # Get details and add (clone so we don't mutate the canonical data)
+    $data = $State.data.character.$Id | ConvertTo-Json -Depth 99 -Compress | ConvertFrom-Json -AsHashtable
+    # Party members are directly controlled by the player, unlike one-off allies
+    $data.isPlayerControlled = $true
     $State.party.Add($data) | Out-Null
 
     # Inform

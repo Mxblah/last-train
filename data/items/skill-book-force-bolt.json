@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-force-bolt",
+    "name": "Skill Book: Force Bolt",
+    "description": "A delicate book with thin, near-translucent pages that are far more durable than they appear. Read to learn how to use Force Bolt.",
+    "useDescription": "After memorizing the spell's gestures and incantations, a bolt of force strikes your target with superior accuracy. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "00:47:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "force-bolt"
+            }
+        ]
+    }
+}

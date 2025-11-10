@@ -1,0 +1,50 @@
+{
+    "id": "conB-heart-vending",
+    "data": [
+        {
+            "text": "You come across a still-operational glass-fronted vending machine, although it does have a substantial covering of graffiti from the local gremlin population. It appears to be selling chocolate hearts, and there's just one left. How convenient.",
+            "choice": {
+                "text": "Pay 20 coins for a chocolate heart?",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "You deposit 20 coins into the slot and receive a foil-wrapped heart in return.",
+                            "Struck with the urge to eat it right away, you unwrap the heart and pop it into your mouth. It has a mild, pleasantly sweet taste.",
+                            "You feel healthier."
+                        ],
+                        "time": {
+                            "add": "00:01:40"
+                        },
+                        "item": [
+                            {
+                                "action": "remove",
+                                "id": "coin",
+                                "number": 20
+                            }
+                        ],
+                        "flag": {
+                            "airport.concourseB.heartVended": true
+                        },
+                        "attrib": {
+                            "hp": {
+                                "base": {
+                                    "buff": 50
+                                },
+                                "value": {
+                                    "buff": "0.35 * t"
+                                }
+                            }
+                        },
+                        "when": {
+                            "item": {
+                                "id": "coin",
+                                "min": 20
+                            }
+                        }
+                    },
+                    "no": {}
+                }
+            }
+        }
+    ]
+}

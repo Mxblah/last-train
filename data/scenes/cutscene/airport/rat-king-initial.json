@@ -1,0 +1,99 @@
+{
+    "id": "rat-king-initial",
+    "data": [
+        {
+            "text": "Rats squirm and squeak in the shadows as you crawl into the cave. Then, a high-pitched, threefold voice echoes from the throats of three massive rats entangled and conjoined into one horrible creature almost as large as you. The rat king squats grotesquely atop a crudely carven stone block near the rear of the cave, surrounded by attendant rats of a more normal size and shape."
+        },
+        {
+            "text": "It addresses you with strained, poorly enunciated words, but the sounds are undeniably human speech. \"Human,\" it rasps. \"First in very, very long time. What is its purpose?\" It seems to be expecting an answer.",
+            "choice": {
+                "text": "How will you respond?",
+                "responses": {
+                    "ascension": {
+                        "text": [
+                            "You explain to the rat king that your purpose is to reach ASCENSION. What exactly you'll do there is as much a mystery to you as anyone else, but you know that is what you must do.",
+                            "You don't necessarily have any quarrel with it or its subjects, you clarify politely, trying to defuse the rather tense atmosphere.",
+                            "The rat king doesn't seem to quite understand what you mean by ASCENSION, but your politeness seems to have gotten through a bit. Its demeanor becomes a little more relaxed as it responds."
+                        ]
+                    },
+                    "exploration": {
+                        "text": [
+                            "You explain to the rat king that you're just here to explore and gather supplies to continue your journey.",
+                            "You don't necessarily have any quarrel with it or its subjects, you clarify politely, trying to defuse the rather tense atmosphere.",
+                            "The rat king barks that you are not entitled to any supplies from its royal domain, but your politeness seems to have gotten through a bit. Its demeanor becomes a little more relaxed as it responds."
+                        ]
+                    },
+                    "kill rats": {
+                        "text": [
+                            "You explain to the rat king that your purpose is to exterminate vermin like itself and its retainers. Unsurprisingly, the monarch does not take this well. You'd better prepare for battle."
+                        ],
+                        "flag": {
+                            "airport.ratKing.conversationStage": "battle"
+                        },
+                        "exit": {
+                            "type": "battle",
+                            "id": "rat-king-battle"
+                        }
+                    },
+                    "say nothing": {
+                        "text": [
+                            "You refuse to answer the rat king. Perhaps surprisingly, the monarch does not take this well, screeching about your rudeness and launching itself into an attack. You'd better prepare for battle."
+                        ],
+                        "flag": {
+                            "airport.ratKing.conversationStage": "battle"
+                        },
+                        "exit": {
+                            "type": "battle",
+                            "id": "rat-king-battle"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"If it does not attack rats, will it aid rats?\" The three rats that make up the king take turns speaking as it continues. \"Recent, a deathly hunter cat has invaded. Many rats slain. Humans are higher than cats, so human can defeat cat, yes?\""
+        },
+        {
+            "text": "You try to clarify the situation and what it wants you to do, and eventually come to an understanding that the king's subjects have been under attack by a supernaturally powerful cat within the last few days. It wants you to stop the problem in whatever way you can, whether that be by killing the cat, convincing it to leave the rats alone, or something between.",
+            "action": {
+                "time": {
+                    "add": "00:03:00"
+                }
+            }
+        },
+        {
+            "text": "The description of this cat makes it sound very much like the talking one you met in the desert. Somehow, you doubt you could kill it even if you wanted to; its knowledge and power seem a little too vast compared to your own. You are a little surprised it would stoop to hunting rats, though.",
+            "when": {
+                "global.cat.metOnce": true
+            }
+        },
+        {
+            "text": "The rat king offers some goodies as a reward. If you get rid of the cat, you will be provided with a magic tool and spell book once used by a human the clan ate ages ago.",
+            "choice": {
+                "text": "Agree to help the rat king?",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "You agree to help the rat king with as much grace as you can muster in the current situation.",
+                            "It chitters in appreciation, then remembers one more thing you can help with: \"Rogue royals, in the human tunnels under the sky-lawn,\" it explains. \"Kill them for additional shinies.\"",
+                            "You are dismissed, it seems."
+                        ],
+                        "flag": {
+                            "airport.ratKing.conversationStage": 2
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You explain that you can't commit to this right now, as your own tasks are very pressing.",
+                            "The rat king hisses and chitters with annoyance, but does not attack. If you change your mind later - which you should, it hints - return and tell it at once.",
+                            "You are dismissed, it seems."
+                        ],
+                        "flag": {
+                            "airport.ratKing.conversationStage": 1
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

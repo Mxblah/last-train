@@ -1,0 +1,214 @@
+{
+    "id": "hallowed-lesser",
+    "name": "Lesser Hallowed",
+    "entryDescription": "You approach a radiantly beautiful person glowing with sunlight.",
+    "inspectDescription": "An impossibly beautiful person wearing only charred scraps of a traveling outfit. Golden sunlight pours from all exposed skin. Never seems to move, but is somehow capable of being in different places without obvious locomotion between them. Can use varied magic, but the primary threat is the sunlight.",
+    "bestiaryDescription": "Weakest of the true hallowed, these individuals have accepted the sunlight into themselves but lack the capacity or willpower to proceed far beyond humanity. Capable of self-healing with blessings. Uses solar, mental, and force magic, and exudes a mental fascination that can prevent fleeing.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "anger": {
+                "value": 0,
+                "base": 0.75
+            },
+            "blind": {
+                "value": 0,
+                "base": 0.5
+            },
+            "dazzled": {
+                "value": 0,
+                "base": 1
+            },
+            "fear": {
+                "value": 0,
+                "base": 0.75
+            },
+            "freeze": {
+                "value": 0,
+                "base": 0.5
+            },
+            "restrained": {
+                "value": 0,
+                "base": 0.75
+            },
+            "paralysis": {
+                "value": 0,
+                "base": 0.75
+            },
+            "sunburn": {
+                "value": 0,
+                "base": 1
+            }
+        },
+        "element": {
+            "divine": {
+                "value": 0,
+                "base": 0.5
+            },
+            "force": {
+                "value": 0,
+                "base": 0.25
+            },
+            "mental": {
+                "value": 0,
+                "base": 0.5
+            },
+            "solar": {
+                "value": 0,
+                "base": 1.5
+            },
+            "void": {
+                "value": 0,
+                "base": -0.5
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 380,
+            "max": 380,
+            "base": 380,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 30,
+            "base": 30,
+            "regen": 3,
+            "baseRegen": 3
+        },
+        "mp": {
+            "value": 30,
+            "max": 60,
+            "base": 60,
+            "regen": 0,
+            "baseRegen": 5
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 10
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 30
+        },
+        "pDef": {
+            "value": 0,
+            "base": 24
+        },
+        "mDef": {
+            "value": 0,
+            "base": 36
+        },
+        "acc": {
+            "value": 0,
+            "base": 28
+        },
+        "spd": {
+            "value": 0,
+            "base": 16
+        }
+    },
+    "crit": {
+        "deal": {
+            "value": 0,
+            "base": 0
+        },
+        "take": {
+            "value": 0,
+            "base": 0
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 6,
+            "max": 11,
+            "chance": 0.95
+        },
+        {
+            "id": "silver-feather",
+            "number": 1,
+            "chance": 0.25
+        },
+        {
+            "id": "skill-book-force-bolt",
+            "number": 1,
+            "chance": 0.1
+        },
+        {
+            "id": "skill-book-mindspike",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "blaster",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack-magic",
+                "weight": 40
+            },
+            {
+                "id": "force-bolt",
+                "weight": 70
+            },
+            {
+                "id": "mindspike",
+                "weight": 80
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "solar-flood",
+                "weight": 140
+            }
+        ],
+        "buff-single": [
+
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+            {
+                "id": "solar-embrace",
+                "weight": 80
+            },
+            {
+                "id": "fascinate",
+                "weight": 60
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+            {
+                "id": "blessing-lesser",
+                "weight": 50
+            }
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "stare-into-space",
+                "weight": 10
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "id": "tunnels-mutant-eyebot",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "rat-mutant"
+                },
+                {
+                    "id": "eyebot"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

@@ -5,6 +5,7 @@
     "badge": "☀️",
     "applyDesc": "Sunlight surges within ${game.battle.defender}.",
     "turnDesc": "${game.battle.currentTurn.characterName} is dissolving from sunlight.",
+    "removeDesc": "The sunlight fades from ${game.battle.defender}",
     "description": "Sunburn deals damage and reduces magic defense.",
     "data": {
         "class": "magical",
@@ -15,7 +16,7 @@
         "passive": {
             "stats": {
                 "mDef": {
-                    "mult": "-0.1 * s + 1.0"
+                    "mult": "-0.05 * s + 1.0"
                 }
             }
         },

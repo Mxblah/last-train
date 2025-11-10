@@ -1,0 +1,51 @@
+{
+    "id": "run-over",
+    "name": "Run Over",
+    "description": "${game.battle.attacker} runs over several foes.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 2,
+        "targetsAll": false,
+        "mp": 11,
+        "pow": 9,
+        "acc": 0.9,
+        "crit": 0,
+        "hits": 3,
+        "class": "physical",
+        "type": "earth",
+        "status": [
+            {
+                "id": "bleed",
+                "chance": 0.25,
+                "stack": 2,
+                "intensity": 0.15
+            },
+            {
+                "id": "dizzy",
+                "chance": 0.35,
+                "stack": 2,
+                "intensity": 2
+            },
+            {
+                "id": "fear",
+                "chance": 0.15,
+                "stack": 2,
+                "intensity": 2
+            },
+            {
+                "id": "exposed",
+                "chance": 0.5,
+                "stack": 2,
+                "intensity": 2,
+                "applyToAttacker": true
+            },
+            {
+                "id": "slow",
+                "chance": 0.67,
+                "stack": 2,
+                "intensity": 5,
+                "applyToAttacker": true
+            }
+        ]
+    }
+}

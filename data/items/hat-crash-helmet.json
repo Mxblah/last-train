@@ -1,0 +1,42 @@
+{
+    "id": "hat-crash-helmet",
+    "name": "Crash Helmet",
+    "description": "A full-coverage helmet designed for use with a motorcycle or similar vehicle. Boosts physical defense significantly and HP slightly, provides a small barrier pool, and protects against dizziness.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "hat"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "physical": 0.05
+            },
+            "status": {
+                "dizzy": 0.4
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 8
+                }
+            },
+            "bp": {
+                "max": {
+                    "buff": 8
+                },
+                "regen": {
+                    "buff": 2
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 10
+            },
+            "mDef": {
+                "buff": 2
+            }
+        }
+    }
+}

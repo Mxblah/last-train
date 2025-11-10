@@ -1,0 +1,30 @@
+{
+    "id": "shoes-wellies",
+    "name": "Wellies",
+    "description": "A pair of somewhat dirty but warm and waterproof wellies. Boosts water, cold, earth, and acid resistance, but they're a little slow to move in.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "shoes"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "acid": 0.1,
+                "cold": 0.1,
+                "earth": 0.1,
+                "water": 0.1
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 2
+            },
+            "mDef": {
+                "buff": 1
+            },
+            "spd": {
+                "debuff": 2
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "id": "charge-idle",
+    "name": "Charge",
+    "description": "Energy gathers around ${game.battle.attacker}...",
+    "skillType": "idle",
+    "data": {}
+}

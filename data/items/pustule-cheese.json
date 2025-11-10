@@ -1,0 +1,32 @@
+{
+    "id": "pustule-cheese",
+    "name": "Poisonous Cheese",
+    "description": "A chunk of disgusting-looking, probably poisonous cheese. Eat to grow defensive poison pustules.",
+    "useDescription": "You manage to choke down the cheese with significant difficulty. Pustules begin to sprout from your body.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "class": "physical",
+        "type": "poison",
+        "pow": 10
+    },
+    "effects": {
+        "status": {
+            "add": [
+                {
+                    "id": "poison",
+                    "chance": 1,
+                    "stack": 3,
+                    "intensity": 0.25
+                },
+                {
+                    "id": "poison-pustules",
+                    "chance": 1,
+                    "stack": 5,
+                    "intensity": 1.75
+                }
+            ]
+        }
+    }
+}

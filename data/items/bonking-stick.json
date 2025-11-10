@@ -1,0 +1,21 @@
+{
+    "id": "bonking-stick",
+    "name": "Bonking Stick",
+    "description": "A bent, somewhat jagged length of very heavy metal scavenged from the wreck of a gremlin-upgraded vehicle. Has no special abilities, but boosts physical attack significantly.",
+    "itemType": "weapon",
+    "equipData": {
+        "slot": "weapon",
+        "weaponData": {
+            "class": "physical",
+            "type": "standard",
+            "typePercent": 1
+        }
+    },
+    "effects": {
+        "stats": {
+            "pAtk": {
+                "buff": 22
+            }
+        }
+    }
+}

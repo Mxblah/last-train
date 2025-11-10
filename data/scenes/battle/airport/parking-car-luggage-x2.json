@@ -1,0 +1,25 @@
+{
+    "id": "parking-car-luggage-x2",
+    "data": {
+        "characters": {
+            "ally": [
+                {
+                    "id": "security-agent",
+                    "faction": "ally"
+                }
+            ],
+            "enemy": [
+                {
+                    "id": "luggage-gremlin"
+                },
+                {
+                    "id": "car-gremlin"
+                },
+                {
+                    "id": "luggage-gremlin"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

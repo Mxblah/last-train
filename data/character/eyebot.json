@@ -62,6 +62,10 @@
             "sonic": {
                 "value": 0,
                 "base": -0.15
+            },
+            "water": {
+                "value": 0,
+                "base": -0.2
             }
         }
     },
@@ -118,12 +122,28 @@
             "base": 19
         }
     },
+    "crit": {
+        "deal": {
+            "value": 0,
+            "base": 0
+        },
+        "take": {
+            "value": 0,
+            "base": 0
+        }
+    },
     "loot": [
         {
             "id": "coin",
             "min": 2,
             "max": 5,
             "chance": 0.7
+        },
+        {
+            "id": "charge-gel",
+            "min": 1,
+            "max": 2,
+            "chance": 0.2
         },
         {
             "id": "fuel",

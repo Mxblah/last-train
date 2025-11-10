@@ -116,6 +116,9 @@ function Read-PlayerInput {
             }
         }
 
+        # Ensure $matchedResponses is an array so .Count reports the number of items (not string length)
+        $matchedResponses = @($matchedResponses)
+
         switch ($matchedResponses.Count) {
             {$_ -eq 0 -or [string]::IsNullOrWhiteSpace($response)} {
                 if ($AllowNullChoice -and [string]::IsNullOrWhiteSpace($response)) {
@@ -215,12 +218,17 @@ function Read-PlayerNumberInput {
 function ConvertTo-TitleCase {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true, ValueFromPipeline)]
+        [Parameter(ValueFromPipeline)]
         [string]$String,
 
         [Parameter()]
         [switch]$SuperDebug
     )
+
+    if ([string]::IsNullOrEmpty($String)) {
+        Write-Debug "empty string; cannot capitalize"
+        return ''
+    }
 
     if ($SuperDebug) {
         Write-Debug "capitalizing '$String'"
@@ -257,7 +265,8 @@ function Get-DamageTypeFlavorInfo {
     $flavorMap = switch ($Type) {
         # Standout damage types
         { $_ -match 'standard|weapon' } {
-            if ($Class -eq 'physical') {
+            if ($Class -match 'physical|weapon') {
+                # (physical is the default for 'weapon' damage)
                 @{ badge = '⚔️'; color = 'White'; name = 'Weapon' }
             } elseif ($Class -eq 'magical') {
                 @{ badge = '🪄'; color = 'Blue'; name = 'Weapon' }
@@ -281,6 +290,8 @@ function Get-DamageTypeFlavorInfo {
         'fire' { @{ badge = '🔥'; color = 'Red'; name = 'Fire' } }
         'force' { @{ badge = '✨'; color = 'Magenta'; name = 'Force' } }
         'healing' { @{ badge = '💖'; color = 'Green'; name = 'Healing' } }
+        'mp-healing' { @{ badge = '✨'; color = 'Green'; name = 'Healing' } }
+        'bp-healing' { @{ badge = '🛡️'; color = 'Green'; name = 'Healing' } }
         'lightning' { @{ badge = '⚡'; color = 'Yellow'; name = 'Lightning' } }
         'mental' { @{ badge = '🧠'; color = 'Magenta'; name = 'Mental' } }
         'piercing' { @{ badge = '🗡️'; color = 'White'; name = 'Piercing' } }
@@ -291,6 +302,7 @@ function Get-DamageTypeFlavorInfo {
         'sonic' { @{ badge = '🎶'; color = 'DarkGreen'; name = 'Sonic' } }
         'visual' { @{ badge = '👁️'; color = 'DarkMagenta'; name = 'Visual' } }
         'void' { @{ badge = '🌑'; color = 'Black'; name = 'Void' } }
+        'water' { @{ badge = '💧'; color = 'Blue'; name = 'Water' } }
         default { @{ badge = '🩸'; color = 'DarkRed' ; name = 'Unknown'} }
     }
     return $flavorMap
@@ -314,6 +326,7 @@ function Get-AttribStatBadge {
         'mDef' { '🔮' }
         'acc' { '🎯' }
         'spd' { '👟' }
+        'luck' { '🎲' }
 
         default { '❓' }
     }

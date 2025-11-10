@@ -5,6 +5,7 @@
     "badge": "🔥",
     "applyDesc": "${game.battle.defender} is on fire!",
     "turnDesc": "${game.battle.currentTurn.characterName} burns.",
+    "removeDesc": "${game.battle.defender} is extinguished.",
     "description": "Burning reduces defenses and deals damage.",
     "data": {
         "class": "physical",
@@ -19,6 +20,13 @@
                 },
                 "mDef": {
                     "mult": "-0.05 * s + 1.0"
+                }
+            },
+            "resistances": {
+                "element": {
+                    "cold": {
+                        "buff": "i * 0.1"
+                    }
                 }
             }
         },

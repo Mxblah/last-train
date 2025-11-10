@@ -8,13 +8,17 @@ function Test-WhenConditions {
         [hashtable]$When,
 
         [Parameter()]
-        [string]$WhenMode
+        [string]$WhenMode,
+
+        # Inverts the final result (equivalent to adding a "not" around the whole block)
+        [Parameter()]
+        [switch]$Inverted
     )
 
     # No conditions: return true
     if ($null -eq $When -or $When.Count -eq 0) {
-        Write-Debug 'no conditions passed in when block; returning true'
-        return $true
+        Write-Debug 'no conditions passed in when block; returning true (or false if inverted is true - inverted is: $Inverted)'
+        return (-not $Inverted ? $true : $false)
     }
 
     # Param handling
@@ -53,18 +57,21 @@ function Test-WhenConditions {
 
         Write-Debug "checking condition '$($condition.Key)' - required: $requiredValue / actual: $actualValue"
         # Hard-convert to allow $null to count as $false
-        if ([System.Convert]::ToBoolean($actualValue) -eq $requiredValue) {
+        if ($null -eq $actualValue) { Write-Debug "converting null actual value to false"; $actualValue = $false }
+
+        # Verify equality *and* that the type actually matches to avoid things like $true -eq 'any string', $false -eq 0, etc.
+        if ($actualValue -eq $requiredValue -and $actualValue -is $requiredValue.GetType()) {
             # if it's true and we only need one to be true, we're done
             if ($WhenMode -eq 'or') {
-                Write-Debug "mode '$WhenMode' and result true: returning true"
-                return $true
+                Write-Debug "mode '$WhenMode' and result true: returning true (or false if inverted is true - inverted is: $Inverted)"
+                return (-not $Inverted ? $true : $false)
             }
             # otherwise, keep checking
         } else {
             # if it's false and we need them all to be true, we're done
             if ($WhenMode -eq 'and') {
-                Write-Debug "mode '$WhenMode' and result false: returning false"
-                return $false
+                Write-Debug "mode '$WhenMode' and result false: returning false (or true if inverted is true - inverted is: $Inverted)"
+                return (-not $Inverted ? $false : $true)
             }
             # otherwise, keep checking
         }
@@ -73,10 +80,10 @@ function Test-WhenConditions {
     # If we made it through the loop, that means all the conditions were true and we were in "and" mode, or all the conditions were false and we were in "or" mode
     # (if we were in "and" mode and anything was false, we would have exited above, and the same for "or" mode if anything was true)
     if ($WhenMode -eq 'and') {
-        Write-Debug "mode '$WhenMode' and no conditions were false: returning true"
-        return $true
+        Write-Debug "mode '$WhenMode' and no conditions were false: returning true (or false if inverted is true - inverted is: $Inverted)"
+        return (-not $Inverted ? $true : $false)
     } else {
-        Write-Debug "mode '$WhenMode' and no conditions were true: returning false"
-        return $false
+        Write-Debug "mode '$WhenMode' and no conditions were true: returning false (or true if inverted is true - inverted is: $Inverted)"
+        return (-not $Inverted ? $false : $true)
     }
 }

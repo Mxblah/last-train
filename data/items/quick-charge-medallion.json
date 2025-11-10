@@ -1,0 +1,31 @@
+{
+    "id": "quick-charge-medallion",
+    "name": "Quick-Charge Medallion",
+    "description": "A thin barrier medallion made of a green-tinged metal. Hums with energy and recovers quickly for its size, but has a rather limited capacity. Slightly boosts lightning, dazzled, and paralysis resistance.",
+    "itemType": "barrier",
+    "equipData": {
+        "slot": "barrier",
+        "barrierData": {}
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "lightning": 0.05
+            },
+            "status": {
+                "dazzled": 0.1,
+                "paralysis": 0.05
+            }
+        },
+        "attrib": {
+            "bp": {
+                "max": {
+                    "buff": 12
+                },
+                "regen": {
+                    "buff": 8
+                }
+            }
+        }
+    }
+}

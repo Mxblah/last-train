@@ -12,6 +12,14 @@
     },
     "effects": {
         "status": {
+            "add": [
+                {
+                    "id": "balm",
+                    "chance": 1,
+                    "stack": 18,
+                    "intensity": 25
+                }
+            ],
             "remove": [
                 "acidburn",
                 "burn",

@@ -1,0 +1,117 @@
+{
+    "id": "parking-pillar",
+    "name": "Pillar",
+    "entryDescription": "You approach the pillar. Dim grey light gathers around it.",
+    "inspectDescription": "The immobile, inanimate concrete pillar seems to have command of some impressive magical energy. Maybe something enchanted it long ago? Charges up energy for one impressively devastating magical void attack.",
+    "bestiaryDescription": "The pillar is made of concrete and resists most forms of damage while charging an attack that will almost certainly defeat you in one hit. You just need to deal enough damage to destroy it before you run out of time.",
+    "faction": "enemy",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {},
+        "element": {}
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 1000,
+            "max": 1000,
+            "base": 1000,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 0,
+            "max": 100,
+            "base": 100,
+            "regen": 18,
+            "baseRegen": 18
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 0
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 600
+        },
+        "pDef": {
+            "value": 0,
+            "base": 30
+        },
+        "mDef": {
+            "value": 0,
+            "base": 30
+        },
+        "acc": {
+            "value": 0,
+            "base": 95
+        },
+        "spd": {
+            "value": 0,
+            "base": 1
+        }
+    },
+    "crit": {
+        "deal": {
+            "value": 0,
+            "base": 0
+        },
+        "take": {
+            "value": 0,
+            "base": 0
+        }
+    },
+    "loot": [],
+    "ai": "lazy",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "obliteration-glint",
+                "weight": 999
+            }
+        ],
+        "attack-multi": [
+
+        ],
+        "buff-single": [
+
+        ],
+        "buff-multi": [
+
+        ],
+        "debuff-single": [
+
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "charge-idle",
+                "weight": 1
+            }
+        ],
+        "special": [
+
+        ]
+    }
+}

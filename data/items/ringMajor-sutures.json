@@ -1,0 +1,29 @@
+{
+    "id": "ringMajor-sutures",
+    "name": "Major Ring of Sutures",
+    "description": "A ring bearing the symbol of a needle crossed with a bandage. Your skin feels tighter when you wear it, and you can feel your heartbeat. Significantly boosts bleed resistance and raises HP. The wearer will slowly regenerate HP over time.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "ringMajor"
+    },
+    "effects": {
+        "resistances": {
+            "status": {
+                "bleed": 0.4
+            },
+            "element": {
+                "bleed": 0.2
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 33
+                },
+                "regen": {
+                    "buff": 1
+                }
+            }
+        }
+    }
+}

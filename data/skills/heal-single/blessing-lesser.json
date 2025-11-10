@@ -1,0 +1,25 @@
+{
+    "id": "blessing-lesser",
+    "name": "L. Bless",
+    "description": "${game.battle.attacker} is drenched in healing sunlight.",
+    "skillType": "heal-single",
+    "data": {
+        "target": 1,
+        "mp": 10,
+        "pow": 10,
+        "acc": 1,
+        "crit": 0.15,
+        "hits": 1,
+        "class": "magical",
+        "type": "healing",
+        "isHealing": true,
+        "status": [
+            {
+                "id": "aureole",
+                "chance": 1,
+                "stack": 9,
+                "intensity": 10
+            }
+        ]
+    }
+}

@@ -238,8 +238,6 @@ function Invoke-TrainArrival {
         Write-Debug "setting train departure time to $desiredDepartureTime"
         $train.willDepartAt = $desiredDepartureTime
     }
-    Write-Debug "setting decision point based on departure time of $($train.willDepartAt) and decision time of $($scene.data.decisionTime)"
-    $train.stationDecisionPoint = $train.willDepartAt.Add([timespan]$scene.data.decisionTime)
 
     Write-Host -ForegroundColor Cyan "🚉 The train has arrived at $($scene.name)."
     $State | Save-Game -Auto

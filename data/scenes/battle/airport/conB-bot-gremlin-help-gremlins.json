@@ -1,0 +1,43 @@
+{
+    "id": "eyebot-x1",
+    "data": {
+        "characters": {
+            "ally": [
+                {
+                    "id": "luggage-gremlin",
+                    "faction": "ally"
+                },
+                {
+                    "id": "luggage-gremlin",
+                    "faction": "ally"
+                },
+                {
+                    "id": "luggage-gremlin",
+                    "faction": "ally"
+                }
+            ],
+            "enemy": [
+                {
+                    "id": "eyebot"
+                },
+                {
+                    "id": "security-agent"
+                },
+                {
+                    "id": "security-agent"
+                }
+            ]
+        },
+        "special": {
+            "forceFirstTurn": "eyebot"
+        },
+        "exit": {
+            "type": "cutscene",
+            "id": "conB-bot-gremlin-gremlin-victory"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "airport"
+        }
+    }
+}

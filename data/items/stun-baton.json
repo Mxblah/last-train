@@ -32,13 +32,13 @@
         },
         "stats": {
             "pAtk": {
-                "buff": 7
+                "buff": 8
             },
             "mAtk": {
                 "buff": 4
             },
             "acc": {
-                "buff": 3
+                "buff": 4
             }
         }
     }

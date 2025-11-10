@@ -1,0 +1,135 @@
+{
+    "id": "rat-king-2",
+    "data": [
+        {
+            "text": "The rat king chitters an impatient greeting. \"Has the human finished its tasks yet?\"",
+            "choice": {
+                "text": "Complete which quest?",
+                "responses": {
+                    "cat": {
+                        "text": [
+                            "You explain that the cat won't be bothering the rats anymore, and there's a smattering of rodent applause from the surrounding subjects. The king nods in triplicate.",
+                            "\"The rewards!\" it commands, ordering a contingent of rats to bring them forwards. You carefully pick up the scepter and slim book from the retainers when they arrive."
+                        ],
+                        "when": {
+                            "airport.ratKing.catQuestComplete": true,
+                            "airport.ratKing.catQuestTurnedIn": false
+                        },
+                        "flag": {
+                            "airport.ratKing.catQuestTurnedIn": true
+                        },
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "snow-scepter",
+                                "number": 1
+                            },
+                            {
+                                "action": "add",
+                                "id": "skill-book-snowstuff",
+                                "number": 1
+                            }
+                        ]
+                    },
+                    "rogue royals": {
+                        "text": [
+                            "You provide the proof of your battle and the rat king cackles from multiple throats. \"It is done; yes, yes. Rewards!\"",
+                            "A contingent of rat retainers arrives with the \"additional shinies\" you were promised. Turns out it's a bunch of coins, plus some orbs."
+                        ],
+                        "when": {
+                            "airport.ratKing.rogueQuestComplete": true,
+                            "airport.ratKing.rogueQuestTurnedIn": false
+                        },
+                        "flag": {
+                            "airport.ratKing.rogueQuestTurnedIn": true
+                        },
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "coin",
+                                "number": 25
+                            },
+                            {
+                                "action": "add",
+                                "id": "orb-roseate",
+                                "number": 3
+                            },
+                            {
+                                "action": "add",
+                                "id": "orb-pearlescent",
+                                "number": 3
+                            }
+                        ]
+                    },
+                    "none": {
+                        "text": [
+                            "\"Hurry up, then,\" the rat king demands. \"Begone; finish tasks!\"",
+                            "You are dismissed, it seems."
+                        ],
+                        "exit": {
+                            "type": "explore",
+                            "id": "airport"
+                        }
+                    }
+                }
+            },
+            "action": {
+                "time": {
+                    "add": "00:03:00"
+                }
+            }
+        },
+        {
+            "text": "\"One task still unfinished!\" the king exclaims. \"Hurry and finish what is left!\"\nYou are dismissed, it seems.",
+            "exit": {},
+            "whenMode": "or",
+            "when": {
+                "airport.ratKing.catQuestTurnedIn": false,
+                "airport.ratKing.rogueQuestTurnedIn": false
+            }
+        },
+        {
+            "text": "\"Both tasks complete!\" the king exclaims. \"The human is friend to rats! Extra, *extra* shinies are needed - bring!\"\n\nA royal rat emerges from a hidden nook in the very back of the cave, bowing before you and presenting a glimmering shard of flawless silver. You try to pick it up, but it dissolves into your body as soon as you touch it. You don't feel any different, but the rat king looks quite impressed.\n\n\"It can even hold the gifted soul,\" it rattles. \"Rats, treat this one with care. No biting.\" It seems you will no longer be accosted by the king's rats in these tunnels.",
+            "when": {
+                "airport.ratKing.catQuestTurnedIn": true,
+                "airport.ratKing.rogueQuestTurnedIn": true
+            },
+            "action": {
+                "flag": {
+                    "airport.ratKing.conversationStage": "done"
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-silver",
+                        "number": 1
+                    }
+                ]
+            }
+        },
+        {
+            "text": "You are dismissed, it seems.",
+            "choice": {
+                "text": "Ask about the soul?",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "The rat king struggles to explain the concept, but after several minutes you think you get it.",
+                            "The silver soul was drawn from the crumbling body of the previous rat king, then contained in a special vessel passed down through generations of rats. The king itself doesn't really understand what it does - no rat does - but it knows the soul is linked to the sun and is considered a holy relic of ratkind.",
+                            "Tradition indicates the soul may be bestowed upon visitors who perform great service for the rats. It doesn't do anything for them besides sit in a bowl otherwise, so there's no reason not to do it.",
+                            "Maybe you can make better use of it than the rats. Something about the soul feels vaguely familiar to you..."
+                        ],
+                        "time": {
+                            "add": "00:05:00"
+                        }
+                    },
+                    "no": {}
+                }
+            },
+            "when": {
+                "airport.ratKing.catQuestTurnedIn": true,
+                "airport.ratKing.rogueQuestTurnedIn": true
+            }
+        }
+    ]
+}

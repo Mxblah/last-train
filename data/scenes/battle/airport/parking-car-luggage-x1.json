@@ -1,0 +1,17 @@
+{
+    "id": "parking-car-luggage-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "car-gremlin"
+                },
+                {
+                    "id": "luggage-gremlin"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

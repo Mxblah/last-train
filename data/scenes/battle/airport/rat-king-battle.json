@@ -1,0 +1,34 @@
+{
+    "id": "rat-king-battle",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "rat-king"
+                },
+                {
+                    "id": "rat-royal"
+                },
+                {
+                    "id": "rat-swarm"
+                }
+            ]
+        },
+        "special": {
+            "forceFirstTurn": "rat-king"
+        },
+        "flags": {
+            "airport.ratKing.conversationStage": "done",
+            "airport.ratKing.dead": true
+        },
+        "exit": {
+            "type": "explore",
+            "id": "airport"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "airport"
+        }
+    }
+}

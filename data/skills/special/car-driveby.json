@@ -1,0 +1,53 @@
+{
+    "id": "car-driveby",
+    "name": "Drive-By",
+    "description": "${game.battle.attacker} screams past ${game.battle.defender}, scrambling to steal multiple items on the way!",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "targetOverride": "opposite-faction",
+        "mp": 0,
+        "pow": 3,
+        "acc": 0.85,
+        "crit": 0.05,
+        "hits": 2,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "steal",
+        "specialData": {
+            "stealCategories": ["clothing", "weapon", "barrier", "held"],
+            "stealAmount": 1,
+            "canStealEquippedItem": true,
+            "mustStealEquippedItem": true
+        },
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.4,
+                "stack": 3,
+                "intensity": 1
+            },
+            {
+                "id": "exposed",
+                "chance": 0.5,
+                "stack": 2,
+                "intensity": 2,
+                "applyToAttacker": true
+            },
+            {
+                "id": "slow",
+                "chance": 0.67,
+                "stack": 2,
+                "intensity": 5,
+                "applyToAttacker": true
+            }
+        ],
+        "queue": [
+            {
+                "target": "attacker",
+                "class": "idle",
+                "id": "cackle-awesome"
+            }
+        ]
+    }
+}

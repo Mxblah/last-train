@@ -270,6 +270,8 @@ function Invoke-SpecialSummon {
         if ($null -eq $character.chance -or $character.chance -ge (Get-RandomPercent)) {
             Write-Debug 'succeeded; adding to pending list'
             $character.isSummon = $true
+            if (-not $character.faction) { $character.faction = $Attacker.faction } # make sure the guy we summon is on our side
+
             $State.game.battle.pendingCharacters.Add($character) | Out-Null
             Write-Host -ForegroundColor Yellow "$($State.data.character.$($character.id).name) will join the battle."
             $summonedAtLeastOneGuy = $true

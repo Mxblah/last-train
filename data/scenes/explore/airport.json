@@ -14,7 +14,7 @@
                 "sunStrengthMultiplier": 0,
                 "field": {
                     "depth": 1,
-                    "travelBaseCost": "00:01:30",
+                    "travelBaseCost": "00:01:00",
                     "deeperDescription": "Head to the other end of the platform",
                     "shallowerDescription": "Head back towards the train",
                     "exploreHereDescription": "Explore the platform",
@@ -337,7 +337,90 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "item",
+                            "id": "orb-opalescent",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "pustule-cheese",
+                            "text": "You find a handful of moldy, awful-looking cheese chunks in a grimy shopping bag. For some reason, you decide to take them.",
+                            "minAmount": 2,
+                            "maxAmount": 3,
+                            "minDepthAvailable": 2,
+                            "chance": 0.15,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "shoes-wellies",
+                            "text": "You find a pair of wellies wedged between the tracks and the floor. They're a little dirty, but otherwise perfectly intact.",
+                            "number": 1,
+                            "minDepthAvailable": 3,
+                            "chance": 0.25,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "antidote",
+                            "number": 1,
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-track-map",
+                            "chance": 0.25,
+                            "minDepthAvailable": 2,
+                            "maxDepthAvailable": 9,
+                            "when": {
+                                "airport.tracks.ratCaveOpen": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-swarm-x1",
+                            "chance": 0.05,
+                            "minDepthAvailable": 2,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-mutant-x1",
+                            "chance": 0.05,
+                            "minDepthAvailable": 2,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-royal-x1",
+                            "chance": 0.025,
+                            "minDepthAvailable": 2,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "number": 1,
+                            "chance": 0.07
+                        }
                     ]
                 },
                 "connections": {
@@ -369,6 +452,16 @@
                             }
                         }
                     },
+                    "ratCave": {
+                        "minDepthAvailable": 7,
+                        "maxDepthAvailable": 7,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:02:00",
+                        "description": "You squeeze through a nearly hidden break in the tunnel wall and emerge into a stinky, dark, natural cavern.",
+                        "when": {
+                            "airport.tracks.ratCaveOpen": true
+                        }
+                    },
                     "concourseB": {
                         "minDepthAvailable": 10,
                         "maxDepthAvailable": 10,
@@ -397,6 +490,76 @@
                 }
             },
             {
+                "id": "ratCave",
+                "name": "Rat Cave",
+                "sunStrengthMultiplier": 0,
+                "field": {
+                    "depth": 0,
+                    "travelBaseCost": "00:00:30",
+                    "deeperDescription": "<null>",
+                    "shallowerDescription": "<null>",
+                    "exploreHereDescription": "Speak to the Rat King",
+                    "flavor": {
+                        "general": [
+                            "The cave is too short for you to stand up properly.",
+                            "Rats squirm and squeak on the edges of your vision, but stay mostly out of sight.",
+                            "Bones litter the floor, gnawed by tiny - and much larger - rodent teeth."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-initial",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-1",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": 1
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-2",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": 2
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "rat-king-done",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": "done"
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-king-battle",
+                            "chance": 1,
+                            "when": {
+                                "airport.ratKing.conversationStage": "battle"
+                            }
+                        }
+                    ]
+                },
+                "connections": {
+                    "tracks": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 7,
+                        "travelCost": "00:02:00",
+                        "description": "You squeeze through the cave's entrance and return to the train tracks."
+                    }
+                }
+            },
+            {
                 "id": "tunnels",
                 "name": "Service Tunnels",
                 "sunStrengthMultiplier": 0,
@@ -418,7 +581,75 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "rat-royal-rogue",
+                            "minDepthAvailable": 5,
+                            "chance": 0.2,
+                            "when": {
+                                "airport.ratKing.rogueQuestComplete": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "hat-wizard-hat",
+                            "text": "A half-broken cabinet wedged into a side room opens to reveal a full-on wizard hat hanging on a hook inside.",
+                            "number": 1,
+                            "chance": 0.1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "ringMajor-sutures",
+                            "text": "A half-broken cabinet wedged into a side room opens to reveal a small ring set on a shelf inside.",
+                            "number": 1,
+                            "chance": 0.1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "text": "Someone has left a partially-filled first aid kit in a locker here.",
+                            "number": 1,
+                            "chance": 0.1,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "battle",
+                            "id": "tunnels-mutant-eyebot",
+                            "chance": 0.045
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-swarm-x1",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-mutant-x1",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "rat-royal-x1",
+                            "chance": 0.025,
+                            "notWhen": true,
+                            "whenMode": "or",
+                            "when": {
+                                "airport.ratKing.conversationStage": "done",
+                                "airport.ratKing.dead": true
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.0175
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "chance": 0.04
+                        }
                     ]
                 },
                 "connections": {
@@ -474,7 +705,50 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "rat-swarm-x2",
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 5,
+                            "chance": 0.1
+                        },
+                        {
+                            "type": "item",
+                            "id": "hat-crash-helmet",
+                            "text": "You find a clean, intact motorcycle helmet near a pile of burnt vehicles.",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "parking-pillar",
+                            "minDepthAvailable": 6,
+                            "chance": 1,
+                            "when": {
+                                "parkingB.pillarDefeated": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-x1",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.02
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x1",
+                            "chance": 0.015
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.01
+                        }
                     ]
                 },
                 "connections": {
@@ -681,7 +955,70 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "item",
+                            "id": "quick-charge-medallion",
+                            "text": "An old mannequin stands in a storefront window, wearing a barrier medallion.",
+                            "number": 1,
+                            "maxDepthAvailable": 1,
+                            "chance": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "offhand-pocket-telescope",
+                            "text": "A small pile of clothes sits atop a chair facing the apron, and a gleaming pocket telescope lies atop the pile. You wonder what its previous owner was like.",
+                            "number": 1,
+                            "minDepthAvailable": 7,
+                            "chance": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "eyedrops",
+                            "minAmount": 2,
+                            "maxAmount": 4,
+                            "chance": 0.1,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "minAmount": 2,
+                            "maxAmount": 4,
+                            "chance": 0.1,
+                            "maxTimes": 3
+                        },
+                        {
+                            "type": "battle",
+                            "id": "eyebot-x3",
+                            "chance": 0.08,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "tonic",
+                            "text": "You find a little cooler in a shop to one side of the concourse. It seems to contain health drinks.",
+                            "minAmount": 1,
+                            "maxAmount": 3,
+                            "chance": 0.1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "security-eyebot",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.02
+                        }
                     ]
                 },
                 "connections": {
@@ -752,7 +1089,67 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "cutscene",
+                            "id": "conB-heart-vending",
+                            "chance": 0.15,
+                            "when": {
+                                "airport.concourseB.heartVended": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "conB-wheel-vending",
+                            "chance": 0.1,
+                            "when": {
+                                "airport.concourseB.shoesVended": false
+                            }
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "conB-bot-gremlin-fight",
+                            "chance": 0.125,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "eyedrops",
+                            "minAmount": 1,
+                            "maxAmount": 3,
+                            "chance": 0.1,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "liquid-balm",
+                            "minAmount": 1,
+                            "maxAmount": 3,
+                            "chance": 0.1,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "tonic",
+                            "text": "You find a small bottle in a shop to one side of the concourse. It seems to be a health drink.",
+                            "number": 1,
+                            "chance": 0.15,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "battle",
+                            "id": "security-eyebot",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.02
+                        }
                     ]
                 },
                 "connections": {

@@ -5,6 +5,7 @@
     "badge": "💉",
     "applyDesc": "${game.battle.defender} is poisoned.",
     "turnDesc": "${game.battle.currentTurn.characterName} is poisoned.",
+    "removeDesc": "${game.battle.defender} is no longer poisoned.",
     "description": "Poison causes damage and lowers attack.",
     "data": {
         "class": "physical",

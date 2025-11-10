@@ -5,6 +5,7 @@
     "badge": "♾️",
     "applyDesc": "${game.battle.defender} blazes with divine radiance.",
     "turnDesc": "${game.battle.currentTurn.characterName} is protected by divinity.",
+    "removeDesc": "${game.battle.defender} returns to mortality.",
     "description": "Divine protection prevents death. A character cannot die until this status is removed.",
     "data": {
         "class": "magical",

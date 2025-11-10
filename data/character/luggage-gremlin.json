@@ -17,9 +17,9 @@
     },
     "attrib": {
         "hp": {
-            "value": 74,
-            "max": 74,
-            "base": 74,
+            "value": 84,
+            "max": 84,
+            "base": 84,
             "regen": 0,
             "baseRegen": 0
         },
@@ -62,6 +62,16 @@
         "spd": {
             "value": 0,
             "base": 16
+        }
+    },
+    "crit": {
+        "deal": {
+            "value": 0,
+            "base": 0
+        },
+        "take": {
+            "value": 0,
+            "base": 0
         }
     },
     "loot": [

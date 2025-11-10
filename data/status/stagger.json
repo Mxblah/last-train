@@ -1,0 +1,25 @@
+{
+    "id": "stagger",
+    "name": "Staggered",
+    "color": "Yellow",
+    "badge": "❗",
+    "applyDesc": "${game.battle.defender} staggers.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is off balance.",
+    "removeDesc": "${game.battle.defender} recovers their balance.",
+    "description": "Staggering increases the critical multiplier for any hits taken by its intensity. It is removed on being hit.",
+    "data": {
+        "passive": {
+            "crit": {
+                "take": {
+                    "buff": "i"
+                }
+            }
+        },
+        "onHit": {
+            "stacks": -99
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

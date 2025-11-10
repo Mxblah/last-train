@@ -1,0 +1,31 @@
+{
+    "id": "snowball",
+    "name": "Snowball",
+    "description": "${game.battle.attacker} hurls a huge snowball at multiple foes.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 2,
+        "targetsAll": false,
+        "mp": 7,
+        "pow": 12,
+        "acc": 1,
+        "crit": 0,
+        "hits": 2,
+        "class": "magical",
+        "type": "cold",
+        "status": [
+            {
+                "id": "freeze",
+                "chance": 0.1,
+                "stack": 1,
+                "intensity": 1
+            },
+            {
+                "id": "wet",
+                "chance": 0.15,
+                "stack": 2,
+                "intensity": 1
+            }
+        ]
+    }
+}

@@ -49,28 +49,36 @@ Describe 'Add-PartyMember tests' {
         $defaultState | Add-PartyMember -Id $_
 
         $defaultState.party.Count | Should -Be 1
-        $defaultState.party[0] | Should -Be $characterData.character.$_
+        $defaultState.party[0].id | Should -Be $characterData.character.$_.id
+        $defaultState.party[0].name | Should -Be $characterData.character.$_.name
+        $defaultState.party[0].isPlayerControlled | Should -Be $true
     }
 
     It 'Should add a party member to a non-empty party <_>' -ForEach @('bob', 'charlie') {
         $oneMemberState | Add-PartyMember -Id $_
 
         $oneMemberState.party.Count | Should -Be 2
-        $oneMemberState.party[1] | Should -Be $characterData.character.$_
+        $oneMemberState.party[1].id | Should -Be $characterData.character.$_.id
+        $oneMemberState.party[1].name | Should -Be $characterData.character.$_.name
+        $oneMemberState.party[1].isPlayerControlled | Should -Be $true
     }
 
     It 'Should add a duplicate party member if required' {
         $twoMemberState | Add-PartyMember -Id 'alice'
 
         $twoMemberState.party.Count | Should -Be 3
-        $twoMemberState.party[2] | Should -Be $characterData.character.alice
+        $twoMemberState.party[2].id | Should -Be $characterData.character.alice.id
+        $twoMemberState.party[2].name | Should -Be $characterData.character.alice.name
+        $twoMemberState.party[2].isPlayerControlled | Should -Be $true
     }
 
     It 'Should add a party member when all members are already present' {
         $allMemberState | Add-PartyMember -Id 'alice'
 
         $allMemberState.party.Count | Should -Be 4
-        $allMemberState.party[3] | Should -Be $characterData.character.alice
+        $allMemberState.party[3].id | Should -Be $characterData.character.alice.id
+        $allMemberState.party[3].name | Should -Be $characterData.character.alice.name
+        $allMemberState.party[3].isPlayerControlled | Should -Be $true
     }
 
     It 'All system messages should be written in Cyan color' {

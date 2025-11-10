@@ -1,0 +1,16 @@
+{
+    "id": "offhand-pocket-telescope",
+    "name": "Pocket Telescope",
+    "description": "A collapsible telescope intended for use in the offhand. Multiplies accuracy by 1.5x.",
+    "itemType": "held",
+    "equipData": {
+        "slot": "offhand"
+    },
+    "effects": {
+        "stats": {
+            "acc": {
+                "mult": 1.5
+            }
+        }
+    }
+}

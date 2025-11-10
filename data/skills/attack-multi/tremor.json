@@ -1,0 +1,37 @@
+{
+    "id": "tremor",
+    "name": "Tremor",
+    "description": "${game.battle.attacker} causes the ground to shake beneath their foes.",
+    "skillType": "attack-multi",
+    "data": {
+        "target": 9,
+        "targetsAll": true,
+        "mp": 15,
+        "pow": 8,
+        "acc": 0.95,
+        "crit": 0.05,
+        "hits": 4,
+        "class": "weapon",
+        "type": "earth",
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.15,
+                "stack": 3,
+                "intensity": 1
+            },
+            {
+                "id": "slow",
+                "chance": 0.15,
+                "stack": 2,
+                "intensity": 1
+            },
+            {
+                "id": "stagger",
+                "chance": 0.3,
+                "stack": 2,
+                "intensity": 1
+            }
+        ]
+    }
+}

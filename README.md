@@ -19,11 +19,17 @@ This game only runs in PowerShell 7+. You can install it [at the official GitHub
 
 You'll probably have to unblock the files and/or run in Bypass execution policy mode, since I'm sure most computers won't like running random scripts you downloaded from the internet. `Set-ExecutionPolicy Bypass -Scope Process` should help, but to be honest I haven't tested this on any computer other than mine. This readme will be updated if/when that changes.
 
-To start the game, run `game.ps1` in a PowerShell 7 terminal. You can optionally use the `-Slot` parameter to specify the save slot you want to load. There are other parameters for the main script, too, including cheat options. Read the contents of `game.ps1` to learn more.
+To start the game, run `game.ps1` in a PowerShell 7 terminal. You can optionally use the `-Slot` parameter to specify the save slot you want to load. There are other parameters for the main script, too, including cheat options. Read the function `Apply-CheatOptions` in `functions/NewGame.ps1` to learn more.
 
 Data is all saved locally, in whatever directory you cloned this repo to (under the `saves` directory). No access or resources are required outside of the repo directory. No external modules are required.
 
 The general controls are to type the option you want to select, then press `<enter>`. A blank prompt, like `> :`, means you should just press `<enter>` when you're ready to continue. To quit the game, press `Ctrl+C`. You can then load your latest save the next time you want to play.
+
+### Cheats
+
+You can use various cheat options by passing an array object into the `Cheats` parameter of `game.ps1`. For example: `./game.ps1 -Cheats @('healthy', 'speedy')`. You can also load one of several premade cheat files as the array - these are mostly designed to simulate starting in a different location than the start. For example, the `airport-start` cheat bundle can be loaded as such: `.\game.ps1 -Cheats (Get-Content .\data\cheats\airport-start.json | ConvertFrom-Json -AsHashtable)`.
+
+For a full listing of all available cheat options, read the function `Apply-CheatOptions` in `functions/NewGame.ps1`.
 
 ## Still in progress
 

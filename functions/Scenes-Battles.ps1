@@ -12,11 +12,12 @@ function Start-BattleScene {
     if ($State.game.battle.phase -ne 'active') {
         # Read scene, prepare state
         Write-Verbose "Assembling battle $($Scene.id) with $($Scene.data.characters.enemy.Count) opponents"
+        # todo: figure out a better way to force allies to be allies instead of adding faction overrides in the scene json
         $battleParticipants = @( @(@{id = 'player'}) + ( $State.party ?? $null ) + @($Scene.data.characters.ally) + @($Scene.data.characters.enemy) )
         Write-Debug "All battle IDs: $($battleParticipants.id -join ', ') ($($battleParticipants.GetType()))"
         $battleCharacters = New-Object -TypeName System.Collections.ArrayList
         foreach ($npc in $battleParticipants) {
-            # Import actual data from disk
+            # Import actual data from the passed-in stub
             $battleCharacters.Add(($State | Import-BattleCharacter -Character $npc)) | Out-Null
         }
 
@@ -81,6 +82,10 @@ function Start-BattleScene {
             Write-Debug 'disabling flee option'
             $State.game.battle.cannotFlee = $true
         }
+        if ($Scene.data.special.noRegen) {
+            Write-Debug "disabling regen for [$($Scene.data.special.noRegen -join ', ')]"
+            $State.game.battle.noRegen = $Scene.data.special.noRegen
+        }
 
         Write-Verbose 'Starting battle'
         $State.game.battle.phase = 'active'
@@ -118,11 +123,12 @@ function Start-BattleScene {
         :battleTurnLoop foreach ($character in $State.game.battle.characters | Where-Object -Property isActive -EQ $true) {
             if ($character.isActive) {
                 $State | Start-BattleTurn -Character $character
-                if ($character.faction -ne 'ally') {
-                    Read-Host -Prompt '> '
-                } else {
+                if ($Character.id -eq 'player' -or ($Character.faction -eq 'ally' -and $Character.isPlayerControlled)) {
                     # Just print a newline to separate turns visually
                     Write-Host ''
+                } else {
+                    # Not a player-controlled character, so make sure the player is ready before continuing
+                    Read-Host -Prompt '> '
                 }
             } else {
                 Write-Debug "$($character.name) became inactive before turn start; skipping them!"
@@ -183,8 +189,9 @@ function Import-BattleCharacter {
     # Load the main structure
     if ($Character.id -eq 'player') {
         $data = $State.player
-    } elseif ($Character.faction -eq 'ally') {
-        $data = $Character # allies import directly; no messing around needed
+    } elseif ($Character.attrib) {
+        # we were passed a full character block (probably; at least attribs are there), so just import directly
+        $data = $Character
     } else {
         # Json intermediary to break the reference and fully clone the data. Only allies and the player should keep the reference
         $data = $State.data.character."$($Character.id)" | ConvertTo-Json -Depth 99 -Compress | ConvertFrom-Json -AsHashtable
@@ -208,6 +215,10 @@ function Import-BattleCharacter {
     if ($Character.name) {
         $data.name = $Character.name
     }
+    if ($Character.faction) {
+        Write-Debug "overriding faction for $($data.name) to $($Character.faction)"
+        $data.faction = $Character.faction
+    }
     if ($Character.loot) {
         Write-Debug "adding loot items $($Character.loot.id -join ', ')"
         $data.loot += $Character.loot
@@ -216,16 +227,11 @@ function Import-BattleCharacter {
         $data.actionQueue.Add(@{ class = "idle"; id = "summon-arrive" }) | Out-Null
     }
 
-    # Scale enemies based on difficulty
-    if ($State.options.difficulty -ne 2 -and $data.faction -ne 'ally') {
-        # todo: this is just a shim for now; later, modify enemy AI based on difficulty instead of raw numbers
-        $difficultyFactor = 0.5 + (0.25 * $State.options.difficulty)
-        Write-Debug "Scaling $($data.name) based on difficulty of $($State.options.difficulty) (will multiply by $difficultyFactor)"
-        $data.attribs.hp.base *= $difficultyFactor
-        $data.attribs.bp.base *= $difficultyFactor
-        $data.stats.pAtk.base *= $difficultyFactor
-        $data.stats.mAtk.base *= $difficultyFactor
-    }
+    # Fix collection types for participants if needed
+    Convert-AllChildArraysToArrayLists -Data $data
+
+    # Ensure all the values are synced up before beginning
+    $State | Update-CharacterValues -Character $data
 
     # Reset BP to max
     if ($data.attrib.bp.max -gt 0) {
@@ -234,12 +240,6 @@ function Import-BattleCharacter {
     } else {
         Write-Debug "$($data.name) max bp <= 0"
     }
-
-    # Fix collection types for participants if needed
-    Convert-AllChildArraysToArrayLists -Data $data
-
-    # Ensure all the values are synced up before beginning
-    $State | Update-CharacterValues -Character $data
 
     return $data
 }
@@ -255,9 +255,18 @@ function Start-BattleTurn {
     )
     # Handle start of turn stuff
     $State.game.battle.currentTurn.characterName = $Character.name
+    $State.game.battle.attacker = $Character.name
+    $State.game.battle.defender = $Character.name
 
     # Attrib regen
-    $State | Invoke-AttribRegen -Character $Character -All
+    if (-not $State.game.battle.noRegen) {
+        $State | Invoke-AttribRegen -Character $Character -All
+    } else {
+        # Only regen attribs that aren't disabled
+        foreach ($attrib in (@('hp', 'mp', 'bp') | Where-Object { $_ -notin $State.game.battle.noRegen })) {
+            $State | Invoke-AttribRegen -Character $Character -Attribute $attrib
+        }
+    }
 
     # Status stuff
     $State | Apply-StatusEffects -Character $Character -Phase 'turnStart'
@@ -279,7 +288,7 @@ function Start-BattleTurn {
         }
 
         # Continue
-        if ($Character.faction -eq 'ally') {
+        if ($Character.id -eq 'player' -or ($Character.faction -eq 'ally' -and $Character.isPlayerControlled)) {
             Read-Host -Prompt '> '
         } else {
             Start-Sleep -Milliseconds $State.options.turnDelayMs
@@ -295,8 +304,8 @@ function Start-BattleTurn {
             $action = $State | Select-BattleAction -Character $Character -QueuedAction $Character.actionQueue[0]
             $Character.actionQueue.RemoveAt(0) # remove it from the list now that it's been used
         } else {
-            # If player or ally, display the menu. If enemy, use their AI to determine what action to take.
-            if ($Character.faction -eq 'ally') {
+            # If player or ally we control, display the menu. Otherwise, use their AI to determine what action to take.
+            if ($Character.id -eq 'player' -or ($Character.faction -eq 'ally' -and $Character.isPlayerControlled)) {
                 $action = $State | Show-BattleMenu -Character $Character
             } else {
                 Start-Sleep -Milliseconds $State.options.turnDelayMs
@@ -443,6 +452,7 @@ function Show-BattleCharacterInfo {
                 'mDef' { 'pDef' }
                 'acc' { 'spd' }
                 'spd' { 'acc' }
+                default { $null }
             }
             # catch /0 errors; if we throw, partner's value is probably 0, so assume we're dark green
             $comparePercent = try { $stat.Value.value / $Character.stats.$partner.value } catch { 99 }
@@ -770,7 +780,8 @@ function Invoke-BattleAction {
                 $targets.Add($availableTarget) | Out-Null
             }
 
-        } elseif ($Character.faction -eq 'ally') {
+        # Otherwise, show the menu if it's a player-controlled character, or just choose if not
+        } elseif ($Character.id -eq 'player' -or ($Character.faction -eq 'ally' -and $Character.isPlayerControlled)) {
             foreach ($possibleTarget in 1..$Action.data.target) {
                 $targetToAdd = $State | Show-BattleTargetMenu -Character $Character -Action $Action -AlreadySelected $targets
                 $null -ne $targetToAdd ? ($targets.Add($targetToAdd) | Out-Null) : $null
@@ -962,7 +973,11 @@ function Exit-Battle {
                         }
                         if (-not $gotAtLeastOneItem) {
                             # Only write this once, no matter how many items we got
-                            Write-Host -ForegroundColor DarkGreen "🛒 You found some items on $($character.name)."
+                            if ($character.faction -eq 'ally' -and $character.isActive) {
+                                Write-Host -ForegroundColor DarkGreen "🎁 $($character.name) gives you some items they found."
+                            } else {
+                                Write-Host -ForegroundColor DarkGreen "🛒 You find some items on $($character.name)."
+                            }
                             $gotAtLeastOneItem = $true
                         }
                         # Add the item

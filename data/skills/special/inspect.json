@@ -11,6 +11,7 @@
         "hits": 1,
         "class": "magical",
         "type": "visual",
-        "specialType": "inspect"
+        "specialType": "inspect",
+        "skipOnHitEffects": true
     }
 }

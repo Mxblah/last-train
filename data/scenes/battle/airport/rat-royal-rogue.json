@@ -1,0 +1,22 @@
+{
+    "id": "rat-royal-rogue",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "rat-royal",
+                    "name": "Rebel Rat Royal"
+                },
+                {
+                    "id": "rat-royal",
+                    "name": "Rebel Rat Royal"
+                }
+            ]
+        },
+        "special": {},
+        "flags": {
+            "airport.ratKing.rogueQuestComplete": true
+        }
+    }
+}

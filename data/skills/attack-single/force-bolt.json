@@ -1,0 +1,24 @@
+{
+    "id": "force-bolt",
+    "name": "Force Bolt",
+    "description": "${game.battle.attacker} projects a bolt of force at ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 4,
+        "pow": 16,
+        "acc": 1.25,
+        "crit": 0,
+        "hits": 1,
+        "class": "magical",
+        "type": "force",
+        "status": [
+            {
+                "id": "dazzled",
+                "chance": 0.5,
+                "stack": 2,
+                "intensity": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "id": "hallowed-x1",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "hallowed-lesser"
+                }
+            ]
+        },
+        "special": {}
+    }
+}

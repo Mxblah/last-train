@@ -1,0 +1,40 @@
+{
+    "id": "wet",
+    "name": "Wet",
+    "color": "Blue",
+    "badge": "💧",
+    "applyDesc": "${game.battle.defender} is soaked in water.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is wet.",
+    "description": "Dripping with water increases fire and burn resistance, but decreases cold, freeze, lightning, and paralysis resistance.",
+    "data": {
+        "passive": {
+            "resistances": {
+                "element": {
+                    "cold": {
+                        "debuff": "i * 0.1"
+                    },
+                    "fire": {
+                        "buff": "i * 0.1"
+                    },
+                    "lightning": {
+                        "debuff": "i * 0.1"
+                    }
+                },
+                "status": {
+                    "burn": {
+                        "buff": "i * 0.1"
+                    },
+                    "freeze": {
+                        "debuff": "i * 0.1"
+                    },
+                    "paralysis": {
+                        "debuff": "i * 0.1"
+                    }
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

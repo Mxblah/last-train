@@ -1,6 +1,6 @@
 {
     "id": "failed-blessing",
-    "name": "(F) Bless",
+    "name": "F. Bless",
     "description": "${game.battle.attacker} is drenched in sickly, infected sunlight.",
     "skillType": "heal-single",
     "data": {

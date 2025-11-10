@@ -1,0 +1,32 @@
+{
+    "id": "balm",
+    "name": "Burn-proof",
+    "color": "Green",
+    "badge": "🧴",
+    "applyDesc": "${game.battle.defender} resists burns.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is protected from burns.",
+    "removeDesc": "${game.battle.defender} is no longer protected from burns.",
+    "description": "Burn-proof grants resistance to various burn-related status effects.",
+    "data": {
+        "class": "physical",
+        "type": "healing",
+        "passive": {
+            "resistances": {
+                "status": {
+                    "acidburn": {
+                        "buff": "i / 100"
+                    },
+                    "burn": {
+                        "buff": "i / 100"
+                    },
+                    "sunburn": {
+                        "buff": "i / 100"
+                    }
+                }
+            }
+        },
+        "turnEnd": {
+            "stacks": -1
+        }
+    }
+}

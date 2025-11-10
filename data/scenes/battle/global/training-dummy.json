@@ -11,7 +11,10 @@
         },
         "special": {
             "noSunDamage": true,
-            "guaranteedFlee": true
+            "guaranteedFlee": true,
+            "noRegen": [
+                "hp"
+            ]
         }
     }
 }

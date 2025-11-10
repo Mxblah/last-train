@@ -1,0 +1,38 @@
+{
+    "id": "barrier-slate-medallion",
+    "name": "Slate Medallion",
+    "description": "An unusually heavy slate-grey barrier medallion. Gleams with a faint hexagonal pattern when the light catches it. Provides a substantial barrier and slightly boosts earth and dizzy resistance. Slightly boosts defenses.",
+    "itemType": "barrier",
+    "equipData": {
+        "slot": "barrier",
+        "barrierData": {}
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "earth": 0.05
+            },
+            "status": {
+                "dizzy": 0.1
+            }
+        },
+        "attrib": {
+            "bp": {
+                "max": {
+                    "buff": 72
+                },
+                "regen": {
+                    "buff": 18
+                }
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 3
+            },
+            "mDef": {
+                "buff": 3
+            }
+        }
+    }
+}

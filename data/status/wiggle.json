@@ -5,6 +5,7 @@
     "badge": "🔀",
     "applyDesc": "${game.battle.defender} starts to wiggle around!",
     "turnDesc": "${game.battle.currentTurn.characterName} is wiggling.",
+    "removeDesc": "${game.battle.defender} stops wiggling.",
     "description": "Wiggling around like a wacky waving arm-flailing inflatable tube man makes you really hard to hit!",
     "data": {
         "turnStart": {

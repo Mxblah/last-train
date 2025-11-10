@@ -6,12 +6,12 @@
     "data": {
         "target": 2,
         "targetsAll": false,
-        "mp": 2,
+        "mp": 3,
         "pow": 10,
         "acc": 1,
         "crit": 0,
         "hits": 1,
-        "class": "physical",
+        "class": "weapon",
         "type": "weapon"
     }
 }

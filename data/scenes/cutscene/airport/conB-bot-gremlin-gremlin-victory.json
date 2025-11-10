@@ -1,0 +1,26 @@
+{
+    "id": "conB-bot-gremlin-gremlin-victory",
+    "data": [
+        {
+            "text": "With the airport security forces defeated and a few late-arriving gremlins showing up to prod the eyebot wreck, the group gathers around you and guffaws about how awesome that battle was."
+        },
+        {
+            "text": "The gremlins don't really speak your language, but they can manage a few words here and there. \"Skyways; awesome!\" one declares. \"Meet! Meet!\" another adds. At least, you assume it's not saying \"meat.\" \"Come, find,\" you're informed, before a short gremlin presses a small round object into your hands. It appears to be a shiny metal button, unremarkable aside from the fact that this one was given *to* you instead of stolen *from* you.",
+            "action": {
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "airport-gremlin-button",
+                        "number": 1
+                    }
+                ],
+                "time": {
+                    "add": "00:01:40"
+                }
+            }
+        },
+        {
+            "text": "A minute later, the gremlins disperse and leave you to your own devices. You're not really sure what to do with the button, so for now you just store it away. Maybe it'll come in useful at the \"skyways\" they were referring to later."
+        }
+    ]
+}

@@ -1,344 +1,3 @@
-function Get-IfHit {
-    [CmdletBinding()]
-    param (
-        # Attacker's accuracy
-        [Parameter(Mandatory = $true)]
-        [int]$Accuracy,
-
-        # Target's speed
-        [Parameter(Mandatory = $true)]
-        [int]$Speed,
-
-        # Skill accuracy multiplier
-        [Parameter()]
-        [double]$SkillAccuracy = 1.0
-    )
-
-    if ($Speed -le 0) {
-        Write-Verbose 'Spd: 0 - returning true to avoid divide-by-zero error'
-        return $true
-    }
-    # If accuracy > speed, attacks will always hit. Conversely, the minimum hit chance is 25% to avoid impossible battles
-    $hitChance = [System.Math]::Pow(4, ($SkillAccuracy * $Accuracy / $Speed)) / 4
-    Write-Debug "Acc: $Accuracy (x $SkillAccuracy) / Spd: $Speed`nChance to hit: $hitChance"
-    return $hitChance -ge (Get-RandomPercent)
-}
-
-function Get-Damage {
-    [CmdletBinding()]
-    param (
-        # Skill's attack power
-        [Parameter(Mandatory = $true)]
-        [int]$Power,
-
-        # Attacker's relevant base attack
-        [Parameter(Mandatory = $true)]
-        [int]$Attack,
-
-        # Target's relevant base defense
-        [Parameter(Mandatory = $true)]
-        [int]$Defense,
-
-        # Attacker's current attack modifier
-        [Parameter()]
-        [double]$AtkMultiplier = 1.0,
-
-        # Target's current defense modifier
-        [Parameter()]
-        [double]$DefMultiplier = 1.0,
-
-        [Parameter()]
-        [switch]$AsHealing,
-
-        # If set, will ignore attack multipliers (but will not ignore skew or defense)
-        [Parameter()]
-        [switch]$IgnoreAttack,
-
-        # If set, will ignore defense multipliers (but will not ignore attack or skew)
-        [Parameter()]
-        [switch]$IgnoreDefense,
-
-        # If set, will ignore skew multiplier (but will not ignore attack or defense)
-        [Parameter()]
-        [switch]$IgnoreSkew
-    )
-
-    # Handle everything that doesn't involve defense
-    if ($IgnoreSkew) {
-        Write-Debug 'ignoring skew by setting it to 1'
-        $overallSkew = 1
-    } else {
-        $overallSkew = Get-Random -Minimum 0.9 -Maximum 1.1
-    }
-    if ($IgnoreAttack) {
-        Write-Debug 'ignoring attack for base damage calculation'
-        $baseDamage = $overallSkew * $Power / 10
-    } else {
-        $baseDamage = $overallSkew * $Power / 10 * $Attack * $AtkMultiplier
-    }
-    Write-Debug "With pow $Power, atk $Attack, and skew of $overallSkew, base damage is $baseDamage"
-
-    # Now get defense involved (if not healing)
-    if ($AsHealing -or $IgnoreDefense) {
-        Write-Debug 'AsHealing or IgnoreDefense is true, so skipping defense calculation'
-        $damageMultiplier = 1
-    } else {
-        if ($Defense -eq 0 -or $DefMultiplier -eq 0) {
-            Write-Debug "avoiding divide-by-zero error (def: $Defense, def mult: $DefMultiplier) - setting multiplier to max"
-            $damageMultiplier = 2
-        } else {
-            $damageMultiplier = [System.Math]::Clamp(($Attack / ( $Defense * $DefMultiplier )), 0.01, 2)
-        }
-        # $damageMultiplier = 2 * [System.Math]::Pow(2, (-1 * $Defense * $DefMultiplier / $Attack))
-        Write-Debug "With defense of $Defense, damage multiplier is $damageMultiplier"
-    }
-
-    # Return the total number, rounded up
-    $totalDamage = [System.Math]::Ceiling($baseDamage * $damageMultiplier)
-    Write-Debug "Total damage/healing is $totalDamage"
-    return $totalDamage
-}
-
-function Adjust-Damage {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [int]$Damage,
-
-        [Parameter(Mandatory = $true)]
-        [string]$Class,
-
-        [Parameter(Mandatory = $true)]
-        [string]$Type,
-
-        [Parameter()]
-        [hashtable]$Attacker,
-
-        [Parameter(Mandatory = $true)]
-        [hashtable]$Target,
-
-        # If set, will ignore affinities
-        [Parameter()]
-        [switch]$IgnoreAffinity,
-
-        # If set, will ignore resistances
-        [Parameter()]
-        [switch]$IgnoreResistance
-    )
-    # Escape hatches
-    if ($IgnoreAffinity -and $IgnoreResistance) {
-        Write-Debug 'Adjust-Damage called while ignoring affinities and resistances; nothing to do'
-        return $Damage
-    }
-    if ($Damage -le 0) {
-        Write-Debug "Adjust-Damage called with $Damage damage <= 0; nothing to do"
-        return $Damage
-    }
-
-    Write-Verbose "Adjusting $Damage $Class/$Type damage for $($Target.name)"
-
-    # Handle weapon typing
-    if ($Type -eq 'weapon') {
-        if ($Attacker.id -eq 'player') {
-            # Only the player can equip weapons
-            $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
-            if ($equippedWeaponId) {
-                $equippedWeapon = $State.data.items.$equippedWeaponId
-                Write-Debug "replacing damage class '$Class' with equipped weapon's class $($equippedWeapon.equipData.weaponData.class)"
-                $Class = $equippedWeapon.equipData.weaponData.class
-                Write-Debug "replacing damage type '$Type' with equipped weapon's type $($equippedWeapon.equipData.weaponData.type)"
-                $Type = $equippedWeapon.equipData.weaponData.type
-
-                # Handle type percent by running through it twice with the two types
-                $typePercent = $equippedWeapon.equipData.weaponData.typePercent
-                if ($typePercent -ne 1) {
-                    Write-Debug "type percent: $typePercent -> $($typePercent * 100)% of damage will be this type"
-                    $commonSplat = @{
-                        Class = $Class
-                        Attacker = $Attacker
-                        Target = $Target
-                        IgnoreAffinity = $IgnoreAffinity
-                        IgnoreResistance = $IgnoreResistance
-                    }
-                    $typedDamage = Adjust-Damage -Damage ($typePercent * $Damage) -Type $Type @commonSplat
-                    $untypedDamage = Adjust-Damage -Damage ((1 - $typePercent) * $Damage) -Type 'standard' @commonSplat
-                    return ($typedDamage + $untypedDamage) # both have been ceiling'd already, so no need to do it again
-                } else {
-                    Write-Debug "type percent: $typePercent -> all damage is this type"
-                }
-            }
-        }
-    }
-    if ($null -eq $Type -or $Type -eq 'weapon') {
-        Write-Debug 'could not find a weapon damage type - either attacker is not the player or player has no equipped weapon'
-        $Type = 'standard' # give up and assume it's normal
-    }
-
-    if (-not $IgnoreAffinity) {
-        $classBonus = $Attacker.affinities.element.$Class.value
-        $typeBonus = $Attacker.affinities.element.$Type.value
-        if ($classBonus) {
-            Write-Debug "increasing $Damage $Class damage by $classBonus"
-            $Damage = [System.Math]::Max($Damage * (1 + $classBonus), 0)
-        }
-        if ($typeBonus) {
-            Write-Debug "increasing $Damage $Type damage by $typeBonus"
-            $Damage = [System.Math]::Max($Damage * (1 + $typeBonus), 0)
-        }
-        Write-Debug "-> (now $Damage)"
-    }
-
-    if (-not $IgnoreResistance) {
-        $classResist = $Target.resistances.element.$Class.value
-        $typeResist = $Target.resistances.element.$Type.value
-        if ($classResist) {
-            Write-Debug "reducing $Damage $Class damage by $classResist"
-            $Damage = [System.Math]::Max($Damage * (1 - $classResist), 0)
-        }
-        if ($typeResist) {
-            Write-Debug "reducing $Damage $Type damage by $typeResist"
-            $Damage = [System.Math]::Max($Damage * (1 - $typeResist), 0)
-        }
-        Write-Debug "-> (now $Damage)"
-    }
-
-    return [System.Math]::Ceiling($Damage)
-}
-
-function Get-CriticalMultiplier {
-    param (
-        # Equipment-based critical chance bonus
-        [Parameter()]
-        [double]$EquipBonus = 0.0,
-
-        # Skill-based critical chance bonus
-        [Parameter()]
-        [double]$SkillBonus = 0.0,
-
-        # Status-based critical chance bonus
-        [Parameter()]
-        [double]$StatusBonus = 0.0,
-
-        # Amount a critical hit should increase damage by
-        [Parameter()]
-        [double]$CriticalMultiplier = 0.5
-    )
-    $finalMultiplier = 1
-
-    $totalCritChance = 0.05 + $EquipBonus + $SkillBonus
-    Write-Verbose "Total crit chance is $totalCritChance"
-
-    # Handle doublecrits and more by adding to the multiplier and reducing the final chance back down below 100%
-    while ($totalCritChance -gt 1) {
-        $finalMultiplier += $CriticalMultiplier
-        $totalCritChance--
-        Write-Verbose "Crit chance > 100%; adding $CriticalMultiplier to final multiplier (now $finalMultiplier) and subtracting 100% (now $totalCritChance)"
-    }
-
-    # Determine if it's a crit now that it's definitely below 100%
-    if ($totalCritChance -ge (Get-RandomPercent)) {
-        $finalMultiplier += $CriticalMultiplier
-        Write-Verbose "Critical hit! Adding $CriticalMultiplier to final multiplier (now $finalMultiplier)"
-    }
-
-    # Return multiplier to the caller, which should use it to multiply a damage total
-    return $finalMultiplier
-}
-
-function Apply-Damage {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [object]$State,
-
-        [Parameter(Mandatory = $true)]
-        [hashtable]$Target,
-
-        [Parameter(Mandatory = $true)]
-        [int]$Damage,
-
-        # Just used for icon / color; adjustments due to resistance, etc. are done in Adjust-Damage
-        [Parameter()]
-        [string]$Class,
-
-        # Just used for icon / color; adjustments due to resistance, etc. are done in Adjust-Damage
-        [Parameter()]
-        [string]$Type,
-
-        [Parameter()]
-        [switch]$AsHealing,
-
-        # If set, will apply damage directly to HP, even if the target has BP remaining
-        [Parameter()]
-        [switch]$IgnoreBarrier,
-
-        # If set, will skip removing statuses if the target is killed.
-        # Should generally only be set when damage is applied from Apply-StatusEffects itself, to ensure statuses are cleared properly.
-        [Parameter()]
-        [switch]$DoNotRemoveStatuses
-    )
-    # Break immediately if there is no damage
-    if ($Damage -le 0) {
-        Write-Debug 'no damage to apply; returning'
-        return
-    }
-
-    # Apply to BP first, if applicable (not applicable for healing, as well)
-    if ($AsHealing -or $IgnoreBarrier) {
-        Write-Debug 'applying healing-type or barrier-ignoring damage, so skipping BP calculation'
-    } else {
-        switch ($Target.attrib.bp.value) {
-            { $_ -gt $Damage } {
-                # Barrier absorbs the hit
-                $originalBp = $Target.attrib.bp.value
-                $Target.attrib.bp.value -= $Damage
-                Write-Host -ForegroundColor Blue "🛡️ $($Target.name)'s barrier takes $Damage damage."
-                $Damage -= $originalBp
-            }
-            { $_ -le $Damage -and $_ -gt 0 } {
-                # Barrier absorbs some damage, then breaks
-                $Damage -= $Target.attrib.bp.value
-                $Target.attrib.bp.value = 0
-                Write-Host -ForegroundColor Blue "🛡️ $($Target.name)'s barrier breaks!"
-            }
-            default { <# no barrier; do nothing #> }
-        }
-
-        # Break out if we're out of damage
-        if ($Damage -le 0) {
-            return
-        }
-    }
-
-    # Apply to HP next
-    $flavorMap = Get-DamageTypeFlavorInfo -Class "$Class" -Type "$Type"
-    if ($AsHealing) {
-        Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) regains $Damage HP."
-        switch ($Target.attrib.hp.max - $Target.attrib.hp.value) {
-            { $_ -ge $Damage } {
-                # We won't overflow
-                $Target.attrib.hp.value += $Damage
-            }
-            { $_ -lt $Damage } {
-                # Overflow risk, so set to max
-                $Target.attrib.hp.value = $Target.attrib.hp.max
-            }
-        }
-    } else {
-        Write-Host -ForegroundColor $flavorMap.color "$($flavorMap.badge) $($Target.name) takes $Damage damage."
-        switch ($Target.attrib.hp.value) {
-            { $_ -gt $Damage } {
-                # Target survives
-                $Target.attrib.hp.value -= $Damage
-            }
-            { $_ -le $Damage } {
-                # Target dies
-                $State | Kill-Character -Character $Target -DoNotRemoveStatuses:$DoNotRemoveStatuses
-            }
-        }
-    }
-}
-
 function Parse-BattleExpression {
     [CmdletBinding()]
     param(
@@ -433,6 +92,10 @@ function Update-CharacterValues {
         }
         $data.max = $data.base
     }
+    foreach ($critRaw in $Character.crit.GetEnumerator()) {
+        if ($SuperDebug) { Write-Debug "resetting $($critRaw.Key) to $($critRaw.Value.base)" }
+        $critRaw.Value.value = $critRaw.Value.base
+    }
     foreach ($bonusCategoryName in @('resistances', 'affinities')) {
         foreach ($bonusCategory in $Character.$bonusCategoryName.GetEnumerator()) {
             foreach ($bonusRaw in $bonusCategory.Value.GetEnumerator()) {
@@ -451,8 +114,8 @@ function Update-CharacterValues {
         }
     }
 
-    # Process all AEs at once
-    foreach ($effect in $Character.activeEffects) {
+    # Process all AEs at once, sorting to ensure additive operators are processed before multiplicative
+    foreach ($effect in ($Character.activeEffects | Sort-Object { @('buff', 'debuff', 'mult').IndexOf($_.action) } -Stable)) {
         # todo: consider updating this to do additive multiplication (i.e. "buff" and "mult" fields for stats/attribs instead of direct operations)
 
         # Find the right thing to modify
@@ -609,28 +272,49 @@ function Invoke-Skill {
         return
     }
 
-    # If this is a weapon-typed skill and the attacker is the player, merge the weapon and skill's status entries, if any
-    if ($Skill.data.type -eq 'weapon' -and $Attacker.id -eq 'player') {
+    # If this is a weapon-typed skill and the attacker is the player, merge the weapon and skill's status + type entries, if any
+    if (($Skill.data.class -eq 'weapon' -or $Skill.data.type -eq 'weapon') -and $Attacker.id -eq 'player') {
         $Skill = $Skill | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashtable # clone to avoid modifying the base skill data
+        Convert-AllChildArraysToArrayLists -Data $Skill # and put the arraylists back
 
         $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
         if ($equippedWeaponId) {
             $equippedWeapon = $State.data.items.$equippedWeaponId
-            Write-Debug "Merging $($equippedWeapon.equipData.weaponData.status.Count) statuses from equipped weapon $equippedWeaponId into skill $($Skill.id)"
-            if ($null -ne $equippedWeapon.equipData.weaponData.status) {
-                # Don't destroy the arraylist here, and in fact create it if needed
-                if ($null -eq $Skill.data.status) {
-                    $Skill.data.status = New-Object -TypeName System.Collections.ArrayList
-                }
 
-                # Merge those statuses
-                foreach ($weaponStatus in $equippedWeapon.equipData.weaponData.status) {
-                    Write-Debug "merging weapon status $($weaponStatus.id)"
-                    $Skill.data.status.Add($weaponStatus) | Out-Null
+            # Only merge statuses if the weapon *type* is in use, not just the *class*
+            if ($Skill.data.type -eq 'weapon') {
+                Write-Debug "Merging $($equippedWeapon.equipData.weaponData.status.Count) statuses from equipped weapon $equippedWeaponId into skill $($Skill.id)"
+                if ($null -ne $equippedWeapon.equipData.weaponData.status) {
+                    # Don't destroy the arraylist here, and in fact create it if needed
+                    if ($null -eq $Skill.data.status) {
+                        $Skill.data.status = New-Object -TypeName System.Collections.ArrayList
+                    }
+
+                    # Merge those statuses
+                    foreach ($weaponStatus in $equippedWeapon.equipData.weaponData.status) {
+                        Write-Debug "merging weapon status $($weaponStatus.id)"
+                        $Skill.data.status.Add($weaponStatus) | Out-Null
+                    }
                 }
+            } else {
+                Write-Debug 'not merging weapon status due to weapon-class-only skill data'
+            }
+
+            # Update class/type so atk/def is handled against the right class
+            if ($Skill.data.class -eq 'weapon') {
+                Write-Debug "substituting weapon's class $($equippedWeapon.equipData.weaponData.class) for skill's class of $($Skill.data.class)"
+                $Skill.data.class = $equippedWeapon.equipData.weaponData.class
+            }
+            if ($Skill.data.type -eq 'weapon' -and $equippedWeapon.equipData.weaponData.typePercent -eq 1) {
+                # Only make this substitution if the type is 100% - otherwise, leave it as "weapon" and Adjust-Damage will handle it
+                Write-Debug "substituting weapon's 100% type $($equippedWeapon.equipData.weaponData.type) for skill's class of $($Skill.data.type)"
+                $Skill.data.type = $equippedWeapon.equipData.weaponData.type
             }
         }
     }
+
+    # Handle healing skills
+    if ($Skill.data.isHealing) { $healSplat = @{ AsHealing = $true } } else { $healSplat = @{} }
 
     # Loop over all the targets in order
     foreach ($Target in $Targets) {
@@ -649,6 +333,11 @@ function Invoke-Skill {
             # Whiff if it missed
             if (-not $isHit) {
                 Write-Host -ForegroundColor DarkGray '... but it missed.'
+
+                # Still add/remove statuses to the attacker even on a miss
+                $State | Add-Status -Attacker $Attacker -Target $Target -Skill $Skill -OnlyApplyTo 'Attacker'
+                $State | Remove-Status -Attacker $Attacker -Target $Target -Skill $Skill -OnlyApplyTo 'Attacker'
+
                 continue
             }
 
@@ -659,23 +348,41 @@ function Invoke-Skill {
             $typeLetter = switch ($Skill.data.class) {
                 'physical' { 'p' }
                 'magical' { 'm' }
+                'weapon' {
+                    # If it's still 'weapon' here, that means it must either be an enemy, or the player without a weapon.
+                    # In either case, assume physical. This is an expected outcome though, so don't write-warning in the default case.
+                    'p'
+                }
                 default { Write-Warning "Invalid skill type '$_' - assuming physical"; 'p' }
             }
 
-            # Calculate damage and crit if it hit
-            $damage = Get-Damage -Power $Skill.data.pow -Attack $Attacker.stats."${typeLetter}Atk".value -Defense $Target.stats."${typeLetter}Def".value |
-                Adjust-Damage -Class $Skill.data.class -Type $Skill.data.type -Attacker $Attacker -Target $Target
-            $critMult = Get-CriticalMultiplier -SkillBonus $Skill.data.crit
+            # Handle multi-target parsing for resistance purposes
+            $targetClass = if ($Skill.data.targetsAll) { 'all' } elseif ($Skill.data.target -gt 1) { 'multi' } else { 'single' }
+
+            # Calculate damage
+            $damage = Get-Damage -Power $Skill.data.pow -Attack $Attacker.stats."${typeLetter}Atk".value -Defense $Target.stats."${typeLetter}Def".value @healSplat |
+                Adjust-Damage -Class $Skill.data.class -Type $Skill.data.type -Attacker $Attacker -Target $Target -TargetClass $targetClass
+
+            # Calculate crit
+            $critStatusBonus = ($Attacker.crit.deal.value ?? 0) + ($Target.crit.take.value ?? 0)
+            $critMult = Get-CriticalMultiplier -SkillBonus $Skill.data.crit -StatusBonus $critStatusBonus
             switch ($critMult) {
                 { $_ -le 1 } { break <# do nothing; normal hit #> }
-                { $_ -le 2 } { Write-Host -ForegroundColor Magenta '💥 A critical hit!'; break }
-                { $_ -le 3 } { Write-Host -ForegroundColor DarkMagenta '💫 A brutal hit!'; break }
+                { $_ -le 1.5 } { Write-Host -ForegroundColor Magenta '💥 A critical hit!'; break }
+                { $_ -le 2 } { Write-Host -ForegroundColor DarkMagenta '💫 A brutal hit!'; break }
                 default { Write-Host -ForegroundColor DarkRed '💀 A mortal hit!' }
             }
             $damage *= $critMult
 
             # Apply and report damage
-            $State | Apply-Damage -Target $Target -Damage $damage -Class $Skill.data.class -Type $Skill.data.type
+            $State | Apply-Damage -Target $Target -Damage $damage -Class $Skill.data.class -Type $Skill.data.type @healSplat
+
+            # Handle onHit status effects first, to avoid triggering them for statuses being added by this attack (if applicable)
+            if ($Skill.data.skipOnHitEffects) {
+                Write-Debug "skipping onHit status effects for $($Skill.name) against $($Target.name)"
+            } else {
+                $State | Apply-StatusEffects -Character $Target -Phase 'onHit'
+            }
 
             # Handle status additions, if present
             if ($Skill.data.status) {
@@ -789,10 +496,19 @@ function Invoke-AttribRegen {
         [hashtable]$Character,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Individual')]
+        [ValidateSet('hp', 'mp', 'bp')]
         [string]$Attribute,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'All')]
-        [switch]$All
+        [switch]$All,
+
+        # Directly specify the amount to regenerate, instead of using the character's regen attribute
+        [Parameter(ParameterSetName = 'Individual')]
+        [int]$RegenOverride,
+
+        # If true, will write output to the player
+        [Parameter()]
+        [switch]$Loud
     )
 
     if ($All) {
@@ -802,7 +518,7 @@ function Invoke-AttribRegen {
         }
     } else {
         # Var init
-        $regen = $Character.attrib.$Attribute.regen
+        $regen = $null -eq $RegenOverride -or 0 -eq $RegenOverride ? $Character.attrib.$Attribute.regen : $RegenOverride
         $max = $Character.attrib.$Attribute.max
         $current = $Character.attrib.$Attribute.value
 
@@ -823,6 +539,12 @@ function Invoke-AttribRegen {
                 # set to max to avoid overflow
                 Write-Debug "$Attribute regen: setting $current to $max (diff < $regen)"
                 $Character.attrib.$Attribute.value = $max
+                $regen = $max - $current # for printing later, if needed
+            }
+
+            # Output to player if called as such
+            if ($Loud) {
+                Write-Host -ForegroundColor Green "$(Get-AttribStatBadge -AttribOrStat $Attribute) $Attribute recovered by $regen"
             }
         } else {
             Write-Debug "$Attribute regen: not needed; $current >= $max"

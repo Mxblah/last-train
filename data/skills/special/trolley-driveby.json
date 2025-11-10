@@ -15,7 +15,7 @@
         "type": "standard",
         "specialType": "steal",
         "specialData": {
-            "stealCategories": ["clothing", "weapon", "barrier"],
+            "stealCategories": ["clothing", "weapon", "barrier", "held"],
             "stealAmount": 1,
             "canStealEquippedItem": true,
             "mustStealEquippedItem": true
