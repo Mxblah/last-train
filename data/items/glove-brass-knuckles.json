@@ -1,0 +1,19 @@
+{
+    "id": "glove-brass-knuckles",
+    "name": "Brass Knuckles",
+    "description": "Spiked brass bands worn over the fingers to enhance punching damage. Boosts physical attack and slightly boosts physical defense.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "hands"
+    },
+    "effects": {
+        "stats": {
+            "pAtk": {
+                "buff": 7
+            },
+            "pDef": {
+                "buff": 3
+            }
+        }
+    }
+}

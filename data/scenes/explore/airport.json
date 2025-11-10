@@ -713,21 +713,21 @@
                             "chance": 0.1
                         },
                         {
+                            "type": "cutscene",
+                            "id": "parking-pillar",
+                            "minDepthAvailable": 6,
+                            "chance": 1,
+                            "when": {
+                                "airport.parkingB.pillarDefeated": false
+                            }
+                        },
+                        {
                             "type": "item",
                             "id": "hat-crash-helmet",
                             "text": "You find a clean, intact motorcycle helmet near a pile of burnt vehicles.",
                             "number": 1,
                             "chance": 0.2,
                             "maxTimes": 1
-                        },
-                        {
-                            "type": "cutscene",
-                            "id": "parking-pillar",
-                            "minDepthAvailable": 6,
-                            "chance": 1,
-                            "when": {
-                                "parkingB.pillarDefeated": false
-                            }
                         },
                         {
                             "type": "battle",
@@ -748,6 +748,20 @@
                             "type": "battle",
                             "id": "hallowed-x1",
                             "chance": 0.01
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "chance": 0.04
+                        },
+                        {
+                            "type": "item",
+                            "id": "coin",
+                            "minAmount": 2,
+                            "maxAmount": 6,
+                            "chance": 0.04
                         }
                     ]
                 },
@@ -814,10 +828,93 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "cutscene",
+                            "id": "parking-security-reveal",
+                            "maxDepthAvailable": 0,
+                            "chance": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "glove-brass-knuckles",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "glove-riding",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-x1",
+                            "chance": 0.035
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.02
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x1",
+                            "chance": 0.015
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.006
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "item",
+                            "id": "coin",
+                            "minAmount": 2,
+                            "maxAmount": 6,
+                            "chance": 0.05
+                        }
                     ]
                 },
                 "connections": {
+                    "securityOffice": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:00:10",
+                        "description": "You open the door and enter the security office.",
+                        "whenMode": "or",
+                        "when": {
+                            "airport.parking1.openedSecurityConnection": true,
+                            "item": {
+                                "id": "airport-punch-card",
+                                "min": 1
+                            }
+                        },
+                        "cutscene": {
+                            "when": {
+                                "airport.parking1.openedSecurityConnection": false
+                            },
+                            "text": [
+                                "The secure door has a slot about the right size for your punch card. You slide it carefully inside and are quickly rewarded with a quiet click as the door unlocks. You can now enter the security office freely."
+                            ],
+                            "flag": {
+                                "airport.parking1.openedSecurityConnection": true
+                            },
+                            "time": {
+                                "add": "00:00:30"
+                            }
+                        }
+                    },
                     "parkingB.1": {
                         "minDepthAvailable": 1,
                         "maxDepthAvailable": 1,
@@ -856,6 +953,58 @@
                 }
             },
             {
+                "id": "securityOffice",
+                "name": "Security Office",
+                "sunStrengthMultiplier": 0.2,
+                "field": {
+                    "depth": 2,
+                    "travelBaseCost": "00:01:00",
+                    "deeperDescription": "Head to the back of the office",
+                    "shallowerDescription": "Head to the front of the office",
+                    "exploreHereDescription": "Explore the nearby desks",
+                    "flavor": {
+                        "general": [
+                            "Piles of abandoned paperwork lie scattered across numerous desks.",
+                            "Flickering monitors still display grainy video from cameras and eyebots across the airport.",
+                            "A stained coffee mug reads \"World's Okayest Boss\".",
+                            "Your footsteps shuffle through years of thick, undisturbed dust."
+                        ],
+                        "2": [
+                            "A nest of wires and computers hums gently behind an open vault door."
+                        ]
+                    },
+                    "encounters": [
+                        {
+                            "type": "item",
+                            "id": "bomb-pellet",
+                            "text": "You find a belt of small throwable capsules hanging from a rack. They're labeled with a \"DANGER: EXPLOSIVE\" label.",
+                            "number": 7,
+                            "minDepthAvailable": 1,
+                            "chance": 1,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "security-friend",
+                            "chance": 1,
+                            "minDepthAvailable": 2,
+                            "when": {
+                                "airport.securityOffice.madeAFriend": false
+                            }
+                        }
+                    ]
+                },
+                "connections": {
+                    "parking1": {
+                        "minDepthAvailable": 0,
+                        "maxDepthAvailable": 0,
+                        "arrivalDepth": 0,
+                        "travelCost": "00:00:10",
+                        "description": "You exit the security office into the parking garage entrance."
+                    }
+                }
+            },
+            {
                 "id": "parking2",
                 "name": "Parking Garage (2)",
                 "sunStrengthMultiplier": 0.5,
@@ -874,7 +1023,7 @@
                             "You find more broken-down cars. Not a single vehicle here can move."
                         ],
                         "1": [
-                            "A rust-stained staircase leads up and down here."
+                            "A rust-stained staircase leads down here."
                         ],
                         "2": [
                             "You can look down on the apron from here. The fence is sagging and nearly fallen."
@@ -883,11 +1032,44 @@
                             "You can look down on the apron from here. The fence is sagging and nearly fallen."
                         ],
                         "5": [
-                            "A rust-stained staircase leads up and down here."
+                            "A rust-stained staircase leads down here."
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "parking-car-x1",
+                            "chance": 0.04
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x1",
+                            "chance": 0.02
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.01
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.0025
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "minAmount": 1,
+                            "maxAmount": 2,
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "item",
+                            "id": "coin",
+                            "minAmount": 2,
+                            "maxAmount": 6,
+                            "chance": 0.055
+                        }
                     ]
                 },
                 "connections": {

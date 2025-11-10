@@ -1,0 +1,36 @@
+{
+    "id": "bomb-pellet",
+    "name": "Pellet Bomb",
+    "description": "A small throwable capsule that blooms into a sizeable explosion on impact. A warning label reads \"Not for consumption.\"",
+    "useDescription": "The bomb explodes with a shockwave and a rush of flame.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "class": "physical",
+        "type": "explosive",
+        "pow": 30
+    },
+    "effects": {
+        "damage": {
+            "expression": 1,
+            "pow": 30,
+            "atk": 40
+        },
+        "status": {
+            "add": [
+                {
+                    "id": "burn",
+                    "chance": 0.35,
+                    "stack": 3,
+                    "intensity": 0.25
+                },
+                {
+                    "id": "dizzy",
+                    "chance": 0.4,
+                    "stack": 2,
+                    "intensity": 2
+                }
+            ]
+        }
+    }
+}

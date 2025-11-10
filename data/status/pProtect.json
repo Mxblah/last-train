@@ -1,0 +1,22 @@
+{
+    "id": "pProtect",
+    "name": "Physical Defense",
+    "color": "DarkCyan",
+    "badge": "🛡️",
+    "applyDesc": "${game.battle.defender}'s physical defense increases.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is protected from physical attacks.",
+    "removeDesc": "${game.battle.defender}'s physical defense returns to normal.",
+    "description": "Increased physical defense reduces damage taken from physical attacks.",
+    "data": {
+        "turnStart": {
+            "stacks": -1
+        },
+        "passive": {
+            "stats": {
+                "pDef": {
+                    "mult": "0.05 * i + 1.0"
+                }
+            }
+        }
+    }
+}

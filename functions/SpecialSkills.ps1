@@ -246,7 +246,7 @@ function Invoke-SpecialSteal {
             $Attacker.loot.Add(@{
                 id = $id
                 number = $number
-                chance = 1
+                chance = $lootDetails.chance
             }) | Out-Null
         }
     }

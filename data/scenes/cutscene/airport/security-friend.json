@@ -1,0 +1,70 @@
+{
+    "id": "security-friend",
+    "data": [
+        {
+            "text": "Near the back of the security office, behind a heavy vault-style door that someone thankfully left open, you find a strangely shiny eyebot drone nestled securely into place amidst a nest of wiring and computer parts. Lights still slowly blink among the mess and fans gently hum, so it's clearly still on; just inactive."
+        },
+        {
+            "text": "There's a slot for a punch card in the central console.",
+            "choice": {
+                "text": "Insert an item?",
+                "responses": {
+                    "punch card": {
+                        "text": [
+                            "You slide the punch card into the slot and the machine slowly whirs to life. Fans spin faster and a few crackly beeps sound as the computer wakes up from a very long sleep. Within a minute, the monitor begins to turn on and you can read what the system can do here."
+                        ],
+                        "time": {
+                            "add": "00:03:00"
+                        },
+                        "when": {
+                            "item": {
+                                "id": "airport-punch-card",
+                                "min": 1
+                            }
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You don't have anything that would fit in the slot right now, but maybe you'll find something later."
+                        ],
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "From a quick skim, it appears this eyebot is a special prototype drone with enhanced combat capability. You should be able to reactivate it and designate yourself as its master, if you have the time to do so.",
+            "choice": {
+                "text": "Activate the eyebot? [00:52:00]",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "The program is difficult to understand, but thankfully the punch card does most of the work and all you have to do is navigate the interface while waiting for the painfully slow reprogramming process to complete.",
+                            "There are a surprising number of fiddly little parameters to mess with that don't seem to do anything, but the entire process pauses while waiting for your input, so you can't just go do something else in the meantime.",
+                            "Regardless, once everything's finalized and the transfer is finished, the eyebot hums and crackles as it lifts out of its wire harness. It regards you with its giant red-orange eye and you briefly tense to be shot with a laser or something, but it just bobs around your head harmlessly.",
+                            "It's kind of cute; like a little balloon."
+                        ],
+                        "party": [
+                            {
+                                "action": "add",
+                                "id": "prototype-eyebot"
+                            }
+                        ],
+                        "flag": {
+                            "airport.security.madeAFriend": true
+                        },
+                        "time": {
+                            "add": "00:52:00"
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You don't have the time at the moment, or perhaps you don't trust the system to not turn on you. Regardless, you leave it alone."
+                        ],
+                        "exit": {}
+                    }
+                }
+            }
+        }
+    ]
+}

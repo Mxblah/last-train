@@ -1,0 +1,22 @@
+{
+    "id": "mProtect",
+    "name": "Magic Defense",
+    "color": "DarkCyan",
+    "badge": "🔮",
+    "applyDesc": "${game.battle.defender}'s magic defense increases.",
+    "turnDesc": "${game.battle.currentTurn.characterName} is protected from magic attacks.",
+    "removeDesc": "${game.battle.defender}'s magic defense returns to normal.",
+    "description": "Increased magic defense reduces damage taken from magical attacks.",
+    "data": {
+        "turnStart": {
+            "stacks": -1
+        },
+        "passive": {
+            "stats": {
+                "mDef": {
+                    "mult": "0.05 * i + 1.0"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "id": "glove-riding",
+    "name": "Riding Gloves",
+    "description": "Thick leather gloves that provide substantial protection while still allowing reasonable dexterity. Boosts defense and slightly boosts bleed and water resistance. Slightly reduces physical attack.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "hands"
+    },
+    "effects": {
+        "resistances": {
+            "element": {
+                "bleed": 0.1,
+                "water": 0.1
+            },
+            "status": {
+                "bleed": 0.1,
+                "wet": 0.1
+            }
+        },
+        "stats": {
+            "pAtk": {
+                "debuff": 2
+            },
+            "pDef": {
+                "buff": 6
+            },
+            "mDef": {
+                "buff": 4
+            }
+        }
+    }
+}
