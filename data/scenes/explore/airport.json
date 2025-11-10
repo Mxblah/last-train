@@ -705,7 +705,50 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "battle",
+                            "id": "rat-swarm-x2",
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 5,
+                            "chance": 0.1
+                        },
+                        {
+                            "type": "item",
+                            "id": "hat-crash-helmet",
+                            "text": "You find a clean, intact motorcycle helmet near a pile of burnt vehicles.",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "parking-pillar",
+                            "minDepthAvailable": 6,
+                            "chance": 1,
+                            "when": {
+                                "parkingB.pillarDefeated": false
+                            }
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-x1",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.02
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x1",
+                            "chance": 0.015
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.01
+                        }
                     ]
                 },
                 "connections": {

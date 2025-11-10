@@ -1,0 +1,24 @@
+{
+    "id": "hurl-rock",
+    "name": "Hurl Rock",
+    "description": "${game.battle.attacker} hurls a huge rock at ${game.battle.defender}.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 11,
+        "pow": 41,
+        "acc": 0.9,
+        "crit": 0.05,
+        "hits": 1,
+        "class": "physical",
+        "type": "earth",
+        "status": [
+            {
+                "id": "dizzy",
+                "chance": 0.65,
+                "stack": 3,
+                "intensity": 1
+            }
+        ]
+    }
+}

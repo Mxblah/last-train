@@ -452,6 +452,7 @@ function Show-BattleCharacterInfo {
                 'mDef' { 'pDef' }
                 'acc' { 'spd' }
                 'spd' { 'acc' }
+                default { $null }
             }
             # catch /0 errors; if we throw, partner's value is probably 0, so assume we're dark green
             $comparePercent = try { $stat.Value.value / $Character.stats.$partner.value } catch { 99 }

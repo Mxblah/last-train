@@ -5,7 +5,7 @@ Describe 'Get-AttribStatBadge tests' {
     }
 
     BeforeDiscovery {
-        $cases = @('hp','bp','mp','pAtk','mAtk','pDef','mDef','acc','spd','unknown')
+        $cases = @('hp','bp','mp','pAtk','mAtk','pDef','mDef','acc','spd','luck','unknown')
     }
 
     It 'Should return a non-empty string for any attrib (<_>)' -ForEach $cases {

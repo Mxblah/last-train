@@ -86,6 +86,16 @@
             "base": 14
         }
     },
+    "crit": {
+        "deal": {
+            "value": 0,
+            "base": 0
+        },
+        "take": {
+            "value": 0,
+            "base": 0
+        }
+    },
     "loot": [
         {
             "id": "coin",

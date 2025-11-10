@@ -1,0 +1,39 @@
+{
+    "id": "car-driveby-queue",
+    "name": "Drive-By ⏱️",
+    "description": "${game.battle.attacker} revs the engine while the gremlin driver wiggles their fingers!",
+    "skillType": "special",
+    "data": {
+        "target": 1,
+        "mp": 10,
+        "selfTargetOnly": true,
+        "pow": 0,
+        "acc": 1,
+        "crit": 0,
+        "hits": 0,
+        "class": "physical",
+        "type": "standard",
+        "specialType": "queue",
+        "status": [
+            {
+                "id": "fired-up",
+                "chance": 1,
+                "stack": 3,
+                "intensity": 1
+            }
+        ],
+        "removeStatus": [
+            {
+                "id": "slow",
+                "chance": 1,
+                "stack": 99
+            }
+        ],
+        "queue": [
+            {
+                "class": "special",
+                "id": "car-driveby"
+            }
+        ]
+    }
+}

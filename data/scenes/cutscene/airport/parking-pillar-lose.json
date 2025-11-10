@@ -1,0 +1,17 @@
+{
+    "id": "parking-pillar-lose",
+    "data": [
+        {
+            "text": "You wake up several minutes later, scorched and aching but somehow still alive. The pillar, apparently undamaged, glimmers dourly some distance away.",
+            "action": {
+                "time": {
+                    "add": "00:05:00"
+                },
+                "exit": {
+                    "type": "explore",
+                    "id": "airport"
+                }
+            }
+        }
+    ]
+}

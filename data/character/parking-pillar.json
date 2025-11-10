@@ -1,9 +1,9 @@
 {
-    "id": "dummy",
-    "name": "Training Dummy",
-    "entryDescription": "You approach the training dummy. It doesn't react.",
-    "inspectDescription": "The training dummy does nothing, as it is not alive. It's impressively durable, though. What is it made of? What's its deal...?",
-    "bestiaryDescription": "A training dummy you found in one of the train carriages away from the locomotive. Seems to be nigh-invincible, and even repairs itself when you leave the room.",
+    "id": "parking-pillar",
+    "name": "Pillar",
+    "entryDescription": "You approach the pillar. Dim grey light gathers around it.",
+    "inspectDescription": "The immobile, inanimate concrete pillar seems to have command of some impressive magical energy. Maybe something enchanted it long ago? Charges up energy for one impressively devastating magical void attack.",
+    "bestiaryDescription": "The pillar is made of concrete and resists most forms of damage while charging an attack that will almost certainly defeat you in one hit. You just need to deal enough damage to destroy it before you run out of time.",
     "faction": "enemy",
     "activeEffects": [],
     "status": {},
@@ -17,9 +17,9 @@
     },
     "attrib": {
         "hp": {
-            "value": 999999,
-            "max": 999999,
-            "base": 999999,
+            "value": 1000,
+            "max": 1000,
+            "base": 1000,
             "regen": 0,
             "baseRegen": 0
         },
@@ -32,36 +32,36 @@
         },
         "mp": {
             "value": 0,
-            "max": 0,
-            "base": 0,
-            "regen": 0,
-            "baseRegen": 0
+            "max": 100,
+            "base": 100,
+            "regen": 18,
+            "baseRegen": 18
         }
     },
     "stats": {
         "pAtk": {
             "value": 0,
-            "base": 10
+            "base": 0
         },
         "mAtk": {
             "value": 0,
-            "base": 10
+            "base": 600
         },
         "pDef": {
             "value": 0,
-            "base": 10
+            "base": 30
         },
         "mDef": {
             "value": 0,
-            "base": 10
+            "base": 30
         },
         "acc": {
             "value": 0,
-            "base": 10
+            "base": 95
         },
         "spd": {
             "value": 0,
-            "base": 10
+            "base": 1
         }
     },
     "crit": {
@@ -78,7 +78,10 @@
     "ai": "lazy",
     "skills": {
         "attack-single": [
-
+            {
+                "id": "obliteration-glint",
+                "weight": 999
+            }
         ],
         "attack-multi": [
 
@@ -103,8 +106,8 @@
         ],
         "idle": [
             {
-                "id": "pass-turn",
-                "weight": 100
+                "id": "charge-idle",
+                "weight": 1
             }
         ],
         "special": [

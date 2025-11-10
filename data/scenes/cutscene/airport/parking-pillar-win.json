@@ -1,0 +1,49 @@
+{
+    "id": "parking-pillar-win",
+    "data": [
+        {
+            "text": "The pillar crumbles away at your attach, disintegrating into a surprisingly fine powder that quickly scatters across the floor. You pick up a few items that had been hidden inside.",
+            "action": {
+                "time": {
+                    "add": "00:02:00"
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "barrier-slate-medallion",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "skill-book-earthquake",
+                        "number": 1
+                    }
+                ]
+            }
+        },
+        {
+            "text": "The powder begins to glow and break apart further into a pale ghostly mist. You quickly retreat out of it, but not quickly enough to avoid passing through a large portion of the mist. You feel healthier, somehow.",
+            "action": {
+                "attrib": {
+                    "hp": {
+                        "base": {
+                            "buff": 40
+                        },
+                        "value": {
+                            "buff": "0.5 * t"
+                        }
+                    },
+                    "mp": {
+                        "base": {
+                            "buff": 6
+                        }
+                    }
+                },
+                "exit": {
+                    "type": "explore",
+                    "id": "airport"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "id": "skill-book-earthquake",
+    "name": "Skill Book: Earth Spells Vol. 1",
+    "description": "A pair of ancient clay tablets describing earth-related skills. Read to learn how to use Tremor and Hurl Rock.",
+    "useDescription": "After memorizing the spells' gestures and incantations, you can hurl rocks with alarming strength and cause the ground to erupt under your foes. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "01:33:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-multi",
+                "id": "tremor"
+            },
+            {
+                "category": "attack-single",
+                "id": "hurl-rock"
+            }
+        ]
+    }
+}

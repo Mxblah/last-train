@@ -1,0 +1,29 @@
+{
+    "id": "parking-pillar",
+    "data": [
+        {
+            "text": "Near the far end of the parking garage, you find a large, freestanding concrete pillar. It's similar to the ones that hold up the upper levels, but this one is clearly not connected to anything else and isn't a structural component. You're initially not sure what to make of it, until you notice a slate-grey barrier medallion embedded in the lower portion. Pulling it out is impossible; you'll have to break the thing.",
+            "action": {
+                "flag": {
+                    "parking.pillarSeen": true
+                }
+            },
+            "when": {
+                "parking.pillarSeen": false
+            }
+        },
+        {
+            "text": "You approach the strange pillar with the medallion embedded in it, preparing to try again. It seems to have completed repaired any damage you did on the last attempt.",
+            "when": {
+                "parking.pillarSeen": true
+            }
+        },
+        {
+            "text": "As you approach, dull grey light begins to gather around the pillar; powerful magic hums in the air. You'd better be quick before the thing vaporizes you.",
+            "exit": {
+                "type": "battle",
+                "id": "parking-pillar"
+            }
+        }
+    ]
+}

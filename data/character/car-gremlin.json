@@ -1,9 +1,9 @@
 {
-    "id": "eyebot",
-    "name": "Eyebot",
-    "entryDescription": "A small round security drone swoops down from above and whirls around you.",
-    "inspectDescription": "The airport's eyes and ears, these little robots patrol its empty halls unheeding of its long abandonment. Can summon security agents to deal with anything they deem a threat, but only have minimal combat capabilities on their own. Uses radiation and sonic magic.",
-    "bestiaryDescription": "These little guys don't have any obvious means of propulsion like propellors or jet engines, but a heat haze around the bottom of the ball indicates that whatever it is, it's hot. Maybe you could reprogram one to be your friend if you could find a way to get it to hold still for a few minutes?",
+    "id": "car-gremlin",
+    "name": "Car Gremlin",
+    "entryDescription": "A full-sized car accelerates towards you, with a manic gremlin at the wheel!",
+    "inspectDescription": "A rusted, dilapidated personal vehicle abandoned by its long-dead owner and taken over by a gremlin looking for the next step up from its luggage trolley. Barely held together with bodged-together fixes and plenty of duct tape. Uses physical earth attacks and extreme speed.",
+    "bestiaryDescription": "These gremlin-commandeered vehicles are so ramshackle that they fall apart the instant anyone besides a gremlin takes the wheel. Very difficult to hit while moving at full speed, but are vulnerable when turning around after an attack. The gremlin inside is well-protected by the vehicle's frame, so attacks effective against mechanical enemies are a better choice.",
     "faction": "enemy",
     "activeEffects": [],
     "status": {},
@@ -11,30 +11,22 @@
         "status": {
             "bleed": {
                 "value": 0,
-                "base": 1
+                "base": 0.75
             },
-            "fear": {
+            "irradiated": {
                 "value": 0,
-                "base": 1
-            },
-            "fired-up": {
-                "value": 0,
-                "base": 1
+                "base": 0.25
             },
             "paralysis": {
                 "value": 0,
-                "base": 0.35
+                "base": 0.5
             },
             "poison": {
                 "value": 0,
-                "base": 1
+                "base": 0.75
             }
         },
         "element": {
-            "earth": {
-                "value": 0,
-                "base": 0.3
-            },
             "fire": {
                 "value": 0,
                 "base": -0.15
@@ -53,15 +45,11 @@
             },
             "poison": {
                 "value": 0,
-                "base": 1
+                "base": 0.75
             },
             "slashing": {
                 "value": 0,
                 "base": 0.15
-            },
-            "sonic": {
-                "value": 0,
-                "base": -0.15
             },
             "water": {
                 "value": 0,
@@ -75,17 +63,17 @@
     },
     "attrib": {
         "hp": {
-            "value": 60,
-            "max": 60,
-            "base": 60,
+            "value": 360,
+            "max": 360,
+            "base": 360,
             "regen": 0,
             "baseRegen": 0
         },
         "bp": {
             "value": 0,
-            "max": 20,
-            "base": 20,
-            "regen": 2,
+            "max": 0,
+            "base": 0,
+            "regen": 0,
             "baseRegen": 0
         },
         "mp": {
@@ -99,27 +87,27 @@
     "stats": {
         "pAtk": {
             "value": 0,
-            "base": 11
+            "base": 34
         },
         "mAtk": {
             "value": 0,
-            "base": 15
+            "base": 17
         },
         "pDef": {
             "value": 0,
-            "base": 16
+            "base": 38
         },
         "mDef": {
             "value": 0,
-            "base": 17
+            "base": 26
         },
         "acc": {
             "value": 0,
-            "base": 18
+            "base": 22
         },
         "spd": {
             "value": 0,
-            "base": 19
+            "base": 33
         }
     },
     "crit": {
@@ -135,59 +123,68 @@
     "loot": [
         {
             "id": "coin",
-            "min": 2,
-            "max": 5,
-            "chance": 0.7
+            "min": 4,
+            "max": 11,
+            "chance": 0.8
+        },
+        {
+            "id": "golden-gummy-bear",
+            "min": 1,
+            "max": 2,
+            "chance": 0.25
+        },
+        {
+            "id": "tonic",
+            "number": 1,
+            "chance": 0.1
         },
         {
             "id": "charge-gel",
             "min": 1,
             "max": 2,
-            "chance": 0.2
+            "chance": 0.1
         },
         {
             "id": "fuel",
-            "number": 1,
-            "chance": 0.2
+            "min": 1,
+            "max": 3,
+            "chance": 0.75
         },
         {
-            "id": "eyebot-laser",
+            "id": "bonking-stick",
             "number": 1,
             "chance": 0.05
         }
     ],
-    "ai": "lazy-burst",
+    "ai": "aggressive",
     "skills": {
         "attack-single": [
             {
                 "id": "attack",
-                "weight": 50
+                "weight": 75
             },
             {
-                "id": "irradiate",
-                "weight": 40
+                "id": "body-slam",
+                "weight": 70
             }
         ],
         "attack-multi": [
             {
-                "id": "microwave",
-                "weight": 30
+                "id": "run-over",
+                "weight": 90
             }
         ],
         "buff-single": [
             {
-                "id": "fly-dodge",
-                "weight": 80
+                "id": "clothes-gremlin-admire-sock",
+                "weight": 75
             }
         ],
         "buff-multi": [
 
         ],
         "debuff-single": [
-            {
-                "id": "air-net",
-                "weight": 40
-            }
+
         ],
         "debuff-multi": [
 
@@ -200,18 +197,22 @@
         ],
         "idle": [
             {
-                "id": "floating-around",
-                "weight": 20
+                "id": "clothes-gremlin-leer",
+                "weight": 10
             }
         ],
         "special": [
             {
-                "id": "eyebot-summon-security-queue",
-                "weight": 500
+                "id": "steal-luggage",
+                "weight": 125
+            },
+            {
+                "id": "car-driveby-queue",
+                "weight": 225
             },
             {
                 "id": "flee",
-                "weight": 20
+                "weight": 15
             }
         ]
     }

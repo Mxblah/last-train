@@ -1,0 +1,32 @@
+{
+    "id": "parking-pillar",
+    "data": {
+        "characters": {
+            "ally": [],
+            "enemy": [
+                {
+                    "id": "parking-pillar"
+                }
+            ]
+        },
+        "special": {
+            "nonFatal": true,
+            "guaranteedFlee": true
+        },
+        "flags": {
+            "parking.pillarDefeated": true
+        },
+        "exit": {
+            "type": "cutscene",
+            "id": "parking-pillar-win"
+        },
+        "fleeExit": {
+            "type": "explore",
+            "id": "airport"
+        },
+        "loseExit": {
+            "type": "cutscene",
+            "id": "parking-pillar-lose"
+        }
+    }
+}

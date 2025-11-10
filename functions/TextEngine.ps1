@@ -326,6 +326,7 @@ function Get-AttribStatBadge {
         'mDef' { '🔮' }
         'acc' { '🎯' }
         'spd' { '👟' }
+        'luck' { '🎲' }
 
         default { '❓' }
     }

@@ -92,6 +92,10 @@ function Update-CharacterValues {
         }
         $data.max = $data.base
     }
+    foreach ($critRaw in $Character.crit.GetEnumerator()) {
+        if ($SuperDebug) { Write-Debug "resetting $($critRaw.Key) to $($critRaw.Value.base)" }
+        $critRaw.Value.value = $critRaw.Value.base
+    }
     foreach ($bonusCategoryName in @('resistances', 'affinities')) {
         foreach ($bonusCategory in $Character.$bonusCategoryName.GetEnumerator()) {
             foreach ($bonusRaw in $bonusCategory.Value.GetEnumerator()) {
@@ -271,22 +275,29 @@ function Invoke-Skill {
     # If this is a weapon-typed skill and the attacker is the player, merge the weapon and skill's status + type entries, if any
     if (($Skill.data.class -eq 'weapon' -or $Skill.data.type -eq 'weapon') -and $Attacker.id -eq 'player') {
         $Skill = $Skill | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashtable # clone to avoid modifying the base skill data
+        Convert-AllChildArraysToArrayLists -Data $Skill # and put the arraylists back
 
         $equippedWeaponId = $State | Find-EquippedItem -Slot 'weapon'
         if ($equippedWeaponId) {
             $equippedWeapon = $State.data.items.$equippedWeaponId
-            Write-Debug "Merging $($equippedWeapon.equipData.weaponData.status.Count) statuses from equipped weapon $equippedWeaponId into skill $($Skill.id)"
-            if ($null -ne $equippedWeapon.equipData.weaponData.status) {
-                # Don't destroy the arraylist here, and in fact create it if needed
-                if ($null -eq $Skill.data.status) {
-                    $Skill.data.status = New-Object -TypeName System.Collections.ArrayList
-                }
 
-                # Merge those statuses
-                foreach ($weaponStatus in $equippedWeapon.equipData.weaponData.status) {
-                    Write-Debug "merging weapon status $($weaponStatus.id)"
-                    $Skill.data.status.Add($weaponStatus) | Out-Null
+            # Only merge statuses if the weapon *type* is in use, not just the *class*
+            if ($Skill.data.type -eq 'weapon') {
+                Write-Debug "Merging $($equippedWeapon.equipData.weaponData.status.Count) statuses from equipped weapon $equippedWeaponId into skill $($Skill.id)"
+                if ($null -ne $equippedWeapon.equipData.weaponData.status) {
+                    # Don't destroy the arraylist here, and in fact create it if needed
+                    if ($null -eq $Skill.data.status) {
+                        $Skill.data.status = New-Object -TypeName System.Collections.ArrayList
+                    }
+
+                    # Merge those statuses
+                    foreach ($weaponStatus in $equippedWeapon.equipData.weaponData.status) {
+                        Write-Debug "merging weapon status $($weaponStatus.id)"
+                        $Skill.data.status.Add($weaponStatus) | Out-Null
+                    }
                 }
+            } else {
+                Write-Debug 'not merging weapon status due to weapon-class-only skill data'
             }
 
             # Update class/type so atk/def is handled against the right class
@@ -322,6 +333,11 @@ function Invoke-Skill {
             # Whiff if it missed
             if (-not $isHit) {
                 Write-Host -ForegroundColor DarkGray '... but it missed.'
+
+                # Still add/remove statuses to the attacker even on a miss
+                $State | Add-Status -Attacker $Attacker -Target $Target -Skill $Skill -OnlyApplyTo 'Attacker'
+                $State | Remove-Status -Attacker $Attacker -Target $Target -Skill $Skill -OnlyApplyTo 'Attacker'
+
                 continue
             }
 
@@ -343,14 +359,17 @@ function Invoke-Skill {
             # Handle multi-target parsing for resistance purposes
             $targetClass = if ($Skill.data.targetsAll) { 'all' } elseif ($Skill.data.target -gt 1) { 'multi' } else { 'single' }
 
-            # Calculate damage and crit if it hit
+            # Calculate damage
             $damage = Get-Damage -Power $Skill.data.pow -Attack $Attacker.stats."${typeLetter}Atk".value -Defense $Target.stats."${typeLetter}Def".value @healSplat |
                 Adjust-Damage -Class $Skill.data.class -Type $Skill.data.type -Attacker $Attacker -Target $Target -TargetClass $targetClass
-            $critMult = Get-CriticalMultiplier -SkillBonus $Skill.data.crit
+
+            # Calculate crit
+            $critStatusBonus = ($Attacker.crit.deal.value ?? 0) + ($Target.crit.take.value ?? 0)
+            $critMult = Get-CriticalMultiplier -SkillBonus $Skill.data.crit -StatusBonus $critStatusBonus
             switch ($critMult) {
                 { $_ -le 1 } { break <# do nothing; normal hit #> }
-                { $_ -le 2 } { Write-Host -ForegroundColor Magenta '💥 A critical hit!'; break }
-                { $_ -le 3 } { Write-Host -ForegroundColor DarkMagenta '💫 A brutal hit!'; break }
+                { $_ -le 1.5 } { Write-Host -ForegroundColor Magenta '💥 A critical hit!'; break }
+                { $_ -le 2 } { Write-Host -ForegroundColor DarkMagenta '💫 A brutal hit!'; break }
                 default { Write-Host -ForegroundColor DarkRed '💀 A mortal hit!' }
             }
             $damage *= $critMult

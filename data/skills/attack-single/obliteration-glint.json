@@ -1,0 +1,25 @@
+{
+    "id": "obliteration-glint",
+    "name": "Obliteration Glint",
+    "description": "${game.battle.attacker} obliterates ${game.battle.defender} with a surge of pale grey light.",
+    "skillType": "attack-single",
+    "data": {
+        "target": 1,
+        "mp": 100,
+        "pow": 670,
+        "acc": 1,
+        "crit": 1.2,
+        "hits": 1,
+        "class": "magical",
+        "type": "void",
+        "status": [
+            {
+                "id": "aureole",
+                "chance": 0.35,
+                "stack": 5,
+                "intensity": 30,
+                "applyToAttacker": true
+            }
+        ]
+    }
+}
