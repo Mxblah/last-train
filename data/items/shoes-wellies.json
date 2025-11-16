@@ -13,6 +13,9 @@
                 "cold": 0.1,
                 "earth": 0.1,
                 "water": 0.1
+            },
+            "status": {
+                "wet": 0.2
             }
         },
         "stats": {

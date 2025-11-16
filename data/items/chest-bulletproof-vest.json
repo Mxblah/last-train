@@ -16,7 +16,7 @@
         "attrib": {
             "hp": {
                 "max": {
-                    "buff": 10
+                    "buff": 14
                 }
             },
             "bp": {
@@ -30,10 +30,10 @@
         },
         "stats": {
             "pDef": {
-                "buff": 7
+                "buff": 11
             },
             "mDef": {
-                "buff": 3
+                "buff": 4
             }
         }
     }

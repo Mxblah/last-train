@@ -1,0 +1,27 @@
+{
+    "id": "parking-fuel-victory",
+    "data": [
+        {
+            "text": "All the gremlins are dead or routed. You put out the fire and salvage the remaining fuel.",
+            "action": {
+                "time": {
+                    "add": "00:03:40"
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "fuel",
+                        "number": 50
+                    }
+                ],
+                "flag": {
+                    "airport.parking2.fuelCacheClear": true
+                },
+                "exit": {
+                    "type": "explore",
+                    "id": "airport"
+                }
+            }
+        }
+    ]
+}

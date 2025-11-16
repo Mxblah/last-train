@@ -1037,6 +1037,37 @@
                     },
                     "encounters": [
                         {
+                            "type": "cutscene",
+                            "id": "parking-fuel-cache",
+                            "chance": 1,
+                            "minDepthAvailable": 4,
+                            "maxDepthAvailable": 4,
+                            "when": {
+                                "airport.parking2.fuelCacheClear": false
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "id": "upperFace-goggles",
+                            "number": 1,
+                            "chance": 0.2,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "number": 1,
+                            "chance": 0.075,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "tonic",
+                            "number": 1,
+                            "chance": 0.075,
+                            "maxTimes": 2
+                        },
+                        {
                             "type": "battle",
                             "id": "parking-car-x1",
                             "chance": 0.04
