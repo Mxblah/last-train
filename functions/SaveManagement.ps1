@@ -24,9 +24,9 @@ function Get-SaveSlot {
     }
     try {
         if ([string]::IsNullOrWhiteSpace($saveInput)) { $saveInput = 'A' } # blank, so autosave
-        $saveSlot = [int]$saveInput
+        $saveSlot = [int]$saveInput # throws if we have a letter
         if ($saveSlot -lt 1) {
-            # was empty or the user entered a negative number to be cheeky
+            # was zero or the user entered a negative number to be cheeky
             $saveSlot = 0
             Write-Host 'Will create new save in next valid slot'
         } else {
@@ -64,20 +64,23 @@ function Import-Save {
         [int]$Slot,
 
         [Parameter()]
-        [switch]$CreateIfNotPresent
+        [switch]$CreateIfNotPresent,
+
+        [Parameter()]
+        [string]$SavesRoot = "$PSScriptRoot/../saves"
     )
 
     # vars
     if ($Slot -eq -1) {
-        $savePath = "$PSScriptRoot/../saves/auto.save"
+        $savePath = Join-Path -Path $SavesRoot -ChildPath 'auto.save'
     } else {
-        $savePath = "$PSScriptRoot/../saves/$Slot.save"
+        $savePath = Join-Path -Path $SavesRoot -ChildPath "$Slot.save"
     }
 
     # Sanity check to make sure the dir exists
-    if (-not (Test-Path "$PSScriptRoot/../saves")) {
+    if (-not (Test-Path $SavesRoot)) {
         Write-Host 'Save directory does not exist; creating it'
-        New-Item -Path "$PSScriptRoot/../saves" -ItemType Directory
+        New-Item -Path $SavesRoot -ItemType Directory | Out-Null
     }
 
     if ((Test-Path $savePath) -and ($Slot -ne 0)) {
@@ -113,6 +116,9 @@ function Save-Game {
         [int]$Slot,
 
         [Parameter()]
+        [string]$SavesRoot = "$PSScriptRoot/../saves",
+
+        [Parameter()]
         [switch]$Auto
     )
 
@@ -131,13 +137,15 @@ function Save-Game {
     $State.lastSaved = Get-Date
     if (-not $Auto) {
         # Manual save
-        $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath "$PSScriptRoot/../saves/$($State.id).save"
+        $manualPath = Join-Path -Path $SavesRoot -ChildPath "$($State.id).save"
+        $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath $manualPath
         Write-Host -ForegroundColor Cyan "✅📝 Saved to slot $($State.id)!"
     }
 
     # Keep the autosave synced up with the manual one, or just do autosave if $Auto
     if ($State.options.autosave) {
-        $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath "$PSScriptRoot/../saves/auto.save"
+        $autoPath = Join-Path -Path $SavesRoot -ChildPath 'auto.save'
+        $State | ConvertTo-Json -Compress -Depth 99 | Out-File -FilePath $autoPath
         if ($Auto) { Write-Host -ForegroundColor Cyan '✅📝 Autosaved!' }
     } else {
         Write-Verbose 'Autosave is disabled; not auto-saving game'
@@ -155,7 +163,10 @@ function Invoke-ManualSave {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline)]
-        [object]$State
+        [object]$State,
+
+        [Parameter()]
+        [string]$SavesRoot = "$PSScriptRoot/../saves"
     )
 
     $response = Read-Host -Prompt 'Save to which slot? (number, or <enter> for current slot, or anything else to cancel)'
@@ -166,10 +177,10 @@ function Invoke-ManualSave {
     }
     if ([string]::IsNullOrWhiteSpace($slot) -or $slot -le 0) {
         # auto (current) slot
-        $State | Save-Game
+        $State | Save-Game -SavesRoot $SavesRoot
     } else {
         # new slot
-        $State | Save-Game -Slot $slot
+        $State | Save-Game -Slot $slot -SavesRoot $SavesRoot
     }
 }
 
@@ -184,14 +195,17 @@ function New-Save {
         [int]$Slot,
 
         [Parameter()]
-        [switch]$Force
+        [switch]$Force,
+
+        [Parameter()]
+        [string]$SavesRoot = "$PSScriptRoot/../saves"
     )
 
-    $savePath = "$PSScriptRoot/../saves/$Slot.save"
+    $savePath = Join-Path -Path $SavesRoot -ChildPath "$Slot.save"
 
     if ($Slot -eq 0) {
         # Pick the next available instead of using the number directly
-        $allSaves = Get-ChildItem "$PSScriptRoot/../saves" -Filter '*.save'
+        $allSaves = Get-ChildItem -Path $SavesRoot -Filter '*.save'
         if ($allSaves.Count -gt 999) {
             # shortcut if there are a truly absurd number of saves
             $Slot = $allSaves.Count + 1
@@ -200,9 +214,9 @@ function New-Save {
         }
         do {
             Write-Debug "Testing slot $Slot for new save..."
-            if (-not (Test-Path "$PSScriptRoot/../saves/$Slot.save")) {
+            if (-not (Test-Path (Join-Path -Path $SavesRoot -ChildPath "$Slot.save"))) {
                 # Available slot; set the path
-                $savePath = "$PSScriptRoot/../saves/$Slot.save"
+                $savePath = Join-Path -Path $SavesRoot -ChildPath "$Slot.save"
                 break
             } else {
                 $Slot++
@@ -221,9 +235,9 @@ function New-Save {
         game = @{ meta = @{ init = $false } }
         items = @{}
         equipment = @{}
-    } | ConvertTo-Json -Compress -Depth 99 | Out-File $savePath -Force:$Force
+    } | ConvertTo-Json -Compress -Depth 99 | Out-File $savePath -Encoding ascii -Force:$Force
 
-    return Import-Save -Slot $Slot
+    return Import-Save -Slot $Slot -SavesRoot $SavesRoot
 }
 
 <#
@@ -237,16 +251,20 @@ function Remove-Save {
         [int]$Slot,
 
         [Parameter(ParameterSetName = 'All', Mandatory = $true)]
-        [switch]$All
+        [switch]$All,
+
+        [Parameter()]
+        [string]$SavesRoot = "$PSScriptRoot/../saves"
     )
 
     if ($All) {
         Write-Host -ForegroundColor Red "DELETING ALL SAVES"
-        Remove-Item -Recurse -Path "$PSScriptRoot/../saves/*.save"
+        $pattern = Join-Path -Path $SavesRoot -ChildPath '*.save'
+        Remove-Item -Recurse -Path $pattern
         return
     }
 
-    $savePath = "$PSScriptRoot/../saves/$Slot.save"
+    $savePath = Join-Path -Path $SavesRoot -ChildPath "$Slot.save"
 
     Write-Host "Removing save $Slot"
     if (Test-Path $savePath -PathType Leaf) {
