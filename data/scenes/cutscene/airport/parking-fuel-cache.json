@@ -2,7 +2,7 @@
     "id": "parking-fuel-cache",
     "data": [
         {
-            "text": "You hear raucous cackling and spot the crackle of a burning fire. Carefully approaching, you spot a circle of luggage gremlins, two lounging inside idling cars, around a bonfire pouring out thick black smoke. Dozens of canisters of train fuel lie scattered carelessly nearby, presumably to be used as fuel for the fire. You could secure a large cache of fuel here, if you can manage it.",
+            "text": "You hear raucous cackling and spot the crackle of a burning fire. Carefully approaching, you spot a circle of luggage gremlins, two lounging inside idling cars, gathered around a bonfire pouring out thick black smoke. Dozens of canisters of train fuel lie scattered carelessly nearby, presumably to be used as fuel for the fire. You could secure a large cache of fuel here, if you can manage it.",
             "choice": {
                 "text": "What will you do?",
                 "responses": {

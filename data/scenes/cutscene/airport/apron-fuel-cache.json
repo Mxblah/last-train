@@ -1,0 +1,139 @@
+{
+    "id": "apron-fuel-cache",
+    "data": [
+        {
+            "text": "You come across a small camp somewhat protected from the sun's rays by a few tattered tarps hung between two half-crumbled jetbridges. It seems to have seen somewhat recent use, and, more interesting to you, the occupant clearly wasn't a gremlin. It's not nearly messy enough."
+        },
+        {
+            "text": "No one's been here in at least a few days, but the stuff you find - cooking implements, hygiene supplies, and a cache of fuel - indicates that whoever it was may have been intending to come back. You could use the fuel for sure, and you don't even know the camp's owner is still alive to retrieve it.",
+            "choice": {
+                "text": "Take the fuel?",
+                "responses": {
+                    "all": {
+                        "text": [
+                            "You scavenge as much fuel as you can find. It's better you use it now than leave it for someone who could easily be dead."
+                        ],
+                        "time": {
+                            "add": "00:05:00"
+                        },
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "fuel",
+                                "number": 38
+                            }
+                        ],
+                        "flag": {
+                            "airport.apron.fuelCacheClear": true
+                        },
+                        "exit": {}
+                    },
+                    "some": {
+                        "text": [
+                            "You leave some of the fuel behind so that, if the camp's owner does return, they won't be completely destitute. But you still take a good amount to power the train."
+                        ],
+                        "time": {
+                            "add": "00:03:40"
+                        },
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "fuel",
+                                "number": 21
+                            }
+                        ],
+                        "flag": {
+                            "airport.apron.fuelCacheClear": true
+                        }
+                    },
+                    "none": {
+                        "text": [
+                            "You decide you can scavenge your fuel elsewhere and leave it all untouched."
+                        ],
+                        "flag": {
+                            "airport.apron.fuelCacheClear": true
+                        },
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "As you're sifting through the cache, trying to decide what to take and what to leave, you happen across a small hidden manhole buried beneath a pile of crates. You would have missed it entirely if you had just taken everything indiscriminantly. Heaving it open, a short ladder descends into a strangely reflective, natural-looking cavern just below the apron. What have you stumbled into..?",
+            "choice": {
+                "text": "... Your head hurts. Enter?",
+                "responses": {
+                    "yes": {
+                        "damage": {
+                            "class": "magical",
+                            "type": "mental",
+                            "expression": "0.02 * t",
+                            "ignoreDefense": true,
+                            "ignoreBarrier": true
+                        },
+                        "time": {
+                            "add": "00:01:00"
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You cover the manhole back up and quickly sort out the fuel situation. The headache vanishes shortly after."
+                        ],
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"${player.name}...\" you seem to hear. The ladder whispers to you. The rock whispers to you. The air breathes in your ear. Your head hurts. You reach the bottom and find yourself in a small cavern made of glossy, deep black stone. There's a pool of viscous, inky black liquid slowly rippling in the impossible breeze. \"${player.name}...\" it implies. \"Come to me...\"",
+            "choice": {
+                "text": "You feel like you should leave.",
+                "responses": {
+                    "leave": {
+                        "text": [
+                            "You scramble back up the ladder and close the manhole. Your head throbs for several minutes afterwards."
+                        ],
+                        "exit": {}
+                    },
+                    "enter the pool": {
+                        "text": [
+                            "Feeling almost like you're in a dream, you step into the pool. Darkness climbs your leg. Immediately, you feel severely lightheaded.",
+                            "You pass out."
+                        ],
+                        "damage": {
+                            "class": "magical",
+                            "type": "void",
+                            "expression": "0.85 * t",
+                            "ignoreDefense": true
+                        },
+                        "time": {
+                            "add": "00:04:10"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "You wake up some time later, lying on your back in the camp from before. The manhole is gone; there's nothing but concrete where it once was. You feel different, somehow.",
+            "action": {
+                "attrib": {
+                    "hp": {
+                        "base": {
+                            "add": 55
+                        },
+                        "value": {
+                            "buff": "0.75 * t"
+                        }
+                    }
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-obsidian",
+                        "number": 1
+                    }
+                ]
+            }
+        }
+    ]
+}

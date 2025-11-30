@@ -1435,7 +1435,44 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "cutscene",
+                            "id": "apron-fuel-cache",
+                            "minDepthAvailable": 3,
+                            "maxDepthAvailable": 3,
+                            "when": {
+                                "airport.apron.fuelCacheClear": false
+                            },
+                            "chance": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "text": "You manage to siphon some fuel from a disabled service vehicle.",
+                            "minAmount": 2,
+                            "maxAmount": 4,
+                            "chance": 0.05
+                        },
+                        {
+                            "type": "battle",
+                            "id": "luggage-gremlin-x2",
+                            "chance": 0.015
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-x1",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x1",
+                            "chance": 0.015
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.015
+                        }
                     ]
                 },
                 "connections": {
@@ -1501,7 +1538,41 @@
                         ]
                     },
                     "encounters": [
-
+                        {
+                            "type": "item",
+                            "id": "fuel",
+                            "text": "You manage to siphon some fuel from an abandoned airplane.",
+                            "minAmount": 2,
+                            "maxAmount": 5,
+                            "chance": 0.04
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-x1",
+                            "chance": 0.03
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x1",
+                            "chance": 0.01
+                        },
+                        {
+                            "type": "battle",
+                            "id": "parking-car-luggage-x2",
+                            "chance": 0.015
+                        },
+                        {
+                            "type": "battle",
+                            "id": "hallowed-x1",
+                            "chance": 0.025
+                        },
+                        {
+                            "type": "item",
+                            "id": "coin",
+                            "minAmount": 3,
+                            "maxAmount": 7,
+                            "chance": 0.065
+                        }
                     ]
                 },
                 "connections": {
