@@ -62,7 +62,7 @@
             }
         },
         {
-            "text": "The description of this cat makes it sound very much like the talking one you met in the desert. Somehow, you doubt you could kill it even if you wanted to; its knowledge and power seem a little too vast compared to your own. You are a little surprised it would stoop to hunting rats, though.",
+            "text": "The description of this cat makes it sound very much like the talking one you met recently. Somehow, you doubt you could kill it even if you wanted to; its knowledge and power seem a little too vast compared to your own. You are a little surprised it would stoop to hunting rats, though.",
             "when": {
                 "global.cat.metOnce": true
             }

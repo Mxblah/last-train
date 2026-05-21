@@ -123,7 +123,7 @@
             "choice": {
                 "text": "Ask about...",
                 "responses": {
-                    "you": {
+                    "yourself": {
                         "text": [
                             "\"You want to know who *you* are? Well aren't you self-important. I have no idea, honestly; why would I?\"",
                             "You protest a little, but it's clear the cat has more to say.",

@@ -103,7 +103,7 @@
                         "damage": {
                             "class": "magical",
                             "type": "void",
-                            "expression": "0.85 * t",
+                            "expression": "0.8 * t",
                             "ignoreDefense": true
                         },
                         "time": {

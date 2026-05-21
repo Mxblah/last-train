@@ -311,7 +311,7 @@ function Show-TrainSleepMenu {
     switch ($sleepTime) {
         { $_ -le 2 } { 'You wake up tired, but somewhat refreshed.'; break }
         { $_ -le 4 } { 'You wake up refreshed, but still somewhat tired.'; break }
-        { $_ -le 10 } { 'You wake up well-rested.'; break }
+        { $_ -le 8 } { 'You wake up well-rested.'; break }
         default { 'You wake up well-rested and full of energy, but was it really okay to sleep that long...?' }
     }
 

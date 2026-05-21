@@ -1446,6 +1446,35 @@
                             "chance": 1
                         },
                         {
+                            "type": "cutscene",
+                            "id": "apron-plane-cat",
+                            "minDepthAvailable": 6,
+                            "maxDepthAvailable": 6,
+                            "when": {
+                                "airport.apron.metCat": false
+                            },
+                            "chance": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "apron-plane-cat-rat",
+                            "minDepthAvailable": 6,
+                            "maxDepthAvailable": 6,
+                            "when": {
+                                "airport.ratKing.catQuestComplete": false,
+                                "airport.ratKing.conversationStage": 2
+                            },
+                            "chance": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "orb-pearlescent",
+                            "text": "You find a shiny, crinkly, plastic-wrapped package containing two pearly-white orbs. It seems brand new.",
+                            "number": 2,
+                            "maxTimes": 3,
+                            "chance": 0.175
+                        },
+                        {
                             "type": "item",
                             "id": "fuel",
                             "text": "You manage to siphon some fuel from a disabled service vehicle.",

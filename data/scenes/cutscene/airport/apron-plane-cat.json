@@ -1,0 +1,220 @@
+{
+    "id": "apron-plane-cat",
+    "data": [
+        {
+            "text": "You spot a peculiarly well-preserved plane as you walk. It's a smaller one - a regional jet or something - and the stairs are down. You could enter if you felt like it.",
+            "choice": {
+                "text": "Enter?",
+                "responses": {
+                    "yes": {
+                        "time": {
+                            "add": "00:00:40"
+                        },
+                        "flag": {
+                            "airport.apron.metCat": true
+                        }
+                    },
+                    "no": {
+                        "exit": {}
+                    }
+                }
+            }
+        },
+        {
+            "text": "You climb up the stairs and enter the jet. It's similarly well-preserved on the inside, with the exception of some claw marks in some of the seats. But not horrifyingly big claws, just little ones."
+        },
+        {
+            "text": "You find a sandy yellow-orange housecat curled up and napping on the captain's seat in the cockpit. As you approach, it lazily blinks its pure-white eyes open, yawns, and sits up. Its tail curls neatly around its paws."
+        },
+        {
+            "text": "\"Oh, great, another one,\" it gripes. \"You didn't even manage to find me in the desert, and *now* you're expecting something helpful? Unfortunately, I am bound by my immortal covenant and must offer you aid regardless of how unpleasant I find it. What will you have?\"",
+            "when": {
+                "global.cat.metOnce": false
+            },
+            "action": {
+                "flag": {
+                    "global.cat.metOnce": true
+                }
+            }
+        },
+        {
+            "text": "\"You again,\" the cat notes, seemingly marginally more polite than the last time you met it. Although that might be your imagination. \"So you've made it this far. Good job, I suppose, though it only gets worse from here. Well, you know the drill. What aid will you have this time?\"",
+            "when": {
+                "global.cat.metOnce": true
+            },
+            "action": {
+                "flag": {
+                    "global.cat.metTwice": true
+                }
+            }
+        },
+        {
+            "text": "The cat stretches before returning to a perfect sitting posture. It regards you with its pupil-less eyes as it awaits your answer.",
+            "choice": {
+                "text": "Ask the cat for...",
+                "responses": {
+                    "vitality": {
+                        "text": [
+                            "\"Weary from your journey? Why not curl up on one of these seats for a while?\"",
+                            "\"No, of course I won't curl up on top of you. Do you take me for a domesticated pet?\""
+                        ],
+                        "attrib": {
+                            "hp": {
+                                "base": {
+                                    "buff": 80
+                                },
+                                "value": {
+                                    "buff": "t"
+                                }
+                            }
+                        }
+                    },
+                    "strength": {
+                        "text": [
+                            "The cat nods. \"You'll need it where you're going.\""
+                        ],
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "orb-opalescent",
+                                "number": 3
+                            },
+                            {
+                                "action": "add",
+                                "id": "orb-roseate",
+                                "number": 6
+                            }
+                        ]
+                    },
+                    "fuel": {
+                        "text": [
+                            "\"Takes more than you expected to keep that train running, hm? Take what you want; this old thing isn't getting off the ground again. It has no need for fuel anymore.\""
+                        ],
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "fuel",
+                                "number": 54
+                            }
+                        ]
+                    },
+                    "nothing": {
+                        "text": [
+                            "\"Don't want to inconvenience me, or just hoping for a secret extra reward?\" The cat narrows its eyes at you.",
+                            "\"Easy to fulfil, at least. Enjoy your nothing.\""
+                        ],
+                        "when": {
+                            "global.cat.skippedDesert": false
+                        }
+                    },
+                    "still nothing": {
+                        "text": [
+                            "\"Again? You still want nothing to help you?\" The cat flicks its ears. \"What are you expecting this austerity will do? Are you truly satisfied without aid, or are you hoping something will happen if you refuse every time?\"",
+                            "\"Don't answer that,\" it snaps. \"Enjoy your nothing.\""
+                        ],
+                        "flag": {
+                            "global.cat.skippedAirport": true
+                        },
+                        "when": {
+                            "global.cat.skippedDesert": true
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"Now that our business has concluded, you can feel free to get out of this plane and get back to whatever you were doing,\" the cat advises. \"Shoo.\"",
+            "action": {
+                "time": {
+                    "add": "00:01:00"
+                }
+            },
+            "choice": {
+                "text": "Talk to the cat some more?",
+                "responses": {
+                    "no": {
+                        "text": [
+                            "You are on a tight schedule. You decide to take the cat's advice and leave."
+                        ],
+                        "exit": {}
+                    },
+                    "yes": {}
+                }
+            }
+        },
+        {
+            "text": "You inform the cat that you won't be leaving until it's answered some of your questions. Its tail flicks at your declaration, but it doesn't say no. \"One question, then,\" it grouses. \"Hurry it up.\"",
+            "choice": {
+                "text": "Ask about...",
+                "responses": {
+                    "the cat": {
+                        "text": [
+                            "\"Me? I'm just your average everyday housecat. Meow.\"",
+                            "You inform the cat it is anything but normal.",
+                            "\"... I'm an echo, I suppose. A last fading remnant of one of the guardians of old, before they all disappeared. I'm bound to protect this planet and aid any priests who cross my path, but... have you seen this place? Good luck to me, huh?\"",
+                            "You ask the cat if it has a name.",
+                            "\"I don't; no. I was never supposed to exist, and once I did, no one was around to name me.\" A pause; it rubs an ear with its paw. \"If you need to call me something, the guardian I was broken off from was named Intaqui. His name will do.\""
+                        ],
+                        "when": {
+                            "global.cat.knowsName": false
+                        },
+                        "flag": {
+                            "global.cat.knowsName": true
+                        }
+                    },
+                    "gremlins": {
+                        "text": [
+                            "\"They certainly are annoying.\" The cat scratches an ear with a hind leg. \"They're universally obsessed with human belongings, wherever you find them, but they're never especially threatening.\"",
+                            "\"Surprisingly, they actually aren't sun-poisoned mutants; rather, they're a sort of splinter branch of the species *you* represent. Mutants, yes, but mutated to resist the sun rather than to embrace it.\"",
+                            "\"It seems some part of the process enhances their base desires while limiting higher thought, leading to the crude behavior you've seen. Is it worth the tradeoff for survival?\"",
+                            "The cat's tail sways. \"They've certainly lasted longer than the bulk of your fellows. Perhaps it's a shame they won't last much longer; resistance does not imply immunity. They'll burn in the sunlight just like everything else once that monster finally arrives.\""
+                        ]
+                    },
+                    "rats [not the quest option]": {
+                        "text": [
+                            "\"Pathetic creatures who made a pact with the destroyer but have forgotten the details. Their king holds a power he cannot comprehend, let alone use.\"",
+                            "\"At least they're fat and full of muscle from their constant fighting.\" The cat carefully licks its chops. \"They seem to fear me.\" This seems to please it.",
+                            "\"One would expect them to be allied with the deeper depths due to their scurrying in darkness, but it certainly is the sun they have chosen to submit to. Perhaps they're more scared of the suffocating dark than the burning light.\""
+                        ]
+                    },
+                    "the end of the world": {
+                        "text": [
+                            "\"Yes, it's very soon now. You seem to already know the timing as well as could be expected; it will be only a matter of days.\"",
+                            "\"Can you actually stop it at ASCENSION, though?\" The cat closes its eyes. \"That's a much trickier question. Regardless of your actions, the sun will launch its final assault imminently. It intends to recover this dead husk and what power still lies within it.\"",
+                            "\"As for what you could do at ASCENSION...\" It ponders the question before opening its eyes and narrowing them. \"Perhaps you should focus on getting there before worrying about what you will do once you arrive.\"",
+                            "\"ASCENSION holds immense power, but whether it will be enough...\" It huffs out a breath. \"Certainly, nowhere else on the planet will suffice. It is your only chance, if you truly desire to avert this.\""
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"Now, I believe you have other matters to attend to. Leave me to my nap.\"",
+            "action": {
+                "time": {
+                    "add": "00:01:20"
+                }
+            },
+            "choice": {
+                "text": "Leave the plane?",
+                "responses": {
+                    "yes": {
+                        "exit": {}
+                    },
+                    "ask about the rat king's request first": {
+                        "when": {
+                            "airport.ratKing.conversationStage": 2
+                        },
+                        "flag": {
+                            "airport.apron.skipCatPlaneEntry": true
+                        },
+                        "exit": {
+                            "type": "cutscene",
+                            "id": "apron-plane-cat-rat"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
