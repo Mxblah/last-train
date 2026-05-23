@@ -1,0 +1,51 @@
+{
+    "id": "runways-gremlin-base-eyebot",
+    "data": [
+        {
+            "text": "You approach the outermost fence of the airport grounds, and find an enormous gremlin camp there. Cobbled-together cars idle as their drivers chat and guffaw with their lesser trolley-riding compatriots. There are so many gremlins that it would be very difficult to take them on yourself. Luckily, you have airport security on your side."
+        },
+        {
+            "text": "All it takes is a quick application of the punch card to a nearby terminal and dozens of eyebots scream in from the skies. Security agents mop up the remainder and, not long after, you're free to salvage what you can from the wreckage.",
+            "action": {
+                "time": {
+                    "add": "00:09:20"
+                }
+            }
+        },
+        {
+            "text": "Most of the equipment is buried in the rubble, but you do find a few odds and ends. Along with a peculiarly-carved bowl - all straight-edged geometric designs - containing a metallic golden liquid. No sooner have you touched it than the golden liquid vaporizes and curls into your body. You feel a little lighter.",
+            "action": {
+                "time": {
+                    "add": "00:04:00"
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-gold",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "bomb-pellet",
+                        "number": 3
+                    },
+                    {
+                        "action": "add",
+                        "id": "coin",
+                        "number": 27
+                    },
+                    {
+                        "action": "add",
+                        "id": "fuel",
+                        "number": 12
+                    },
+                    {
+                        "action": "add",
+                        "id": "golden-gummy-bear",
+                        "number": 3
+                    }
+                ]
+            }
+        }
+    ]
+}

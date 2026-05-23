@@ -1568,9 +1568,69 @@
                     },
                     "encounters": [
                         {
+                            "type": "cutscene",
+                            "id": "runways-gremlin-base-friendly",
+                            "minDepthAvailable": 9,
+                            "when": {
+                                "item": {
+                                    "id": "airport-gremlin-button",
+                                    "min": 1
+                                }
+                            },
+                            "maxTimes": 1,
+                            "chance": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "runways-gremlin-base-eyebot",
+                            "minDepthAvailable": 9,
+                            "when": {
+                                "airport.securityOffice.madeAFriend": true
+                            },
+                            "maxTimes": 1,
+                            "chance": 1
+                        },
+                        {
+                            "type": "cutscene",
+                            "id": "runways-gremlin-base-no-way",
+                            "minDepthAvailable": 9,
+                            "when": {
+                                "airport.securityOffice.madeAFriend": false,
+                                "item": {
+                                    "id": "airport-gremlin-button",
+                                    "max": 0
+                                }
+                            },
+                            "chance": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "socks-featherlight",
+                            "text": "You find a neatly packaged pair of smooth, thin socks in an abandoned ground vehicle.",
+                            "number": 1,
+                            "chance": 0.3,
+                            "minDepthAvailable": 1,
+                            "maxDepthAvailable": 7,
+                            "maxTimes": 1
+                        },
+                        {
+                            "type": "item",
+                            "id": "bandage",
+                            "number": 1,
+                            "chance": 0.075,
+                            "maxTimes": 2
+                        },
+                        {
+                            "type": "item",
+                            "id": "tonic",
+                            "number": 1,
+                            "chance": 0.075,
+                            "maxTimes": 2
+                        },
+                        {
                             "type": "item",
                             "id": "fuel",
-                            "text": "You manage to siphon some fuel from an abandoned airplane.",
+                            "text": "You manage to siphon some fuel from an abandoned airplane. The train probably won't mind.",
                             "minAmount": 2,
                             "maxAmount": 5,
                             "chance": 0.04

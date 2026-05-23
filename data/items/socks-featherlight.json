@@ -1,0 +1,37 @@
+{
+    "id": "socks-featherlight",
+    "name": "Featherlight Socks",
+    "description": "Thin, tight socks that feel like gossamer. Extremely breathable. Reduces high temperatures, defends against speed-reducing effects, and increases your speed. Slightly enhances sonic attacks.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "socks"
+    },
+    "effects": {
+        "affinities": {
+            "element": {
+                "sonic": 0.1
+            }
+        },
+        "resistances": {
+            "status": {
+                "burn": 0.15,
+                "restrained": 0.20,
+                "slow": 0.25
+            },
+            "element": {
+                "fire": 0.2
+            }
+        },
+        "stats": {
+            "pDef": {
+                "buff": 1
+            },
+            "mDef": {
+                "buff": 3
+            },
+            "spd": {
+                "buff": 8
+            }
+        }
+    }
+}
