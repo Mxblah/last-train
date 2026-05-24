@@ -2,7 +2,7 @@
     "id": "parking-pillar",
     "data": [
         {
-            "text": "You approach the strange pillar with the medallion embedded in it, preparing to try again. It seems to have completed repaired any damage you did on the last attempt.",
+            "text": "You approach the strange pillar with the medallion embedded in it, preparing to try again. It seems to have completely repaired any damage you did on the last attempt.",
             "when": {
                 "airport.parkingB.pillarSeen": true
             }
