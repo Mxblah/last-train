@@ -1,0 +1,225 @@
+{
+    "id": "prototype-eyebot",
+    "name": "Prototype Eyebot",
+    "entryDescription": "The prototype eyebot whirls around you, humming with energy.",
+    "inspectDescription": "A prototype eyebot with enhanced combat capabilities, but without the ability to call security agents as backup. Programmed to defend you by destroying your enemies. Uses electric, radiation, fire, and sonic magic.",
+    "bestiaryDescription": "This eyebot is slightly larger and made of a different, paler metal than its fellows, but otherwise looks quite similar. When not in combat mode, it bobs gently around your head as if caught in a slow current. It seems to display inquisitive behavior by examining everything new you find alongside you; is it just assessing for threats or is it curious for the sake of it?",
+    "faction": "ally",
+    "activeEffects": [],
+    "status": {},
+    "resistances": {
+        "status": {
+            "bleed": {
+                "value": 0,
+                "base": 1
+            },
+            "fear": {
+                "value": 0,
+                "base": 1
+            },
+            "fired-up": {
+                "value": 0,
+                "base": 1
+            },
+            "paralysis": {
+                "value": 0,
+                "base": 0.35
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            }
+        },
+        "element": {
+            "earth": {
+                "value": 0,
+                "base": 0.3
+            },
+            "healing": {
+                "value": 0,
+                "base": 1
+            },
+            "lightning": {
+                "value": 0,
+                "base": -0.15
+            },
+            "mental": {
+                "value": 0,
+                "base": 0.8
+            },
+            "poison": {
+                "value": 0,
+                "base": 1
+            },
+            "slashing": {
+                "value": 0,
+                "base": 0.15
+            },
+            "water": {
+                "value": 0,
+                "base": -0.1
+            }
+        }
+    },
+    "affinities": {
+        "status": {},
+        "element": {}
+    },
+    "attrib": {
+        "hp": {
+            "value": 180,
+            "max": 180,
+            "base": 180,
+            "regen": 0,
+            "baseRegen": 0
+        },
+        "bp": {
+            "value": 0,
+            "max": 88,
+            "base": 88,
+            "regen": 14,
+            "baseRegen": 0
+        },
+        "mp": {
+            "value": 36,
+            "max": 36,
+            "base": 36,
+            "regen": 4,
+            "baseRegen": 4
+        }
+    },
+    "stats": {
+        "pAtk": {
+            "value": 0,
+            "base": 11
+        },
+        "mAtk": {
+            "value": 0,
+            "base": 38
+        },
+        "pDef": {
+            "value": 0,
+            "base": 43
+        },
+        "mDef": {
+            "value": 0,
+            "base": 48
+        },
+        "acc": {
+            "value": 0,
+            "base": 32
+        },
+        "spd": {
+            "value": 0,
+            "base": 27
+        }
+    },
+    "crit": {
+        "deal": {
+            "value": 0,
+            "base": 0
+        },
+        "take": {
+            "value": 0,
+            "base": 0
+        }
+    },
+    "loot": [
+        {
+            "id": "coin",
+            "min": 2,
+            "max": 5,
+            "chance": 0.7
+        },
+        {
+            "id": "charge-gel",
+            "min": 1,
+            "max": 2,
+            "chance": 0.2
+        },
+        {
+            "id": "fuel",
+            "number": 1,
+            "chance": 0.2
+        },
+        {
+            "id": "eyebot-laser",
+            "number": 1,
+            "chance": 0.05
+        }
+    ],
+    "ai": "lazy-burst",
+    "skills": {
+        "attack-single": [
+            {
+                "id": "attack-magic",
+                "weight": 35
+            },
+            {
+                "id": "irradiate",
+                "weight": 40
+            },
+            {
+                "id": "ignite",
+                "weight": 45
+            },
+            {
+                "id": "jolt",
+                "weight": 50
+            }
+        ],
+        "attack-multi": [
+            {
+                "id": "arc",
+                "weight": 35
+            },
+            {
+                "id": "flame-fan",
+                "weight": 20
+            },
+            {
+                "id": "microwave",
+                "weight": 30
+            }
+        ],
+        "buff-single": [
+            {
+                "id": "fly-dodge",
+                "weight": 70
+            }
+        ],
+        "buff-multi": [
+            {
+                "id": "wind-wall",
+                "weight": 30
+            }
+        ],
+        "debuff-single": [
+            {
+                "id": "air-net",
+                "weight": 40
+            }
+        ],
+        "debuff-multi": [
+
+        ],
+        "heal-single": [
+
+        ],
+        "heal-multi": [
+
+        ],
+        "idle": [
+            {
+                "id": "floating-around",
+                "weight": 20
+            }
+        ],
+        "special": [
+            {
+                "id": "flee",
+                "weight": 5
+            }
+        ]
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "id": "ringMajor-gremlin-warrior",
+    "name": "Major Ring of the Gremlin Warrior",
+    "description": "A ring engraved with the highest symbol of gremlin strength and bravery. Boosts the wearer's physical attack by 25%, but decreases their physical defense by the same amount. Somewhat boosts HP.",
+    "itemType": "clothing",
+    "equipData": {
+        "slot": "ringMajor"
+    },
+    "effects": {
+        "resistances": {
+            "status": {
+                "fear": 0.5
+            },
+            "element": {
+                "sonic": 0.1
+            }
+        },
+        "stat": {
+            "pAtk": {
+                "mult": 1.25
+            },
+            "pDef": {
+                "mult": 0.75
+            }
+        },
+        "attrib": {
+            "hp": {
+                "max": {
+                    "buff": 25
+                }
+            }
+        }
+    }
+}

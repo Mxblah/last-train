@@ -1,0 +1,21 @@
+{
+    "id": "skill-book-pulverize",
+    "name": "Skill Book: Pulverize",
+    "description": "A brochure describing rather unsophisticated martial arts techniques, crumpled and dirty from long storage in a gremlin camp.",
+    "useDescription": "After memorizing the booklet's gestures and techniques, you can beat the absolute crap out of your foes with the best of them. You can make use of this.",
+    "itemType": "consumable",
+    "useData": {
+        "target": 1,
+        "selfTargetOnly": true,
+        "teachesSkill": true,
+        "useTime": "00:55:00"
+    },
+    "effects": {
+        "learnSkill": [
+            {
+                "category": "attack-single",
+                "id": "pulverize-queue"
+            }
+        ]
+    }
+}

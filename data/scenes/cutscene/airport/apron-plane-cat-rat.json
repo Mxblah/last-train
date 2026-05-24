@@ -1,0 +1,89 @@
+{
+    "id": "apron-plane-cat-rat",
+    "data": [
+        {
+            "text": "You pass by the well-preserved plane where you met the cat.",
+            "choice": {
+                "text": "Enter?",
+                "responses": {
+                    "yes": {
+                        "text": [
+                            "You climb up the stairs and enter the plane. The cat is still there, curled up and napping in the cockpit. It raises its head as you approach. \"What now?\""
+                        ],
+                        "time": {
+                            "add": "00:00:40"
+                        }
+                    },
+                    "no": {
+                        "exit": {
+                            "type": "explore",
+                            "id": "airport"
+                        }
+                    }
+                }
+            },
+            "when": {
+                "airport.apron.skipCatPlaneEntry": false
+            }
+        },
+        {
+            "text": "You explain the rat king's request and ask if this cat is indeed the one causing the rats so much trouble."
+        },
+        {
+            "text": "The cat sniffs dismissively. \"Those rodents are so pitiful they would even stoop to asking a wandering priest for assistance? How hypocritical, though I suppose they lack the faculties to even understand why.\" It eyes you. \"Would you truly have me leave them be, even knowing that their allegiance lies with the destroyer that hunts us both? For what reason?\"",
+            "choice": {
+                "text": "What is your reason for accepting the rat king's request?",
+                "responses": {
+                    "morals": {
+                        "text": [
+                            "You explain that the rats are clearly intelligent creatures that can plan, speak, and barter. Killing them isn't right, whatever their actions. You don't buy that this cat actually needs to eat them.",
+                            "The cat huffs at your words. \"You would have a fragment of the lost divine turn a blind eye to sinners? Are you practical or merely stupid?\""
+                        ]
+                    },
+                    "reward": {
+                        "text": [
+                            "The rat king offered a reward. You don't necessarily care about his kingdom's plight one way or the other - it will be destroyed within days along with the rest of the world if you fail - but you can use any supplies you can get your hands on.",
+                            "The cat stretches on the chair, extending its gleaming claws briefly. \"How pragmatic. They may well have scavenged several items worth obtaining...\""
+                        ]
+                    },
+                    "no reason": {
+                        "text": [
+                            "You didn't really think about it. You just figured you might as well accept whatever quests you come across, in case you can complete them without too much effort.",
+                            "The cat lazily blinks its eyes. \"What a carefree attitude. How very feline.\""
+                        ]
+                    },
+                    "sunlight": {
+                        "text": [
+                            "You feel some sort of kinship to the creatures and the faint, mysterious THING they're hiding in the back of their cave...",
+                            "The cat's ears flatten towards its head. \"Resist this urge as much as you can,\" it advises you. \"Nothing good will come of associating with those bound to the destroyer.\""
+                        ],
+                        "flag": {
+                            "global.cat.sunlightCorruption": "weak"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "text": "\"Regardless,\" it adds, \"I was just about finished in this area; it's time to move on. You aren't the only self-important priest making your way towards ASCENSION, you know.\""
+        },
+        {
+            "text": "\"You may tell that boorish king that his subjects will be safe from now on. At least, safe from *my* claws.\"",
+            "action": {
+                "time": {
+                    "add": "00:02:40"
+                },
+                "flag": {
+                    "airport.ratKing.catQuestComplete": true
+                }
+            }
+        },
+        {
+            "text": "\"Now, I recommend you return to your journey as well. Time waits for no one, and it always runs out faster than anyone would prefer.\"",
+            "exit": {
+                "type": "explore",
+                "id": "airport"
+            }
+        }
+    ]
+}

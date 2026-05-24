@@ -1,6 +1,6 @@
 {
     "id": "fly-dodge",
-    "name": "Dodge (fly)",
+    "name": "F. Dodge",
     "description": null,
     "skillType": "buff-single",
     "data": {

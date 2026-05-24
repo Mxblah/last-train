@@ -1,0 +1,31 @@
+{
+    "id": "wind-wall",
+    "name": "Wind Wall",
+    "description": "${game.battle.attacker} creates a wall of wind around its allies.",
+    "skillType": "buff-single",
+    "data": {
+        "target": 9,
+        "targetsAll": true,
+        "mp": 21,
+        "pow": 0,
+        "acc": 1,
+        "crit": -1,
+        "hits": 1,
+        "class": "magical",
+        "type": "standard",
+        "status": [
+            {
+                "id": "mProtect",
+                "chance": 1,
+                "stack": 5,
+                "intensity": 5
+            },
+            {
+                "id": "pProtect",
+                "chance": 1,
+                "stack": 5,
+                "intensity": 1
+            }
+        ]
+    }
+}

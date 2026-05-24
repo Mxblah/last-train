@@ -1,13 +1,8 @@
 {
-    "id": "conB-bot-gremlin-help-eyebot",
+    "id": "parking-fuel-alone",
     "data": {
         "characters": {
-            "ally": [
-                {
-                    "id": "eyebot",
-                    "faction": "ally"
-                }
-            ],
+            "ally": [],
             "enemy": [
                 {
                     "id": "luggage-gremlin"
@@ -16,16 +11,25 @@
                     "id": "luggage-gremlin"
                 },
                 {
+                    "id": "car-gremlin"
+                },
+                {
                     "id": "luggage-gremlin"
+                },
+                {
+                    "id": "luggage-gremlin"
+                },
+                {
+                    "id": "car-gremlin"
                 }
             ]
         },
         "special": {
-            "forceFirstTurn": "eyebot"
+            "forceFirstTurn": "player"
         },
         "exit": {
             "type": "cutscene",
-            "id": "conB-bot-gremlin-eyebot-victory"
+            "id": "parking-fuel-victory"
         },
         "fleeExit": {
             "type": "explore",

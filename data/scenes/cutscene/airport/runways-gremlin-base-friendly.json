@@ -1,0 +1,61 @@
+{
+    "id": "runways-gremlin-base-friendly",
+    "data": [
+        {
+            "text": "You approach the outermost fence of the airport grounds, and find an enormous gremlin camp there. Cobbled-together cars idle as their drivers chat and guffaw with their lesser trolley-riding compatriots. There are so many gremlins that it would be very difficult to take them on yourself. Luckily, you have a button that indicates you're friendly."
+        },
+        {
+            "text": "You show the button to the guard gremlins and are invited inside with many laughs, offers of drinks, and pats on the back. You struggle with the language barrier and their intent to just keep partying even when you have something important to do, but eventually get them to agree to help you. You're shown to the largest tent and are handed several boxes of supplies.",
+            "action": {
+                "time": {
+                    "add": "00:09:20"
+                }
+            }
+        },
+        {
+            "text": "Most of the equipment is fairly normal, aside from an interesting-looking skill book and a clearly powerful ring. Along with a peculiarly-carved bowl - all straight-edged geometric designs - containing a metallic golden liquid. No sooner have you touched it than the golden liquid vaporizes and curls into your body. You feel a little lighter.",
+            "action": {
+                "time": {
+                    "add": "00:04:00"
+                },
+                "item": [
+                    {
+                        "action": "add",
+                        "id": "skill-book-pulverize",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "ringMajor-gremlin-warrior",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "soul-fragment-gold",
+                        "number": 1
+                    },
+                    {
+                        "action": "add",
+                        "id": "bomb-pellet",
+                        "number": 3
+                    },
+                    {
+                        "action": "add",
+                        "id": "coin",
+                        "number": 27
+                    },
+                    {
+                        "action": "add",
+                        "id": "fuel",
+                        "number": 12
+                    },
+                    {
+                        "action": "add",
+                        "id": "golden-gummy-bear",
+                        "number": 3
+                    }
+                ]
+            }
+        }
+    ]
+}

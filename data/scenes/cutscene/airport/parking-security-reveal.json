@@ -1,0 +1,30 @@
+{
+    "id": "parking-security-reveal",
+    "data": [
+        {
+            "text": "You spy a secure metal door labeled \"SECURITY\" just inside the parking garage's entrance. It's locked, but there is a small slot next to the door that seems about the right size for a keycard of some sort. Interesting.",
+            "choice": {
+                "text": "Insert an item?",
+                "responses": {
+                    "punch card": {
+                        "text": [
+                            "You retrieve the shiny metal punch card you got from that eyebot in the concourse. Worth a try, right?",
+                            "Indeed, it fits! You slide it carefully inside and are quickly rewarded with a quiet click as the door unlocks. You can now enter the security office freely."
+                        ],
+                        "flag": {
+                            "airport.parking1.openedSecurityConnection": true
+                        },
+                        "time": {
+                            "add": "00:00:20"
+                        }
+                    },
+                    "no": {
+                        "text": [
+                            "You don't have anything that would fit in the slot right now, but maybe you'll find something later."
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

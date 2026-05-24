@@ -419,6 +419,13 @@ function Show-BattleCharacterInfo {
             $badge = $statusInfo.badge
             $instances = $statusClass.Value.Count
             $highestStack = $statusClass.Value.stack | Sort-Object -Descending | Select-Object -First 1
+            $highestIntensity = try {
+                # Round to two decimal places if needed
+                [System.Math]::Ceiling(($statusClass.Value.intensity | Sort-Object -Descending | Select-Object -First 1), 2)
+            } catch {
+                # If that fails, just print the whole thing I guess
+                ($statusClass.Value.intensity | Sort-Object -Descending | Select-Object -First 1)
+            }
 
             # This is a "ghost status" that doesn't really exist and will be removed the next time statuses are updated, so don't print it
             if ($highestStack -le 0) {
@@ -431,7 +438,7 @@ function Show-BattleCharacterInfo {
                 Write-Host -ForegroundColor $color "$badge $name<?> (?) " -NoNewline
             } else {
                 # precise or it's us!
-                Write-Host -ForegroundColor $color "$badge ${name}<$highestStack> ($instances) " -NoNewline
+                Write-Host -ForegroundColor $color "$badge ${name}<${highestIntensity}/${highestStack}> ($instances) " -NoNewline
             }
         }
     }

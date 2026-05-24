@@ -1,0 +1,76 @@
+{
+    "id": "parking-fuel-cache",
+    "data": [
+        {
+            "text": "You hear raucous cackling and spot the crackle of a burning fire. Carefully approaching, you spot a circle of luggage gremlins, two lounging inside idling cars, gathered around a bonfire pouring out thick black smoke. Dozens of canisters of train fuel lie scattered carelessly nearby, presumably to be used as fuel for the fire. You could secure a large cache of fuel here, if you can manage it.",
+            "choice": {
+                "text": "What will you do?",
+                "responses": {
+                    "leave": {
+                        "text": [
+                            "You carefully sneak away, not wanting to deal with this quite yet."
+                        ],
+                        "exit": {}
+                    },
+                    "call security": {
+                        "whenMode": "or",
+                        "when": {
+                            "airport.securityOffice.madeAFriend": true,
+                            "item": {
+                                "id": "airport-punch-card",
+                                "min": 1
+                            }
+                        },
+                        "text": [
+                            "With your understanding of the airport's security system, you're able to quietly call in backup from the main terminal.",
+                            "Within minutes, two burly security guards approach with an eyebot hovering between them. Gremlins screech and scatter, preparing for battle. You'd better help out."
+                        ],
+                        "time": {
+                            "add": "00:02:30"
+                        },
+                        "exit": {
+                            "type": "battle",
+                            "id": "parking-fuel-with-security"
+                        }
+                    },
+                    "make friends": {
+                        "when": {
+                            "item": {
+                                "id": "airport-gremlin-button",
+                                "min": 1
+                            }
+                        },
+                        "text": [
+                            "You emerge from hiding and show the assembled gremlins your button.",
+                            "There's some cheering, some laughing, and a lot of varyingly painful pats on the back.",
+                            "You explain your situation as best you can with the language barrier and are eventually rewarded with most of the assembled cache, though they retain a little to keep the fire burning a while longer.",
+                            "You lug the fuel away, waving farewell to the gremlin circle."
+                        ],
+                        "time": {
+                            "add": "00:04:50"
+                        },
+                        "item": [
+                            {
+                                "action": "add",
+                                "id": "fuel",
+                                "number": 42
+                            }
+                        ],
+                        "flag": {
+                            "airport.parking2.fuelCacheClear": true
+                        }
+                    },
+                    "surprise attack": {
+                        "text": [
+                            "Well, better get on with it. You prepare for battle."
+                        ],
+                        "exit": {
+                            "type": "battle",
+                            "id": "parking-fuel-alone"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
